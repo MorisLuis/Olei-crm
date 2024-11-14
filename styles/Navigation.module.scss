@@ -1,0 +1,109 @@
+@import "./main.scss";
+
+.sidebar {
+    background-color: $background-color;
+    margin: 0px;
+    padding: $padding;
+    overflow-y: auto;
+    height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    width: 15%;
+    min-width: 200px;
+    font-size: $font-medium;
+
+    &.hide{
+        display: none;
+    }
+
+    @include respond(tab-port) {
+        min-width: auto;
+        width: fit-content;
+    }
+
+    @include respond(phone) {
+        min-width: 80vw;
+        position: fixed;
+        left: 0px;
+        width: 60%;
+    }
+
+    nav {
+        ul {
+            padding: 0px;
+            text-decoration: none;
+            list-style: none;
+
+            >a {
+                background-color: $background-color;
+                padding: $padding/2 $padding;
+                border-radius: $border-radius;
+                cursor: pointer;
+                border: 1px solid transparent;
+
+                display: flex;
+                align-items: center;
+                gap: $gap;
+
+                @include respond(tab-port) {
+                    width: fit-content;
+
+                    p {
+                        display: none;
+                    }
+                }
+
+                @include respond(phone) {
+                    width: 100vw;
+
+                    p {
+                        display: block;
+                    }
+                }
+
+                &:hover {
+                    background-color: $background-color-secondary;
+                    border: 1px solid $color-border;
+                }
+            }
+        }
+    }
+}
+
+.topbar {
+    background-color: $background-color;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    font-size: $font-medium;
+
+    .content {
+        padding: $padding;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+
+        .left {
+            color: $text-color-secondary;
+            display: flex;
+
+            .headertitle {
+
+                @include respond(phone) {
+                    display: none;
+                }
+            }
+
+            .menu {
+                display: none;
+
+                @include respond(phone) {
+                    display: flex;
+                }
+            }
+        }
+    }
+}

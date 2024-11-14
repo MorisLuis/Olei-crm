@@ -1,0 +1,22 @@
+@import "./main.scss";
+
+.RootLayout{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(209, 209, 209);
+    margin: 0px;
+    max-height: 100vh;
+
+    :global(#back) {
+        display: none;
+        @include respond(phone) {
+            display: flex;
+        }
+    }
+    
+    .mainContent{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}
