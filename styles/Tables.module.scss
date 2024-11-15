@@ -1,0 +1,360 @@
+@import "./main.scss";
+
+.table {
+    width: 100%;
+    font-size: $font-medium;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+        border: 1px solid $color-border;
+        border-bottom: 0px;
+        margin-bottom: $margin-horizontal;
+        border-radius: $border-radius;
+
+        -webkit-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+        -moz-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+        box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+
+        thead {
+            background-color: $background-color;
+            border-radius: $border-radius;
+
+            th {
+                padding: $padding;
+                text-align: left;
+                font-size: $font-small;
+                color: $text-color-secondary;
+                border-bottom: 1px solid $color-border;
+                font-weight: lighter;
+
+                &:first-child {
+                    border-radius: $border-radius 0px;
+                    overflow: hidden;
+                }
+
+                &:last-child {
+                    border-radius: 0px $border-radius;
+                    overflow: hidden;
+                }
+
+                @include respond(phone) {
+                    padding: $padding;
+                }
+            }
+        }
+
+        tbody {
+            color: $text-color-secondary;
+
+            tr {
+                border-radius: $border-radius;
+
+                &:nth-child(even) {
+                    background-color: $background-color;
+                }
+
+                &:hover {
+                    background-color: $background-color-secondary;
+                }
+
+                td {
+                    padding: $padding / 2 $padding;
+                    border-bottom: 1px solid $color-border;
+                    cursor: pointer;
+
+
+                    &:first-child {
+                        border-radius: 0px $border-radius;
+                        overflow: hidden;
+                    }
+
+                    &:last-child {
+                        border-radius: $border-radius 0px;
+                        overflow: hidden;
+                    }
+
+
+                    @include respond(phone) {
+                        padding: $padding;
+                    }
+
+                    &.text-blue-500 {
+                        color: $color-blue;
+                    }
+
+                    &.font-bold {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .laodMore {
+        width: 30%;
+
+        @include respond(phone) {
+            width: 100%;
+        }
+    }
+
+    .message {
+        padding: $padding 0em;
+        text-align: center;
+        color: $color-gray;
+        font-size: $font-medium;
+    }
+
+    // Responsive adjustments for smaller screens
+    @include respond(phone) {
+
+        table {
+            thead {
+                display: none;
+            }
+
+            tbody {
+                tr {
+                    display: block;
+                    margin-bottom: $margin-horizontal;
+                    border-bottom: 1px solid $color-border;
+                    padding: $padding;
+
+                    td {
+                        display: flex;
+                        justify-content: space-between;
+                        border: none;
+                        min-width: 100%;
+                        padding: 0px;
+                        padding-bottom: $padding;
+                        align-items: center;
+
+                        &:before {
+                            content: attr(data-label);
+                            color: $color-gray;
+                            flex-basis: 50%;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tableSecondary {
+    width: 100%;
+    font-size: $font-medium;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+        border: 1px solid $color-border;
+        border-bottom: 0px;
+        margin-bottom: $margin-horizontal;
+        border-radius: $border-radius;
+
+        -webkit-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+        -moz-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+        box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+
+        tbody {
+
+            tr {
+                border-radius: $border-radius;
+
+                .column {
+                    display: flex;
+                    flex-direction: column;
+                    gap: $gap / 2;
+
+                    @include respond(phone) {
+                        text-align: end;
+                        align-items: end;
+
+                        span {
+                            display: none;
+                        }
+                        
+                        > :nth-child(2) {
+                            display: none;
+                        }
+                    }
+                }
+
+
+                &:nth-child(even) {
+                    background-color: $background-color;
+                }
+
+                &:hover {
+                    background-color: $background-color-secondary;
+                }
+
+                td {
+                    padding: $padding*1.5;
+                    border-bottom: 1px solid $color-border;
+                    cursor: pointer;
+
+                    &:first-child {
+                        border-radius: 0px $border-radius;
+                        overflow: hidden;
+                    }
+
+                    &:last-child {
+                        border-radius: $border-radius 0px;
+                        overflow: hidden;
+                    }
+
+                    @include respond(phone) {
+                        padding: $padding;
+                    }
+
+                    &.text-blue-500 {
+                        color: $color-blue;
+                    }
+
+                    &.font-bold {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .laodMore {
+        width: 30%;
+
+        @include respond(phone) {
+            width: 100%;
+        }
+    }
+
+    .message {
+        padding: $padding 0em;
+        text-align: center;
+        color: $color-gray;
+        font-size: $font-medium;
+    }
+    
+
+    @include respond(phone) {
+
+        table {
+            thead {
+                display: none;
+            }
+
+            tbody {
+                tr {
+                    display: block;
+                    border-bottom: 1px solid $color-border;
+                    padding: $padding;
+
+                    td {
+                        display: flex;
+                        justify-content: space-between;
+                        border: none;
+                        min-width: 100%;
+                        padding: 0px;
+                        padding-bottom: $padding;
+                        align-items: center;
+
+                        &:before {
+                            content: attr(data-label);
+                            color: $text-color-secondary;
+                            flex-basis: 50%;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tableTertiary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: $border-radius;
+
+    -webkit-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+    -moz-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+    box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+
+
+    .item {
+        display: flex;
+        justify-content: space-between;
+        padding: $padding;
+        border: 1px solid $color-border;
+        font-size: $font-medium;
+
+        &:not(:last-child) {
+            border-bottom: 0px;
+        }
+
+        .item__label {
+            color: $text-color-secondary;
+        }
+
+        &:first-child {
+            border-radius: $border-radius $border-radius 0px 0px;
+        }
+
+        &:last-child {
+            border-radius: 0px 0px $border-radius $border-radius;
+        }
+    }
+
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    .contentGrid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: $gap*3;
+        background-color: $background-color;
+        margin-bottom: $margin-horizontal*2;
+
+        @include respond(tab-port) {
+            grid-template-columns: repeat(3, 1fr);
+            padding: 0em $padding;
+        }
+
+        @include respond(phone) {
+            grid-template-columns: repeat(1, 1fr);
+            padding: 0em;
+        }
+
+        .laodMore {
+            width: 30%;
+
+            @include respond(phone) {
+                width: 100%;
+            }
+        }
+    }
+
+    .message {
+        padding: $padding 0em;
+        text-align: center;
+        color: $color-gray;
+        font-size: $font-medium;
+    }
+
+
+}
