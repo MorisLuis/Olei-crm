@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import logoOlei from '../../public/HORIZONTAL_COLOR PRINCIPAL.svg'
 import Image from 'next/image';
@@ -34,7 +34,7 @@ export default function Sidebar({
                     {
                         screenData.slice(0, -1).map((item) =>
                             <Link href={item.pathname} className={pathname === item.pathname ? styles.active : ''} key={item.id}>
-                                <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
+                                <FontAwesomeIcon icon={item.icon} className={'icon'} />
                                 <p>{item.name}</p>
                             </Link>
                         )
@@ -43,7 +43,7 @@ export default function Sidebar({
 
                 <ul>
                     <Link href="/settings" className={pathname === '/settings' ? styles.active : ''}>
-                        <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
+                        <FontAwesomeIcon icon={faGear} className={'icon'} />
                         <p>Configuración</p>
                     </Link>
                 </ul>
