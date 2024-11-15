@@ -24,7 +24,9 @@ export default function LayoutDashboard({
 
             <main className={styles.mainContent}>
                 <Topbar openMenu={handleOpenMenu} />
-                {children}
+                <div className={styles.mainbody}>
+                    {children}
+                </div>
             </main>
         </body>
     )

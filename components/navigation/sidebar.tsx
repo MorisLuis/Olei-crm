@@ -3,6 +3,8 @@ import styles from '../../styles/Navigation.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import logoOlei from '../../public/HORIZONTAL_COLOR PRINCIPAL.svg'
+import Image from 'next/image';
 
 interface SidebarInterface {
     visible?: boolean;
@@ -10,9 +12,18 @@ interface SidebarInterface {
 
 export default function Sidebar({
     visible
-} : SidebarInterface ) {
+}: SidebarInterface) {
     return (
-        <aside className={`${styles.sidebar} ${ !visible && styles.hide }`}>
+        <aside className={`${styles.sidebar} ${!visible && styles.hide}`}>
+            <div className={styles.logoOlei}>
+                <Image
+                    src={logoOlei}
+                    alt={'olei crm'}
+                    width={200}
+                    height={200}
+                    priority
+                />
+            </div>
             <nav>
                 <ul>
                     <Link href={"/"}>

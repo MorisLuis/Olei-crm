@@ -14,7 +14,7 @@ body {
 body {
   color: $text-color;
   background: $background-color;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", "Poppins", "VictorMono";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: $font-normal;
@@ -58,4 +58,34 @@ a {
   &.closing {
       animation: fadeOut 0.3s ease-in-out forwards;
   }
+}
+
+
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Regular.ttf");
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Bold.ttf");
+  font-weight: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VictorMono";
+  src: url("/fonts/VictorMono-Bold.ttf");
+  font-weight: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VictorMono";
+  src: url("/fonts/VictorMono-Regular.ttf");
+  font-weight: normal;
+  font-display: swap;
 }

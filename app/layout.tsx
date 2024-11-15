@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import '../styles/globals.scss'
 import Head from "next/head";
 import LayoutDashboard from "./LayoutDashboard";
+import iconLogo from '../public/circle-solid.svg'
 
 export const metadata: Metadata = {
   title: "Olei CRM",
@@ -17,11 +18,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-
       <Head>
-        <link rel="icon" href="/circle-solid.svg" />
+        <link rel="icon" href={iconLogo} />
       </Head>
-
       <LayoutDashboard>
         {children}
       </LayoutDashboard>
