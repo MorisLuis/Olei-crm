@@ -48,6 +48,11 @@
     }
 
     nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: calc(100% - 26px -  $margin-vertical*2);
+
         ul {
             padding: 0px;
             text-decoration: none;
@@ -81,6 +86,11 @@
                 }
 
                 &:hover {
+                    background-color: $background-color-secondary;
+                    border: 1px solid $color-border;
+                }
+
+                &.active {
                     background-color: $background-color-secondary;
                     border: 1px solid $color-border;
                 }

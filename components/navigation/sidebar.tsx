@@ -1,10 +1,12 @@
 import React from 'react';
-import styles from '../../styles/Navigation.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import logoOlei from '../../public/HORIZONTAL_COLOR PRINCIPAL.svg'
 import Image from 'next/image';
+import { screenData } from '@/database/screens';
+import { usePathname } from 'next/navigation';
+import styles from '../../styles/Navigation.module.scss'
 
 interface SidebarInterface {
     visible?: boolean;
@@ -13,6 +15,9 @@ interface SidebarInterface {
 export default function Sidebar({
     visible
 }: SidebarInterface) {
+
+    const pathname = usePathname();
+
     return (
         <aside className={`${styles.sidebar} ${!visible && styles.hide}`}>
             <div className={styles.logoOlei}>
@@ -26,26 +31,21 @@ export default function Sidebar({
             </div>
             <nav>
                 <ul>
-                    <Link href={"/"}>
-                        <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
-                        <p>Home</p>
-                    </Link>
+                    {
+                        screenData.slice(0, -1).map((item) =>
+                            <Link href={item.pathname} className={pathname === item.pathname ? styles.active : ''} key={item.id}>
+                                <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
+                                <p>{item.name}</p>
+                            </Link>
+                        )
+                    }
+                </ul>
 
-                    <Link href={"/dashboard"}>
+                <ul>
+                    <Link href="/settings" className={pathname === '/settings' ? styles.active : ''}>
                         <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
-                        <p>Dashboard</p>
+                        <p>Configuración</p>
                     </Link>
-
-                    <Link href="/settings">
-                        <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
-                        <p>Settings</p>
-                    </Link>
-
-                    <Link href="/profile">
-                        <FontAwesomeIcon icon={faCoffee} style={{ width: "16px", height: "16px" }} />
-                        <p>Profile</p>
-                    </Link>
-
                 </ul>
             </nav>
         </aside>
