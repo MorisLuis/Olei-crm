@@ -1,12 +1,13 @@
 "use client";
 
-import React from 'react'
+import React, { useState } from 'react'
 import { sellsClientExample, sellsExample } from '@/seed/sellsData';
 import { useParams } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
 import styles from "../../../styles/pages/Sells.module.scss";
+import { SellsOrderConditionType } from '@/interface/sells';
 
 export default function SellsClientPage() {
 
@@ -16,6 +17,8 @@ export default function SellsClientPage() {
     };
     const filters = ["Fecha", "Saldo", "Total"];
     const sell = sellsExample.find((item) => item.Id_Cliente === Number(id));
+    const [filtersSells, setFiltersSells] = useState<SellsOrderConditionType[]>(['FechaEntrega', 'Folio', 'TipoDoc']);
+
 
     const briefData: briefDataInterface[] = [
         {
@@ -45,6 +48,7 @@ export default function SellsClientPage() {
             <Header
                 title={`${sell?.Nombre}`}
                 filters={filters}
+                filterActive={filtersSells}
             />
 
             <div className={styles.content}>

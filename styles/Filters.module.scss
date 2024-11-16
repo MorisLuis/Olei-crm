@@ -3,7 +3,6 @@
 .filters {
     display: flex;
     height: 100%;
-    margin-right: $margin-horizontal;
     position: relative;
     align-items: center;
 
@@ -37,7 +36,7 @@
             }
 
             :not(:last-child) {
-                margin-bottom: $margin-vertical;
+                margin-bottom: $margin-vertical/2;
             }
         }
 

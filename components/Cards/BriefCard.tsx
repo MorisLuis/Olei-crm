@@ -27,7 +27,7 @@ export default function BriefCard({
                             <label>{item.label}</label>
                             <p>{item.value}</p>
                         </div>
-                        <div className='divider small'></div>
+                        <div className={`${styles.dividerLocal} divider small`}></div>
                     </div>
                 ))
             }

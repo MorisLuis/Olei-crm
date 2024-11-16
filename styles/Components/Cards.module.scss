@@ -251,5 +251,9 @@
         label{
             color: $text-color-secondary;
         }
+
+        &:last-of-type .dividerLocal{
+            display: none;
+        }
     }
 }

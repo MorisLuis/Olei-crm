@@ -173,5 +173,13 @@
 
     .filters{
         display: flex;
+        align-items: center;
+        height: auto;
+        gap: $gap;
+
+        @include respond(phone) {
+            width: 100%;
+            flex-wrap: wrap;
+        }
     }
 }

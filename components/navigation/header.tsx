@@ -7,16 +7,19 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from '../../styles/Navigation.module.scss'
+import { Tag } from '../UI/Tag';
 
 
 interface HeaderInterface {
     title: string;
-    filters: string[]
+    filters: string[];
+    filterActive?: string[]
 }
 
 export default function Header({
     title,
-    filters
+    filters,
+    filterActive
 }: HeaderInterface) {
 
     const router = useRouter()
@@ -62,6 +65,9 @@ export default function Header({
                         filters={filters}
                         onSelectFilter={onSelectFilterValue}
                     />
+                    {
+                        filterActive?.map((item, index) => <Tag key={index} close color='yellow'>{item}</Tag>)
+                    }
                 </div>
             </div>
             {
