@@ -14,7 +14,6 @@ export default function Topbar({
 }: TopbarInterface) {
 
     const pathname = usePathname();
-
     const [basePath, id] = pathname.split('/').filter(Boolean);
     const header = screenData.find((item) => item.pathname === `/${basePath}`);
 

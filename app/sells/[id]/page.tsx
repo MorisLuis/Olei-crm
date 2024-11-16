@@ -11,12 +11,13 @@ import styles from "../../../styles/pages/Sells.module.scss";
 export default function SellsClientPage() {
 
     const { id } = useParams();
-    const totalSells = 4
+    const totalSells = 4;
     const loadMoreProducts = async () => {
-    }
+    };
+    const filters = ["Fecha", "Saldo", "Total"];
     const sell = sellsExample.find((item) => item.Folio === Number(id));
 
-    const briefData : briefDataInterface[] = [
+    const briefData: briefDataInterface[] = [
         {
             id: 1,
             label: 'Producto',
@@ -37,11 +38,14 @@ export default function SellsClientPage() {
             label: 'Almacen',
             value: `${sell?.Id_Almacen}`
         }
-    ]
+    ];
 
     return (
         <div className={styles.SellsClient}>
-            <Header title='Ventas' />
+            <Header
+                title='Ventas'
+                filters={filters}
+            />
 
             <div className={styles.content}>
                 <div className={styles.table}>

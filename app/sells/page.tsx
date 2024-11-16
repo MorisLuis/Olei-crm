@@ -7,7 +7,8 @@ import { sellsExample } from '@/seed/sellsData';
 
 export default function Sells() {
 
-    const totalSells = 3
+    const totalSells = 3;
+    const filters = ["Fecha", "Saldo", "Total"];
     const loadMoreProducts = async () => {
     }
 
@@ -19,6 +20,7 @@ export default function Sells() {
                 loadMoreProducts={loadMoreProducts}
                 buttonIsLoading={false}
                 loadingData={false}
+                filters={filters}
             />
         </div>
     )

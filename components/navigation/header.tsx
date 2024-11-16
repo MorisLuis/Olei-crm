@@ -1,19 +1,32 @@
 "use client";
+
 import React, { useState } from 'react';
-import styles from '../../styles/Navigation.module.scss'
 import FiltersComponent from '../UI/FiltersComponent';
 import useLockBodyScroll from '@/hooks/useLockBodyScroll';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styles from '../../styles/Navigation.module.scss'
+import { usePathname, useRouter } from 'next/navigation';
+
 
 interface HeaderInterface {
-    title: string
+    title: string;
+    filters: string[]
 }
 
 export default function Header({
-    title
+    title,
+    filters
 }: HeaderInterface) {
 
+    const router = useRouter()
     const [openModal, setOpenModal] = useState(false);
-    const [openModalBackground, setopenModalBackground] = useState(false)
+    const [openModalBackground, setopenModalBackground] = useState(false);
+
+    const pathname = usePathname();
+    const [basePath, id] = pathname.split('/').filter(Boolean);
+    console.log({ basePath, id })
+    const goBack = () => router.back()
 
     const handleOpenModalFilters = () => {
         setopenModalBackground(!openModalBackground);
@@ -30,12 +43,23 @@ export default function Header({
     return (
         <>
             <div className={styles.header}>
-                <h2 className={styles.header__title}>{title}</h2>
+                <div className={styles.header__title}>
+                    {
+                        id &&
+                        <FontAwesomeIcon
+                            onClick={goBack}
+                            icon={faArrowLeft}
+                            className={`${styles.icon} icon__small`}
+                        />
+                    }
+                    <h2>{title}</h2>
+                </div>
+
                 <div className={styles.filters}>
                     <FiltersComponent
                         open={openModal}
                         onOpenFilters={handleOpenModalFilters}
-                        filters={["uno", "dos"]}
+                        filters={filters}
                         onSelectFilter={onSelectFilterValue}
                     />
                 </div>

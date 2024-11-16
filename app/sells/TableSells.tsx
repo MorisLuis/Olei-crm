@@ -15,6 +15,7 @@ interface TableSellsInterface {
     buttonIsLoading: boolean;
     loadingData: boolean;
     loadMoreProducts: () => Promise<void>;
+    filters: string[]
 }
 
 export default function TableSells({
@@ -22,7 +23,8 @@ export default function TableSells({
     totalSells,
     loadingData,
     buttonIsLoading,
-    loadMoreProducts
+    loadMoreProducts,
+    filters
 }: TableSellsInterface) {
 
     const { push } = useRouter();
@@ -74,7 +76,10 @@ export default function TableSells({
 
     return (
         <>
-            <Header title='Ventas' />
+            <Header
+                title='Ventas'
+                filters={filters}
+            />
 
             <Table
                 columns={columns}

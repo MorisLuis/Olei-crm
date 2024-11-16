@@ -144,7 +144,22 @@
     color: $color-tertiary;
 
     &__title{
+        display: flex;
+        align-items: center;
         margin-bottom: $margin-vertical / 2;
+        gap: $gap/2;
+
+        .icon{
+            padding: $padding/2;
+            border: 1px solid transparent;
+            cursor: pointer;
+
+            &:hover{
+                background-color: $background-color-tertiary;
+                border-radius: $border-radius;
+                border: 1px solid $color-border-secondary;
+            }
+        }
     }
 
     .filters{
