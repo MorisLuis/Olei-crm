@@ -12,6 +12,7 @@
     min-width: 200px;
     font-size: $font-medium;
     border: 1px solid $color-border-secondary;
+    z-index: 99999;
 
     &.hide{
         display: none;
@@ -146,7 +147,7 @@
     &__title{
         display: flex;
         align-items: center;
-        margin-bottom: $margin-vertical / 2;
+        margin-bottom: $margin-vertical;
         gap: $gap/2;
 
         .icon{

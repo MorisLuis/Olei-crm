@@ -35,22 +35,24 @@ export default function TableSells({
         {
             key: 'Id_Cliente',
             label: 'Id_Cliente',
-            render: (Id_Cliente) => <span style={{ color: "black" }}>{Id_Cliente}</span>,
+            render: (Id_Cliente) => <span>{Id_Cliente}</span>,
         },
         {
             key: 'Nombre',
             label: 'Nombre',
+            render: (Nombre) => <span style={{ fontWeight: 'bold' }}>{Nombre}</span>,
+
         },
         {
             key: 'Saldo',
             label: 'Saldo',
-            render: (Saldo) => <span style={{ color: "black" }}>{format(Saldo as number)}</span>,
+            render: (Saldo) => <span>{format(Saldo as number)}</span>,
 
         },
         {
             key: 'Total',
             label: 'Total',
-            render: (Total) => <span style={{ color: "black" }}>{format(Total as number)}</span>,
+            render: (Total) => <span>{format(Total as number)}</span>,
         },
     ];
 

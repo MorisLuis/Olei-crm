@@ -43,7 +43,6 @@ export const sellsExample: SellsInterface[] = [
 
 ]
 
-
 export const sellsClientExample: SellsInterface[] = [
     {
         UniqueKey: '1',

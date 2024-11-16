@@ -32,12 +32,12 @@
                 font-weight: lighter;
 
                 &:first-child {
-                    border-radius: $border-radius 0px;
+                    border-radius: $border-radius 0px 0px 0px;
                     overflow: hidden;
                 }
 
                 &:last-child {
-                    border-radius: 0px $border-radius;
+                    border-radius: 0px $border-radius 0px 0px;
                     overflow: hidden;
                 }
 
@@ -53,9 +53,9 @@
             tr {
                 border-radius: $border-radius;
 
-                &:nth-child(even) {
-                    background-color: $background-color;
-                }
+               /*  &:nth-child(even) {
+                    background-color: $background-color-secondary;
+                } */
 
                 &:hover {
                     background-color: $background-color-secondary;
@@ -120,7 +120,6 @@
             tbody {
                 tr {
                     display: block;
-                    margin-bottom: $margin-horizontal;
                     border-bottom: 1px solid $color-border;
                     padding: $padding;
 

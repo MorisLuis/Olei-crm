@@ -28,11 +28,11 @@ export default function TableSellsClient({
 
     const columns: ColumnSecondaryConfig<SellsInterface>[] = [
         {
-            key: 'TipoDoc',
-            label: 'TipoDoc',
+            key: 'Nombre',
+            label: 'Nombre',
             render: (_, item) => (
                 <>
-                    <span style={{ color: "black", fontWeight: 'bold' }}>{item.Nombre}</span>
+                    <p style={{ color: "black", fontWeight: 'bold' }}>{item.Nombre}</p>
                     <Tag color='blue'>Cotizacion</Tag>
                 </>
             ),
@@ -42,8 +42,8 @@ export default function TableSellsClient({
             label: 'Fecha',
             render: (_, item) => (
                 <>
-                    <div><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha:</span> {item.Fecha}</div>
-                    <div><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha Entrega:</span> {item.FechaEntrega}</div>
+                    <p><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha:</span> {item.Fecha}</p>
+                    <p><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha Entrega:</span> {item.FechaEntrega}</p>
                 </>
             ),
         },
@@ -52,8 +52,8 @@ export default function TableSellsClient({
             label: 'Total',
             render: (_, item) => (
                 <>
-                    <span>Total: {format(item.Total)}</span>
-                    <span>Saldo: {format(item.Saldo)}</span>
+                    <p><span>Total:</span> {format(item.Total)}</p>
+                    <p><span>Saldo:</span> {format(item.Saldo)}</p>
                 </>
             ),
         },

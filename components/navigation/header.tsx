@@ -5,8 +5,8 @@ import FiltersComponent from '../UI/FiltersComponent';
 import useLockBodyScroll from '@/hooks/useLockBodyScroll';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from '../../styles/Navigation.module.scss'
 import { usePathname, useRouter } from 'next/navigation';
+import styles from '../../styles/Navigation.module.scss'
 
 
 interface HeaderInterface {
@@ -25,7 +25,6 @@ export default function Header({
 
     const pathname = usePathname();
     const [basePath, id] = pathname.split('/').filter(Boolean);
-    console.log({ basePath, id })
     const goBack = () => router.back()
 
     const handleOpenModalFilters = () => {
