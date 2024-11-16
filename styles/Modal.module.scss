@@ -1,0 +1,468 @@
+@import "./main.scss";
+
+.Modal {
+    background-color: $background-color;
+    width: 75%;
+    max-width: 1200px;
+    position: fixed;
+    border-radius: $border-radius;
+    border: 1px solid $color-border;
+    box-shadow:$box-shadow-modal;
+    z-index: 999999;
+    left: 50%;
+    top: 50%;
+    max-height: 80%;
+    transform: translate(-50%, -50%);
+    overflow-y: scroll;
+    animation: modal-open 0.2s ease-in-out forwards;
+
+    &.closing {
+        animation: modal-close 0.2s ease-in-out forwards;
+    }
+
+    @include respond(phone) {
+        width: 100%;
+        transform: translate(0, 0) scale(0.8);
+        left: 0px;
+        bottom: 0px;
+        top: 0px;
+        animation: modal-open-mobile 0.2s ease-in-out forwards;
+        border-radius: $border-radius $border-radius 0 0;
+        max-height: 100%;
+
+        &.closing {
+            animation: modal-close-mobile 0.2s ease-in-out forwards;
+        }
+    }
+
+    .header {
+        background-color: $background-color;
+        padding: $padding;
+        border-bottom: 1px solid $color-border;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+        max-height: 70px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: $border-radius;
+
+        @include respond(phone) {
+            margin-bottom: $margin-vertical;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            gap: $gap;
+
+            .topactions {
+                display: flex;
+                flex-direction: row;
+                gap: $gap;
+            }
+
+            h3 {
+                margin-right: $margin-horizontal;
+            }
+        }
+
+        .close {
+            width: fit-content;
+            padding: $padding / 2;
+            border-radius: $border-radius;
+            height: fit-content;
+            cursor: pointer;
+            border: 1px solid transparent;
+
+            display: flex;
+            justify-content: center;
+
+            &:hover {
+                background-color: $background-color-secondary;
+                border: 1px solid $color-border;
+            }
+        }
+    }
+
+    .content {
+        padding: $padding;
+        height: 100%;
+
+        &::-webkit-scrollbar {
+            width: 0.6em;
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba($text-color-light, 0.75);
+            border-radius: $border-radius;
+        }
+
+        @include respond(phone) {
+            padding: 0px $padding;
+            //margin-top: 70px;
+        }
+    }
+
+    .footer {
+        padding: $padding;
+        border-top: 1px solid $color-border;
+        display: flex;
+        justify-content: space-between;
+        height: 10%;
+    }
+
+    &.small {
+        width: 30%;
+
+        @include respond(phone) {
+            width: 100%;
+            height: 100%;
+            left: 0%;
+            top: 0%;
+            transform: translate(-50%, -50%) scale(0.8);
+            animation: modal-open-mobile 0.3s ease-in-out forwards;
+        }
+
+        .content {
+            height: 75%;
+
+            @include respond(phone) {
+                height: 80%;
+            }
+        }
+
+        .footer {
+            height: 25%;
+
+            @include respond(phone) {
+                height: 20%;
+            }
+        }
+    }
+
+    &.medium {
+        width: 60%;
+
+        @include respond(phone) {
+            width: 100%;
+            height: 100%;
+            left: 0%;
+            top: 0%;
+            transform: translate(-50%, -50%) scale(0.8);
+            animation: modal-open-mobile 0.3s ease-in-out forwards;
+        }
+
+        .content {
+            height: 75%;
+
+            @include respond(phone) {
+                height: 80%;
+            }
+        }
+
+        .footer {
+            height: 25%;
+
+            @include respond(phone) {
+                height: 20%;
+            }
+        }
+    }
+
+}
+
+.ModalMessage {
+    background-color: $background-color;
+    width: 425px;
+    height: 215px;
+    position: fixed;
+    border-radius: $border-radius;
+    border: 1px solid $color-border;
+    box-shadow: $box-shadow-modal;
+    z-index: 999999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: modal-open 0.2s ease-in-out forwards;
+
+    @include respond(phone) {
+        width: 100%;
+        height: auto;
+        left: 0;
+        bottom: 0%;
+        top: auto;
+        border-radius: $border-radius;
+        transform: translateY(0%);
+        animation: modal-open-mobile 0.2s ease-in-out forwards;
+    }
+
+    .content {
+        height: 70%;
+        padding: $padding;
+        margin-bottom: $margin-vertical;
+
+        p {
+            font-size: $font-medium;
+        }
+
+        h2 {
+            margin-bottom: $margin-vertical;
+        }
+    }
+
+    .footer {
+        border-top: 1px solid $color-border;
+        height: 30%;
+        padding: $padding;
+        display: flex;
+        justify-content: space-between;
+        border-radius: $border-radius;
+
+    }
+}
+
+.ModalSideways {
+    background-color: $background-color;
+    height: 98%;
+    position: fixed;
+    right: 0.5%;
+    top: 1%;
+    border-radius: $border-radius;
+    animation: appear-Right-to-Left 0.3s ease-in-out;
+    border: 1px solid $color-border;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
+    z-index: 999999;
+    overflow: hidden;
+    font-size: $font-medium;
+
+    &.primary {
+        width: 32.5%;
+
+        @include respond(tab-land) {
+            width: 50%;
+        }
+    
+        @include respond(tab-port) {
+            width: 75%;
+        }
+    
+        @include respond(phone) {
+            width: 100%;
+            top: 3%;
+            border-radius: $border-radius;
+            height: calc(100svh - 3%);
+        }
+    }
+
+    &.secondary {
+        width: fit-content;
+        min-width: 300px;
+
+        @include respond(tab-land) {
+            width: 50%;
+        }
+    
+        @include respond(tab-port) {
+            width: 75%;
+        }
+    
+        @include respond(phone) {
+            width: 100%;
+            top: 3%;
+            border-radius: $border-radius;
+            height: calc(100svh - 3%);
+        }
+    }
+
+    .header {
+        border-radius: $border-radius $border-radius 0em 0em;
+        padding: $padding;
+        border: 1px solid $color-border;
+        border-style: none none solid none;
+        background-color: $background-color-secondary;
+        border-radius: $border-radius;
+
+        @include respond(phone) {
+            border-radius: $border-radius $border-radius 0em 0em;
+        }
+
+        .close {
+            width: fit-content;
+            padding: $padding / 2;
+            border-radius: $border-radius;
+            border: 1px solid transparent;
+            font-size: $font-small;
+            cursor: pointer;
+            gap: $gap;
+
+            display: flex;
+
+            &:hover {
+                background-color: $background-color-secondary;
+                border: 1px solid $color-border;
+            }
+        }
+    }
+
+    .content {
+        padding: $padding;
+        height: 80%;
+        overflow: scroll;
+        overflow-x: hidden;
+
+        @include respond(phone) {
+            padding: $padding;
+        }
+
+        &::-webkit-scrollbar {
+            width: 0.5em;
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $color-primary;
+            border-radius: $border-radius;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: $color-border;
+        }
+
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+    }
+
+    .footer {
+        min-height: 10%;
+        width: 100%;
+        padding: $padding;
+        border-top: 1px solid $color-border;
+        justify-content: flex-end;
+        position: absolute;
+        bottom: 0px;
+        background-color: $background-color-secondary;
+        border-radius: $border-radius;
+    }
+
+    &.closing {
+        animation: disappear-Left-to-Right 0.3s ease-in-out forwards;
+    }
+}
+
+.modalSearch {
+    height: auto;
+    width: 500px;
+    position: absolute;
+    border-radius: $border-radius;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
+    z-index: 999999;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .headerSearch {
+        background-color: $color-primary;
+        padding: $padding;
+        margin-bottom: $margin-vertical;
+        border-radius: $border-radius;
+        background-color: $background-color;
+        height: fit-content;
+
+        .inputSearch {
+            position: relative;
+
+            .inputt {
+                position: relative;
+                border: none;
+                width: 100%;
+                height: 40px;
+                position: relative;
+                background-color: transparent;
+                font-size: $font-normal;
+
+                &:valid {
+                    padding: 0em $padding-horizontal;
+                    border: transparent;
+                }
+            }
+
+            .iconSearch {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                transform: translate(100%, 0%);
+                height: 100%;
+            }
+        }
+
+        .filtersSearch {
+            padding: $padding;
+
+            >div :first-child {
+                margin-right: $margin-horizontal;
+            }
+        }
+    }
+
+    .resultsSearch {
+        padding: $padding;
+        background-color: $background-color;
+        border-radius: $border-radius;
+
+        .messageEmpty {
+            padding: $padding 0em;
+        }
+    }
+
+    @include respond(phone) {
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 0px;
+        width: 95%;
+        max-width: none;
+        border: none;
+        border-bottom: 1px solid $color-border;
+    }
+}
+
+//Backgrounds
+
+.modalBackground {
+    width: 100%;
+    height: 100svh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    animation: appear 0.6s ease-in-out;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    background-color: rgba(255, 255, 255, 0.2);
+    z-index: 99999;
+
+    &.closing {
+        animation: fadeOut 0.3s ease-in-out forwards;
+    }
+}
+
+.modalBackgroundSecondary {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    animation: appear 0.6s ease-in-out;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 999999;
+
+    &.closing {
+        animation: fadeOut 0.3s ease-in-out forwards;
+    }
+}

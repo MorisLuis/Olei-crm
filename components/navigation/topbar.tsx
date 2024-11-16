@@ -14,16 +14,20 @@ export default function Topbar({
 }: TopbarInterface) {
 
     const pathname = usePathname();
-    const header = screenData.find((item) => item.pathname === pathname )
+
+    const [basePath, id] = pathname.split('/').filter(Boolean);
+    const header = screenData.find((item) => item.pathname === `/${basePath}`);
+
+    /* Usar un context para saber en que pagina estoy, cuando estoy en un pagina con id */
 
     return (
         <div className={styles.topbar}>
             <div className={styles.content}>
                 <div className={styles.left}>
                     <div className={styles.menu} onClick={openMenu}>
-                        <FontAwesomeIcon icon={faBars} style={{ width: "16px", height: "16px" }} />
+                        <FontAwesomeIcon icon={faBars} className={"icon"} />
                     </div>
-                    <p className={styles.headertitle}>{header?.name}</p>
+                    <p className={styles.headertitle}>{header?.name}{ id ? ` / ${id}` : ''}</p>
                 </div>
                 <div className={styles.right}>
                     <p>Acciones</p>

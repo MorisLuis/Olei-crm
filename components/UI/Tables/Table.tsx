@@ -1,11 +1,12 @@
-"use client"
+"use client";
+
 import React from 'react';
-import styles from '../../../styles/Tables.module.scss'
+import styles from '../../../styles/Tables.module.scss';
 
 export interface ColumnConfig<T> {
     key: keyof T;
     label: string;
-    render?: (value: T[keyof T], item: T) => React.ReactNode; // Cambié el tipo del primer parámetro
+    render?: (value: T[keyof T], item: T) => React.ReactNode;
     className?: string;
     width?: string;
 }
@@ -15,13 +16,15 @@ interface TableProps<T> {
     columns: ColumnConfig<T>[];
     handleLoadMore?: () => void;
     loadingMoreData: boolean;
-    noMoreData: boolean
+    noMoreData: boolean;
+    handleSelectItem?: (arg: T) => void
 }
 
 const Table = <T,>({
     data,
     columns,
-    noMoreData = false
+    noMoreData = false,
+    handleSelectItem
 }: TableProps<T>) => {
 
     return (
@@ -50,6 +53,7 @@ const Table = <T,>({
                                         className={col.className || ''}
                                         data-label={col.label}
                                         style={{ width: col.width }}
+                                        onClick={() => handleSelectItem?.(item)}
                                     >
                                         {col.render
                                             ? col.render(item[col.key], item)

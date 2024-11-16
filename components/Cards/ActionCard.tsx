@@ -1,7 +1,7 @@
 import React from 'react'
 import ToggleSwitch from '../Inputs/toggleSwitch'
-import styles from "../../styles/Cards.module.scss";
 import ButtonSmall from '../Buttons/ButtonSmall';
+import styles from "../../styles/Cards.module.scss";
 
 interface ActionCardInterface {
     title: string;

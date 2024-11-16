@@ -137,4 +137,17 @@
             }
         }
     }
+};
+
+.header{
+    margin-bottom: $margin-vertical;
+    color: $color-tertiary;
+
+    &__title{
+        margin-bottom: $margin-vertical / 2;
+    }
+
+    .filters{
+        display: flex;
+    }
 }

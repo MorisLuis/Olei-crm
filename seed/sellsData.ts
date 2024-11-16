@@ -1,0 +1,88 @@
+import { SellsInterface } from "@/interface/sells";
+
+export const sellsExample: SellsInterface[] = [
+    {
+        UniqueKey: '1',
+        Nombre: "Empresa 1",
+        Id_Cliente: 1,
+        Id_Almacen: 1,
+        TipoDoc: 3,
+        Folio: 101,
+        Serie: '001',
+        Fecha: '10Mayo2024',
+        FechaEntrega: '10Mayo2024',
+        Saldo: 100,
+        Total: 120,
+    },
+    {
+        UniqueKey: '2',
+        Nombre: "Empresa 2",
+        Id_Cliente: 2,
+        Id_Almacen: 1,
+        TipoDoc: 3,
+        Folio: 192,
+        Serie: '001',
+        Fecha: '10Mayo2024',
+        FechaEntrega: '10Mayo2024',
+        Saldo: 1200,
+        Total: 1340,
+    },
+    {
+        UniqueKey: '3',
+        Nombre: "Empresa 3",
+        Id_Cliente: 2,
+        Id_Almacen: 1,
+        TipoDoc: 3,
+        Folio: 203,
+        Serie: '001',
+        Fecha: '10Mayo2024',
+        FechaEntrega: '10Mayo2024',
+        Saldo: 1500,
+        Total: 1500,
+    },
+
+]
+
+
+export const sellsClientExample: SellsInterface[] = [
+    {
+        UniqueKey: '1',
+        Nombre: "Empresa 1",
+        Id_Cliente: 1,
+        Id_Almacen: 1,
+        TipoDoc: 3,
+        Folio: 101,
+        Serie: '001',
+        Fecha: '10Mayo2024',
+        FechaEntrega: '10Mayo2024',
+        Saldo: 100,
+        Total: 120,
+    },
+    {
+        UniqueKey: '2',
+        Nombre: "Empresa 2",
+        Id_Cliente: 2,
+        Id_Almacen: 1,
+        TipoDoc: 3,
+        Folio: 192,
+        Serie: '001',
+        Fecha: '10Mayo2024',
+        FechaEntrega: '10Mayo2024',
+        Saldo: 1200,
+        Total: 1340,
+    },
+    {
+        UniqueKey: '3',
+        Nombre: "Empresa 3",
+        Id_Cliente: 2,
+        Id_Almacen: 1,
+        TipoDoc: 3,
+        Folio: 203,
+        Serie: '001',
+        Fecha: '10Mayo2024',
+        FechaEntrega: '10Mayo2024',
+        Saldo: 1500,
+        Total: 1500,
+    },
+
+]

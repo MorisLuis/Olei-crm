@@ -6,6 +6,7 @@
     margin: 0px;
     max-height: 100vh;
     background-color: $background-color;
+    width: 100vw;
 
     :global(#back) {
         display: none;

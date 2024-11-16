@@ -1,24 +1,25 @@
+"use client";
+
 import React from 'react';
 import styles from "../../styles/pages/Sells.module.scss";
-import { screenData } from "@/database/screens";
 import TableSells from './TableSells';
-
-export async function generateMetadata() {
-    const title = screenData.find((item) => item.name === 'Ventas')?.name
-    const description = screenData.find((item) => item.name === 'Ventas')?.description
-    return {
-        title,
-        description,
-    };
-};
+import { sellsExample } from '@/seed/sellsData';
 
 export default function Sells() {
+
+    const totalSells = 3
+    const loadMoreProducts = async () => {
+    }
+
     return (
         <div className={styles.page}>
-            <main className={styles.main}>
-                <p>Sells</p>
-                <TableSells/>
-            </main>
+            <TableSells
+                sells={sellsExample}
+                totalSells={totalSells}
+                loadMoreProducts={loadMoreProducts}
+                buttonIsLoading={false}
+                loadingData={false}
+            />
         </div>
     )
 }

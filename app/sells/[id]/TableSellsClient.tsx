@@ -2,14 +2,13 @@
 
 import React from 'react'
 import { MessageCard } from '@/components/Cards/MessageCard';
-import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { SellsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
-import Header from '@/components/navigation/header';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
-import { useRouter } from 'next/navigation';
+import TableSecondary, { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
+import { Tag } from '@/components/UI/Tag';
 
-interface TableSellsInterface {
+interface TTableSellsClientInterface {
     sells: SellsInterface[];
     totalSells: number;
     buttonIsLoading: boolean;
@@ -17,42 +16,48 @@ interface TableSellsInterface {
     loadMoreProducts: () => Promise<void>;
 }
 
-export default function TableSells({
+export default function TableSellsClient({
     sells,
     totalSells,
     loadingData,
     buttonIsLoading,
     loadMoreProducts
-}: TableSellsInterface) {
-
-    const { push } = useRouter();
+}: TTableSellsClientInterface) {
 
     const NoMoreProductToShow = sells.length === totalSells;
 
-    const columns: ColumnConfig<SellsInterface>[] = [
+    const columns: ColumnSecondaryConfig<SellsInterface>[] = [
         {
-            key: 'Id_Cliente',
-            label: 'Id_Cliente',
-            render: (Id_Cliente) => <span style={{ color: "black" }}>{Id_Cliente}</span>,
+            key: 'TipoDoc',
+            label: 'TipoDoc',
+            render: (_, item) => (
+                <>
+                    <span style={{ color: "black", fontWeight: 'bold' }}>{item.Nombre}</span>
+                    <Tag color='blue'>Cotizacion</Tag>
+                </>
+            ),
         },
         {
-            key: 'Nombre',
-            label: 'Nombre',
-        },
-        {
-            key: 'Saldo',
-            label: 'Saldo',
-            render: (Saldo) => <span style={{ color: "black" }}>{format(Saldo as number)}</span>,
-
+            key: 'Fecha',
+            label: 'Fecha',
+            render: (_, item) => (
+                <>
+                    <div><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha:</span> {item.Fecha}</div>
+                    <div><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha Entrega:</span> {item.FechaEntrega}</div>
+                </>
+            ),
         },
         {
             key: 'Total',
             label: 'Total',
-            render: (Total) => <span style={{ color: "black" }}>{format(Total as number)}</span>,
+            render: (_, item) => (
+                <>
+                    <span>Total: {format(item.Total)}</span>
+                    <span>Saldo: {format(item.Saldo)}</span>
+                </>
+            ),
         },
     ];
-
-    const handleSelectItem = (item: SellsInterface) => push(`/sells/${item.Folio}`);
 
     if (loadingData) {
         return (
@@ -74,15 +79,13 @@ export default function TableSells({
 
     return (
         <>
-            <Header title='Ventas' />
-
-            <Table
+            <TableSecondary
                 columns={columns}
                 data={sells}
                 noMoreData={NoMoreProductToShow}
                 loadingMoreData={buttonIsLoading}
                 handleLoadMore={loadMoreProducts}
-                handleSelectItem={handleSelectItem}
+            //handleSelectItem={handleSelectItem}
             />
         </>
     )

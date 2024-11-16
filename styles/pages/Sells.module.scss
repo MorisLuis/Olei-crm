@@ -1,0 +1,35 @@
+@import "../main.scss";
+
+
+
+.SellsClient {
+    display: flex;
+    flex-direction: column;
+
+    
+    .content {
+        display: flex;
+        gap: $gap;
+        width: 100%;
+
+        @include respond(tab-port) {
+            flex-direction: column-reverse;
+        }
+
+        .table {
+            width: 75%;
+
+            @include respond(tab-port) {
+                width: 100%;
+            }
+        }
+
+        .brief {
+            width: 25%;
+
+            @include respond(tab-port) {
+                width: 100%;
+            }
+        }
+    }
+}

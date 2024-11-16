@@ -1,9 +1,9 @@
 "use client";
-import styles from "../styles/RootLayout.module.scss";
 
 import Sidebar from '@/components/navigation/sidebar'
 import Topbar from '@/components/navigation/topbar'
 import React, { ReactNode, useState } from 'react';
+import styles from "../styles/RootLayout.module.scss";
 
 interface LayoutDashboardInterface {
     children: ReactNode
@@ -22,7 +22,7 @@ export default function LayoutDashboard({
             {openMenu && <div id="back" className="modalBackground" onClick={handleOpenMenu}></div>}
             <Sidebar visible={openMenu} />
 
-            <main className={styles.mainContent}>
+            <main className={styles.mainContent} id="mainPrimary">
                 <Topbar openMenu={handleOpenMenu} />
                 <div className={styles.mainbody}>
                     {children}

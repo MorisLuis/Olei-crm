@@ -1,11 +1,19 @@
 import { api } from "@/api/api";
 
+interface getSellsInterface {
+    PageNumber: number;
+    SellsOrderCondition?: string;
+}
 
-export const getSells = async (term: string) => {
+
+export const getSells = async ({
+    PageNumber,
+    SellsOrderCondition
+}: getSellsInterface) => {
 
     try {
-        const { data: { Clients } } = await api.get(`/api/search/client?term=${term}`);
-        return Clients;
+        const data = await api.get(`/api/sells?PageNumber=${PageNumber}&SellsOrderCondition=${SellsOrderCondition}`);
+        return data;
     } catch (error) {
         return { error: error };
     }
