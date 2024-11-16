@@ -25,6 +25,7 @@ export default function Header({
 
     const pathname = usePathname();
     const [basePath, id] = pathname.split('/').filter(Boolean);
+    console.log({basePath})
     const goBack = () => router.back()
 
     const handleOpenModalFilters = () => {

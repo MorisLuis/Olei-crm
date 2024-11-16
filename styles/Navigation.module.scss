@@ -12,7 +12,7 @@
     min-width: 200px;
     font-size: $font-medium;
     border: 1px solid $color-border-secondary;
-    z-index: 99999;
+    
 
     &.hide{
         display: none;
@@ -24,6 +24,7 @@
     }
 
     @include respond(phone) {
+        z-index: 99999;
         min-width: 80vw;
         position: fixed;
         left: 0px;
@@ -111,7 +112,7 @@
     border-style: none none solid none;
 
     .content {
-        padding: $padding;
+        padding: $padding $padding*2;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -123,6 +124,13 @@
             display: flex;
 
             .headertitle {
+
+                span{
+                    cursor: pointer;
+                    &:hover{
+                        opacity: 50%;
+                    }
+                }
 
                 @include respond(phone) {
                     display: none;

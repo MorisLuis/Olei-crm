@@ -3,6 +3,7 @@ import Head from "next/head";
 import LayoutDashboard from "./LayoutDashboard";
 import iconLogo from '../public/circle-solid.svg'
 import '../styles/globals.scss'
+import { SettingsProvider } from "@/context/Settings/SettingsProvider";
 
 export const metadata: Metadata = {
   title: "Olei CRM",
@@ -21,9 +22,11 @@ export default function RootLayout({
       <Head>
         <link rel="icon" href={iconLogo} />
       </Head>
-      <LayoutDashboard>
-        {children}
-      </LayoutDashboard>
+      <SettingsProvider>
+        <LayoutDashboard>
+          {children}
+        </LayoutDashboard>
+      </SettingsProvider>
     </html>
   );
 }

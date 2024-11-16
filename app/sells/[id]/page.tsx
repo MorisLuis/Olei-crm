@@ -1,8 +1,8 @@
 "use client";
 
+import React from 'react'
 import { sellsClientExample, sellsExample } from '@/seed/sellsData';
 import { useParams } from 'next/navigation';
-import React from 'react'
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
@@ -15,7 +15,7 @@ export default function SellsClientPage() {
     const loadMoreProducts = async () => {
     };
     const filters = ["Fecha", "Saldo", "Total"];
-    const sell = sellsExample.find((item) => item.Folio === Number(id));
+    const sell = sellsExample.find((item) => item.Id_Cliente === Number(id));
 
     const briefData: briefDataInterface[] = [
         {
@@ -43,7 +43,7 @@ export default function SellsClientPage() {
     return (
         <div className={styles.SellsClient}>
             <Header
-                title='Ventas'
+                title={`${sell?.Nombre}`}
                 filters={filters}
             />
 

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import styles from '../../styles/Navigation.module.scss';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { screenData } from '@/database/screens';
+import { SettingsContext } from '@/context/Settings/SettingsContext';
+import styles from '../../styles/Navigation.module.scss';
 
 interface TopbarInterface {
     openMenu: () => void
@@ -14,10 +15,18 @@ export default function Topbar({
 }: TopbarInterface) {
 
     const pathname = usePathname();
+    const { back } = useRouter()
+    const { globalPathname } = useContext(SettingsContext);
+
     const [basePath, id] = pathname.split('/').filter(Boolean);
     const header = screenData.find((item) => item.pathname === `/${basePath}`);
 
-    /* Usar un context para saber en que pagina estoy, cuando estoy en un pagina con id */
+    const handleGoBack = () => {
+        if(!id) return;
+        back()
+    }
+
+    const headerSubtitle = (id && globalPathname.pathname === basePath) ? ` / ${globalPathname.value}` : ''
 
     return (
         <div className={styles.topbar}>
@@ -26,7 +35,10 @@ export default function Topbar({
                     <div className={styles.menu} onClick={openMenu}>
                         <FontAwesomeIcon icon={faBars} className={"icon"} />
                     </div>
-                    <p className={styles.headertitle}>{header?.name}{ id ? ` / ${id}` : ''}</p>
+                    <p className={styles.headertitle}>
+                        <span onClick={handleGoBack}>{header?.name}</span>
+                        {headerSubtitle}
+                    </p>
                 </div>
                 <div className={styles.right}>
                     <p>Acciones</p>
