@@ -31,7 +31,7 @@ export default function TableSells({
     const { push } = useRouter();
     const { handleUpdatePathname } = useContext(SettingsContext);
     const NoMoreProductToShow = sells.length === totalSells;
-    const [filtersSells, setFiltersSells] = useState<SellsOrderConditionType[]>(['Fecha', 'ExpiredDays']);
+    const [filtersSells] = useState<SellsOrderConditionType[]>(['Fecha', 'ExpiredDays']);
 
     const columns: ColumnConfig<SellsInterface>[] = [
         {

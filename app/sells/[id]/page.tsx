@@ -17,7 +17,7 @@ export default function SellsClientPage() {
     };
     const filters = ["Fecha", "Saldo", "Total"];
     const sell = sellsExample.find((item) => item.Id_Cliente === Number(id));
-    const [filtersSells, setFiltersSells] = useState<SellsOrderConditionType[]>(['FechaEntrega', 'Folio', 'TipoDoc']);
+    const [filtersSells] = useState<SellsOrderConditionType[]>(['FechaEntrega', 'Folio', 'TipoDoc']);
 
 
     const briefData: briefDataInterface[] = [
