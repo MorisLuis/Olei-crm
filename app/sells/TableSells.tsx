@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { MessageCard } from '@/components/Cards/MessageCard';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
-import { SellsInterface, SellsOrderConditionType } from '@/interface/sells';
+import { SellsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
 import Header from '@/components/navigation/header';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
@@ -16,7 +16,6 @@ interface TableSellsInterface {
     buttonIsLoading: boolean;
     loadingData: boolean;
     loadMoreProducts: () => Promise<void>;
-    filters: string[]
 };
 
 export default function TableSells({
@@ -24,14 +23,12 @@ export default function TableSells({
     totalSells,
     loadingData,
     buttonIsLoading,
-    loadMoreProducts,
-    filters
+    loadMoreProducts
 }: TableSellsInterface) {
 
     const { push } = useRouter();
     const { handleUpdatePathname } = useContext(SettingsContext);
     const NoMoreProductToShow = sells.length === totalSells;
-    const [filtersSells] = useState<SellsOrderConditionType[]>(['Fecha', 'ExpiredDays']);
 
     const columns: ColumnConfig<SellsInterface>[] = [
         {
@@ -83,11 +80,7 @@ export default function TableSells({
 
     return (
         <>
-            <Header
-                title='Ventas'
-                filters={filters}
-                filterActive={filtersSells}
-            />
+            <Header title='Ventas' />
 
             <Table
                 columns={columns}

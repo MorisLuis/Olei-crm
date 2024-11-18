@@ -1,45 +1,44 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from '../../styles/Filters.module.scss';
 import ButtonSmall from '../Buttons/ButtonSmall';
+import styles from '../../styles/Filters.module.scss';
+
+export type FilterObject = { filter: string; value: string | number; label: string };
 
 export type FilterData = {
     type: string;
-    data: string[];
-    value?: string;
+    data: FilterObject[];
+    value?: string | number;
 };
 
 interface FiltersComponentInterface {
     open: boolean;
-    filters: string[];
+    filterSections: { value: string, label: string }[];
+    filtersOfSection: FilterData[];
     onOpenFilters: () => void;
-    onSelectFilter: (arg1: string, arg2: string | undefined) => void;
+    onSelectFilter: (filterObject: FilterObject,  filterType: string ) => void;
 
     // Optional properties
     customFilters?: readonly string[];
     customRenders?: Array<{ [key: string]: React.ReactNode }>;
-    apiCall?: () => Promise<FilterData[]>;
 }
 
 
 export default function FiltersComponent({
     open,
     onOpenFilters,
-    apiCall,
-    filters,
+    filterSections,
+    filtersOfSection,
     customFilters,
     customRenders,
     onSelectFilter
 }: FiltersComponentInterface) {
 
     const [selectedFilterCategory, setSelectedFilterCategory] = useState<string | null>(null); // First menu
-    const [filterOptions, setFiltersOptions] = useState<FilterData[]>([]);
-    const [filterOptionLocal, setFilterOptionLocal] = useState<string | undefined>()
-    const filterOptionSelected = filterOptions.find(filterOption => filterOption.type === selectedFilterCategory);
-    const filterOptionLabel = filterOptionSelected?.type as string;
-
+    const [filterOptionLocal, setFilterOptionLocal] = useState<string | number | undefined>()
+    const filterOptionSelected = filtersOfSection.find(filterOption => filterOption.type === selectedFilterCategory);
 
     const handleSelectFilterCategory = (filter: string) => {
         setSelectedFilterCategory(filter);
@@ -52,8 +51,12 @@ export default function FiltersComponent({
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = e.target;
         const newValue = checked ? value : undefined;
+        const filterSelected = filterOptionSelected?.data.find((item) => item.value == value);
+        const filterType = filterOptionSelected?.type
+        if(!filterSelected) return;
+        if(!filterType) return;
         setFilterOptionLocal(newValue);
-        onSelectFilter(filterOptionLabel, newValue);
+        onSelectFilter(filterSelected, filterType);
     };
 
     // Optional functions.
@@ -64,33 +67,24 @@ export default function FiltersComponent({
         return customRender ? customRender[filter] : null;
     };
 
-    const onGetDataFromAPI = useCallback(async () => {
-        if (!apiCall) return;
-
-        try {
-            const filtersFromAPI = await apiCall();
-            setFiltersOptions(filtersFromAPI);
-        } catch (error) {
-            console.error("Error fetching filter data:", error);
-        }
-    }, [apiCall])
 
     // First menu
     const renderMenuFilters = () => {
         return (
             <div className={styles.filterList}>
-                {filters.map((option, index) => (
+                {filterSections.map((option, index) => (
                     <div
                         key={index}
                         className={styles.filterItem}
-                        onClick={() => handleSelectFilterCategory(option)}
+                        onClick={() => handleSelectFilterCategory(option.value)}
                     >
-                        {option}
+                        {option.label}
                     </div>
                 ))}
             </div>
         )
     };
+
 
     const renderFilterSelectedOptions = () => {
         if (!selectedFilterCategory) return;
@@ -100,11 +94,12 @@ export default function FiltersComponent({
                 <div className={styles.filterOptions__Header} onClick={handleBackToFiltersCategories}>
                     <button className={styles.backButton}>
                         <FontAwesomeIcon icon={faAnglesLeft} className={`icon display-flex align`} />
-
                     </button>
                     <p>{selectedFilterCategory}</p>
                 </div>
 
+
+                {/*  FILTERS OF SECTION */}
                 {
                     customFilters?.includes(selectedFilterCategory) ? (
                         renderCustomFilters(selectedFilterCategory)
@@ -115,13 +110,13 @@ export default function FiltersComponent({
                                     <input
                                         type="checkbox"
                                         id={filterOptionSelected.type}
-                                        value={item}
-                                        checked={filterOptionLocal === item}
+                                        value={item.value}
+                                        checked={filterOptionLocal == item.value}
                                         className={styles.filterItemDetail}
                                         onChange={handleCheckboxChange}
                                     />
                                     <p>
-                                        {item}
+                                        {item.label}
                                     </p>
                                 </label>
                             </div>
@@ -132,12 +127,9 @@ export default function FiltersComponent({
     }
 
     useEffect(() => {
-        if (open) onGetDataFromAPI();
-    }, [apiCall, open, onGetDataFromAPI]);
-
-    useEffect(() => {
         setFilterOptionLocal(filterOptionSelected?.value)
     }, [filterOptionSelected])
+
 
     return (
         <div className={styles.filters}>

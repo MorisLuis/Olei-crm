@@ -2,6 +2,18 @@
 import { ReactNode, useState } from "react"
 import { SettingsContext } from "./SettingsContext"
 
+// Define el tipo de filtro
+type FilterType = {
+    filterType: string;
+    filter: string;
+    filterValue: string | number;
+};
+
+type FilterObject = {
+    label: string;
+    value: string | number;
+};
+
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
@@ -13,7 +25,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
             value: value,
             pathname: pathname
         })
-    }
+    };
+
 
     return (
         <SettingsContext.Provider value={{

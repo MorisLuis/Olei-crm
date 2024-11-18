@@ -183,3 +183,20 @@
         }
     }
 }
+
+.headerTable{
+    margin-bottom: $margin-vertical;
+    color: $color-tertiary;
+
+    .filters{
+        display: flex;
+        align-items: center;
+        height: auto;
+        gap: $gap;
+
+        @include respond(phone) {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+    }
+}
