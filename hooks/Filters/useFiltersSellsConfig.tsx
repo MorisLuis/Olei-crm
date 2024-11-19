@@ -1,5 +1,4 @@
-import { FilterData } from "@/components/UI/FiltersComponent";
-import { useFilters } from "@/hooks/Filters/useFilters";
+import { FilterData, useFilters } from "@/hooks/Filters/useFilters";
 
 export const useFiltersSellsConfig = () => {
     const { filtersActive } = useFilters();
@@ -12,7 +11,7 @@ export const useFiltersSellsConfig = () => {
                 { filter: 'TipoDoc', value: 2, label: 'Remision' },
                 { filter: 'TipoDoc', value: 3, label: 'Factura' },
             ],
-            value: filtersActive.find((item) => item.filterType === 'TipoDoc')?.filterValue ?? ''
+            value: filtersActive.find((item) => item.filter === 'TipoDoc')?.value ?? ''
         },
         {
             type: 'Expired',
@@ -20,7 +19,7 @@ export const useFiltersSellsConfig = () => {
                 { filter: 'Expired', value: "Expired", label: 'Expirado' },
                 { filter: 'Not Expired', value: 'Not Expired', label: 'No Expirado' },
             ],
-            value: filtersActive.find((item) => item.filterType === 'Expired')?.filterValue ?? ''
+            value: filtersActive.find((item) => item.filter === 'Expired')?.value ?? ''
         }
     ];
 

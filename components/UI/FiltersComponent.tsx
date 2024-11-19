@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
 import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ButtonSmall from '../Buttons/ButtonSmall';
+import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
 import styles from '../../styles/Filters.module.scss';
 
-export type FilterObject = { filter: string; value: string | number; label: string };
+type FilterSectionType = { value: string, label: string };
 
-export type FilterData = {
-    type: string;
-    data: FilterObject[];
-    value?: string | number;
-};
 
 interface FiltersComponentInterface {
     open: boolean;
-    filterSections: { value: string, label: string }[];
+    filterSections: FilterSectionType[];
     filtersOfSection: FilterData[];
     onOpenFilters: () => void;
-    onSelectFilter: (filterObject: FilterObject,  filterType: string ) => void;
-
+    onSelectFilter: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
+    filtersActive: FilterObject[];
     // Optional properties
     customFilters?: readonly string[];
     customRenders?: Array<{ [key: string]: React.ReactNode }>;
@@ -31,16 +27,16 @@ export default function FiltersComponent({
     onOpenFilters,
     filterSections,
     filtersOfSection,
+    filtersActive,
     customFilters,
     customRenders,
     onSelectFilter
 }: FiltersComponentInterface) {
 
-    const [selectedFilterCategory, setSelectedFilterCategory] = useState<string | null>(null); // First menu
-    const [filterOptionLocal, setFilterOptionLocal] = useState<string | number | undefined>()
-    const filterOptionSelected = filtersOfSection.find(filterOption => filterOption.type === selectedFilterCategory);
+    const [selectedFilterCategory, setSelectedFilterCategory] = useState<FilterSectionType | null >(); // First menu
+    const filterOptionSelected = filtersOfSection.find(filterOption => filterOption.type === selectedFilterCategory?.value);
 
-    const handleSelectFilterCategory = (filter: string) => {
+    const handleSelectFilterCategory = (filter: FilterSectionType) => {
         setSelectedFilterCategory(filter);
     };
 
@@ -51,20 +47,18 @@ export default function FiltersComponent({
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = e.target;
         const newValue = checked ? value : undefined;
-        const filterSelected = filterOptionSelected?.data.find((item) => item.value == value);
+        const filterSelected = filterOptionSelected?.data.find((item) => item.value == newValue);
         const filterType = filterOptionSelected?.type
-        if(!filterSelected) return;
-        if(!filterType) return;
-        setFilterOptionLocal(newValue);
-        onSelectFilter(filterSelected, filterType);
+        if (!filterType) return;
+        onSelectFilter({ filterObject: filterSelected, filterType });
     };
 
     // Optional functions.
-    const renderCustomFilters = (filter: string) => {
+    const renderCustomFilters = (filter: FilterSectionType) => {
         if (!customRenders) return null;
 
-        const customRender = customRenders.find((render) => render[filter]);
-        return customRender ? customRender[filter] : null;
+        const customRender = customRenders.find((render) => render[filter.value]);
+        return customRender ? customRender[filter.value] : null;
     };
 
 
@@ -76,7 +70,7 @@ export default function FiltersComponent({
                     <div
                         key={index}
                         className={styles.filterItem}
-                        onClick={() => handleSelectFilterCategory(option.value)}
+                        onClick={() => handleSelectFilterCategory(option)}
                     >
                         {option.label}
                     </div>
@@ -85,7 +79,7 @@ export default function FiltersComponent({
         )
     };
 
-
+    // Second menu
     const renderFilterSelectedOptions = () => {
         if (!selectedFilterCategory) return;
         return (
@@ -95,13 +89,13 @@ export default function FiltersComponent({
                     <button className={styles.backButton}>
                         <FontAwesomeIcon icon={faAnglesLeft} className={`icon display-flex align`} />
                     </button>
-                    <p>{selectedFilterCategory}</p>
+                    <p>{selectedFilterCategory.label}</p>
                 </div>
 
 
                 {/*  FILTERS OF SECTION */}
                 {
-                    customFilters?.includes(selectedFilterCategory) ? (
+                    customFilters?.includes(selectedFilterCategory.value) ? (
                         renderCustomFilters(selectedFilterCategory)
                     ) : (
                         filterOptionSelected?.data.map((item, index) => (
@@ -111,7 +105,7 @@ export default function FiltersComponent({
                                         type="checkbox"
                                         id={filterOptionSelected.type}
                                         value={item.value}
-                                        checked={filterOptionLocal == item.value}
+                                        checked={filtersActive.find((item) => item.filter === selectedFilterCategory.value)?.value == item.value}
                                         className={styles.filterItemDetail}
                                         onChange={handleCheckboxChange}
                                     />
@@ -125,11 +119,6 @@ export default function FiltersComponent({
             </div>
         )
     }
-
-    useEffect(() => {
-        setFilterOptionLocal(filterOptionSelected?.value)
-    }, [filterOptionSelected])
-
 
     return (
         <div className={styles.filters}>

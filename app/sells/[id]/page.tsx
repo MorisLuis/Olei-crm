@@ -6,12 +6,12 @@ import { useParams } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
-import { filtersSells } from '@/seed/Filters/FiltersSells';
 import HeaderTable from '@/components/navigation/headerTable';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
 import { useOrderSellsConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import styles from "../../../styles/pages/Sells.module.scss";
+import { filtersSells } from '@/seed/Filters/FiltersSells';
 import { OrderObject } from '@/components/UI/OrderComponent';
 
 export default function SellsClientPage() {
@@ -40,25 +40,25 @@ export default function SellsClientPage() {
 
     const executeFilters = () => {
         // Buscar los filtros en el estado y asignar valores booleanos.
-        const FilterTipoDoc = filtersActive.some((item) => (item.filterValue !== 0) && item.filterType === 'TipoDoc') ? 1 : 0;
-        const FilterExpired = filtersActive.some((item) => item.filterValue === 'Expired') ? 1 : 0;
-        const FilterNotExpired = filtersActive.some((item) => item.filterValue === 'Not Expired') ? 1 : 0;
-        const TipoDoc = filtersActive.find((item) => item.filterType === 'TipoDoc')?.filterValue;
+        const FilterTipoDoc = filtersActive.some((item) => (item.value !== 0) && item.filter === 'TipoDoc') ? 1 : 0;
+        const FilterExpired = filtersActive.some((item) => item.value === 'Expired') ? 1 : 0;
+        const FilterNotExpired = filtersActive.some((item) => item.value === 'Not Expired') ? 1 : 0;
+        const TipoDoc = filtersActive.find((item) => item.filter === 'TipoDoc')?.value;
         // Construir la query URL.
-        const queryUrl = `api/sells/client/3?FilterTipoDoc=${FilterTipoDoc}&FilterExpired=${FilterExpired}&FilterNotExpired=${FilterNotExpired}&TipoDoc=${TipoDoc ?? 0}`;
+        const queryUrl = `api/sells/client/3?FilterTipoDoc=${FilterTipoDoc}&FilterExpired=${FilterExpired}&FilterNotExpired=${FilterNotExpired}&TipoDoc=${TipoDoc ?? 0}&OrderCondition=${orderActive.order}`;
 
         console.log({ query: queryUrl });
     };
 
     const onSelectOrder = (value: string | number) => {
-        const orderActive = orderSells.find((item) => item.value == value )
-        if(!orderActive) return;
+        const orderActive = orderSells.find((item) => item.value == value)
+        if (!orderActive) return;
         setOrderActive(orderActive)
     }
 
     useEffect(() => {
         executeFilters()
-    }, [filtersActive])
+    }, [filtersActive, orderActive])
 
     return (
         <div className={styles.SellsClient}>
@@ -67,6 +67,7 @@ export default function SellsClientPage() {
                 filters={filtersSells}
                 filterActive={filtersTag}
                 filtersOfSection={filtersOfSectionSells}
+                filtersActive={filtersActive}
                 onSelectFilter={onSelectFilterValue}
                 onDeleteFilter={onDeleteFilter}
 

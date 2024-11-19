@@ -1,4 +1,4 @@
-import { FilterData } from "@/components/UI/FiltersComponent";
+import { FilterData } from "@/hooks/Filters/useFilters";
 import { SellsFilterConditionType } from "@/interface/sells";
 
 

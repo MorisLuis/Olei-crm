@@ -1,20 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
-import FiltersComponent, { FilterData, FilterObject } from '../UI/FiltersComponent';
+import FiltersComponent from '../UI/FiltersComponent';
 import useLockBodyScroll from '@/hooks/useLockBodyScroll';
 import { Tag } from '../UI/Tag';
 import styles from '../../styles/Navigation.module.scss'
 import OrderComponent, { OrderObject } from '../UI/OrderComponent';
+import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
 
 interface HeaderInterface {
 
     //Filters
     filters?: { value: string, label: string }[];
     filterActive?: string[]
+
     filtersOfSection?: FilterData[];
-    onSelectFilter?: (filterObject: FilterObject, filterType: string) => void;
+    onSelectFilter: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
     onDeleteFilter?: (filter: string) => void;
+    filtersActive: FilterObject[];
 
     //Order
     orderSells: OrderObject[];
@@ -26,6 +29,7 @@ export default function HeaderTable({
     filters,
     filterActive,
     filtersOfSection,
+    filtersActive,
     onSelectFilter,
     onDeleteFilter,
     orderSells,
@@ -36,7 +40,7 @@ export default function HeaderTable({
     const [openFilterModal, setOpenFilterModal] = useState(false);
     const [openOrderModal, setOpenOrderModal] = useState(false);
     const [openModalBackground, setopenModalBackground] = useState(false);
-    const filterVisible = filters && onSelectFilter && filtersOfSection;
+    const filterVisible = filters && filtersOfSection;
 
     const handleOpenModalFilters = () => {
         setopenModalBackground(!openModalBackground);
@@ -68,6 +72,7 @@ export default function HeaderTable({
                             filterSections={filters}
                             onSelectFilter={onSelectFilter}
                             filtersOfSection={filtersOfSection}
+                            filtersActive={filtersActive}
                         />
                         {
                             filterActive?.map((item, index) => <Tag key={index} close color='yellow' onClose={() => onDeleteFilter?.(item)}>{item}</Tag>)

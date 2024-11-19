@@ -50,7 +50,7 @@
             .filterOptions__Header {
                 display: flex;
                 gap: $gap / 2;
-                margin-bottom: $margin-vertical;
+                margin-bottom: $margin-vertical/2;
 
                 cursor: pointer;
                 padding: $padding / 3;

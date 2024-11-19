@@ -17,8 +17,7 @@ export default function Sidebar({
 }: SidebarInterface) {
 
     const pathname = usePathname();
-    const [basePath, id] = pathname.split('/').filter(Boolean);
-    console.log({basePath, id})
+    const [basePath] = pathname.split('/').filter(Boolean);
 
     return (
         <aside className={`${styles.sidebar} ${!visible && styles.hide}`}>
