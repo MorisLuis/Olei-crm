@@ -5,14 +5,21 @@ import FiltersComponent, { FilterData, FilterObject } from '../UI/FiltersCompone
 import useLockBodyScroll from '@/hooks/useLockBodyScroll';
 import { Tag } from '../UI/Tag';
 import styles from '../../styles/Navigation.module.scss'
-
+import OrderComponent, { OrderObject } from '../UI/OrderComponent';
 
 interface HeaderInterface {
+
+    //Filters
     filters?: { value: string, label: string }[];
     filterActive?: string[]
     filtersOfSection?: FilterData[];
     onSelectFilter?: (filterObject: FilterObject, filterType: string) => void;
     onDeleteFilter?: (filter: string) => void;
+
+    //Order
+    orderSells: OrderObject[];
+    onSelectOrder: (value: string | number) => void;
+    orderActive: string | number
 }
 
 export default function HeaderTable({
@@ -20,27 +27,43 @@ export default function HeaderTable({
     filterActive,
     filtersOfSection,
     onSelectFilter,
-    onDeleteFilter
+    onDeleteFilter,
+    orderSells,
+    onSelectOrder,
+    orderActive
 }: HeaderInterface) {
 
-    const [openModal, setOpenModal] = useState(false);
+    const [openFilterModal, setOpenFilterModal] = useState(false);
+    const [openOrderModal, setOpenOrderModal] = useState(false);
     const [openModalBackground, setopenModalBackground] = useState(false);
+    const filterVisible = filters && onSelectFilter && filtersOfSection;
 
     const handleOpenModalFilters = () => {
         setopenModalBackground(!openModalBackground);
-        setOpenModal(!openModal)
+        setOpenFilterModal(!openFilterModal)
     };
 
-    useLockBodyScroll(openModal);
+    const handleOpenModalOrders = () => {
+        setopenModalBackground(!openModalBackground);
+        setOpenOrderModal(!openOrderModal)
+    };
+
+    const handelCloseBackground = () => {
+        setopenModalBackground(false);
+        setOpenFilterModal(false);
+        setOpenOrderModal(false);
+    }
+
+    useLockBodyScroll(openFilterModal);
 
     return (
         <>
             <div className={styles.headerTable}>
                 {
-                    (filters && onSelectFilter && filtersOfSection) &&
+                    filterVisible &&
                     <div className={styles.filters}>
                         <FiltersComponent
-                            open={openModal}
+                            open={openFilterModal}
                             onOpenFilters={handleOpenModalFilters}
                             filterSections={filters}
                             onSelectFilter={onSelectFilter}
@@ -51,11 +74,19 @@ export default function HeaderTable({
                         }
                     </div>
                 }
+
+                <OrderComponent
+                    open={openOrderModal}
+                    orderOptions={orderSells}
+                    onOpenOrder={handleOpenModalOrders}
+                    onSelectOrder={onSelectOrder}
+                    orderActive={orderActive}
+                />
             </div>
 
             {
                 openModalBackground &&
-                <div onClick={handleOpenModalFilters} className='backgroundModal'></div>
+                <div onClick={handelCloseBackground} className='backgroundModal'></div>
             }
         </>
     )

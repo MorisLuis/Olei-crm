@@ -139,7 +139,7 @@ export default function FiltersComponent({
                 onClick={onOpenFilters}
                 icon={faSliders}
                 color='white'
-                extraStyles={{ zIndex: 9999 }}
+                extraStyles={{ zIndex: open ? 9999 : 9 }}
             />
 
             {open && (

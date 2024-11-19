@@ -1,51 +1,40 @@
 "use client";
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { sellsClientExample, sellsExample } from '@/seed/sellsData';
 import { useParams } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
-import { filtersOfSectionSells, filtersSells } from '@/seed/Filters/FiltersSells';
+import { filtersSells } from '@/seed/Filters/FiltersSells';
 import styles from "../../../styles/pages/Sells.module.scss";
 import HeaderTable from '@/components/navigation/headerTable';
-import { useFilters } from '@/hooks/useFilters';
+import { useFilters } from '@/hooks/Filters/useFilters';
+import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
+import { useOrderSellsConfig } from '@/hooks/Orders/useOrderSellsConfig';
 
 export default function SellsClientPage() {
 
     const { id } = useParams();
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
-
-    const loadMoreProducts = async () => {
-        console.log("loadMoreProducts")
-    };
+    const { filtersOfSectionSells } = useFiltersSellsConfig();
+    const { orderSells } = useOrderSellsConfig();
+    const [orderActive, setOrderActive] = useState<string | number>('1')
 
     // Prueba
     const totalSells = 4;
     const sell = sellsExample.find((item) => item.Id_Cliente === Number(id));
     // Fin Prueba
 
+    const loadMoreProducts = async () => {
+        console.log("loadMoreProducts")
+    };
+
     const briefData: briefDataInterface[] = [
-        {
-            id: 1,
-            label: 'Producto',
-            value: `${id}`
-        },
-        {
-            id: 2,
-            label: 'Nombre',
-            value: `${sell?.Nombre}`
-        },
-        {
-            id: 3,
-            label: 'Fecha',
-            value: `${sell?.Fecha}`
-        },
-        {
-            id: 4,
-            label: 'Almacen',
-            value: `${sell?.Id_Almacen}`
-        }
+        { id: 1, label: 'Producto', value: `${id}` },
+        { id: 2, label: 'Nombre', value: `${sell?.Nombre ?? 'Desconocido'}` },
+        { id: 3, label: 'Fecha', value: `${sell?.Fecha ?? 'N/A'}` },
+        { id: 4, label: 'Almacen', value: `${sell?.Id_Almacen ?? 'N/A'}` }
     ];
 
     const executeFilters = () => {
@@ -60,18 +49,13 @@ export default function SellsClientPage() {
         console.log({ query: queryUrl });
     };
 
+    const onSelectOrder = (value: string | number) => {
+        setOrderActive(value)
+    }
+
     useEffect(() => {
         executeFilters()
     }, [filtersActive])
-
-    // TEMPORAL
-    const filter = filtersOfSectionSells.find((item) => item.type === 'TipoDoc');
-    const filter2 = filtersActive.find((item) => item.filterType === 'TipoDoc');
-    if (filter) filter.value = filter2?.filterValue;
-
-    const filter3 = filtersOfSectionSells.find((item) => item.type === 'Expired');
-    const filter4 = filtersActive.find((item) => item.filterType === 'Expired');
-    if (filter3) filter3.value = filter4?.filterValue;
 
     return (
         <div className={styles.SellsClient}>
@@ -80,9 +64,12 @@ export default function SellsClientPage() {
                 filters={filtersSells}
                 filterActive={filtersTag}
                 filtersOfSection={filtersOfSectionSells}
-
                 onSelectFilter={onSelectFilterValue}
                 onDeleteFilter={onDeleteFilter}
+
+                orderSells={orderSells}
+                onSelectOrder={onSelectOrder}
+                orderActive={orderActive}
             />
 
             <div className={styles.content}>
@@ -97,9 +84,7 @@ export default function SellsClientPage() {
                 </div>
 
                 <div className={styles.brief}>
-                    <BriefCard
-                        data={briefData}
-                    />
+                    <BriefCard data={briefData}/>
                 </div>
             </div>
         </div>

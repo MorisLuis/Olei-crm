@@ -18,6 +18,11 @@
         box-shadow: $box-shadow-modal;
         z-index: 9999;
 
+        &.right {
+            left: auto;
+            right: 0%;
+        }
+
         @include respond(phone) {
             left: 0px;
         }
@@ -90,5 +95,4 @@
             }
         }
     }
-
 }

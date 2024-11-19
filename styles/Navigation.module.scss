@@ -42,6 +42,14 @@
         padding-left: $padding;
         margin-bottom: $margin-vertical*2;
 
+        @include respond(tab-port) {
+            display: none;
+        };
+
+        @include respond(phone) {
+            display: block;
+        }
+
         img {
             height: 100%;
             width: auto;
@@ -187,6 +195,8 @@
 .headerTable{
     margin-bottom: $margin-vertical;
     color: $color-tertiary;
+    display: flex;
+    justify-content: space-between;
 
     .filters{
         display: flex;
