@@ -17,8 +17,9 @@ export default function Header({
 
     const router = useRouter()
     const pathname = usePathname();
-    const [id] = pathname.split('/').filter(Boolean);
-    const goBack = () => router.back()
+    const [basePath, id] = pathname.split('/').filter(Boolean);
+    const goBack = () => router.back();
+    console.log({basePath, id})
 
     return (
 

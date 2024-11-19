@@ -79,17 +79,13 @@ export default function TableSells({
 
 
     return (
-        <>
-            <Header title='Ventas' />
-
-            <Table
-                columns={columns}
-                data={sells}
-                noMoreData={NoMoreProductToShow}
-                loadingMoreData={buttonIsLoading}
-                handleLoadMore={loadMoreProducts}
-                handleSelectItem={handleSelectItem}
-            />
-        </>
+        <Table
+            columns={columns}
+            data={sells}
+            noMoreData={NoMoreProductToShow}
+            loadingMoreData={buttonIsLoading}
+            handleLoadMore={loadMoreProducts}
+            handleSelectItem={handleSelectItem}
+        />
     )
 }

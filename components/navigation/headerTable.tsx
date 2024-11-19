@@ -16,9 +16,9 @@ interface HeaderInterface {
     filterActive?: string[]
 
     filtersOfSection?: FilterData[];
-    onSelectFilter: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
+    onSelectFilter?: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
     onDeleteFilter?: (filter: string) => void;
-    filtersActive: FilterObject[];
+    filtersActive?: FilterObject[];
 
     //Order
     orderSells: OrderObject[];
@@ -41,7 +41,7 @@ export default function HeaderTable({
     const [openFilterModal, setOpenFilterModal] = useState(false);
     const [openOrderModal, setOpenOrderModal] = useState(false);
     const [openModalBackground, setopenModalBackground] = useState(false);
-    const filterVisible = filters && filtersOfSection;
+    const filterVisible = filters && filtersOfSection && onSelectFilter && filtersActive;
 
     const handleOpenModalFilters = () => {
         setopenModalBackground(!openModalBackground);
@@ -65,7 +65,7 @@ export default function HeaderTable({
         <>
             <div className={styles.headerTable}>
                 {
-                    filterVisible &&
+                    filterVisible ?
                     <div className={styles.filters}>
                         <FiltersComponent
                             open={openFilterModal}
@@ -79,6 +79,8 @@ export default function HeaderTable({
                             filterActive?.map((item, index) => <Tag key={index} close color='yellow' onClose={() => onDeleteFilter?.(item)}>{item}</Tag>)
                         }
                     </div>
+                    :
+                    <div></div>
                 }
 
                 <OrderComponent

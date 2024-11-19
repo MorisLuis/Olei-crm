@@ -9,7 +9,7 @@ import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
 import HeaderTable from '@/components/navigation/headerTable';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
-import { useOrderSellsConfig } from '@/hooks/Orders/useOrderSellsConfig';
+import { useOrderSellsClientConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import styles from "../../../styles/pages/Sells.module.scss";
 import { filtersSells } from '@/seed/Filters/FiltersSells';
 import { OrderObject } from '@/components/UI/OrderComponent';
@@ -19,8 +19,8 @@ export default function SellsClientPage() {
     const { id } = useParams();
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells } = useFiltersSellsConfig();
-    const { orderSells } = useOrderSellsConfig();
-    const [orderActive, setOrderActive] = useState<OrderObject>(orderSells[0])
+    const { orderSellsClient } = useOrderSellsClientConfig();
+    const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0])
 
     // Prueba
     const totalSells = 4;
@@ -51,7 +51,7 @@ export default function SellsClientPage() {
     };
 
     const onSelectOrder = (value: string | number) => {
-        const orderActive = orderSells.find((item) => item.value == value)
+        const orderActive = orderSellsClient.find((item) => item.value == value)
         if (!orderActive) return;
         setOrderActive(orderActive)
     }
@@ -71,7 +71,7 @@ export default function SellsClientPage() {
                 onSelectFilter={onSelectFilterValue}
                 onDeleteFilter={onDeleteFilter}
 
-                orderSells={orderSells}
+                orderSells={orderSellsClient}
                 onSelectOrder={onSelectOrder}
                 orderActive={orderActive}
             />
