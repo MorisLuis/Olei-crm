@@ -29,19 +29,32 @@
 
         .filterList {
 
-            div {
+            .filterItem {
                 cursor: pointer;
                 padding: $padding / 3;
                 border-radius: $border-radius;
                 font-size: $font-medium;
+                display: flex;
+                gap: $gap / 1.5;
+                align-items: center;
+                position: relative;
+
+                &:not(:last-child) {
+                    margin-bottom: $margin-vertical/2;
+                }
+
+                p{
+                    height: auto;
+                }
+
+                &__icon{
+                    height: $font-small;
+                    color: $color-tertiary;
+                }
 
                 &:hover {
                     background-color: $background-color-tertiary;
                 }
-            }
-
-            :not(:last-child) {
-                margin-bottom: $margin-vertical/2;
             }
         }
 
@@ -85,7 +98,7 @@
                     input[type="checkbox"] {
                         width: $font-medium;
                         height: $font-medium;
-                        accent-color: $color-blue;
+                        accent-color: $color-tertiary;
                     }
                 }
 

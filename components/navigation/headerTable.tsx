@@ -7,11 +7,12 @@ import { Tag } from '../UI/Tag';
 import styles from '../../styles/Navigation.module.scss'
 import OrderComponent, { OrderObject } from '../UI/OrderComponent';
 import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
+import { FilterSectionType } from '@/seed/Filters/FiltersSells';
 
 interface HeaderInterface {
 
     //Filters
-    filters?: { value: string, label: string }[];
+    filters?: FilterSectionType[];
     filterActive?: string[]
 
     filtersOfSection?: FilterData[];

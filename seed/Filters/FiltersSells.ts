@@ -1,10 +1,12 @@
 import { FilterData } from "@/hooks/Filters/useFilters";
-import { SellsFilterConditionType } from "@/interface/sells";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { fa0, faClock, faFile, faWalkieTalkie } from "@fortawesome/free-solid-svg-icons";
 
+export type FilterSectionType = { value: string, label: string, icon?: IconDefinition };
 
-export const filtersSells : { value: SellsFilterConditionType, label: string }[] = [
-    { value: 'Expired', label: 'Expiracion' },
-    { value: 'TipoDoc', label: 'Tipo de documento' }
+export const filtersSells : FilterSectionType[] = [
+    { value: 'Expired', label: 'Expiracion', icon: faClock },
+    { value: 'TipoDoc', label: 'Tipo de documento', icon: faFile }
 ];
 
 export const filtersOfSectionSells : FilterData[] = [

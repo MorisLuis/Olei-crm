@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
-import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ButtonSmall from '../Buttons/ButtonSmall';
 import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
+import { FilterSectionType } from '@/seed/Filters/FiltersSells';
 import styles from '../../styles/Filters.module.scss';
-
-type FilterSectionType = { value: string, label: string };
 
 
 interface FiltersComponentInterface {
@@ -33,7 +32,7 @@ export default function FiltersComponent({
     onSelectFilter
 }: FiltersComponentInterface) {
 
-    const [selectedFilterCategory, setSelectedFilterCategory] = useState<FilterSectionType | null >(); // First menu
+    const [selectedFilterCategory, setSelectedFilterCategory] = useState<FilterSectionType | null>(); // First menu
     const filterOptionSelected = filtersOfSection.find(filterOption => filterOption.type === selectedFilterCategory?.value);
 
     const handleSelectFilterCategory = (filter: FilterSectionType) => {
@@ -72,7 +71,8 @@ export default function FiltersComponent({
                         className={styles.filterItem}
                         onClick={() => handleSelectFilterCategory(option)}
                     >
-                        {option.label}
+                        {option.icon && <FontAwesomeIcon icon={option.icon} className={styles.filterItem__icon} />}
+                        <p>{option.label}</p>
                     </div>
                 ))}
             </div>
@@ -87,7 +87,7 @@ export default function FiltersComponent({
 
                 <div className={styles.filterOptions__Header} onClick={handleBackToFiltersCategories}>
                     <button className={styles.backButton}>
-                        <FontAwesomeIcon icon={faAnglesLeft} className={`icon display-flex align`} />
+                        <FontAwesomeIcon icon={faArrowLeft} className={`icon display-flex align`} />
                     </button>
                     <p>{selectedFilterCategory.label}</p>
                 </div>
