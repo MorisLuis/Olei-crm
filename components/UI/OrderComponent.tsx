@@ -12,7 +12,7 @@ interface FiltersComponentInterface {
     orderOptions: OrderObject[];
     onOpenOrder: () => void;
     onSelectOrder: (value: string | number) => void;
-    orderActive: string | number
+    orderActive: OrderObject
 }
 
 
@@ -55,7 +55,7 @@ export default function OrderComponent({
                                             value={item.value}
                                             className={styles.filterItemDetail}
                                             onChange={handleCheckboxChange}
-                                            checked={orderActive == item.value}
+                                            checked={orderActive.value == item.value}
                                         />
                                         <p>
                                             {item.label}

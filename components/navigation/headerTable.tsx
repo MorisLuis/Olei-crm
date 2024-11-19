@@ -19,7 +19,7 @@ interface HeaderInterface {
     //Order
     orderSells: OrderObject[];
     onSelectOrder: (value: string | number) => void;
-    orderActive: string | number
+    orderActive: OrderObject
 }
 
 export default function HeaderTable({

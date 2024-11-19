@@ -7,11 +7,12 @@ import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
 import { filtersSells } from '@/seed/Filters/FiltersSells';
-import styles from "../../../styles/pages/Sells.module.scss";
 import HeaderTable from '@/components/navigation/headerTable';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
 import { useOrderSellsConfig } from '@/hooks/Orders/useOrderSellsConfig';
+import styles from "../../../styles/pages/Sells.module.scss";
+import { OrderObject } from '@/components/UI/OrderComponent';
 
 export default function SellsClientPage() {
 
@@ -19,7 +20,7 @@ export default function SellsClientPage() {
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells } = useFiltersSellsConfig();
     const { orderSells } = useOrderSellsConfig();
-    const [orderActive, setOrderActive] = useState<string | number>('1')
+    const [orderActive, setOrderActive] = useState<OrderObject>(orderSells[0])
 
     // Prueba
     const totalSells = 4;
@@ -50,7 +51,9 @@ export default function SellsClientPage() {
     };
 
     const onSelectOrder = (value: string | number) => {
-        setOrderActive(value)
+        const orderActive = orderSells.find((item) => item.value == value )
+        if(!orderActive) return;
+        setOrderActive(orderActive)
     }
 
     useEffect(() => {
@@ -84,7 +87,7 @@ export default function SellsClientPage() {
                 </div>
 
                 <div className={styles.brief}>
-                    <BriefCard data={briefData}/>
+                    <BriefCard data={briefData} />
                 </div>
             </div>
         </div>
