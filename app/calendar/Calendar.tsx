@@ -7,7 +7,7 @@ import { useState } from 'react';
 import esLocale from '@fullcalendar/core/locales/es'; // Importar idioma español
 
 const MyCalendar = () => {
-    const [events, setEvents] = useState([
+    const [events] = useState([
         { title: 'Evento 1', date: '2024-11-22' },
         { title: 'Evento 2', date: '2024-11-25' },
     ]);

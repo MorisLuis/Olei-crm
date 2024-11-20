@@ -1,9 +1,10 @@
 
 export default interface MeetingInterface {
     Id_Bitacora: number;
-    Id_Almacen: number;
-    Id_Cliente: number;
+    Id_Almacen?: number;
+    Id_Cliente?: number;
     Fecha: string;
+    Hour: string;
     Descripcion: string;
     TipoContacto: 1 | 2 | 3 | 4;
 };
