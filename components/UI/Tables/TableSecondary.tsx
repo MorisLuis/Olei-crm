@@ -16,7 +16,7 @@ interface TableProps<T> {
     handleLoadMore?: () => void;
     loadingMoreData: boolean;
     noMoreData: boolean;
-    onClick?: (item: T) => void
+    onClick?: (item: T) => void;
 }
 
 const TableSecondary = <T,>({

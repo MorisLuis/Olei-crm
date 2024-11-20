@@ -41,7 +41,7 @@ export const sellsExample: SellsInterface[] = [
         Total: 1500,
     },
 
-]
+];
 
 export const sellsClientExample: SellsInterface[] = [
     {
@@ -84,4 +84,21 @@ export const sellsClientExample: SellsInterface[] = [
         Total: 1500,
     },
 
-]
+];
+
+
+export const sellDetailsExample: SellsInterface = {
+    Id_Cliente: 1,
+    Id_Almacen: 1,
+    TipoDoc: 3,
+    Folio: 102,
+    Serie: 'A',
+    Fecha: "10 Mayo 2025",
+    FechaEntrega: "20 Mayo 2025",
+    Saldo: 1200,
+    Total: 1230,
+    Impuesto: 120,
+    Nombre: "Empresa 1",
+    FechaLiq: "20 Mayo 2025",
+    Piezas: 10
+}

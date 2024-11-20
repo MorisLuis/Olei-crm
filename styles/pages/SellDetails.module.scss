@@ -1,0 +1,10 @@
+@import "../main.scss";
+
+.sellDetails{
+
+    .sellItem{
+        display: flex;
+        align-items: center;
+        gap: $gap;
+    }
+}

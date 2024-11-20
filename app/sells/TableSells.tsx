@@ -5,7 +5,6 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { SellsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
-import Header from '@/components/navigation/header';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import { useRouter } from 'next/navigation';
 import { SettingsContext } from '@/context/Settings/SettingsContext';

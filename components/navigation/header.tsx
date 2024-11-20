@@ -19,7 +19,6 @@ export default function Header({
     const pathname = usePathname();
     const [basePath, id] = pathname.split('/').filter(Boolean);
     const goBack = () => router.back();
-    console.log({basePath, id})
 
     return (
 
@@ -34,6 +33,7 @@ export default function Header({
                     />
                 }
                 <h2>{title}</h2>
+                <div className='none'>{basePath}</div>
             </div>
         </div>
     )

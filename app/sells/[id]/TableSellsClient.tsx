@@ -8,12 +8,13 @@ import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import TableSecondary, { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { Tag } from '@/components/UI/Tag';
 
-interface TTableSellsClientInterface {
+interface TableSellsClientInterface {
     sells: SellsInterface[];
     totalSells: number;
     buttonIsLoading: boolean;
     loadingData: boolean;
     loadMoreProducts: () => Promise<void>;
+    handleSelectItem: (item: SellsInterface) => void;
 }
 
 export default function TableSellsClient({
@@ -21,8 +22,9 @@ export default function TableSellsClient({
     totalSells,
     loadingData,
     buttonIsLoading,
-    loadMoreProducts
-}: TTableSellsClientInterface) {
+    loadMoreProducts,
+    handleSelectItem
+}: TableSellsClientInterface) {
 
     const NoMoreProductToShow = sells.length === totalSells;
 
@@ -85,7 +87,7 @@ export default function TableSellsClient({
                 noMoreData={NoMoreProductToShow}
                 loadingMoreData={buttonIsLoading}
                 handleLoadMore={loadMoreProducts}
-            //handleSelectItem={handleSelectItem}
+                onClick={handleSelectItem}
             />
         </>
     )

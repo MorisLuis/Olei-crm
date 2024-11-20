@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { sellsClientExample, sellsExample } from '@/seed/sellsData';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
@@ -13,6 +13,9 @@ import { useOrderSellsClientConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import styles from "../../../styles/pages/Sells.module.scss";
 import { filtersSells } from '@/seed/Filters/FiltersSells';
 import { OrderObject } from '@/components/UI/OrderComponent';
+import { SellsInterface } from '@/interface/sells';
+import Modal from '@/components/Modals/Modal';
+import SellDetails from './[sellId]/SellDetails';
 
 export default function SellsClientPage() {
 
@@ -20,7 +23,9 @@ export default function SellsClientPage() {
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells } = useFiltersSellsConfig();
     const { orderSellsClient } = useOrderSellsClientConfig();
-    const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0])
+    const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
+    const [openModalSell, setOpenModalSell] = useState(false)
+    const { push, back } = useRouter()
 
     // Prueba
     const totalSells = 4;
@@ -50,47 +55,68 @@ export default function SellsClientPage() {
         console.log({ query: queryUrl });
     };
 
-    const onSelectOrder = (value: string | number) => {
+    const onSelectOrder = useCallback((value: string | number) => {
         const orderActive = orderSellsClient.find((item) => item.value == value)
         if (!orderActive) return;
         setOrderActive(orderActive)
-    }
+    }, [orderSellsClient])
+
+    const handleSelectItem = useCallback((item: SellsInterface) => {
+        push(`/sells/${id}/?sellId=${item.Folio}`)
+        setOpenModalSell(true)
+    }, [id, push])
+
+    const handleCloseModalSell = useCallback(() => {
+        setOpenModalSell(false)
+        back()
+    }, [back])
 
     useEffect(() => {
         executeFilters()
     }, [filtersActive, orderActive])
 
     return (
-        <div className={styles.SellsClient}>
-            <Header title={`${sell?.Nombre}`} />
-            <HeaderTable
-                filters={filtersSells}
-                filterActive={filtersTag}
-                filtersOfSection={filtersOfSectionSells}
-                filtersActive={filtersActive}
-                onSelectFilter={onSelectFilterValue}
-                onDeleteFilter={onDeleteFilter}
+        <>
+            <div className={styles.SellsClient}>
+                <Header title={`${sell?.Nombre}`} />
+                <HeaderTable
+                    filters={filtersSells}
+                    filterActive={filtersTag}
+                    filtersOfSection={filtersOfSectionSells}
+                    filtersActive={filtersActive}
+                    onSelectFilter={onSelectFilterValue}
+                    onDeleteFilter={onDeleteFilter}
 
-                orderSells={orderSellsClient}
-                onSelectOrder={onSelectOrder}
-                orderActive={orderActive}
-            />
+                    orderSells={orderSellsClient}
+                    onSelectOrder={onSelectOrder}
+                    orderActive={orderActive}
+                />
 
-            <div className={styles.content}>
-                <div className={styles.table}>
-                    <TableSellsClient
-                        sells={sellsClientExample}
-                        totalSells={totalSells}
-                        loadMoreProducts={loadMoreProducts}
-                        buttonIsLoading={false}
-                        loadingData={false}
-                    />
-                </div>
+                <div className={styles.content}>
+                    <div className={styles.table}>
+                        <TableSellsClient
+                            sells={sellsClientExample}
+                            totalSells={totalSells}
+                            loadMoreProducts={loadMoreProducts}
+                            buttonIsLoading={false}
+                            loadingData={false}
+                            handleSelectItem={handleSelectItem}
+                        />
+                    </div>
 
-                <div className={styles.brief}>
-                    <BriefCard data={briefData} />
+                    <div className={styles.brief}>
+                        <BriefCard data={briefData} />
+                    </div>
                 </div>
             </div>
-        </div>
+            <Modal
+                visible={openModalSell}
+                title='Detalle de venta'
+                onClose={handleCloseModalSell}
+                modalSize='medium'
+            >
+                <SellDetails/>
+            </Modal>
+        </>
     )
 }
