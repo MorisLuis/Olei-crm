@@ -10,22 +10,22 @@ import HeaderTable from '@/components/navigation/headerTable';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
 import { useOrderSellsClientConfig } from '@/hooks/Orders/useOrderSellsConfig';
-import styles from "../../../styles/pages/Sells.module.scss";
 import { filtersSells } from '@/seed/Filters/FiltersSells';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import { SellsInterface } from '@/interface/sells';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from './[sellId]/SellDetails';
+import styles from "../../../styles/pages/Sells.module.scss";
 
 export default function SellsClientPage() {
 
     const { id } = useParams();
+    const { push, back } = useRouter()
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells } = useFiltersSellsConfig();
     const { orderSellsClient } = useOrderSellsClientConfig();
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const [openModalSell, setOpenModalSell] = useState(false)
-    const { push, back } = useRouter()
 
     // Prueba
     const totalSells = 4;
@@ -43,7 +43,7 @@ export default function SellsClientPage() {
         { id: 4, label: 'Almacen', value: `${sell?.Id_Almacen ?? 'N/A'}` }
     ];
 
-    const executeFilters = () => {
+    const executeQuery = () => {
         // Buscar los filtros en el estado y asignar valores booleanos.
         const FilterTipoDoc = filtersActive.some((item) => (item.value !== 0) && item.filter === 'TipoDoc') ? 1 : 0;
         const FilterExpired = filtersActive.some((item) => item.value === 'Expired') ? 1 : 0;
@@ -72,7 +72,7 @@ export default function SellsClientPage() {
     }, [back])
 
     useEffect(() => {
-        executeFilters()
+        executeQuery()
     }, [filtersActive, orderActive])
 
     return (
@@ -109,13 +109,14 @@ export default function SellsClientPage() {
                     </div>
                 </div>
             </div>
+
             <Modal
                 visible={openModalSell}
                 title='Detalle de venta'
                 onClose={handleCloseModalSell}
                 modalSize='medium'
             >
-                <SellDetails/>
+                <SellDetails />
             </Modal>
         </>
     )

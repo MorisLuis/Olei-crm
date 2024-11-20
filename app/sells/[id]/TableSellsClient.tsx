@@ -44,8 +44,8 @@ export default function TableSellsClient({
             label: 'Fecha',
             render: (_, item) => (
                 <>
-                    <p><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha:</span> {item.Fecha}</p>
-                    <p><span  style={{ color: "black", fontWeight: 'bold' }}>Fecha Entrega:</span> {item.FechaEntrega}</p>
+                    <p><span style={{ color: "black", fontWeight: 'bold' }}>Fecha:</span> {item.Fecha}</p>
+                    <p><span style={{ color: "black", fontWeight: 'bold' }}>Fecha Entrega:</span> {item.FechaEntrega}</p>
                 </>
             ),
         },
@@ -70,7 +70,6 @@ export default function TableSellsClient({
         )
     };
 
-
     if (sells?.length === 0) {
         return (
             <MessageCard title='No hay coincidencias exactas'>
@@ -80,15 +79,13 @@ export default function TableSellsClient({
     };
 
     return (
-        <>
-            <TableSecondary
-                columns={columns}
-                data={sells}
-                noMoreData={NoMoreProductToShow}
-                loadingMoreData={buttonIsLoading}
-                handleLoadMore={loadMoreProducts}
-                onClick={handleSelectItem}
-            />
-        </>
+        <TableSecondary
+            columns={columns}
+            data={sells}
+            noMoreData={NoMoreProductToShow}
+            loadingMoreData={buttonIsLoading}
+            handleLoadMore={loadMoreProducts}
+            onClick={handleSelectItem}
+        />
     )
 }
