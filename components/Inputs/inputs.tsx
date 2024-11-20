@@ -8,7 +8,8 @@ interface Props {
     label?: string,
     onChange?: (arg: string) => void,
     extraStyles?: CSSProperties
-    clearInput?: () => void
+    clearInput?: () => void;
+    placeholder?: string
 }
 
 const Input = ({
@@ -17,7 +18,8 @@ const Input = ({
     value,
     name,
     extraStyles,
-    clearInput
+    clearInput,
+    placeholder = 'Buscar..'
 }: Props) => {
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +33,7 @@ const Input = ({
             <label htmlFor={name}>{label}</label>
             <input
                 type="text"
-                placeholder='Buscar...'
+                placeholder={placeholder}
                 onChange={(event) => handleOnChange(event)}
                 value={value || ""}
             />

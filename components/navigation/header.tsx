@@ -1,16 +1,17 @@
 "use client";
 
 import React from 'react';
-import { faArrowLeft, faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname, useRouter } from 'next/navigation';
-import ButtonSmall from '../Buttons/ButtonSmall';
+import ActionsComponent from '../UI/ActionsComponent';
 import styles from '../../styles/Navigation.module.scss';
 
 export interface ActionsInterface {
     id: number;
     text: string;
     onclick: () => void;
+    icon?: IconDefinition
 }
 
 
@@ -45,22 +46,7 @@ export default function Header({
                 <div className='none'>{basePath}</div>
             </div>
 
-            {
-                actions &&
-                <div className={styles.header__actions}>
-                    <div className={styles.buttons}>
-                        {
-                            actions.map((item) =>
-                                <ButtonSmall text={item.text} onClick={item.onclick} key={item.id} />
-                            )
-                        }
-                    </div>
-
-                    <div className={styles.hamburguer}>
-                        <FontAwesomeIcon icon={faEllipsis} className={`${styles.icon} icon__small`} />
-                    </div>
-                </div>
-            }
+            <ActionsComponent actions={actions} />
         </div>
     )
 }

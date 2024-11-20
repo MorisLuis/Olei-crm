@@ -182,31 +182,6 @@
         }
     }
 
-    &__actions{
-
-        .buttons{
-            display: flex;
-            gap: $gap;
-            height: fit-content;
-
-            @include respond(phone) {
-                display: none;
-            }
-        }
-
-        .hamburguer {
-            display: none;
-            background-color: $background-color-tertiary;
-            padding: $padding/2;
-            border-radius: $border-radius;
-            border: 1px solid $color-border;
-
-            @include respond(phone) {
-                display: block;
-            }
-        }
-    }
-
     .filters{
         display: flex;
         align-items: center;

@@ -31,3 +31,26 @@
         }
     }
 }
+
+.SellActions{
+
+    .send_message{
+
+        .send_header{
+            font-size: $font-medium;
+            margin-bottom: $margin-vertical;
+        }
+
+        .send_input{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: $margin-vertical;
+            gap: $gap;
+        }
+
+        .message_decision{
+            display: flex;
+            gap: $gap;
+        }
+    }
+}
