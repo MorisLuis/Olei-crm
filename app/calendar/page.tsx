@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from "../../styles/pages/Calendar.module.scss";
 import { screenData } from "@/database/screens";
+import MyCalendar from './Calendar';
 
 export async function generateMetadata() {
     const title = screenData.find((item) => item.name === 'Calendario')?.name
@@ -16,7 +17,8 @@ export default function Calendar() {
         <div className={styles.page}>
             <main className={styles.main}>
                 <p>Calendario</p>
+                <MyCalendar/>
             </main>
         </div>
-        )
+    )
 }

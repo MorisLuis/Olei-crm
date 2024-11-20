@@ -1,0 +1,50 @@
+/* Cambiar el borde de todo el calendario */
+.fc-view {
+    border: 2px solid #0077cc;
+    /* Cambia el color y grosor del borde */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    background-color: #f5f5f5;
+    /* Color de fondo general */
+}
+
+/* Personalizar los nombres de los días */
+.fc-col-header-cell {
+    color: #4caf50;
+    /* Cambia el color del texto */
+    font-weight: bold;
+    /* Texto en negrita */
+    font-size: 14px;
+    /* Tamaño de fuente */
+    background-color: #e0f7fa;
+    /* Fondo */
+    border: 1px solid #4caf50;
+    /* Borde entre las celdas */
+    text-align: center;
+    /* Centrar el texto */
+}
+
+
+/* Cambiar el color de fondo de los días */
+.fc-daygrid-day {
+    background-color: #f9f9f9;
+}
+
+/* Personalizar los eventos */
+.fc-event {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Cambiar el color del encabezado */
+.fc-toolbar {
+    background-color: #0077cc;
+    color: white;
+}
+
+/* Modificar el día actual */
+.fc-day-today {
+    background-color: #ffeb3b !important;
+}
