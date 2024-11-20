@@ -15,7 +15,7 @@ import { OrderObject } from '@/components/UI/OrderComponent';
 import { SellsInterface } from '@/interface/sells';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from './[sellId]/SellDetails';
-import styles from "../../../styles/pages/Sells.module.scss";
+import styles from "../../../styles/pages/Clients.module.scss";
 
 export default function SellsClientPage() {
 

@@ -160,11 +160,14 @@
     margin-bottom: $margin-vertical;
     color: $color-tertiary;
 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     &__title{
         display: flex;
-        align-items: center;
-        margin-bottom: $margin-vertical;
         gap: $gap/2;
+        height: 100%;
 
         .icon{
             padding: $padding/2;
@@ -175,6 +178,31 @@
                 background-color: $background-color-tertiary;
                 border-radius: $border-radius;
                 border: 1px solid $color-border-secondary;
+            }
+        }
+    }
+
+    &__actions{
+
+        .buttons{
+            display: flex;
+            gap: $gap;
+            height: fit-content;
+
+            @include respond(phone) {
+                display: none;
+            }
+        }
+
+        .hamburguer {
+            display: none;
+            background-color: $background-color-tertiary;
+            padding: $padding/2;
+            border-radius: $border-radius;
+            border: 1px solid $color-border;
+
+            @include respond(phone) {
+                display: block;
             }
         }
     }
