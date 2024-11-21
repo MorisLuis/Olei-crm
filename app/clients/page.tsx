@@ -4,15 +4,16 @@ import React, { useEffect, useState } from 'react';
 import HeaderTable from '@/components/navigation/headerTable';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import Header from '@/components/navigation/header';
-import styles from "../../styles/pages/Clients.module.scss";
 import TableClients from './TableClients';
 import { clientsExample } from '@/seed/clientsData';
 import { useOrderClientsConfig } from '@/hooks/Orders/useOrderClientsConfig';
+import styles from "../../styles/pages/Clients.module.scss";
 
 export default function Clients() {
 
     const { orderClients } = useOrderClientsConfig()
     const [orderActive, setOrderActive] = useState<OrderObject>(orderClients[0]);
+    const [clientSearchValue, setClientSearchValue] = useState<string>()
 
     // ESTO CAMBIA
     const totalClients = 2;
@@ -26,16 +27,20 @@ export default function Clients() {
         setOrderActive(orderActive)
     };
 
+    const onSearchClient = (value: string) => {
+        setClientSearchValue(value)
+    }
+
     const executeQuery = () => {
         // Construir la query URL.
-        const queryUrl = `api/client&clientOrderCondition=${orderActive.order}`;
+        const queryUrl = `api/client&clientOrderCondition=${orderActive.order}?Nombre=${clientSearchValue}`;
         console.log({ query: queryUrl });
     };
 
 
     useEffect(() => {
         executeQuery()
-    }, [orderActive])
+    }, [orderActive, clientSearchValue])
 
     return (
         <div className={styles.page}>
@@ -44,6 +49,7 @@ export default function Clients() {
                 orderSells={orderClients}
                 onSelectOrder={onSelectOrder}
                 orderActive={orderActive}
+                onSearch={onSearchClient}
             />
             <TableClients
                 clients={clientsExample}

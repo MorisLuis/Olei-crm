@@ -89,6 +89,28 @@
     }
 }
 
+.input_search{
+    height: 100%;
+    border-radius: $border-radius;
+    border: 1px solid $color-border;
+    padding: 0px $padding-horizontal;
+    box-shadow: $box-shadow-button;
+
+    &::placeholder {
+        color: $text-color-secondary;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: $color-tertiary 0px 1px 4px, $color-tertiary 0px 0px 0px 3px;
+        background-color: $background-color;
+    }
+
+    &:valid {
+        padding: 0em $padding-horizontal;
+    }
+}
+
 .select {
     display: flex;
     background-color: $background-color;

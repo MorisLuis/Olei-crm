@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import FiltersComponent from '../UI/FiltersComponent';
 import useLockBodyScroll from '@/hooks/useLockBodyScroll';
 import { Tag } from '../UI/Tag';
-import styles from '../../styles/Navigation.module.scss'
 import OrderComponent, { OrderObject } from '../UI/OrderComponent';
 import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
 import { FilterSectionType } from '@/seed/Filters/FiltersSells';
+import styles from '../../styles/Navigation.module.scss'
+import InputSearch from '../Inputs/inputSearch';
 
 interface HeaderInterface {
 
@@ -24,6 +25,8 @@ interface HeaderInterface {
     orderSells: OrderObject[];
     onSelectOrder: (value: string | number) => void;
     orderActive: OrderObject
+
+    onSearch?: (value: string) => void;
 }
 
 export default function HeaderTable({
@@ -35,7 +38,8 @@ export default function HeaderTable({
     onDeleteFilter,
     orderSells,
     onSelectOrder,
-    orderActive
+    orderActive,
+    onSearch
 }: HeaderInterface) {
 
     const [openFilterModal, setOpenFilterModal] = useState(false);
@@ -80,8 +84,10 @@ export default function HeaderTable({
                         }
                     </div>
                     :
-                    <div></div>
+                    <></>
                 }
+
+                {onSearch && <InputSearch onSearch={onSearch}/>}
 
                 <OrderComponent
                     open={openOrderModal}

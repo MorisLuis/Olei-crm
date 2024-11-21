@@ -22,7 +22,7 @@ export default function Topbar({
     const header = screenData.find((item) => item.pathname === `/${basePath}`);
 
     const handleGoBack = () => {
-        if(!id) return;
+        if (!id) return;
         back()
     }
 
@@ -41,7 +41,14 @@ export default function Topbar({
                     </p>
                 </div>
                 <div className={styles.right}>
-                    <p>Acciones</p>
+                    <div className={styles.profile} onClick={() => console.log(true)}>
+                        <div className={styles.info}>
+                            <p>Luce</p>
+                        </div>
+                        <div className={styles.circle}>
+                            <p>L</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

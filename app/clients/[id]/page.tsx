@@ -4,11 +4,12 @@ import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard'
 import { clientDetailsExample } from '@/seed/clientsData';
 import React, { useState } from 'react'
 import Header, { ActionsInterface } from '@/components/navigation/header';
-import styles from "../../../styles/pages/Clients.module.scss";
 import Modal from '@/components/Modals/Modal';
 import WhatsAppModal from './ModalWhatsApp';
 import EmailModal from './ModalEmail';
 import { useRouter } from 'next/navigation';
+import MyCalendar from '@/app/calendar/Calendar';
+import styles from "../../../styles/pages/Clients.module.scss";
 
 export default function ClientDetailsPage() {
 
@@ -58,10 +59,10 @@ export default function ClientDetailsPage() {
             <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
             <div className={styles.clientDetails}>
                 <div className={styles.clientDetails__calendar}>
-                    <h4>calendario</h4>
+                    <MyCalendar/>
                 </div>
                 <div className={styles.clientDetails__brief}>
-                    <BriefCard data={briefData} />
+                    <BriefCard data={briefData} header='Detalles de empresa'/>
                 </div>
             </div>
 

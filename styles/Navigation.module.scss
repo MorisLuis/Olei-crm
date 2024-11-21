@@ -153,6 +153,99 @@
                 }
             }
         }
+
+        .right{
+            .profile {
+                gap: $gap/2;
+                position: relative;
+                background-color: transparent;
+                border-radius: $border-radius;
+                cursor: pointer;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: $font-medium;
+
+                @include respond(phone) {
+                    position: static;
+                }
+
+                .info {
+
+                    p {
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: normal;
+                        color: $text-color;
+                    }
+
+                    @include respond(phone) {
+                        display: none;
+                    }
+                }
+
+                .circle {
+                    background-color: $color-tertiary;
+                    height: 30px;
+                    width: 30px;
+                    border-radius: $border-radius;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    box-shadow: $box-shadow-button;
+
+                    p {
+                        font-size: $font-medium;
+                        color: $text-color-light;
+                        min-width: 18px;
+                        height: 18px;
+                        border-radius: $border-radius / 1.25;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                }
+
+                .profileBox {
+                    background-color: $background-color;
+                    border: 1px solid $color-border;
+                    position: absolute;
+                    top: 120%;
+                    right: 0px;
+                    width: 225px;
+                    border-radius: $border-radius;
+                    z-index: 999;
+
+                    @include respond(phone) {
+                        width: 100vw;
+                        left: 0px;
+                        border-radius: none;
+                        border: 0px;
+                        border-bottom: 1px solid $color-border;
+                        box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
+                    }
+
+                    .link {
+                        padding: $padding;
+                        border-radius: $border-radius;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: $color-secondary;
+                        }
+                    }
+                }
+
+                &:hover {
+                    opacity: 70%;
+                }
+            }
+        }
     }
 };
 
@@ -200,6 +293,7 @@
     color: $color-tertiary;
     display: flex;
     justify-content: space-between;
+   //background-color: red;
 
     .filters{
         display: flex;
