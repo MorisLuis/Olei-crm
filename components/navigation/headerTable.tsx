@@ -65,30 +65,35 @@ export default function HeaderTable({
 
     useLockBodyScroll(openFilterModal);
 
+    const renderFilters = () => (
+        <div className={styles.filters}>
+            <FiltersComponent
+                open={openFilterModal}
+                onOpenFilters={handleOpenModalFilters}
+                filterSections={filters!}
+                onSelectFilter={onSelectFilter!}
+                filtersOfSection={filtersOfSection!}
+                filtersActive={filtersActive!}
+            />
+            {filterActive?.map((item, index) => (
+                <Tag
+                    key={index}
+                    close
+                    color="yellow"
+                    onClose={() => onDeleteFilter?.(item)}
+                >
+                    {item}
+                </Tag>
+            ))}
+        </div>
+    );
+
     return (
         <>
             <div className={styles.headerTable}>
-                {
-                    filterVisible ?
-                    <div className={styles.filters}>
-                        <FiltersComponent
-                            open={openFilterModal}
-                            onOpenFilters={handleOpenModalFilters}
-                            filterSections={filters}
-                            onSelectFilter={onSelectFilter}
-                            filtersOfSection={filtersOfSection}
-                            filtersActive={filtersActive}
-                        />
-                        {
-                            filterActive?.map((item, index) => <Tag key={index} close color='yellow' onClose={() => onDeleteFilter?.(item)}>{item}</Tag>)
-                        }
-                    </div>
-                    :
-                    <></>
-                }
-
-                {onSearch && <InputSearch onSearch={onSearch}/>}
-
+                {filterVisible && renderFilters()}
+                {onSearch && <InputSearch onSearch={onSearch} />}
+                {!onSearch && !filterVisible && <div></div>} {/* To send order to right */}
                 <OrderComponent
                     open={openOrderModal}
                     orderOptions={orderSells}
@@ -98,10 +103,9 @@ export default function HeaderTable({
                 />
             </div>
 
-            {
-                openModalBackground &&
-                <div onClick={handelCloseBackground} className='backgroundModal'></div>
-            }
+            {openModalBackground && (
+                <div onClick={handelCloseBackground} className="backgroundModal"></div>
+            )}
         </>
     )
 }
