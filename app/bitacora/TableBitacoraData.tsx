@@ -1,5 +1,7 @@
 import { ColumnConfig } from "@/components/UI/Tables/Table";
+import { Tag } from "@/components/UI/Tag";
 import MeetingInterface from "@/interface/meeting";
+import { contactType } from "@/utils/contactType";
 
 
 export const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
@@ -17,8 +19,11 @@ export const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
     {
         key: 'TipoContacto',
         label: 'TipoContacto',
-        render: (TipoContacto) => <span>{TipoContacto}</span>
-
+        render: (TipoContacto) => <Tag color={ 
+            TipoContacto === 1 ? "blue" : 
+            TipoContacto === 2 ? "green" :
+            TipoContacto === 3 ? "red" : "yellow" 
+        }>{contactType(TipoContacto as MeetingInterface['TipoContacto'])}</Tag>
     },
     {
         key: 'Fecha',

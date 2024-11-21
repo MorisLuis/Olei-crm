@@ -35,6 +35,7 @@
         &.red {
             background-color: rgba($color-red, 0.2);
             color: $color-red;
+            border: 1px solid rgba($color: $color-red, $alpha: 0.2);
         }
 
         &.blue {

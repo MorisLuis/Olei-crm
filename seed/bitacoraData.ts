@@ -48,3 +48,14 @@ export const meetingsExamples: MeetingInterface[] = [
         TipoContacto: 3
     },
 ];
+
+export const meetingExample: MeetingInterface =
+    {
+        Id_Bitacora: 1,
+        Id_Almacen: 1,
+        Id_Cliente: 1,
+        Fecha: '10Mayo2025',
+        Hour: "4PM",
+        Descripcion: "Reunion para avances",
+        TipoContacto: 1
+    }

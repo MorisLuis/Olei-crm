@@ -1,0 +1,52 @@
+"use client";
+
+import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard'
+import { clientDetailsExample } from '@/seed/clientsData';
+import React from 'react'
+import Header, { ActionsInterface } from '@/components/navigation/header';
+import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
+import styles from "../../../styles/pages/Bitacora.module.scss";
+
+export default function ClientDetailsPage() {
+
+    const briefData: briefDataInterface[] = [
+        { id: 1, label: 'Nombre', value: `${clientDetailsExample?.Nombre ?? ''}` },
+        { id: 2, label: 'RazonSocial', value: `${clientDetailsExample?.RazonSocial ?? 'N/A'}` },
+        { id: 3, label: 'Telefono', value: `${clientDetailsExample?.Telefono1 ?? 'N/A'}` },
+        { id: 4, label: 'Correo', value: `${clientDetailsExample?.CorreoVtas ?? 'N/A'}` }
+    ];
+
+    const clientActions: ActionsInterface[] = [
+        {
+            id: 1,
+            text: 'Nueva Reunión',
+            onclick: () => console.log(true),
+            color: 'yellow'
+        }
+    ]
+
+
+    return (
+        <>
+            <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
+            <div className={styles.bitacoraDetails}>
+                <div className={styles.bitacoraDetails__data}>
+                    <div className={styles.details}>
+                        <h4>Reunión</h4>
+                        <TableTertiaryBitacoraDetails />
+                    </div>
+                    <div className={styles.files}>
+                        <h4>Archivos adjuntos</h4>
+                        <div className={styles.files__container}>
+                            <p>Adjuntar archivo</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div className={styles.bitacoraDetails__brief}>
+                    <BriefCard data={briefData} header="Detalle de cliente" />
+                </div>
+            </div>
+        </>
+    )
+}

@@ -11,7 +11,8 @@ export interface ActionsInterface {
     id: number;
     text: string;
     onclick: () => void;
-    icon?: IconDefinition
+    icon?: IconDefinition;
+    color?: "red" | "black" | "white" | "blue" | "yellow";
 }
 
 

@@ -7,12 +7,12 @@
     overflow-y: auto;
     height: 100vh;
     overflow-x: hidden;
-    position: relative;
+    position: sticky;
+    top: 0px;
     width: 15%;
     min-width: 200px;
     font-size: $font-medium;
     border: 1px solid $color-border-secondary;
-    
 
     &.hide{
         display: none;

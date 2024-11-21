@@ -9,14 +9,17 @@ export interface briefDataInterface {
 
 interface BriefCardInterface {
     data: briefDataInterface[]
+    header?: string;
+
 }
 
 export default function BriefCard({
-    data
+    data,
+    header = "Resumen"
 }: BriefCardInterface ) {
     return (
         <div className={styles.BriefCard}>
-            <h3>Resumen</h3>
+            <h3>{header}</h3>
 
             <div className='divider small'></div>
 

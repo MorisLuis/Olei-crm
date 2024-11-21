@@ -8,7 +8,7 @@ interface ButtonSmallInterface {
     extraStyles?: React.CSSProperties;
     icon?: IconDefinition;
     transparent?: boolean;
-    color?: "red" | "black" | "white" | "blue";
+    color?: "red" | "black" | "white" | "blue" | "yellow";
     disabled?: boolean
 };
 
