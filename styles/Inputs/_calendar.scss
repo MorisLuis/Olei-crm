@@ -1,50 +1,130 @@
-/* Cambiar el borde de todo el calendario */
-.fc-view {
-    border: 2px solid #0077cc;
-    /* Cambia el color y grosor del borde */
-    border-radius: 8px;
-    /* Bordes redondeados */
-    background-color: #f5f5f5;
-    /* Color de fondo general */
-}
-
-/* Personalizar los nombres de los días */
-.fc-col-header-cell {
-    color: #4caf50;
-    /* Cambia el color del texto */
-    font-weight: bold;
-    /* Texto en negrita */
-    font-size: 14px;
-    /* Tamaño de fuente */
-    background-color: #e0f7fa;
-    /* Fondo */
-    border: 1px solid #4caf50;
-    /* Borde entre las celdas */
-    text-align: center;
-    /* Centrar el texto */
-}
-
-
-/* Cambiar el color de fondo de los días */
-.fc-daygrid-day {
-    background-color: #f9f9f9;
-}
-
-/* Personalizar los eventos */
-.fc-event {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-}
-
-/* Cambiar el color del encabezado */
+/* header */
 .fc-toolbar {
-    background-color: #0077cc;
-    color: white;
+    color: $text-color;
+    text-transform: capitalize;
+    font-size: $font-medium;
+    gap: $gap;
+
+    .fc-toolbar-chunk:nth-child(3) {
+        display: flex;
+    }
+
+    .fc-today-button,
+    .fc-prev-button,
+    .fc-next-button {
+        background-color: $color-tertiary;
+        border-radius: $border-radius;
+    }
+
+    .fc-today-button:disabled {
+        opacity: 70%;
+    }
 }
 
-/* Modificar el día actual */
+
+.fc-theme-standard {
+
+    .fc-scrollgrid {
+        border: 0; // Sin bordes redundantes
+    }
+
+    th {
+        border: 1px solid $color-border;
+        border-style: solid none;
+
+        a {
+            text-transform: capitalize;
+            color: $text-color-secondary;
+        }
+    }
+
+    td {
+        border: 1px solid $color-border;
+        border-style: solid none;
+
+        @include respond(phone) {
+            border-style: solid none;
+        }
+    }
+}
+
+
+
+
+// Today
+.fc-view {
+    border: 0px solid;
+    border-radius: $border-radius;
+    background-color: $background-color-secondary;
+}
+
 .fc-day-today {
-    background-color: #ffeb3b !important;
+    background-color: $background-color !important;
+    border-radius: 100px;
+
+    a {
+        background-color: $color-red;
+        border-radius: 100%;
+        color: $text-color-light;
+    }
+}
+
+
+// Header Days
+.fc-col-header-cell {
+    color: $text-color;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: $font-small;
+    text-align: center;
+}
+
+// Grid
+.fc-daygrid-day {
+    background-color: $background-color;
+    border: 1px solid $color-border !important;
+    box-sizing: border-box !important;
+
+    &:hover {
+        background-color: $background-color-tertiary;
+    }
+}
+
+// Event
+.fc-event {
+    background-color: $background-color-tertiary;
+    border-radius: $border-radius/2;
+    padding: $padding/3 $padding/2;
+    border: 1px solid $color-border;
+}
+
+.fc-event-title-container {
+    color: $text-color;
+    font-size: $font-small;
+}
+
+// Each cell
+.fc-day {
+    cursor: pointer;
+
+    &:hover {
+        background-color: $background-color-tertiary;
+    }
+}
+
+.fc-day-other {
+    background-color: $background-color-tertiary;
+}
+
+.fc-daygrid-day {
+    border: 1px solid $color-border !important;
+    box-sizing: border-box !important;
+
+    @include respond(phone) {
+        border-style: solid none !important;
+    }
+}
+
+.fc-daygrid-header th {
+    border: none !important;
 }
