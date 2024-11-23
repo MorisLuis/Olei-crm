@@ -5,7 +5,6 @@ import { sellsClientExample, sellsExample } from '@/seed/sellsData';
 import { useParams, useRouter } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
-import { briefDataInterface } from '@/components/Cards/BriefCard';
 import HeaderTable from '@/components/navigation/headerTable';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
@@ -35,13 +34,6 @@ export default function SellsClientPage() {
     const loadMoreProducts = async () => {
         console.log("loadMoreProducts")
     };
-
-    const briefData: briefDataInterface[] = [
-        { id: 1, label: 'Producto', value: `${id}` },
-        { id: 2, label: 'Nombre', value: `${sell?.Nombre ?? 'Desconocido'}` },
-        { id: 3, label: 'Fecha', value: `${sell?.Fecha ?? 'N/A'}` },
-        { id: 4, label: 'Almacen', value: `${sell?.Id_Almacen ?? 'N/A'}` }
-    ];
 
     const executeQuery = () => {
         // Buscar los filtros en el estado y asignar valores booleanos.
@@ -103,10 +95,6 @@ export default function SellsClientPage() {
                             handleSelectItem={handleSelectItem}
                         />
                     </div>
-
-                    {/* <div className={styles.brief}>
-                        <BriefCard data={briefData} />
-                    </div> */}
                 </div>
             </div>
 

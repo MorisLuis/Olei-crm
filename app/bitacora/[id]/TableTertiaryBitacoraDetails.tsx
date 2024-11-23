@@ -23,6 +23,7 @@ export default function TableTertiaryBitacoraDetails() {
     const searchParams = new URLSearchParams(rawSearchParams);
     const sellId = searchParams.get('sellId');
     const sellsData = {
+        Title: meetingExample.Title,
         Id_Bitacora: meetingExample.Id_Bitacora,
         Id_Almacen: meetingExample.Id_Almacen,
         Id_Cliente: meetingExample.Id_Cliente,
@@ -34,6 +35,15 @@ export default function TableTertiaryBitacoraDetails() {
     };
 
     const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
+        {
+            key: 'Title',
+            label: 'Titulo',
+            renderLabel: () => (
+                <div className={styles.sellItem}>
+                    <p>Titulo</p>
+                </div>
+            )
+        },
         {
             key: 'Fecha',
             label: 'Fecha',
@@ -94,7 +104,7 @@ export default function TableTertiaryBitacoraDetails() {
             ),
             render: (value) => (
                 <div className={styles.sellItem}>
-                    <p className={styles.value}>{value}</p>
+                    <p className={styles.value}>{value?.toString()}</p>
                 </div>
             )
         },
@@ -108,8 +118,8 @@ export default function TableTertiaryBitacoraDetails() {
             ),
             render: (value) => (
                 <div className={styles.sellItem}>
-                    <p className={styles.value}>{value}</p>
-                    <FontAwesomeIcon icon={faPen} className={`icon__small cursor ${styles.edit}`} onClick={() => setOpenCommentsModal(true)}/>
+            <p className={styles.value}>{value?.toString()}</p>
+                    <FontAwesomeIcon icon={faPen} className={`icon__small cursor ${styles.edit}`} onClick={() => setOpenCommentsModal(true)} />
                 </div>
             )
         },

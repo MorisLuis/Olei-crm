@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-const TimeInput: React.FC = () => {
+interface TimeInputInterface {
+    onChange: (value: string) => void;
+}
+
+const TimeInput = ({
+    onChange
+}: TimeInputInterface ) => {
     const [time, setTime] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +24,9 @@ const TimeInput: React.FC = () => {
         if (value.length <= 5) {
             setTime(value);
         }
+
+
+        return onChange(value)
     };
 
     const handleBlur = () => {

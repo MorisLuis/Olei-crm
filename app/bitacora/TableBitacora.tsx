@@ -43,12 +43,12 @@ export default function TableBitacora({
         {
             key: 'Id_Bitacora',
             label: 'Id_Bitacora',
-            render: (Id_Bitacora) => <span>{Id_Bitacora}</span>
+            render: (Id_Bitacora) => <span>{Id_Bitacora?.toString()}</span>
         },
         {
             key: 'Descripcion',
             label: 'Descripcion',
-            render: (Descripcion) => <span style={{ fontWeight: 'bold' }}>{Descripcion}</span>
+            render: (Descripcion) => <span style={{ fontWeight: 'bold' }}>{Descripcion?.toString()}</span>
 
         },
         {
@@ -59,12 +59,12 @@ export default function TableBitacora({
         {
             key: 'Fecha',
             label: 'Fecha',
-            render: (Fecha) => <span>{Fecha}</span>
+            render: (Fecha) => <span>{Fecha?.toString()}</span>
         },
         {
             key: 'Hour',
             label: 'Hour',
-            render: (Hour) => <span>{Hour}</span>
+            render: (Hour) => <span>{Hour?.toString()}</span>
         },
     ]
 
