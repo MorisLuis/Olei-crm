@@ -53,10 +53,6 @@
             tr {
                 border-radius: $border-radius;
 
-               /*  &:nth-child(even) {
-                    background-color: $background-color-secondary;
-                } */
-
                 &:hover {
                     background-color: $background-color-secondary;
                 }
@@ -66,10 +62,17 @@
                     border-bottom: 1px solid $color-border;
                     cursor: pointer;
 
+                    @include respond(phone) {
+                        span {
+                            display: flex;
+                            text-align: end;
+                        }
+                    }
 
                     &:first-child {
                         border-radius: 0px $border-radius;
                         overflow: hidden;
+
                     }
 
                     &:last-child {
@@ -181,7 +184,7 @@
                         span {
                             display: none;
                         }
-                        
+
                         > :nth-child(2) {
                             display: none;
                         }
@@ -242,7 +245,7 @@
         color: $color-gray;
         font-size: $font-medium;
     }
-    
+
 
     @include respond(phone) {
 
@@ -299,6 +302,7 @@
         .item__label {
             color: $text-color-secondary;
         }
+
 
         &:last-child {
             border-style: solid none none none;

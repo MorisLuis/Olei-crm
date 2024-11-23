@@ -57,5 +57,6 @@ export const meetingExample: MeetingInterface =
         Fecha: '10Mayo2025',
         Hour: "4PM",
         Descripcion: "Reunion para avances",
-        TipoContacto: 1
+        TipoContacto: 1,
+        Comentarios: "En esta reunion reunionreunionreunionreunion reunionreunionreunionreunion se platico de muchas cosas"
     }

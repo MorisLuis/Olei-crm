@@ -5,7 +5,7 @@ import { sellsClientExample, sellsExample } from '@/seed/sellsData';
 import { useParams, useRouter } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
-import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard';
+import { briefDataInterface } from '@/components/Cards/BriefCard';
 import HeaderTable from '@/components/navigation/headerTable';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
@@ -104,9 +104,9 @@ export default function SellsClientPage() {
                         />
                     </div>
 
-                    <div className={styles.brief}>
+                    {/* <div className={styles.brief}>
                         <BriefCard data={briefData} />
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

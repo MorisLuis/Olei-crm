@@ -6,7 +6,8 @@ export default interface MeetingInterface {
     Fecha: string;
     Hour: string;
     Descripcion: string;
-    TipoContacto: 1 | 2 | 3 | 4;
+    TipoContacto: 0 | 1 | 2 | 3 | 4;
+    Comentarios?: string;
 };
 export const validTipoContacto: Array<MeetingInterface['TipoContacto']> = [1, 2, 3, 4];
 

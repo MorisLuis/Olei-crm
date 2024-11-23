@@ -3,7 +3,7 @@
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard'
 import { clientDetailsExample } from '@/seed/clientsData';
 import React from 'react'
-import Header, { ActionsInterface } from '@/components/navigation/header';
+import Header from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
 import styles from "../../../styles/pages/Bitacora.module.scss";
 
@@ -16,19 +16,9 @@ export default function ClientDetailsPage() {
         { id: 4, label: 'Correo', value: `${clientDetailsExample?.CorreoVtas ?? 'N/A'}` }
     ];
 
-    const clientActions: ActionsInterface[] = [
-        {
-            id: 1,
-            text: 'Nueva Reunión',
-            onclick: () => console.log(true),
-            color: 'yellow'
-        }
-    ]
-
-
     return (
         <>
-            <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
+            <Header title={`${clientDetailsExample.Nombre}`} />
             <div className={styles.bitacoraDetails}>
                 <div className={styles.bitacoraDetails__data}>
                     <div className={styles.details}>

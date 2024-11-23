@@ -69,7 +69,6 @@ const Table = <T,>({
             {
                 !noMoreData &&
                 <div className={styles.laodMore}>
-
                 </div>
             }
 

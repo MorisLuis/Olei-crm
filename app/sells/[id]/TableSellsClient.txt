@@ -5,11 +5,8 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import { SellsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
-import { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
+import TableSecondary, { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { Tag } from '@/components/UI/Tag';
-import Table from '@/components/UI/Tables/Table';
-import { docType } from '@/utils/docType';
-import { useTagColor } from '@/hooks/useTagColor';
 
 interface TableSellsClientInterface {
     sells: SellsInterface[];
@@ -30,39 +27,37 @@ export default function TableSellsClient({
 }: TableSellsClientInterface) {
 
     const NoMoreProductToShow = sells.length === totalSells;
-    const { changeColor } = useTagColor()
 
     const columns: ColumnSecondaryConfig<SellsInterface>[] = [
         {
-            key: 'TipoDoc',
-            label: 'Tipo de documento',
-            render: (_, item) => <Tag color={changeColor(item.TipoDoc)}>{docType(item.TipoDoc)}</Tag>
-        },
-        {
-            key: 'Folio',
-            label: 'Folio',
+            key: 'Nombre',
+            label: 'Nombre',
+            render: (_, item) => (
+                <>
+                    <p style={{ color: "black", fontWeight: 'bold' }}>{item.Nombre}</p>
+                    <Tag color='blue'>Cotizacion</Tag>
+                </>
+            ),
         },
         {
             key: 'Fecha',
-            label: 'Fecha'
-        },
-        {
-            key: 'FechaEntrega',
-            label: 'Fecha Vencimiento'
-        },
-        {
-            key: 'ExpiredDays',
-            label: 'Dias vencidos'
+            label: 'Fecha',
+            render: (_, item) => (
+                <>
+                    <p><span style={{ color: "black", fontWeight: 'bold' }}>Fecha:</span> {item.Fecha}</p>
+                    <p><span style={{ color: "black", fontWeight: 'bold' }}>Fecha Entrega:</span> {item.FechaEntrega}</p>
+                </>
+            ),
         },
         {
             key: 'Total',
             label: 'Total',
-            render: (_, item) => <p>{format(item.Total)}</p>
-        },
-        {
-            key: 'Saldo',
-            label: 'Saldo',
-            render: (_, item) => <p>{format(item.Saldo)}</p>
+            render: (_, item) => (
+                <>
+                    <p><span>Total:</span> {format(item.Total)}</p>
+                    <p><span>Saldo:</span> {format(item.Saldo)}</p>
+                </>
+            ),
         },
     ];
 
@@ -84,13 +79,13 @@ export default function TableSellsClient({
     };
 
     return (
-        <Table
+        <TableSecondary
             columns={columns}
             data={sells}
             noMoreData={NoMoreProductToShow}
             loadingMoreData={buttonIsLoading}
             handleLoadMore={loadMoreProducts}
-            handleSelectItem={handleSelectItem}
+            onClick={handleSelectItem}
         />
     )
 }

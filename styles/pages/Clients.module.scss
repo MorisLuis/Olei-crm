@@ -4,7 +4,7 @@
 .clientDetails {
     display: flex;
     flex-direction: row;
-    gap: $gap;
+    gap: $gap*4;
 
     &__calendar{
         width: 60%;

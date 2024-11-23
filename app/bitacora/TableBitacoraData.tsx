@@ -1,4 +1,4 @@
-import { ColumnConfig } from "@/components/UI/Tables/Table";
+/* import { ColumnConfig } from "@/components/UI/Tables/Table";
 import { Tag } from "@/components/UI/Tag";
 import MeetingInterface from "@/interface/meeting";
 import { contactType } from "@/utils/contactType";
@@ -35,4 +35,4 @@ export const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
         label: 'Hour',
         render: (Hour) => <span>{Hour}</span>
     },
-];
+]; */

@@ -15,7 +15,7 @@
         }
 
         .table {
-            width: 75%;
+            width: 100%;
 
             @include respond(tab-port) {
                 width: 100%;

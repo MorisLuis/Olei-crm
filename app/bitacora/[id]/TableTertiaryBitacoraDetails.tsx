@@ -1,19 +1,27 @@
 "use client"
 
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
-import React from 'react'
-import styles from '../../../styles/pages/SellDetails.module.scss'
-import {  useSearchParams } from 'next/navigation'
+import React, { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import MeetingInterface from '@/interface/meeting';
 import { meetingExample } from '@/seed/bitacoraData';
 import { Tag } from '@/components/UI/Tag';
 import { contactType } from '@/utils/contactType';
+import { useTagColor } from '@/hooks/useTagColor'
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Modal from '@/components/Modals/Modal';
+import CommentsModal from './ModalComments';
+import styles from '../../../styles/pages/SellDetails.module.scss'
 
 export default function TableTertiaryBitacoraDetails() {
 
     const rawSearchParams = useSearchParams();
+    const { changeColor } = useTagColor();
+    const [openCommentsModal, setOpenCommentsModal] = useState(false)
+
     const searchParams = new URLSearchParams(rawSearchParams);
-    const sellId = searchParams.get('sellId');    
+    const sellId = searchParams.get('sellId');
     const sellsData = {
         Id_Bitacora: meetingExample.Id_Bitacora,
         Id_Almacen: meetingExample.Id_Almacen,
@@ -21,19 +29,11 @@ export default function TableTertiaryBitacoraDetails() {
         Fecha: meetingExample.Fecha,
         Hour: meetingExample.Hour,
         Descripcion: meetingExample.Descripcion,
-        TipoContacto: meetingExample.TipoContacto
+        TipoContacto: meetingExample.TipoContacto,
+        Comentarios: meetingExample.Comentarios
     };
 
     const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
-        {
-            key: 'Id_Bitacora',
-            label: 'Id_Bitacora',
-            renderLabel: () => (
-                <div className={styles.sellItem}>
-                    <p>Id Bitacora</p>
-                </div>
-            )
-        },
         {
             key: 'Fecha',
             label: 'Fecha',
@@ -62,7 +62,7 @@ export default function TableTertiaryBitacoraDetails() {
             ),
             render: (TipoContacto) => (
                 <div className={styles.sellItem}>
-                    <Tag color='red'>{contactType(TipoContacto as MeetingInterface['TipoContacto'])}</Tag>
+                    <Tag color={changeColor(TipoContacto as MeetingInterface['TipoContacto'])}>{contactType(TipoContacto as MeetingInterface['TipoContacto'])}</Tag>
                 </div>
             )
         },
@@ -91,17 +91,47 @@ export default function TableTertiaryBitacoraDetails() {
                 <div className={styles.sellItem}>
                     <p>Descripcion</p>
                 </div>
+            ),
+            render: (value) => (
+                <div className={styles.sellItem}>
+                    <p className={styles.value}>{value}</p>
+                </div>
+            )
+        },
+        {
+            key: 'Comentarios',
+            label: 'Comentarios',
+            renderLabel: () => (
+                <div className={styles.sellItem}>
+                    <p>Comentarios</p>
+                </div>
+            ),
+            render: (value) => (
+                <div className={styles.sellItem}>
+                    <p className={styles.value}>{value}</p>
+                    <FontAwesomeIcon icon={faPen} className={`icon__small cursor ${styles.edit}`} onClick={() => setOpenCommentsModal(true)}/>
+                </div>
             )
         },
     ];
 
     return (
-        <div className={styles.sellDetails}>
-            <TableTertiary
-                columns={columns}
-                data={sellsData}
-            />
-            <div className='none'>{sellId}</div>
-        </div>
+        <>
+            <div className={styles.sellDetails}>
+                <TableTertiary
+                    columns={columns}
+                    data={sellsData}
+                />
+                <div className='none'>{sellId}</div>
+            </div>
+            <Modal
+                title='Comentarios'
+                visible={openCommentsModal}
+                onClose={() => setOpenCommentsModal(false)}
+                modalSize='small'
+            >
+                <CommentsModal />
+            </Modal>
+        </>
     )
 }

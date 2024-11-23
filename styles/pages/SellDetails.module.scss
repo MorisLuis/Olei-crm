@@ -1,10 +1,35 @@
 @import "../main.scss";
 
-.sellDetails{
+.sellDetails {
 
-    .sellItem{
+    .sellItem {
         display: flex;
         align-items: center;
-        gap: $gap;
+        gap: $gap/2;
+
+        .value {
+            max-width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            @include respond(phone) {
+                max-width: 150px;
+            }
+        
+        }
+
+        .edit {
+            padding:$padding/3;
+            border-radius: $border-radius/2;
+            cursor: pointer;
+            border: 1px solid transparent;
+            height: auto;
+
+            &:hover {
+                background-color: $background-color-secondary;
+                border: 1px solid $color-border;
+            }
+        }
     }
 }

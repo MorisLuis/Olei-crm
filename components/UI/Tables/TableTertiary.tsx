@@ -33,7 +33,7 @@ const TableTertiary = <T,>({
                             ? col.renderLabel(data[col.key], data)
                             : String(data[col.key])
                     }</div>
-                    <div className={styles.column}>
+                    <div className={styles.item__value}>
                         {col.render
                             ? col.render(data[col.key], data)
                             : String(data[col.key])}
