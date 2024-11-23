@@ -76,14 +76,14 @@ export default function Bitacora() {
                 loadingData={false}
             />
 
-            <Modal
+            {/* <Modal
                 title='Crear tarea'
                 visible={true}
                 onClose={() => console.log()}
                 modalSize='medium'
             >
                 <FormMeeting/>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }
