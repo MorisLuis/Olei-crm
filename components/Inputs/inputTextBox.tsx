@@ -5,6 +5,7 @@ interface AutoResizeTextareaProps {
     placeholder?: string;
     onChange: (value: string) => void;
     maxRows?: number;
+    label?: string
 }
 
 const InputTextBox: React.FC<AutoResizeTextareaProps> = ({
@@ -12,6 +13,7 @@ const InputTextBox: React.FC<AutoResizeTextareaProps> = ({
     placeholder,
     onChange,
     maxRows,
+    label
 }) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -24,18 +26,22 @@ const InputTextBox: React.FC<AutoResizeTextareaProps> = ({
     };
 
     return (
-        <textarea
-            ref={textareaRef}
-            value={value}
-            placeholder={placeholder}
-            onChange={handleInput}
-            className="input textbox"
-            style={{
-                overflow: "hidden",
-                resize: "none",
-                maxHeight: maxRows ? `${maxRows * 1.5}em` : undefined,
-            }}
-        />
+        <div>
+            {label  && <label htmlFor={label} className="label">{label}</label>}
+
+            <textarea
+                ref={textareaRef}
+                value={value}
+                placeholder={placeholder}
+                onChange={handleInput}
+                className="input textbox"
+                style={{
+                    overflow: "hidden",
+                    resize: "none",
+                    maxHeight: maxRows ? `${maxRows * 1.5}em` : undefined,
+                }}
+            />
+        </div>
     );
 };
 

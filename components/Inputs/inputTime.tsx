@@ -1,13 +1,18 @@
+import useToast from '@/hooks/useToast';
 import React, { useState } from 'react';
 
 interface TimeInputInterface {
     onChange: (value: string) => void;
+    label?: string
 }
 
 const TimeInput = ({
-    onChange
-}: TimeInputInterface ) => {
+    onChange,
+    label
+}: TimeInputInterface) => {
     const [time, setTime] = useState('');
+    const { showError } = useToast();
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
@@ -33,20 +38,23 @@ const TimeInput = ({
         // Validar formato completo hh:mm al perder el foco
         if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time)) {
             setTime(''); // Limpiar si no es válido
-            alert("Horario invalido")
+            showError("Horario invalido")
         }
     };
 
     return (
-        <input
-            type="text"
-            value={time}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="hh:mm"
-            maxLength={5}
-            className='input'
-        />
+        <div>
+            {label && <label htmlFor={label} className="label">{label}</label>}
+            <input
+                type="text"
+                value={time}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="hh:mm"
+                maxLength={5}
+                className='input'
+            />
+        </div>
     );
 };
 

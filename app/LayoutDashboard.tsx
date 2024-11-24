@@ -4,6 +4,7 @@ import Sidebar from '@/components/navigation/sidebar'
 import Topbar from '@/components/navigation/topbar'
 import React, { ReactNode, useState } from 'react';
 import styles from "../styles/RootLayout.module.scss";
+import { Toaster } from 'react-hot-toast';
 
 interface LayoutDashboardInterface {
     children: ReactNode
@@ -28,6 +29,7 @@ export default function LayoutDashboard({
                     {children}
                 </div>
             </main>
+            <Toaster />
         </body>
     )
 }

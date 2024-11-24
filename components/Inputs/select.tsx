@@ -31,7 +31,7 @@ const SelectReact = ({
 
     return (
         <div>
-            <label htmlFor={name}>{label}</label>
+            <label htmlFor={name} className='label'>{label}</label>
             <Select
                 placeholder={placeholder}
                 options={optionsWithNull}

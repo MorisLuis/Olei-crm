@@ -12,18 +12,26 @@ interface Props {
     title: string;
 
     //Conditions
-    //small?: boolean;
     modalSize?: "medium" | "small" | "normal";
     actionsVisible?: boolean;
-    decisionVisible?: boolean;
     modalBlack?: boolean;
 
     //Methods
     onClose: () => void;
     handleActionTopOne?: () => void;
     handleActionTopTwo?: () => void;
-    handleActionBottomOne?: () => void;
-    extraStyles?: CSSProperties
+    extraStyles?: CSSProperties;
+
+    actionsBottom?: {
+        action1: {
+            action: () => void;
+            label: string
+        },
+        action2:  {
+            action: () => void;
+            label: string
+        },
+    }
 }
 
 const Modal = ({
@@ -33,14 +41,13 @@ const Modal = ({
 
     modalSize = "normal",
     actionsVisible = false,
-    decisionVisible = false,
     modalBlack = false,
 
     onClose,
     handleActionTopOne,
     handleActionTopTwo,
-    handleActionBottomOne,
-    extraStyles
+    extraStyles,
+    actionsBottom
 }: Props) => {
 
     const [isClosing, setIsClosing] = useState(false);
@@ -54,10 +61,6 @@ const Modal = ({
         }, 300);
     };
 
-    const handleCleanFilters = () => {
-        handleClose();
-        handleActionBottomOne?.();
-    }
 
     const renderActions = () => (
         <div className={styles.topactions}>
@@ -77,18 +80,19 @@ const Modal = ({
         </div>
     );
 
-    const renderFooter = () => (
+    const renderFooter = () =>  actionsBottom && (
         <div className={styles.footer}>
             <ButtonSmall
-                text='Quitar filtros'
-                onClick={handleCleanFilters}
+                text={actionsBottom.action1.label}
+                onClick={actionsBottom.action1.action}
                 transparent
             />
 
             <ButtonSmall
-                text='Filtrar'
-                onClick={handleClose}
+                text={actionsBottom.action2.label}
+                onClick={actionsBottom.action2.action}
                 extraStyles={{ width: "30%" }}
+                color='blue'
             />
         </div>
     );
@@ -118,7 +122,7 @@ const Modal = ({
                     {children}
                 </div>
 
-                {decisionVisible && renderFooter()}
+                {renderFooter()}
             </div>
         </>
         : null

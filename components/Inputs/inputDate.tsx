@@ -6,11 +6,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { es } from "date-fns/locale"; // Importa el idioma deseado
 
 interface InputDatePicker {
-    onChange: (date: Date | null) => void
+    onChange: (date: Date | null) => void;
+    label?: string;
 }
 
 const InputDatePicker = ({
-    onChange
+    onChange,
+    label
 }: InputDatePicker) => {
 
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -32,16 +34,20 @@ const InputDatePicker = ({
     }
 
     return (
-        <DatePicker
-            selected={selectedDate}
-            onChange={(date) => handleOnChange(date)}
-            dateFormat="dd/MM/yyyy"
-            className="input"
-            placeholderText="Selecciona una fecha"
-            locale={es}
-            popperPlacement="bottom-start"
-            dayClassName={getDayClassName}
-        />
+        <div>
+            {label  && <label htmlFor={label} className="label">{label}</label>}
+
+            <DatePicker
+                selected={selectedDate}
+                onChange={(date) => handleOnChange(date)}
+                dateFormat="dd/MM/yyyy"
+                className="input"
+                placeholderText="Selecciona una fecha"
+                locale={es}
+                popperPlacement="bottom-start"
+                dayClassName={getDayClassName}
+            />
+        </div>
     );
 };
 

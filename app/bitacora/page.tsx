@@ -7,28 +7,27 @@ import Header, { ActionsInterface } from '@/components/navigation/header';
 import TableBitacora from './TableBitacora';
 import { meetingsExamples } from '@/seed/bitacoraData';
 import { useOrderMeetingsConfig } from '@/hooks/Orders/useOrderMeetingsConfig';
-import styles from "../../styles/pages/Sells.module.scss";
 import { useFiltersMeetingConfig } from '@/hooks/Filters/useFiltersMeetingsConfig';
 import { useFilters } from '@/hooks/Filters/useFilters';
-import Modal from '@/components/Modals/Modal';
 import FormMeeting from './FormMeeting';
+import styles from "../../styles/pages/Sells.module.scss";
 
 export default function Bitacora() {
 
     const { orderMeetings } = useOrderMeetingsConfig()
     const [orderActive, setOrderActive] = useState<OrderObject>(orderMeetings[0])
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
-    const { filtersMeeting, filterOfMeetings } = useFiltersMeetingConfig()
+    const { filtersMeeting, filterOfMeetings } = useFiltersMeetingConfig();
+    const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false)
 
     const clientActions: ActionsInterface[] = [
         {
             id: 1,
             text: 'Nueva Reunión',
-            onclick: () => console.log(true),
+            onclick: () => setOpenModalCreateMeeting(true),
             color: 'yellow'
         }
     ]
-
 
     // ESTO CAMBIA
     const totalSells = 2;
@@ -54,11 +53,11 @@ export default function Bitacora() {
 
     return (
         <div className={styles.page}>
-            <Header title='Bitacora' actions={clientActions}/>
+            <Header title='Bitacora' actions={clientActions} />
             <HeaderTable
                 filters={filtersMeeting}
                 filtersOfSection={filterOfMeetings}
-    
+
                 filterActive={filtersTag}
                 filtersActive={filtersActive}
                 onSelectFilter={onSelectFilterValue}
@@ -68,6 +67,7 @@ export default function Bitacora() {
                 onSelectOrder={onSelectOrder}
                 orderActive={orderActive}
             />
+
             <TableBitacora
                 sells={meetingsExamples}
                 totalSells={totalSells}
@@ -76,14 +76,10 @@ export default function Bitacora() {
                 loadingData={false}
             />
 
-            <Modal
-                title='Crear Reunion'
-                visible={true}
-                onClose={() => console.log()}
-                modalSize='medium'
-            >
-                <FormMeeting/>
-            </Modal>
+            <FormMeeting 
+                visible={openModalCreateMeeting}
+                onClose={() => setOpenModalCreateMeeting(false)}
+            />
         </div>
     )
 }

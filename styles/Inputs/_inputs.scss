@@ -45,6 +45,11 @@
     position: relative;
     font-size: 16px;
 
+    label{
+        font-size: $font-medium;
+        color: $text-color-secondary;
+    }
+
     input {
         height: 48px;
         width: 100%;
@@ -285,4 +290,9 @@
     &:hover {
         opacity: 50%;
     }
+}
+
+.label{
+    font-size: $font-medium;
+    color: $text-color-secondary;
 }
