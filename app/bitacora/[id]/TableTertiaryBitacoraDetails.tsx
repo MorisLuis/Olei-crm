@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '@/components/Modals/Modal';
 import CommentsModal from './ModalComments';
 import styles from '../../../styles/pages/SellDetails.module.scss'
+import { formatDate } from '@/utils/formatDate';
+import { formatTime } from '@/utils/formatTime';
 
 export default function TableTertiaryBitacoraDetails() {
 
@@ -51,6 +53,11 @@ export default function TableTertiaryBitacoraDetails() {
                 <div className={styles.sellItem}>
                     <p>Fecha</p>
                 </div>
+            ),
+            render: (Fecha) => (
+                <div className={styles.sellItem}>
+                    <p>{formatDate(Fecha as Date)}</p>
+                </div>
             )
         },
         {
@@ -59,6 +66,11 @@ export default function TableTertiaryBitacoraDetails() {
             renderLabel: () => (
                 <div className={styles.sellItem}>
                     <p>Hora</p>
+                </div>
+            ),
+            render: (Hour) => (
+                <div className={styles.sellItem}>
+                    <p>{formatTime(Hour as string)}</p>
                 </div>
             )
         },

@@ -11,6 +11,8 @@ import MeetingInterface from '@/interface/meeting';
 import { contactType } from '@/utils/contactType';
 import { useTagColor } from '@/hooks/useTagColor';
 import { Tag } from '@/components/UI/Tag';
+import { formatDate } from '@/utils/formatDate';
+import { formatTime } from '@/utils/formatTime';
 
 interface TableBitacoraInterface {
     sells: MeetingInterface[];
@@ -59,12 +61,12 @@ export default function TableBitacora({
         {
             key: 'Fecha',
             label: 'Fecha',
-            render: (Fecha) => <span>{Fecha?.toString()}</span>
+            render: (Fecha) => <span>{formatDate(Fecha as Date)}</span>
         },
         {
             key: 'Hour',
             label: 'Hour',
-            render: (Hour) => <span>{Hour?.toString()}</span>
+            render: (Hour) => <span>{formatTime(Hour as string)}</span>
         },
     ]
 
