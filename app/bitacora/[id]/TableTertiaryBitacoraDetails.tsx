@@ -152,7 +152,7 @@ export default function TableTertiaryBitacoraDetails() {
                 onClose={() => setOpenCommentsModal(false)}
                 modalSize='small'
             >
-                <CommentsModal />
+                <CommentsModal  onClose={() => setOpenCommentsModal(false)} value=''/>
             </Modal>
         </>
     )

@@ -26,15 +26,7 @@ export default function ClientDetailsPage() {
                         <h4>Reunión</h4>
                         <TableTertiaryBitacoraDetails />
                     </div>
-
                     <FileUploader/>
-                    {/* <div className={styles.files}>
-                        <h4>Archivos adjuntos</h4>
-                        <div className={styles.files__container}>
-                            <p>Adjuntar archivo</p>
-                        </div>
-                    </div> */}
-
                 </div>
                 <div className={styles.bitacoraDetails__brief}>
                     <BriefCard data={briefData} header="Detalle de cliente" />
