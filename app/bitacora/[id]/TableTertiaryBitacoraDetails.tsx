@@ -130,7 +130,7 @@ export default function TableTertiaryBitacoraDetails() {
             ),
             render: (value) => (
                 <div className={styles.sellItem}>
-            <p className={styles.value}>{value?.toString()}</p>
+                    <p className={styles.value}>{value?.toString()}</p>
                     <FontAwesomeIcon icon={faPen} className={`icon__small cursor ${styles.edit}`} onClick={() => setOpenCommentsModal(true)} />
                 </div>
             )

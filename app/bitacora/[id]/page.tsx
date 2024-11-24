@@ -6,6 +6,7 @@ import React from 'react'
 import Header from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
 import styles from "../../../styles/pages/Bitacora.module.scss";
+import FileUploader from '@/components/UI/FileUploader';
 
 export default function ClientDetailsPage() {
 
@@ -25,12 +26,14 @@ export default function ClientDetailsPage() {
                         <h4>Reunión</h4>
                         <TableTertiaryBitacoraDetails />
                     </div>
-                    <div className={styles.files}>
+
+                    <FileUploader/>
+                    {/* <div className={styles.files}>
                         <h4>Archivos adjuntos</h4>
                         <div className={styles.files__container}>
                             <p>Adjuntar archivo</p>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
                 <div className={styles.bitacoraDetails__brief}>
