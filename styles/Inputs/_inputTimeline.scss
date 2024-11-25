@@ -1,0 +1,56 @@
+.fc {
+
+    // Contenedor general
+   /*  .fc-view {
+        //background-color: $background-color-tertiary;
+        border-radius: $border-radius;
+        background-color: orchid;
+    } */
+
+    .fc-header-toolbar{
+        justify-content: start;
+        padding: 0px;
+        align-items: start;
+        display: none;
+
+        .fc-toolbar-title{
+            font-size: $font-big;
+            width: 100%;
+        }
+    }
+
+    // Estilos de las horas (columna izquierda)
+    .fc-timegrid-slot-label {
+        color: $text-color;
+        font-size: $font-medium;
+        font-weight: bold;
+        text-align: right;
+        text-transform: uppercase;
+    }
+
+    // Renglones del grid
+    .fc-timegrid-slot {
+        border-top: 1px solid $color-border;
+        padding: $padding $padding/2 !important;
+    }
+
+    // Fila de eventos
+    .fc-timegrid-event {
+        background-color: $color-yellow; // Fondo del evento
+        color: $text-color-light;
+        border-radius: $border-radius;
+        font-weight: 500;
+        padding: $padding;
+        box-shadow: $box-shadow-input;
+    }
+
+    .fc-event-title{
+        color: $text-color;
+    }
+
+    // Hover en eventos
+    .fc-timegrid-event:hover {
+        background-color: gray;
+    }
+
+}

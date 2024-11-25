@@ -1,5 +1,4 @@
 import Button from '@/components/Buttons/Button'
-import Input from '@/components/Inputs/input'
 import React, { useEffect, useState } from 'react';
 import styles from '../../../styles/pages/Sells.module.scss'
 import InputTextBox from '@/components/Inputs/inputTextBox';
