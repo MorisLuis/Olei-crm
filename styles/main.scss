@@ -1,12 +1,12 @@
-@import "./Abstracts/mixins";
-@import "./Abstracts/variables";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
-@import "./Base/animations";
-@import "./Base/utilities";
+@use "Base/animations";
+@use "Base/utilities";
 
 
-@import "./Inputs/buttons";
-@import "./Inputs/inputs";
-@import "./Inputs/calendar";
-@import "./Inputs/inputCalendar";
-@import "./Inputs/inputTimeline";
+@use "Inputs/buttons";
+@use "Inputs/inputs";
+@use "Inputs/calendar";
+@use "Inputs/inputCalendar";
+@use "Inputs/inputTimeline";

@@ -1,3 +1,4 @@
+@use "../Abstracts/variables";
 
 .button {
     display: flex;
@@ -5,36 +6,36 @@
     align-items: center;
 
     height: 48px;
-    background-color: $color-secondary;
+    background-color: variables.$color-secondary;
     border: 1px solid transparent;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
     cursor: pointer;
-    padding: 0em $padding;
+    padding: 0em variables.$padding;
     width: 100%;
-    gap: $gap;
-    color: $text-color-light;
-    box-shadow: $box-shadow-button;
+    gap: variables.$gap;
+    color: variables.$text-color-light;
+    box-shadow: variables.$box-shadow-button;
 
     &.white {
-        background-color: $background-color;
-        border: 1px solid $color-border;
-        color: $text-color;
+        background-color: variables.$background-color;
+        border: 1px solid variables.$color-border;
+        color: variables.$text-color;
 
         &:hover {
-            background-color: $background-color-secondary;
-            border: 1px solid $color-border;
+            background-color: variables.$background-color-secondary;
+            border: 1px solid variables.$color-border;
         }
     }
 
     &.search{
         background-color: transparent;
-        border: 1px solid rgba($color: $color-border-tertiary, $alpha: 1);
-        color: $text-color;
+        border: 1px solid rgba($color: variables.$color-border-tertiary, $alpha: 1);
+        color: variables.$text-color;
 
         p{ padding: 0px; }
     
         :hover {
-            border: 1px solid rgba($color: $color-border-tertiary, $alpha: 0.25);;
+            border: 1px solid rgba($color: variables.$color-border-tertiary, $alpha: 0.25);;
             background-color: transparent;
         }
     }
@@ -45,23 +46,23 @@
 }
 
 .button-small {
-    background-color: $color-primary;
+    background-color: variables.$color-primary;
     border: 1px solid transparent;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
     cursor: pointer;
-    padding: 0em $padding;
-    font-size: $font-small;
+    padding: 0em variables.$padding;
+    font-size: variables.$font-small;
     width: 100%;
     width: fit-content;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: $gap;
+    gap: variables.$gap;
     min-height: 30px;
-    border: 1px solid $color-border-secondary;
-    box-shadow: $box-shadow-button;
-    color: $text-color;
+    border: 1px solid variables.$color-border-secondary;
+    box-shadow: variables.$box-shadow-button;
+    color: variables.$text-color;
     font-weight: bold;
 
     &.opacity{
@@ -73,35 +74,35 @@
     }
 
     &.black {
-        background-color: $color-secondary;
-        color: $text-color-light;
+        background-color: variables.$color-secondary;
+        color: variables.$text-color-light;
     }
 
     &.blue {
-        background-color: rgba($color: $color-tertiary, $alpha: 0.3);
-        border: 1px solid rgba($color: $color-tertiary, $alpha: 0.5);
-        color: $text-color;
+        background-color: rgba($color: variables.$color-tertiary, $alpha: 0.3);
+        border: 1px solid rgba($color: variables.$color-tertiary, $alpha: 0.5);
+        color: variables.$text-color;
     }
 
     &.yellow {
-        background-color: rgba($color: $color-yellow, $alpha: 0.2);
-        border: 1px solid rgba($color: $color-yellow, $alpha: 0.5);
-        color: $color-yellow;
+        background-color: rgba($color: variables.$color-yellow, $alpha: 0.2);
+        border: 1px solid rgba($color: variables.$color-yellow, $alpha: 0.5);
+        color: variables.$color-yellow;
     }
 
     &.white {
-        background-color: $background-color;
-        border: 1px solid $color-border-secondary;
+        background-color: variables.$background-color;
+        border: 1px solid variables.$color-border-secondary;
     
         &:hover {
-            background-color: $background-color-secondary;
-            border: 1px solid $color-border;
+            background-color: variables.$background-color-secondary;
+            border: 1px solid variables.$color-border;
         }
     }
 
     &.red {
-        background-color: rgba($color: $color-red, $alpha: 0.3);
-        border: 1px solid rgba($color: $color-red, $alpha: 0.5);
+        background-color: rgba($color: variables.$color-red, $alpha: 0.3);
+        border: 1px solid rgba($color: variables.$color-red, $alpha: 0.5);
     }
 
     &.transparent {
@@ -115,10 +116,10 @@
 
     &.back{
         border: 1px solid transparent;
-        background-color: $background-color;
+        background-color: variables.$background-color;
         padding: 0px;
         box-shadow: none;
-        color: $text-color;
+        color: variables.$text-color;
 
         &:hover {
             border: 1px solid transparent;
@@ -143,14 +144,14 @@
 // button animated
 .mainbutton {
     position: relative;
-    padding: 0em $padding;
+    padding: 0em variables.$padding;
     height: 40px;
     width: 100%;
     cursor: pointer;
-    border-radius: $border-radius;
-    border: 1px solid $color-tertiary;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-tertiary;
     overflow: hidden;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
 }
 
 .fillbutton {
@@ -159,7 +160,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: $color-blue;
+    background: variables.$color-blue;
 }
 
 .contentbutton {

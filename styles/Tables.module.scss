@@ -1,8 +1,11 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .table {
     width: 100%;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,59 +13,59 @@
     table {
         width: 100%;
         border-spacing: 0;
-        border: 1px solid $color-border;
+        border: 1px solid variables.$color-border;
         border-bottom: 0px;
-        margin-bottom: $margin-horizontal;
-        border-radius: $border-radius;
+        margin-bottom: variables.$margin-horizontal;
+        border-radius: variables.$border-radius;
 
         -webkit-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
         -moz-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
         box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
 
         thead {
-            background-color: $background-color;
-            border-radius: $border-radius;
+            background-color: variables.$background-color;
+            border-radius: variables.$border-radius;
 
             th {
-                padding: $padding;
+                padding: variables.$padding;
                 text-align: left;
-                font-size: $font-small;
-                color: $text-color-secondary;
-                border-bottom: 1px solid $color-border;
+                font-size: variables.$font-small;
+                color: variables.$text-color-secondary;
+                border-bottom: 1px solid variables.$color-border;
                 font-weight: lighter;
 
                 &:first-child {
-                    border-radius: $border-radius 0px 0px 0px;
+                    border-radius: variables.$border-radius 0px 0px 0px;
                     overflow: hidden;
                 }
 
                 &:last-child {
-                    border-radius: 0px $border-radius 0px 0px;
+                    border-radius: 0px variables.$border-radius 0px 0px;
                     overflow: hidden;
                 }
 
-                @include respond(phone) {
-                    padding: $padding;
+                @include mixins.respond(phone) {
+                    padding: variables.$padding;
                 }
             }
         }
 
         tbody {
-            color: $text-color-secondary;
+            color: variables.$text-color-secondary;
 
             tr {
-                border-radius: $border-radius;
+                border-radius: variables.$border-radius;
 
                 &:hover {
-                    background-color: $background-color-secondary;
+                    background-color: variables.$background-color-secondary;
                 }
 
                 td {
-                    padding: $padding / 2 $padding;
-                    border-bottom: 1px solid $color-border;
+                    padding: calc(variables.$padding / 2) variables.$padding;
+                    border-bottom: 1px solid variables.$color-border;
                     cursor: pointer;
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         span {
                             display: flex;
                             text-align: end;
@@ -70,23 +73,23 @@
                     }
 
                     &:first-child {
-                        border-radius: 0px $border-radius;
+                        border-radius: 0px variables.$border-radius;
                         overflow: hidden;
 
                     }
 
                     &:last-child {
-                        border-radius: $border-radius 0px;
+                        border-radius: variables.$border-radius 0px;
                         overflow: hidden;
                     }
 
 
-                    @include respond(phone) {
-                        padding: $padding;
+                    @include mixins.respond(phone) {
+                        padding: variables.$padding;
                     }
 
                     &.text-blue-500 {
-                        color: $color-blue;
+                        color: variables.$color-blue;
                     }
 
                     &.font-bold {
@@ -100,20 +103,20 @@
     .laodMore {
         width: 30%;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
         }
     }
 
     .message {
-        padding: $padding 0em;
+        padding: variables.$padding 0em;
         text-align: center;
-        color: $color-gray;
-        font-size: $font-medium;
+        color: variables.$color-gray;
+        font-size: variables.$font-medium;
     }
 
     // Responsive adjustments for smaller screens
-    @include respond(phone) {
+    @include mixins.respond(phone) {
 
         table {
             thead {
@@ -123,8 +126,8 @@
             tbody {
                 tr {
                     display: block;
-                    border-bottom: 1px solid $color-border;
-                    padding: $padding;
+                    border-bottom: 1px solid variables.$color-border;
+                    padding: variables.$padding;
 
                     td {
                         display: flex;
@@ -132,12 +135,12 @@
                         border: none;
                         min-width: 100%;
                         padding: 0px;
-                        padding-bottom: $padding;
+                        padding-bottom: variables.$padding;
                         align-items: center;
 
                         &:before {
                             content: attr(data-label);
-                            color: $color-gray;
+                            color: variables.$color-gray;
                             flex-basis: 50%;
                             text-align: left;
                         }
@@ -150,7 +153,7 @@
 
 .tableSecondary {
     width: 100%;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -158,10 +161,10 @@
     table {
         width: 100%;
         border-spacing: 0;
-        border: 1px solid $color-border;
+        border: 1px solid variables.$color-border;
         border-bottom: 0px;
-        margin-bottom: $margin-horizontal;
-        border-radius: $border-radius;
+        margin-bottom: variables.$margin-horizontal;
+        border-radius: variables.$border-radius;
 
         -webkit-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
         -moz-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
@@ -170,14 +173,14 @@
         tbody {
 
             tr {
-                border-radius: $border-radius;
+                border-radius: variables.$border-radius;
 
                 .column {
                     display: flex;
                     flex-direction: column;
-                    gap: $gap / 2;
+                    gap: calc(variables.$gap / 2);
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         text-align: end;
                         align-items: end;
 
@@ -193,34 +196,34 @@
 
 
                 &:nth-child(even) {
-                    background-color: $background-color;
+                    background-color: variables.$background-color;
                 }
 
                 &:hover {
-                    background-color: $background-color-secondary;
+                    background-color: variables.$background-color-secondary;
                 }
 
                 td {
-                    padding: $padding*1.5;
-                    border-bottom: 1px solid $color-border;
+                    padding: variables.$padding*1.5;
+                    border-bottom: 1px solid variables.$color-border;
                     cursor: pointer;
 
                     &:first-child {
-                        border-radius: 0px $border-radius;
+                        border-radius: 0px variables.$border-radius;
                         overflow: hidden;
                     }
 
                     &:last-child {
-                        border-radius: $border-radius 0px;
+                        border-radius: variables.$border-radius 0px;
                         overflow: hidden;
                     }
 
-                    @include respond(phone) {
-                        padding: $padding;
+                    @include mixins.respond(phone) {
+                        padding: variables.$padding;
                     }
 
                     &.text-blue-500 {
-                        color: $color-blue;
+                        color: variables.$color-blue;
                     }
 
                     &.font-bold {
@@ -234,20 +237,20 @@
     .laodMore {
         width: 30%;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
         }
     }
 
     .message {
-        padding: $padding 0em;
+        padding: variables.$padding 0em;
         text-align: center;
-        color: $color-gray;
-        font-size: $font-medium;
+        color: variables.$color-gray;
+        font-size: variables.$font-medium;
     }
 
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
 
         table {
             thead {
@@ -257,8 +260,8 @@
             tbody {
                 tr {
                     display: block;
-                    border-bottom: 1px solid $color-border;
-                    padding: $padding;
+                    border-bottom: 1px solid variables.$color-border;
+                    padding: variables.$padding;
 
                     td {
                         display: flex;
@@ -266,12 +269,12 @@
                         border: none;
                         min-width: 100%;
                         padding: 0px;
-                        padding-bottom: $padding;
+                        padding-bottom: variables.$padding;
                         align-items: center;
 
                         &:before {
                             content: attr(data-label);
-                            color: $text-color-secondary;
+                            color: variables.$text-color-secondary;
                             flex-basis: 50%;
                             text-align: left;
                         }
@@ -290,17 +293,17 @@
     .item {
         display: flex;
         justify-content: space-between;
-        padding: $padding/2;
-        border: 1px solid $color-border;
+        padding: calc(variables.$padding / 2);
+        border: 1px solid variables.$color-border;
         border-style: solid none;
-        font-size: $font-medium;
+        font-size: variables.$font-medium;
 
         &:not(:last-child) {
             border-bottom: 0px;
         }
 
         .item__label {
-            color: $text-color-secondary;
+            color: variables.$text-color-secondary;
         }
 
 
@@ -320,16 +323,16 @@
     .contentGrid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: $gap*3;
-        background-color: $background-color;
-        margin-bottom: $margin-horizontal*2;
+        gap: variables.$gap*3;
+        background-color: variables.$background-color;
+        margin-bottom: variables.$margin-horizontal*2;
 
-        @include respond(tab-port) {
+        @include mixins.respond(tab-port) {
             grid-template-columns: repeat(3, 1fr);
-            padding: 0em $padding;
+            padding: 0em variables.$padding;
         }
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             grid-template-columns: repeat(1, 1fr);
             padding: 0em;
         }
@@ -337,17 +340,17 @@
         .laodMore {
             width: 30%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 width: 100%;
             }
         }
     }
 
     .message {
-        padding: $padding 0em;
+        padding: variables.$padding 0em;
         text-align: center;
-        color: $color-gray;
-        font-size: $font-medium;
+        color: variables.$color-gray;
+        font-size: variables.$font-medium;
     }
 
 

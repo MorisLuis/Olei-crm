@@ -1,14 +1,17 @@
-@import "../main.scss";
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
 
 
 .tableSkeleton {
-    background-color: $background-color;
+    background-color: variables.$background-color;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
     border-radius: 1em;
     margin-bottom: 1em;
     padding: 1em;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         .header {
             display: none;
         }
@@ -22,7 +25,7 @@
         margin-bottom: 1em;
 
         h2 {
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
             height: 14px;
             width: 20%;
@@ -30,7 +33,7 @@
         }
 
         p {
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
             height: 14px;
             width: 40%;
@@ -40,25 +43,25 @@
     .content {
         width: 100%;
         font-size: 12px;
-        border: 1px solid $color-border;
-        background-color: $background-color;
+        border: 1px solid variables.$color-border;
+        background-color: variables.$background-color;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
         border-radius: 1em;
 
         .requestCart {
-            border-bottom: 1px solid $color-border;
+            border-bottom: 1px solid variables.$color-border;
             padding: 1em 2em;
             height: 90px;
 
             &:hover {
-                background-color: $color-secondary;
+                background-color: variables.$color-secondary;
             }
 
             .info {
                 width: 50%;
 
                 .header {
-                    background-color: $color-border;
+                    background-color: variables.$color-border;
                     animation: loading 1s infinite;
                     height: 14px;
                     width: 60%;
@@ -69,7 +72,7 @@
                 .data {
 
                     .total {
-                        background-color: $color-border;
+                        background-color: variables.$color-border;
                         animation: loading 1s infinite;
                         height: 14px;
                         width: 20%;
@@ -81,7 +84,7 @@
                         gap: 1em;
 
                         .status {
-                            background-color: $color-border;
+                            background-color: variables.$color-border;
                             animation: loading 1s infinite;
                             height: 14px;
                             width: 20%;
@@ -105,7 +108,7 @@
                     justify-content: flex-end;
 
                     .action {
-                        background-color: $color-border;
+                        background-color: variables.$color-border;
                         animation: loading 1s infinite;
                         height: 30px;
                         width: 30px;
@@ -126,10 +129,10 @@
     .content {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        background-color: $background-color;
-        gap: $gap*3;
+        background-color: variables.$background-color;
+        gap: variables.$gap*3;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             grid-template-columns: repeat(1, 1fr);
 
         }
@@ -139,12 +142,12 @@
 .productSkeleton {
     width: 100%;
     height: 20px;
-    background-color: $color-border;
+    background-color: variables.$color-border;
     animation: loading 1s infinite;
     border-radius: 3px;
     margin-bottom: 10px;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         background-color: transparent;
         animation: none;
         height: 100%;
@@ -155,7 +158,7 @@
             .title {
                 width: 100%;
                 height: 20px;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 margin-bottom: 0.5em;
                 border-radius: 3px;
             }
@@ -163,7 +166,7 @@
             .code {
                 width: 80%;
                 height: 14px;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 margin-bottom: 0.5em;
                 border-radius: 3px;
             }
@@ -178,7 +181,7 @@
             .price {
                 width: 30%;
                 height: 16px;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 margin-bottom: 0.5em;
                 border-radius: 3px;
             }
@@ -186,7 +189,7 @@
             .counter {
                 width: 30%;
                 height: 20px;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 margin-bottom: 0.5em;
                 border-radius: 3px;
             }
@@ -196,7 +199,7 @@
 
 .productWithImageSkeleton {
     .image {
-        background-color: $color-border;
+        background-color: variables.$color-border;
         animation: loading 1s infinite;
         border-radius: 3px;
         min-width: 180px;
@@ -221,7 +224,7 @@
                 height: 22px;
                 width: 70%;
                 margin-bottom: 0.5em;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 animation: loading 1s infinite;
                 border-radius: 3px;
             }
@@ -229,7 +232,7 @@
             .second {
                 height: 22px;
                 width: 25%;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 animation: loading 1s infinite;
                 border-radius: 3px;
                 margin-bottom: 1em;
@@ -240,7 +243,7 @@
             height: 12px;
             width: 60%;
             margin-bottom: 0.5em;
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
             border-radius: 3px;
         }
@@ -248,7 +251,7 @@
         .second {
             height: 12px;
             width: 50%;
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
             border-radius: 3px;
             margin-bottom: 1em;
@@ -263,7 +266,7 @@
             .price {
                 height: 16px;
                 width: 50%;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 animation: loading 1s infinite;
                 border-radius: 3px;
             }
@@ -271,7 +274,7 @@
             .counterNumber {
                 height: 16px;
                 width: 50%;
-                background-color: $color-border;
+                background-color: variables.$color-border;
                 animation: loading 1s infinite;
                 border-radius: 3px;
             }
@@ -289,11 +292,11 @@
         height: 28px;
         border-radius: 3px;
         margin-bottom: 0.75em;
-        background-color: rgba($color: $color-border, $alpha: 0.3);
+        background-color: rgba($color: variables.$color-border, $alpha: 0.3);
         animation: loading 1s infinite;
 
-        @include respond(phone) {
-            background-color: rgba($color: $color-border, $alpha: 1);
+        @include mixins.respond(phone) {
+            background-color: rgba($color: variables.$color-border, $alpha: 1);
         }
     }
 
@@ -302,12 +305,12 @@
         height: 28px;
         border-radius: 3px;
         margin-bottom: 0.75em;
-        background-color: rgba($color: $color-border, $alpha: 0.3);
+        background-color: rgba($color: variables.$color-border, $alpha: 0.3);
 
         animation: loading 1s infinite;
 
-        @include respond(phone) {
-            background-color: rgba($color: $color-border, $alpha: 1);
+        @include mixins.respond(phone) {
+            background-color: rgba($color: variables.$color-border, $alpha: 1);
         }
     }
 
@@ -321,7 +324,7 @@
     padding-bottom: 5em;
     gap: 2em;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         flex-direction: column;
     }
 
@@ -333,7 +336,7 @@
         width: 100%;
 
         .primary {
-            background-color: rgba($color: $color-border, $alpha: 0.3);
+            background-color: rgba($color: variables.$color-border, $alpha: 0.3);
             animation: loading 1s infinite;
             height: 75%;
             margin-bottom: 10px;
@@ -344,7 +347,7 @@
             justify-content: center;
 
             .photo {
-                background-color: rgba($color: $color-border, $alpha: 0.3);
+                background-color: rgba($color: variables.$color-border, $alpha: 0.3);
                 animation: loading 1s infinite;
                 height: 60px;
                 width: 60px;
@@ -365,7 +368,7 @@
         height: 100%;
 
         >span {
-            background-color: rgba($color: $color-border, $alpha: 0.3);
+            background-color: rgba($color: variables.$color-border, $alpha: 0.3);
             animation: loading 1s infinite;
             border-radius: 5px;
         }
@@ -376,7 +379,7 @@
             margin-bottom: 30px;
 
             >span {
-                background-color: rgba($color: $color-border, $alpha: 0.3);
+                background-color: rgba($color: variables.$color-border, $alpha: 0.3);
                 animation: loading 1s infinite;
                 border-radius: 5px;
             }
@@ -411,7 +414,7 @@
             height: 36px;
 
             >span {
-                background-color: rgba($color: $color-border, $alpha: 0.3);
+                background-color: rgba($color: variables.$color-border, $alpha: 0.3);
                 animation: loading 1s infinite;
                 border-radius: 5px;
             }
@@ -427,7 +430,7 @@
 .ReceiptRenderSkeleton {
 
     .item {
-        background-color: $color-border;
+        background-color: variables.$color-border;
         animation: loading 1s infinite;
     }
 
@@ -438,7 +441,7 @@
             height: 24px;
             width: 100px;
             margin-bottom: 10px;
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
         }
 
@@ -460,7 +463,7 @@
                     width: 50%;
 
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         height: 20px;
                         width: 100%;
                     }
@@ -469,7 +472,7 @@
                 :first-child {
                     width: 60%;
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         width: 100%;
                     }
                 }
@@ -485,7 +488,7 @@
                     margin-bottom: 10px;
                     width: 50%;
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         height: 20px;
                         width: 100%;
                     }
@@ -502,12 +505,12 @@
             margin-bottom: 15px;
 
             &:nth-child(odd) {
-                background-color: $background-color-secondary;
+                background-color: variables.$background-color-secondary;
             }
         }
 
         .item {
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
         }
 
@@ -522,7 +525,7 @@
                 flex-direction: row;
                 padding: 1em;
 
-                @include respond(phone) {
+                @include mixins.respond(phone) {
                     display: flex;
                     flex-direction: column;
                 }
@@ -541,7 +544,7 @@
                         width: 60%;
                     }
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         display: flex;
                         flex-direction: column;
 
@@ -576,7 +579,7 @@
                         margin-right: 0.5em;
                     }
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         .divider {
                             display: flex;
                             height: 1px;
@@ -615,7 +618,7 @@
         flex-direction: column;
 
         .image {
-            background-color: $color-border;
+            background-color: variables.$color-border;
             animation: loading 1s infinite;
             border-radius: 3px;
             min-width: 180px;
@@ -631,16 +634,16 @@
             .description {
                 display: flex;
                 justify-content: space-between;
-                margin-bottom: $margin-horizontal / 2;
-                gap: $gap;
+                margin-bottom: calc(variables.$margin-horizontal / 2);
+                gap: variables.$gap;
 
                 h4 {
                     width: 50%;
-                    height: $font-normal*2;
+                    height: variables.$font-normal*2;
                 }
 
                 span {
-                    height: calc($font-medium + $padding/2);
+                    height: calc(variables.$font-medium + variables.$padding/2);
                     width: 30%;
                 }
             }
@@ -648,9 +651,9 @@
             .data {
                 display: flex;
                 flex-direction: column;
-                margin-bottom: $margin-horizontal / 2;
-                font-size: $font-medium;
-                gap: $gap;
+                margin-bottom: calc(variables.$margin-horizontal / 2);
+                font-size: variables.$font-medium;
+                gap: variables.$gap;
 
                 p {
                     width: 60%;
@@ -661,15 +664,15 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                gap: $gap;
+                gap: variables.$gap;
 
                 p {
-                    height: $font-normal*1.5;
+                    height: variables.$font-normal*1.5;
                 }
 
                 span {
                     width: 50%;
-                    height: $font-normal*2;
+                    height: variables.$font-normal*2;
                 }
             }
         }
@@ -678,12 +681,12 @@
 
 .ProductCardSkeleton {
     width: 100%;
-    padding: $padding;
-    margin-bottom: $margin-vertical;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
+    padding: variables.$padding;
+    margin-bottom: variables.$margin-vertical;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
     position: relative;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
 
     .productHeader {
 
@@ -696,13 +699,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal;
-            margin-bottom: $margin-vertical / 2;
+            margin-bottom: calc(variables.$margin-vertical / 2);
         }
 
         .delete {
-            background-color: $background-color-tertiary;
-            border: 1px solid $color-border-secondary;
-            border-radius: $border-radius;
+            background-color: variables.$background-color-tertiary;
+            border: 1px solid variables.$color-border-secondary;
+            border-radius: variables.$border-radius;
             width: 26px;
             height: 26px;
             position: absolute;
@@ -718,17 +721,17 @@
 
             &:hover {
                 opacity: 100%;
-                border: 1px solid $color-border-tertiary;
+                border: 1px solid variables.$color-border-tertiary;
             }
         }
     }
 
     .productInfo {
         display: flex;
-        gap: $gap*2;
+        gap: variables.$gap*2;
         justify-content: space-between;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             flex-direction: column;
             gap: 0px;
 
@@ -743,7 +746,7 @@
             width: 50%;
 
             >p {
-                margin-bottom: $margin-vertical;
+                margin-bottom: variables.$margin-vertical;
             }
 
             :nth-child(2) {
@@ -759,10 +762,10 @@
             width: 40%;
 
             p {
-                height: $font-medium*2;
+                height: variables.$font-medium*2;
             }
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 width: 100%;
             }
         }
@@ -771,7 +774,7 @@
 
 .TableSkeleton {
     width: 100%;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -779,35 +782,35 @@
     table {
         width: 100%;
         border-spacing: 0;
-        border: 1px solid $color-border;
+        border: 1px solid variables.$color-border;
         border-bottom: 0px;
-        margin-bottom: $margin-horizontal;
-        border-radius: $border-radius;
+        margin-bottom: variables.$margin-horizontal;
+        border-radius: variables.$border-radius;
 
         -webkit-box-shadow: 10px 10px 15px -5px rgba(6,12,25,0.05);
         -moz-box-shadow: 10px 10px 15px -5px rgba(6,12,25,0.05);
         box-shadow: 10px 10px 15px -5px rgba(6,12,25,0.05);
 
         thead {
-            background-color: $background-color;
-            border-radius: $border-radius;
+            background-color: variables.$background-color;
+            border-radius: variables.$border-radius;
 
             th {
-                padding: $padding;
+                padding: variables.$padding;
                 text-align: left;
-                font-size: $font-small;
-                color: $text-color-secondary;
-                border-bottom: 1px solid $color-border;
+                font-size: variables.$font-small;
+                color: variables.$text-color-secondary;
+                border-bottom: 1px solid variables.$color-border;
                 font-weight: lighter;
-                height: $font-medium;
+                height: variables.$font-medium;
 
                 &:first-child {
-                    border-radius: $border-radius 0px;
+                    border-radius: variables.$border-radius 0px;
                     overflow: hidden;
                 }
 
                 &:last-child {
-                    border-radius: 0px $border-radius;
+                    border-radius: 0px variables.$border-radius;
                     overflow: hidden;
                 }
             }
@@ -816,24 +819,24 @@
         tbody {
 
             tr {
-                border-radius: $border-radius;
+                border-radius: variables.$border-radius;
 
                 &:nth-child(even) {
-                    background-color: $background-color;
+                    background-color: variables.$background-color;
                 }
 
                 &:hover {
-                    background-color: $background-color-secondary;
+                    background-color: variables.$background-color-secondary;
                 }
 
 
                 td {
-                    padding: $padding / 2 $padding;
-                    border-bottom: 1px solid $color-border;
-                    height: $font-medium;
+                    padding: calc(variables.$padding / 2) variables.$padding;
+                    border-bottom: 1px solid variables.$color-border;
+                    height: variables.$font-medium;
 
-                    @include respond(phone) {
-                        padding: $padding;
+                    @include mixins.respond(phone) {
+                        padding: variables.$padding;
                     }
 
                 }
@@ -844,20 +847,20 @@
     .laodMore {
         width: 30%;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
         }
     }
 
     .message {
-        padding: $padding 0em;
+        padding: variables.$padding 0em;
         text-align: center;
-        color: $color-gray;
-        font-size: $font-medium;
+        color: variables.$color-gray;
+        font-size: variables.$font-medium;
     }
 
     // Responsive adjustments for smaller screens
-    @include respond(phone) {
+    @include mixins.respond(phone) {
 
         table {
             thead {
@@ -867,9 +870,9 @@
             tbody {
                 tr {
                     display: block;
-                    margin-bottom: $margin-horizontal;
-                    border-bottom: 1px solid $color-border;
-                    padding: $padding;
+                    margin-bottom: variables.$margin-horizontal;
+                    border-bottom: 1px solid variables.$color-border;
+                    padding: variables.$padding;
 
                     :nth-child(1) {
                         p{
@@ -894,12 +897,12 @@
                     :last-child{
                         p{
                             width: 50%;
-                            height: $font-normal*2;
+                            height: variables.$font-normal*2;
                         }
 
                         &:before{
                             width: 50%;
-                            height: $font-normal*1.5;
+                            height: variables.$font-normal*1.5;
                         }
                     }
 
@@ -909,11 +912,11 @@
                         border: none;
                         min-width: 100%;
                         padding: 0px;
-                        padding-bottom: $padding;
+                        padding-bottom: variables.$padding;
                         align-items: center;
                         
-                        margin-bottom: $padding*1.5;
-                        gap: $gap;
+                        margin-bottom: variables.$padding*1.5;
+                        gap: variables.$gap;
                         width: 100%;
 
                         p{
@@ -922,12 +925,12 @@
 
                         &:before {
                             content: attr(data-label);
-                            color: $color-gray;
+                            color: variables.$color-gray;
                             text-align: left;
-                            height: $font-normal;
+                            height: variables.$font-normal;
                             width: 40%;
                             animation: loading 1s infinite;
-                            background-color: $color-border;
+                            background-color: variables.$color-border;
                         }
                     }
                 }
@@ -938,7 +941,7 @@
 
 .TableSecondarySkeleton {
     width: 100%;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -946,10 +949,10 @@
     table {
         width: 100%;
         border-spacing: 0;
-        border: 1px solid $color-border;
+        border: 1px solid variables.$color-border;
         border-bottom: 0px;
-        margin-bottom: $margin-horizontal;
-        border-radius: $border-radius;
+        margin-bottom: variables.$margin-horizontal;
+        border-radius: variables.$border-radius;
 
         -webkit-box-shadow: 10px 10px 15px -5px rgba(6,12,25,0.05);
         -moz-box-shadow: 10px 10px 15px -5px rgba(6,12,25,0.05);
@@ -958,31 +961,31 @@
         tbody {
 
             tr {
-                border-radius: $border-radius;
+                border-radius: variables.$border-radius;
 
                 &:nth-child(even) {
-                    background-color: $background-color;
+                    background-color: variables.$background-color;
                 }
 
                 &:hover {
-                    background-color: $background-color-secondary;
+                    background-color: variables.$background-color-secondary;
                 }
 
                 td {
-                    padding: $padding / 2 $padding;
-                    border-bottom: 1px solid $color-border;
-                    height: $font-medium;
+                    padding: calc(variables.$padding / 2) variables.$padding;
+                    border-bottom: 1px solid variables.$color-border;
+                    height: variables.$font-medium;
 
                     &.mobile{
                         display: none;
                     }
 
                     p{
-                        margin-bottom: $margin-vertical;
+                        margin-bottom: variables.$margin-vertical;
                     }
 
-                    @include respond(phone) {
-                        padding: $padding;
+                    @include mixins.respond(phone) {
+                        padding: variables.$padding;
                     }
 
                 }
@@ -990,7 +993,7 @@
         }
     }
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
 
         table {
             thead {
@@ -1000,9 +1003,9 @@
             tbody {
                 tr {
                     display: block;
-                    border-bottom: 1px solid $color-border;
-                    padding: $padding;
-                    font-size: $font-small;
+                    border-bottom: 1px solid variables.$color-border;
+                    padding: variables.$padding;
+                    font-size: variables.$font-small;
 
                     td {
                         display: flex;
@@ -1010,10 +1013,10 @@
                         border: none;
                         min-width: 100%;
                         padding: 0px;
-                        padding-bottom: $padding;
+                        padding-bottom: variables.$padding;
                         align-items: center;
                     
-                        gap: $gap;
+                        gap: variables.$gap;
                         width: 100%;
 
                         &.mobile{
@@ -1025,7 +1028,7 @@
                         }
 
                         &:not(:last-child){
-                            margin-bottom: $padding*1.5;
+                            margin-bottom: variables.$padding*1.5;
                         }
 
                         p{
@@ -1034,12 +1037,12 @@
 
                         &:before {
                             content: attr(data-label);
-                            color: $color-gray;
+                            color: variables.$color-gray;
                             text-align: left;
-                            height: $font-normal;
+                            height: variables.$font-normal;
                             width: 40%;
                             animation: loading 1s infinite;
-                            background-color: $color-border;
+                            background-color: variables.$color-border;
                         }
                     }
                 }

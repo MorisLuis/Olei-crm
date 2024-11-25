@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "../Abstracts/variables";
+
 .display-flex {
     display: flex;
 
@@ -34,7 +37,7 @@
 .icon {
     width: 14px;
     height: 14px;
-    color: $color-tertiary;
+    color: variables.$color-tertiary;
 
     &__small {
         width: 12px;
@@ -52,19 +55,19 @@
 .divider {
     width: 100%;
     height: 1px;
-    background-color: $color-border;
-    margin: $margin-vertical*4 0em;
+    background-color: variables.$color-border;
+    margin: variables.$margin-vertical*4 0em;
 
-    &.small{
-        margin: $margin-vertical 0em;
+    &.small {
+        margin: variables.$margin-vertical 0em;
     }
 }
 
 .skeleton {
-    background-color: $color-border;
+    background-color: variables.$color-border;
     animation: loadingSkeleton 1s infinite;
-    height: $font-normal;
-    border-radius: $border-radius /3;
+    height: variables.$font-normal;
+    border-radius: calc(variables.$border-radius /3);
 }
 
 .backgroundModal {
@@ -85,15 +88,15 @@
 }
 
 .warning-message {
-    color: $color-red;
+    color: variables.$color-red;
     padding: 0px;
     margin-bottom: 1em;
 }
 
-.cursor{
+.cursor {
     cursor: pointer;
 }
 
-.hover{
+.hover {
     opacity: 70%;
 }

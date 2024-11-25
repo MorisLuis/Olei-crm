@@ -1,10 +1,13 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .tag {
     .content {
-        padding: $padding/3 $padding/2;
+        padding: calc(variables.$padding/3) calc(variables.$padding/2);
         width: fit-content;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
         max-width: 120px;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -12,9 +15,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: $font-small;
+        font-size: variables.$font-small;
         cursor: pointer;
-        gap: $gap;
+        gap: variables.$gap;
 
         p {
             max-width: 140px;
@@ -27,46 +30,46 @@
         }
 
         &.green {
-            background-color: rgba($color-green, 0.2);
-            color: $color-green;
-            border: 1px solid rgba($color: $color-green, $alpha: 0.2);
+            background-color: rgba(variables.$color-green, 0.2);
+            color: variables.$color-green;
+            border: 1px solid rgba($color: variables.$color-green, $alpha: 0.2);
         }
 
         &.red {
-            background-color: rgba($color-red, 0.2);
-            color: $color-red;
-            border: 1px solid rgba($color: $color-red, $alpha: 0.2);
+            background-color: rgba(variables.$color-red, 0.2);
+            color: variables.$color-red;
+            border: 1px solid rgba($color: variables.$color-red, $alpha: 0.2);
         }
 
         &.blue {
-            background-color: rgba($color-blue, 0.2);
-            color: $color-tertiary;
-            border: 1px solid rgba($color: $color-tertiary, $alpha: 0.2);
+            background-color: rgba(variables.$color-blue, 0.2);
+            color: variables.$color-tertiary;
+            border: 1px solid rgba($color: variables.$color-tertiary, $alpha: 0.2);
         }
 
         &.gray {
-            background-color: rgba($color-gray, 0.2);
-            color: $text-color-secondary;
-            border: 1px solid rgba($color: $color-gray, $alpha: 0.2);
+            background-color: rgba(variables.$color-gray, 0.2);
+            color: variables.$text-color-secondary;
+            border: 1px solid rgba($color: variables.$color-gray, $alpha: 0.2);
         }
 
         &.yellow {
-            background-color: rgba($color-yellow, 0.2);
-            color: $color-yellow;
-            border: 1px solid rgba($color: $color-yellow, $alpha: 0.2);
+            background-color: rgba(variables.$color-yellow, 0.2);
+            color: variables.$color-yellow;
+            border: 1px solid rgba($color: variables.$color-yellow, $alpha: 0.2);
         }
 
-        @include respond(tab-land) {
+        @include mixins.respond(tab-land) {
             max-width: 100px;
         }
 
-        @include respond(tab-port) {
+        @include mixins.respond(tab-port) {
             max-width: 80px;
         }
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             max-width: 160px;
-            font-size: $font-small;
+            font-size: variables.$font-small;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
@@ -89,35 +92,35 @@
     width: 100%;
     height: auto;
     display: flex;
-    gap: $gap;
+    gap: variables.$gap;
     align-items: center;
 
     .action {
-        background-color: $background-color-tertiary;
-        border-radius: $border-radius;
-        border: 1px solid $color-border-secondary;
-        padding: $padding;
+        background-color: variables.$background-color-tertiary;
+        border-radius: variables.$border-radius;
+        border: 1px solid variables.$color-border-secondary;
+        padding: variables.$padding;
         cursor: pointer;
         display: flex;
         height: 30px;
 
         svg {
-            color: $color-border-tertiary;
+            color: variables.$color-border-tertiary;
         }
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             height: 40px;
         }
 
         &.active {
-            border: 1px solid $color-border-tertiary;
+            border: 1px solid variables.$color-border-tertiary;
         }
 
         &:hover {
-            background-color: $color-tertiary;
+            background-color: variables.$color-tertiary;
 
             svg {
-                color: $color-primary;
+                color: variables.$color-primary;
             }
         }
     }
@@ -127,12 +130,12 @@
         width: 100%;
         display: flex;
         text-align: center;
-        border: 1px solid $color-border-secondary;
-        border-radius: $border-radius;
+        border: 1px solid variables.$color-border-secondary;
+        border-radius: variables.$border-radius;
         height: 30px;
         min-width: 30px;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             height: 40px;
             min-width: 40px;
         }
@@ -147,16 +150,16 @@
     top: 125%;
     z-index: 9999;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         width: 100%;
     }
 
     .titles {
         width: 50%;
         padding: 0.5em;
-        background-color: $color-primary;
+        background-color: variables.$color-primary;
         border-radius: 0.5em 0em 0em 0.5em;
-        border: 1px solid $color-border-secondary;
+        border: 1px solid variables.$color-border-secondary;
 
         .titleOption {
             margin-bottom: 0.5em;
@@ -165,23 +168,23 @@
             border-radius: 3px;
 
             &.active {
-                background-color: $color-secondary;
-                border: 1px solid $color-border;
+                background-color: variables.$color-secondary;
+                border: 1px solid variables.$color-border;
             }
         }
 
         :hover {
-            background-color: $color-secondary;
-            border: 1px solid $color-border;
+            background-color: variables.$color-secondary;
+            border: 1px solid variables.$color-border;
         }
     }
 
     .options {
         width: 50%;
         border-radius: 0em 0.5em 0.5em 0em;
-        background-color: $color-primary;
+        background-color: variables.$color-primary;
         padding: 1em;
-        border: 1px solid $color-border-secondary;
+        border: 1px solid variables.$color-border-secondary;
         border-left: 0px solid transparent;
 
         label {
@@ -195,7 +198,7 @@
 }
 
 .action {
-    background-color: $background-color;
+    background-color: variables.$background-color;
     border: none;
     padding: 1em;
     display: flex;
@@ -211,11 +214,11 @@
     }
 
     &:not(:last-child) {
-        border-right: 1px solid $color-border;
+        border-right: 1px solid variables.$color-border;
     }
 
     &:hover {
-        background-color: $color-secondary;
+        background-color: variables.$color-secondary;
     }
 }
 
@@ -228,8 +231,8 @@
         height: 100%;
         min-height: 300px;
         position: relative;
-        background-color: $background-color-secondary;
-        border: 1px solid rgba($color: $color-border, $alpha: 0.2);
+        background-color: variables.$background-color-secondary;
+        border: 1px solid rgba($color: variables.$color-border, $alpha: 0.2);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -249,8 +252,8 @@
             img {
                 height: 100%;
                 width: 100%;
-                border-radius: $border-radius;
-                box-shadow: $box-shadow-modal;
+                border-radius: variables.$border-radius;
+                box-shadow: variables.$box-shadow-modal;
             }
         }
 
@@ -272,29 +275,29 @@
         z-index: 1;
         display: flex;
         justify-content: center;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
         overflow: hidden;
 
-        img{
-            border-radius: $border-radius;
+        img {
+            border-radius: variables.$border-radius;
             overflow: hidden;
         }
     }
 
     .related_product_image {
-        margin: $margin-horizontal;
+        margin: variables.$margin-horizontal;
         height: 60px;
         min-width: 60px;
-        border: 1px solid $color-border;
-        border-radius: $border-radius;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
 
         &:hover {
             cursor: pointer;
-            border: 1px solid $color-border-tertiary;
+            border: 1px solid variables.$color-border-tertiary;
         }
 
         &.active {
-            border: 1px solid $color-blue;
+            border: 1px solid variables.$color-blue;
         }
 
 

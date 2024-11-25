@@ -1,4 +1,8 @@
-@import "./main.scss";
+@use "sass:math";
+
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .actions {
     display: flex;
@@ -8,29 +12,29 @@
 
     .buttons {
         display: flex;
-        gap: $gap;
+        gap: variables.$gap;
         height: fit-content;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             display: none;
         }
     }
 
     .hamburguer {
         display: none;
-        background-color: $background-color-secondary;
-        padding: $padding/2;
-        border-radius: $border-radius;
-        border: 1px solid $color-border;
+        background-color: variables.$background-color-secondary;
+        padding: variables.$padding*0.5;
+        border-radius: variables.$border-radius;
+        border: 1px solid variables.$color-border;
         cursor: pointer;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             display: block;
         }
 
         &:hover {
-            background-color: $background-color-tertiary;
-            border: 1px solid $color-border;
+            background-color: variables.$background-color-tertiary;
+            border: 1px solid variables.$color-border;
         }
     }
 
@@ -38,17 +42,17 @@
         position: absolute;
         top: 120%;
         right: 0%;
-        background-color: $background-color;
-        border: 1px solid $color-border-secondary;
-        border-radius: $border-radius;
-        padding: $padding / 3;
-        box-shadow: $box-shadow-modal;
+        background-color: variables.$background-color;
+        border: 1px solid variables.$color-border-secondary;
+        border-radius: variables.$border-radius;
+        padding: math.div(variables.$padding, 3);
+        box-shadow: variables.$box-shadow-modal;
         z-index: 9999;
-        width: calc(100vw - $padding*4);
+        width: calc(100vw - variables.$padding*4);
         display: none;
 
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             display: block;
         }
 
@@ -57,16 +61,16 @@
 
             .actionItem {
                 cursor: pointer;
-                padding: $padding / 3;
-                border-radius: $border-radius;
-                font-size: $font-medium;
+                padding: math.div(variables.$padding, 3);
+                border-radius: variables.$border-radius;
+                font-size: variables.$font-medium;
                 display: flex;
-                gap: $gap / 1.5;
+                gap: math.div(variables.$gap, 1.5);
                 align-items: center;
                 position: relative;
 
                 &:not(:last-child) {
-                    margin-bottom: $margin-vertical/2;
+                    margin-bottom: variables.$margin-vertical*0.5;
                 }
 
                 p {
@@ -74,12 +78,12 @@
                 }
 
                 &__icon {
-                    height: $font-small;
-                    color: $color-tertiary;
+                    height: variables.$font-small;
+                    color: variables.$color-tertiary;
                 }
 
                 &:hover {
-                    background-color: $background-color-tertiary;
+                    background-color: variables.$background-color-tertiary;
                 }
             }
         }

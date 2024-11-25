@@ -1,8 +1,10 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/variables";
 
 .formMetting {
     display: flex;
     flex-direction: column;
     min-height: 60vh;
-    gap: $gap*2;
+    gap: calc(variables.$gap*2);
 }

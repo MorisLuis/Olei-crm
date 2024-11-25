@@ -1,11 +1,14 @@
-@import "../main.scss";
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
 
 .event {
     position: relative;
 
     .content {
         display: flex;
-        gap: $gap * 2;
+        gap: calc(variables.$gap * 2);
         position: relative;
 
         .brief {
@@ -14,18 +17,18 @@
             top: 10px; // Define la distancia desde el borde superior
             height: fit-content;
 
-            @include respond(tab-port) {
+            @include mixins.respond(tab-port) {
                 display: none;
             }
 
             &__instruction {
-                margin-bottom: $margin-vertical;
-                font-size: $font-medium;
-                color: $text-color-secondary;
+                margin-bottom: variables.$margin-vertical;
+                font-size: variables.$font-medium;
+                color: variables.$text-color-secondary;
             }
 
             h4 {
-                margin-bottom: $margin-vertical;
+                margin-bottom: variables.$margin-vertical;
             }
         }
 
@@ -34,7 +37,7 @@
             z-index: 0;
 
 
-            @include respond(tab-port) {
+            @include mixins.respond(tab-port) {
                 width: 100%;
             }
         }

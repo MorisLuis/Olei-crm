@@ -1,13 +1,16 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .Modal {
-    background-color: $background-color-secondary;
+    background-color: variables.$background-color-secondary;
     width: 75%;
     max-width: 1200px;
     position: fixed;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
-    box-shadow: $box-shadow-modal;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
+    box-shadow: variables.$box-shadow-modal;
     z-index: 999;
     left: 50%;
     top: 50%;
@@ -20,14 +23,14 @@
         animation: modal-close 0.2s ease-in-out forwards;
     }
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         width: 100%;
         transform: translate(0, 0) scale(0.8);
         left: 0px;
         bottom: 0px;
         top: 0px;
         animation: modal-open-mobile 0.2s ease-in-out forwards;
-        border-radius: $border-radius $border-radius 0 0;
+        border-radius: variables.$border-radius variables.$border-radius 0 0;
         max-height: 100%;
 
         &.closing {
@@ -36,9 +39,9 @@
     }
 
     .header {
-        background-color: $background-color;
-        padding: $padding;
-        border-bottom: 1px solid $color-border;
+        background-color: variables.$background-color;
+        padding: variables.$padding;
+        border-bottom: 1px solid variables.$color-border;
         position: relative;
         width: 100%;
         z-index: 1;
@@ -47,33 +50,33 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
 
-        @include respond(phone) {
-            margin-bottom: $margin-vertical;
+        @include mixins.respond(phone) {
+            margin-bottom: variables.$margin-vertical;
         }
 
         .left {
             display: flex;
             flex-direction: column;
-            gap: $gap;
+            gap: variables.$gap;
 
             .topactions {
                 display: flex;
                 flex-direction: row;
-                gap: $gap;
+                gap: variables.$gap;
             }
 
             h3 {
-                margin-right: $margin-horizontal;
-                font-size: $font-normal;
+                margin-right: variables.$margin-horizontal;
+                font-size: variables.$font-normal;
             }
         }
 
         .close {
             width: fit-content;
-            padding: $padding / 2;
-            border-radius: $border-radius;
+            padding: calc(variables.$padding / 2);
+            border-radius: variables.$border-radius;
             height: fit-content;
             cursor: pointer;
             border: 1px solid transparent;
@@ -82,14 +85,14 @@
             justify-content: center;
 
             &:hover {
-                background-color: $background-color-secondary;
-                border: 1px solid $color-border;
+                background-color: variables.$background-color-secondary;
+                border: 1px solid variables.$color-border;
             }
         }
     }
 
     .content {
-        padding: $padding;
+        padding: variables.$padding;
         height: 100%;
 
         /* Ocultar el scrollbar */
@@ -103,27 +106,27 @@
             display: none;
         }
 
-        @include respond(phone) {
-            padding: 0px $padding;
+        @include mixins.respond(phone) {
+            padding: 0px variables.$padding;
         }
     }
 
     .footer {
-        padding: $padding;
-        border-top: 1px solid $color-border;
+        padding: variables.$padding;
+        border-top: 1px solid variables.$color-border;
         display: flex;
         justify-content: space-between;
         height: 10%;
         position: sticky;
         width: 100%;
         bottom: 0px;
-        background-color: $background-color;
+        background-color: variables.$background-color;
     }
 
     &.small {
         width: 30%;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
             height: 100%;
             left: 0%;
@@ -135,7 +138,7 @@
         .content {
             height: 75%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 height: 80%;
             }
         }
@@ -143,7 +146,7 @@
         .footer {
             height: 25%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 height: 20%;
             }
         }
@@ -152,7 +155,7 @@
     &.medium {
         width: 50%;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
             height: 100%;
             left: 0%;
@@ -164,7 +167,7 @@
         .content {
             height: 75%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 height: 80%;
             }
         }
@@ -172,7 +175,7 @@
         .footer {
             height: 25%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 height: 20%;
             }
         }
@@ -181,84 +184,84 @@
 }
 
 .ModalMessage {
-    background-color: $background-color;
+    background-color: variables.$background-color;
     width: 425px;
     height: 215px;
     position: fixed;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
-    box-shadow: $box-shadow-modal;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
+    box-shadow: variables.$box-shadow-modal;
     z-index: 999999;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     animation: modal-open 0.2s ease-in-out forwards;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         width: 100%;
         height: auto;
         left: 0;
         bottom: 0%;
         top: auto;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
         transform: translateY(0%);
         animation: modal-open-mobile 0.2s ease-in-out forwards;
     }
 
     .content {
         height: 70%;
-        padding: $padding;
-        margin-bottom: $margin-vertical;
+        padding: variables.$padding;
+        margin-bottom: variables.$margin-vertical;
 
         p {
-            font-size: $font-medium;
+            font-size: variables.$font-medium;
         }
 
         h2 {
-            margin-bottom: $margin-vertical;
+            margin-bottom: variables.$margin-vertical;
         }
     }
 
     .footer {
-        border-top: 1px solid $color-border;
+        border-top: 1px solid variables.$color-border;
         height: 30%;
-        padding: $padding;
+        padding: variables.$padding;
         display: flex;
         justify-content: space-between;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
 
     }
 }
 
 .ModalSideways {
-    background-color: $background-color;
+    background-color: variables.$background-color;
     height: 98%;
     position: fixed;
     right: 0.5%;
     top: 1%;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
     animation: appear-Right-to-Left 0.3s ease-in-out;
-    border: 1px solid $color-border;
+    border: 1px solid variables.$color-border;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
     z-index: 999999;
     overflow: hidden;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
 
     &.primary {
         width: 32.5%;
 
-        @include respond(tab-land) {
+        @include mixins.respond(tab-land) {
             width: 50%;
         }
 
-        @include respond(tab-port) {
+        @include mixins.respond(tab-port) {
             width: 75%;
         }
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
             top: 3%;
-            border-radius: $border-radius;
+            border-radius: variables.$border-radius;
             height: calc(100svh - 3%);
         }
     }
@@ -267,60 +270,60 @@
         width: fit-content;
         min-width: 300px;
 
-        @include respond(tab-land) {
+        @include mixins.respond(tab-land) {
             width: 50%;
         }
 
-        @include respond(tab-port) {
+        @include mixins.respond(tab-port) {
             width: 75%;
         }
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
             top: 3%;
-            border-radius: $border-radius;
+            border-radius: variables.$border-radius;
             height: calc(100svh - 3%);
         }
     }
 
     .header {
-        border-radius: $border-radius $border-radius 0em 0em;
-        padding: $padding;
-        border: 1px solid $color-border;
+        border-radius: variables.$border-radius variables.$border-radius 0em 0em;
+        padding: variables.$padding;
+        border: 1px solid variables.$color-border;
         border-style: none none solid none;
-        background-color: $background-color-secondary;
-        border-radius: $border-radius;
+        background-color: variables.$background-color-secondary;
+        border-radius: variables.$border-radius;
 
-        @include respond(phone) {
-            border-radius: $border-radius $border-radius 0em 0em;
+        @include mixins.respond(phone) {
+            border-radius: variables.$border-radius variables.$border-radius 0em 0em;
         }
 
         .close {
             width: fit-content;
-            padding: $padding / 2;
-            border-radius: $border-radius;
+            padding: calc(variables.$padding / 2);
+            border-radius: variables.$border-radius;
             border: 1px solid transparent;
-            font-size: $font-small;
+            font-size: variables.$font-small;
             cursor: pointer;
-            gap: $gap;
+            gap: variables.$gap;
 
             display: flex;
 
             &:hover {
-                background-color: $background-color-secondary;
-                border: 1px solid $color-border;
+                background-color: variables.$background-color-secondary;
+                border: 1px solid variables.$color-border;
             }
         }
     }
 
     .content {
-        padding: $padding;
+        padding: variables.$padding;
         height: 80%;
         overflow: scroll;
         overflow-x: hidden;
 
-        @include respond(phone) {
-            padding: $padding;
+        @include mixins.respond(phone) {
+            padding: variables.$padding;
         }
 
         &::-webkit-scrollbar {
@@ -329,12 +332,12 @@
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: $color-primary;
-            border-radius: $border-radius;
+            background-color: variables.$color-primary;
+            border-radius: variables.$border-radius;
         }
 
         &::-webkit-scrollbar-thumb:hover {
-            background-color: $color-border;
+            background-color: variables.$color-border;
         }
 
         &::-webkit-scrollbar-track {
@@ -345,13 +348,13 @@
     .footer {
         min-height: 10%;
         width: 100%;
-        padding: $padding;
-        border-top: 1px solid $color-border;
+        padding: variables.$padding;
+        border-top: 1px solid variables.$color-border;
         justify-content: flex-end;
         position: absolute;
         bottom: 0px;
-        background-color: $background-color-secondary;
-        border-radius: $border-radius;
+        background-color: variables.$background-color-secondary;
+        border-radius: variables.$border-radius;
     }
 
     &.closing {
@@ -363,7 +366,7 @@
     height: auto;
     width: 500px;
     position: absolute;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
     z-index: 999999;
     top: 10%;
@@ -371,11 +374,11 @@
     transform: translateX(-50%);
 
     .headerSearch {
-        background-color: $color-primary;
-        padding: $padding;
-        margin-bottom: $margin-vertical;
-        border-radius: $border-radius;
-        background-color: $background-color;
+        background-color: variables.$color-primary;
+        padding: variables.$padding;
+        margin-bottom: variables.$margin-vertical;
+        border-radius: variables.$border-radius;
+        background-color: variables.$background-color;
         height: fit-content;
 
         .inputSearch {
@@ -388,10 +391,10 @@
                 height: 40px;
                 position: relative;
                 background-color: transparent;
-                font-size: $font-normal;
+                font-size: variables.$font-normal;
 
                 &:valid {
-                    padding: 0em $padding-horizontal;
+                    padding: 0em variables.$padding-horizontal;
                     border: transparent;
                 }
             }
@@ -406,25 +409,25 @@
         }
 
         .filtersSearch {
-            padding: $padding;
+            padding: variables.$padding;
 
             >div :first-child {
-                margin-right: $margin-horizontal;
+                margin-right: variables.$margin-horizontal;
             }
         }
     }
 
     .resultsSearch {
-        padding: $padding;
-        background-color: $background-color;
-        border-radius: $border-radius;
+        padding: variables.$padding;
+        background-color: variables.$background-color;
+        border-radius: variables.$border-radius;
 
         .messageEmpty {
-            padding: $padding 0em;
+            padding: variables.$padding 0em;
         }
     }
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         top: 5%;
         left: 50%;
         transform: translateX(-50%);
@@ -432,7 +435,7 @@
         width: 95%;
         max-width: none;
         border: none;
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid variables.$color-border;
     }
 }
 

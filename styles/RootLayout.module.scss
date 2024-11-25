@@ -1,16 +1,19 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .RootLayout{
     display: flex;
     flex-direction: row;
     margin: 0px;
     max-height: 100vh;
-    background-color: $background-color;
+    background-color: variables.$background-color;
     width: 100vw;
 
     :global(#back) {
         display: none;
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             display: flex;
         }
     }
@@ -21,7 +24,7 @@
         width: 100%;
         
         .mainbody{
-            padding: $padding*2;
+            padding: variables.$padding*2;
         }
     }
 }

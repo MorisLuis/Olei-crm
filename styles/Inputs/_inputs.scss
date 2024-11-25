@@ -1,42 +1,46 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
 .input {
     height: 48px;
     width: 100%;
     font-family: "Inter";
 
     position: relative;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
-    background-color: $background-color;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
+    background-color: variables.$background-color;
     transition-property: all;
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15s;
-    padding: $padding-horizontal;
+    padding: variables.$padding-horizontal;
 
     -webkit-box-shadow: 0px 10px 10px -15px rgba(101, 116, 130, 1);
     -moz-box-shadow: 0px 10px 10px -15px rgba(101, 116, 130, 1);
     box-shadow: 0px 10px 10px -15px rgba(101, 116, 130, 1);
-    font-size: $font-normal;
+    font-size: variables.$font-normal;
 
     &.textbox {
         height: fit-content;
 
         &:valid {
-            padding: $padding;
+            padding: variables.$padding;
         }
     }
 
     &::placeholder {
-        color: $color-gray;
+        color: variables.$color-gray;
     }
 
     &:focus {
         outline: none;
-        box-shadow: $color-tertiary 0px 1px 4px, $color-tertiary 0px 0px 0px 3px;
-        background-color: $background-color;
+        box-shadow: variables.$color-tertiary 0px 1px 4px, variables.$color-tertiary 0px 0px 0px 3px;
+        background-color: variables.$background-color;
     }
 
     &:valid {
-        padding: 0em $padding-horizontal;
+        padding: 0em variables.$padding-horizontal;
     }
 }
 
@@ -46,8 +50,8 @@
     font-size: 16px;
 
     label {
-        font-size: $font-medium;
-        color: $text-color-secondary;
+        font-size: variables.$font-medium;
+        color: variables.$text-color-secondary;
     }
 
     input {
@@ -55,28 +59,28 @@
         width: 100%;
 
         position: relative;
-        border-radius: $border-radius;
-        border: 1px solid $color-border;
-        background-color: $background-color;
+        border-radius: variables.$border-radius;
+        border: 1px solid variables.$color-border;
+        background-color: variables.$background-color;
         transition-property: all;
         transition-timing-function: cubic-bezier(.4, 0, .2, 1);
         transition-duration: .15s;
-        padding: $padding-horizontal;
-        box-shadow: $box-shadow-input;
+        padding: variables.$padding-horizontal;
+        box-shadow: variables.$box-shadow-input;
         font-size: 16px;
 
         &::placeholder {
-            color: $color-gray;
+            color: variables.$color-gray;
         }
 
         &:focus {
             outline: none;
-            box-shadow: $color-tertiary 0px 1px 4px, $color-tertiary 0px 0px 0px 3px;
-            background-color: $background-color;
+            box-shadow: variables.$color-tertiary 0px 1px 4px, variables.$color-tertiary 0px 0px 0px 3px;
+            background-color: variables.$background-color;
         }
 
         &:valid {
-            padding: 0em $padding-horizontal;
+            padding: 0em variables.$padding-horizontal;
         }
 
     }
@@ -84,10 +88,10 @@
     .clearinput {
         width: 36px;
         height: 36px;
-        background-color: $background-color-secondary;
-        border: 1px solid $color-border;
+        background-color: variables.$background-color-secondary;
+        border: 1px solid variables.$color-border;
         position: absolute;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
         right: 2%;
         top: 0%;
         transform: translateY(15%);
@@ -98,50 +102,50 @@
         cursor: pointer;
 
         &:hover {
-            background-color: $background-color;
+            background-color: variables.$background-color;
         }
     }
 }
 
 .input_search {
     height: 100%;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
-    padding: 0px $padding-horizontal;
-    box-shadow: $box-shadow-button;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
+    padding: 0px variables.$padding-horizontal;
+    box-shadow: variables.$box-shadow-button;
 
     &::placeholder {
-        color: $text-color-secondary;
+        color: variables.$text-color-secondary;
     }
 
     &:focus {
         outline: none;
-        box-shadow: $color-tertiary 0px 1px 4px, $color-tertiary 0px 0px 0px 3px;
-        background-color: $background-color;
+        box-shadow: variables.$color-tertiary 0px 1px 4px, variables.$color-tertiary 0px 0px 0px 3px;
+        background-color: variables.$background-color;
     }
 
     &:valid {
-        padding: 0em $padding-horizontal;
+        padding: 0em variables.$padding-horizontal;
     }
 }
 
 .input_uploader {
     .input_loader {
-        background-color: $background-color-secondary;
-        border: 1px solid $color-border;
-        border-radius: $border-radius;
+        background-color: variables.$background-color-secondary;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
         width: 100%;
         height: 100px;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: $font-medium;
+        font-size: variables.$font-medium;
         flex-direction: column;
-        box-shadow: $box-shadow-input;
+        box-shadow: variables.$box-shadow-input;
 
         &:hover {
             cursor: pointer;
-            background-color: $background-color-tertiary;
+            background-color: variables.$background-color-tertiary;
         }
     }
 
@@ -153,32 +157,32 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid $color-border;
-        border-radius: $border-radius;
-        background-color: $background-color-secondary;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
+        background-color: variables.$background-color-secondary;
 
         .input_frame{
             
         }
         
         img{
-            padding: $padding / 2;
+            padding: calc(variables.$padding / 2);
             width: auto;
             object-fit: contain;
         }
 
         .input_loader_active{
-            background-color: $background-color;
-            border: 1px solid $color-border;
-            padding: $padding/2;
-            border-radius: $border-radius;
+            background-color: variables.$background-color;
+            border: 1px solid variables.$color-border;
+            padding: calc(variables.$padding/2);
+            border-radius: variables.$border-radius;
             position: absolute;
             top: 3%;
             right: 1%;
 
             &:hover {
                 cursor: pointer;
-                background-color: $background-color-tertiary;
+                background-color: variables.$background-color-tertiary;
             }
         }
     }
@@ -186,11 +190,11 @@
 
 .select {
     display: flex;
-    background-color: $background-color;
+    background-color: variables.$background-color;
     width: 100%;
     height: 48px;
-    border: 1px solid $color-border;
-    border-radius: $border-radius;
+    border: 1px solid variables.$color-border;
+    border-radius: variables.$border-radius;
 }
 
 .toggleSwitch {
@@ -210,12 +214,12 @@
             height: 0;
 
             &:checked+.slider {
-                background-color: $color-green;
+                background-color: variables.$color-green;
                 opacity: 70%;
             }
 
             &:focus+.slider {
-                box-shadow: 0 0 1px $color-green;
+                box-shadow: 0 0 1px variables.$color-green;
                 opacity: 70%;
             }
 
@@ -231,10 +235,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: $color-gray;
+            background-color: variables.$color-gray;
             transition: 0.4s;
             border-radius: 34px;
-            box-shadow: $box-shadow-button;
+            box-shadow: variables.$box-shadow-button;
 
             &:before {
                 position: absolute;
@@ -243,7 +247,7 @@
                 width: 16px;
                 left: 4px;
                 bottom: 3px;
-                background-color: $background-color;
+                background-color: variables.$background-color;
                 transition: 0.4s;
                 border-radius: 50%;
             }
@@ -269,7 +273,7 @@
         min-height: 30px;
         display: flex;
         box-shadow: rgba(0, 0, 0, 0.12) 1.5px 1.5px 1px;
-        border-radius: $border-radius;
+        border-radius: variables.$border-radius;
 
         .checkbox {
             opacity: 0;
@@ -288,10 +292,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: $color-primary;
+            background-color: variables.$color-primary;
             transition: 0.4s;
             border-radius: 0.5em;
-            border: 1px solid $color-border;
+            border: 1px solid variables.$color-border;
 
             &:before {
                 position: absolute;
@@ -300,10 +304,10 @@
                 width: 22px;
                 left: 4px;
                 top: 2px;
-                background-color: $background-color;
+                background-color: variables.$background-color;
                 transition: 0.4s;
                 border-radius: 0.5em;
-                border: 1px solid $color-border;
+                border: 1px solid variables.$color-border;
             }
 
             .iconSquare {
@@ -337,10 +341,10 @@
 .iconClean {
     width: 24px;
     height: 24px;
-    background-color: $background-color-secondary;
-    border: 1px solid $color-border;
+    background-color: variables.$background-color-secondary;
+    border: 1px solid variables.$color-border;
     position: absolute;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
     right: 2%;
     top: 0%;
     transform: translateY(25%);
@@ -352,6 +356,6 @@
 }
 
 .label {
-    font-size: $font-medium;
-    color: $text-color-secondary;
+    font-size: variables.$font-medium;
+    color: variables.$text-color-secondary;
 }

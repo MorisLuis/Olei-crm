@@ -1,4 +1,7 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .filters {
     display: flex;
@@ -10,12 +13,12 @@
         position: absolute;
         top: 120%;
         left: 0%;
-        background-color: $background-color;
-        border: 1px solid $color-border-secondary;
-        border-radius: $border-radius;
-        padding: $padding / 3;
+        background-color: variables.$background-color;
+        border: 1px solid variables.$color-border-secondary;
+        border-radius: variables.$border-radius;
+        padding: calc(variables.$padding / 3);
         min-width: 300px;
-        box-shadow: $box-shadow-modal;
+        box-shadow: variables.$box-shadow-modal;
         z-index: 9999;
 
         &.right {
@@ -23,7 +26,7 @@
             right: 0%;
         }
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             left: 0px;
         }
 
@@ -32,16 +35,16 @@
 
             .filterItem {
                 cursor: pointer;
-                padding: $padding / 3;
-                border-radius: $border-radius;
-                font-size: $font-medium;
+                padding: calc(variables.$padding / 3);
+                border-radius: variables.$border-radius;
+                font-size: variables.$font-medium;
                 display: flex;
-                gap: $gap / 1.5;
+                gap: calc(variables.$gap / 1.5);
                 align-items: center;
                 position: relative;
 
                 &:not(:last-child) {
-                    margin-bottom: $margin-vertical/2;
+                    margin-bottom: calc(variables.$margin-vertical/2);
                 }
 
                 p{
@@ -49,12 +52,12 @@
                 }
 
                 &__icon{
-                    height: $font-small;
-                    color: $color-tertiary;
+                    height: variables.$font-small;
+                    color: variables.$color-tertiary;
                 }
 
                 &:hover {
-                    background-color: $background-color-tertiary;
+                    background-color: variables.$background-color-tertiary;
                 }
             }
         }
@@ -63,13 +66,13 @@
 
             .filterOptions__Header {
                 display: flex;
-                gap: $gap / 2;
-                margin-bottom: $margin-vertical/2;
+                gap: calc(variables.$gap / 2);
+                margin-bottom: calc(variables.$margin-vertical/2);
 
                 cursor: pointer;
-                padding: $padding / 3;
-                border-radius: $border-radius;
-                font-size: $font-medium;
+                padding: calc(variables.$padding / 3);
+                border-radius: variables.$border-radius;
+                font-size: variables.$font-medium;
                 border: 1px solid transparent;
 
                 button {
@@ -79,32 +82,32 @@
                 }
 
                 &:hover {
-                    background-color: $background-color-secondary;
-                    border: 1px solid $color-border;
+                    background-color: variables.$background-color-secondary;
+                    border: 1px solid variables.$color-border;
 
                 }
             }
 
             .inputCheck {
                 cursor: pointer;
-                padding: $padding / 3;
-                border-radius: $border-radius;
-                font-size: $font-medium;
+                padding: calc(variables.$padding / 3);
+                border-radius: variables.$border-radius;
+                font-size: variables.$font-medium;
 
                 label {
                     display: flex;
                     align-items: center;
-                    gap: $gap;
+                    gap: variables.$gap;
 
                     input[type="checkbox"] {
-                        width: $font-medium;
-                        height: $font-medium;
-                        accent-color: $color-tertiary;
+                        width: variables.$font-medium;
+                        height: variables.$font-medium;
+                        accent-color: variables.$color-tertiary;
                     }
                 }
 
                 &:hover {
-                    background-color: $background-color-tertiary;
+                    background-color: variables.$background-color-tertiary;
                 }
             }
         }

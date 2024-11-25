@@ -1,4 +1,6 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/variables";
 
 :root {
   --background: $background-color;
@@ -12,12 +14,12 @@ body {
 }
 
 body {
-  color: $text-color;
-  background: $background-color;
+  color: variables.$text-color;
+  background: variables.$background-color;
   font-family: "Inter", "Poppins", "VictorMono";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: $font-normal;
+  font-size: variables.$font-normal;
 }
 
 * {

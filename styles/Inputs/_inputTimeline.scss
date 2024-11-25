@@ -1,7 +1,11 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
 .fc {
     .fc-view-harness{
-        border: 1px solid $color-border;
-        border-radius: $border-radius;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
         overflow: hidden;
     }
 
@@ -12,7 +16,7 @@
 
 
         .fc-toolbar-title{
-            font-size: $font-big;
+            font-size: variables.$font-big;
             width: 100%;
             text-transform: lowercase;
         }
@@ -20,37 +24,37 @@
 
     // Estilos de las horas (columna izquierda)
     .fc-timegrid-slot-label {
-        color: $text-color;
-        font-size: $font-medium;
+        color: variables.$text-color;
+        font-size: variables.$font-medium;
         font-weight: bold;
         text-align: right;
     }
 
     // Renglones del grid
     .fc-timegrid-slot {
-        border-top: 1px solid $color-border;
-        padding: $padding $padding/2 !important;
+        border-top: 1px solid variables.$color-border;
+        padding: variables.$padding calc(variables.$padding/2) !important;
     }
 
     // Fila de eventos
     .fc-timegrid-event {
-        background-color: $color-yellow; // Fondo del evento
-        color: $text-color-light;
-        border-radius: $border-radius;
+        background-color: variables.$color-yellow; // Fondo del evento
+        color: variables.$text-color-light;
+        border-radius: variables.$border-radius;
         font-weight: 500;
-        padding: $padding;
-        box-shadow: $box-shadow-input;
-        border: 1px solid $color-border-secondary;
+        padding: variables.$padding;
+        box-shadow: variables.$box-shadow-input;
+        border: 1px solid variables.$color-border-secondary;
     }
 
     // Hover en eventos
     .fc-timegrid-event:hover {
-        border: 1px solid $color-border-tertiary;
+        border: 1px solid variables.$color-border-tertiary;
     }
 
 
     .fc-event-title{
-        color: $text-color;
+        color: variables.$text-color;
     }
 
 }

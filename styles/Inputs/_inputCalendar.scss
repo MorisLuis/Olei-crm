@@ -1,9 +1,12 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
 
 .react-datepicker {
-    border: 1px solid $color-border !important;
+    border: 1px solid variables.$color-border !important;
     border-radius: 10px;
-    box-shadow: $box-shadow-modal;
-    padding: $padding;
+    box-shadow: variables.$box-shadow-modal;
+    padding: variables.$padding;
 }
 
 .react-datepicker-wrapper {
@@ -11,18 +14,18 @@
 }
 
 .react-datepicker__header {
-    background-color: $background-color !important;
-    border-bottom: 1px solid $color-border !important;
-    border-radius: $border-radius;
+    background-color: variables.$background-color !important;
+    border-bottom: 1px solid variables.$color-border !important;
+    border-radius: variables.$border-radius;
 }
 
 .react-datepicker__day-name,
 .react-datepicker__day {
-    color: $text-color;
-    background-color: $background-color-secondary;
+    color: variables.$text-color;
+    background-color: variables.$background-color-secondary;
 
     :hover {
-        background-color: $background-color;    
+        background-color: variables.$background-color;    
     }
 }
 
@@ -32,15 +35,15 @@
 
 // Today
 .today {
-    background-color: $color-red !important;
-    color: $text-color-light !important;
+    background-color: variables.$color-red !important;
+    color: variables.$text-color-light !important;
     border-radius: 100%;
     font-weight: bold;
 }
 
 // Day selected
 .react-datepicker__day--selected {
-    background-color: $color-tertiary;
+    background-color: variables.$color-tertiary;
     border-radius: 50%;
 }
 
@@ -48,24 +51,23 @@
 
 .react-datepicker__navigation{
     top: 16px !important;
-    //background-color: red !important;
     width: 26px !important;
     height: 26px !important;
-    border-radius: $border-radius;
+    border-radius: variables.$border-radius;
 
     &:hover{
-        background-color: $background-color-tertiary;
+        background-color: variables.$background-color-tertiary;
     }
 
 }
 .react-datepicker__navigation-icon::before{
-    border-color: $color-border-tertiary !important;
+    border-color: variables.$color-border-tertiary !important;
     border-width: 2px 2px 0px 0px !important;
 }
 
 .react-datepicker__current-month{
     text-transform: capitalize;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
     margin-bottom: 10px !important;
 }
 

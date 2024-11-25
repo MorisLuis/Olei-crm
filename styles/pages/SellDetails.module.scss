@@ -1,11 +1,15 @@
-@import "../main.scss";
+
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
 
 .sellDetails {
 
     .sellItem {
         display: flex;
         align-items: center;
-        gap: $gap/2;
+        gap: calc(variables.$gap/2);
 
         .value {
             max-width: 400px;
@@ -13,21 +17,21 @@
             overflow: hidden;
             text-overflow: ellipsis;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 max-width: 150px;
             }
         }
 
         .edit {
-            padding:$padding/3;
-            border-radius: $border-radius/2;
+            padding: calc(variables.$padding/3);
+            border-radius: calc(variables.$border-radius/2);
             cursor: pointer;
             border: 1px solid transparent;
             height: auto;
 
             &:hover {
-                background-color: $background-color-secondary;
-                border: 1px solid $color-border;
+                background-color: variables.$background-color-secondary;
+                border: 1px solid variables.$color-border;
             }
         }
     }

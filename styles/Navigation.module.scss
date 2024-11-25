@@ -1,9 +1,12 @@
-@import "./main.scss";
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
 
 .sidebar {
-    background-color: $background-color;
+    background-color: variables.$background-color;
     margin: 0px;
-    padding: $padding;
+    padding: variables.$padding;
     overflow-y: auto;
     height: 100vh;
     overflow-x: hidden;
@@ -11,19 +14,19 @@
     top: 0px;
     width: 15%;
     min-width: 200px;
-    font-size: $font-medium;
-    border: 1px solid $color-border-secondary;
+    font-size: variables.$font-medium;
+    border: 1px solid variables.$color-border-secondary;
 
     &.hide{
         display: none;
     }
 
-    @include respond(tab-port) {
+    @include mixins.respond(tab-port) {
         min-width: auto;
         width: fit-content;
     }
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         z-index: 99999;
         min-width: 80vw;
         position: fixed;
@@ -39,14 +42,14 @@
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding-left: $padding;
-        margin-bottom: $margin-vertical*2;
+        padding-left: variables.$padding;
+        margin-bottom: variables.$margin-vertical*2;
 
-        @include respond(tab-port) {
+        @include mixins.respond(tab-port) {
             display: none;
         };
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             display: block;
         }
 
@@ -61,7 +64,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: calc(100% - 26px -  $margin-vertical*2);
+        height: calc(100% - 26px -  variables.$margin-vertical*2);
 
         ul {
             padding: 0px;
@@ -69,17 +72,17 @@
             list-style: none;
 
             >a {
-                background-color: $background-color;
-                padding: $padding/2 $padding;
-                border-radius: $border-radius;
+                background-color: variables.$background-color;
+                padding: calc(variables.$padding/2) variables.$padding;
+                border-radius: variables.$border-radius;
                 cursor: pointer;
                 border: 1px solid transparent;
 
                 display: flex;
                 align-items: center;
-                gap: $gap;
+                gap: variables.$gap;
 
-                @include respond(tab-port) {
+                @include mixins.respond(tab-port) {
                     width: fit-content;
 
                     p {
@@ -87,7 +90,7 @@
                     }
                 }
 
-                @include respond(phone) {
+                @include mixins.respond(phone) {
                     width: 100vw;
 
                     p {
@@ -96,13 +99,13 @@
                 }
 
                 &:hover {
-                    background-color: $background-color-secondary;
-                    border: 1px solid $color-border;
+                    background-color: variables.$background-color-secondary;
+                    border: 1px solid variables.$color-border;
                 }
 
                 &.active {
-                    background-color: $background-color-secondary;
-                    border: 1px solid $color-border;
+                    background-color: variables.$background-color-secondary;
+                    border: 1px solid variables.$color-border;
                 }
             }
         }
@@ -110,17 +113,17 @@
 }
 
 .topbar {
-    background-color: $background-color;
+    background-color: variables.$background-color;
     width: 100%;
     height: 60px;
     display: flex;
     flex-direction: row;
-    font-size: $font-medium;
-    border: 1px solid $color-border-secondary;
+    font-size: variables.$font-medium;
+    border: 1px solid variables.$color-border-secondary;
     border-style: none none solid none;
 
     .content {
-        padding: $padding $padding*2;
+        padding: variables.$padding variables.$padding*2;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -128,7 +131,7 @@
         justify-content: space-between;
 
         .left {
-            color: $text-color-secondary;
+            color: variables.$text-color-secondary;
             display: flex;
 
             .headertitle {
@@ -140,7 +143,7 @@
                     }
                 }
 
-                @include respond(phone) {
+                @include mixins.respond(phone) {
                     display: none;
                 }
             }
@@ -148,7 +151,7 @@
             .menu {
                 display: none;
 
-                @include respond(phone) {
+                @include mixins.respond(phone) {
                     display: flex;
                 }
             }
@@ -156,18 +159,18 @@
 
         .right{
             .profile {
-                gap: $gap/2;
+                gap: calc(variables.$gap/2);
                 position: relative;
                 background-color: transparent;
-                border-radius: $border-radius;
+                border-radius: variables.$border-radius;
                 cursor: pointer;
 
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: $font-medium;
+                font-size: variables.$font-medium;
 
-                @include respond(phone) {
+                @include mixins.respond(phone) {
                     position: static;
                 }
 
@@ -180,30 +183,30 @@
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: normal;
-                        color: $text-color;
+                        color: variables.$text-color;
                     }
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         display: none;
                     }
                 }
 
                 .circle {
-                    background-color: $color-tertiary;
+                    background-color: variables.$color-tertiary;
                     height: 30px;
                     width: 30px;
-                    border-radius: $border-radius;
+                    border-radius: variables.$border-radius;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    box-shadow: $box-shadow-button;
+                    box-shadow: variables.$box-shadow-button;
 
                     p {
-                        font-size: $font-medium;
-                        color: $text-color-light;
+                        font-size: variables.$font-medium;
+                        color: variables.$text-color-light;
                         min-width: 18px;
                         height: 18px;
-                        border-radius: $border-radius / 1.25;
+                        border-radius: calc(variables.$border-radius / 1.25);
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -212,31 +215,31 @@
                 }
 
                 .profileBox {
-                    background-color: $background-color;
-                    border: 1px solid $color-border;
+                    background-color: variables.$background-color;
+                    border: 1px solid variables.$color-border;
                     position: absolute;
                     top: 120%;
                     right: 0px;
                     width: 225px;
-                    border-radius: $border-radius;
+                    border-radius: variables.$border-radius;
                     z-index: 999;
 
-                    @include respond(phone) {
+                    @include mixins.respond(phone) {
                         width: 100vw;
                         left: 0px;
                         border-radius: none;
                         border: 0px;
-                        border-bottom: 1px solid $color-border;
+                        border-bottom: 1px solid variables.$color-border;
                         box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 12px;
                     }
 
                     .link {
-                        padding: $padding;
-                        border-radius: $border-radius;
+                        padding: variables.$padding;
+                        border-radius: variables.$border-radius;
                         cursor: pointer;
 
                         &:hover {
-                            background-color: $color-secondary;
+                            background-color: variables.$color-secondary;
                         }
                     }
                 }
@@ -250,8 +253,8 @@
 };
 
 .header{
-    margin-bottom: $margin-vertical;
-    color: $color-tertiary;
+    margin-bottom: variables.$margin-vertical;
+    color: variables.$color-tertiary;
 
     display: flex;
     justify-content: space-between;
@@ -259,18 +262,18 @@
 
     &__title{
         display: flex;
-        gap: $gap/2;
+        gap: calc(variables.$gap/2);
         height: 100%;
 
         .icon{
-            padding: $padding/2;
+            padding: calc(variables.$padding/2);
             border: 1px solid transparent;
             cursor: pointer;
 
             &:hover{
-                background-color: $background-color-tertiary;
-                border-radius: $border-radius;
-                border: 1px solid $color-border-secondary;
+                background-color: variables.$background-color-tertiary;
+                border-radius: variables.$border-radius;
+                border: 1px solid variables.$color-border-secondary;
             }
         }
     }
@@ -279,9 +282,9 @@
         display: flex;
         align-items: center;
         height: auto;
-        gap: $gap;
+        gap: variables.$gap;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
             flex-wrap: wrap;
         }
@@ -289,19 +292,18 @@
 }
 
 .headerTable{
-    margin-bottom: $margin-vertical;
-    color: $color-tertiary;
+    margin-bottom: variables.$margin-vertical;
+    color: variables.$color-tertiary;
     display: flex;
     justify-content: space-between;
-   //background-color: red;
 
     .filters{
         display: flex;
         align-items: center;
         height: auto;
-        gap: $gap;
+        gap: variables.$gap;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             width: 100%;
             flex-wrap: wrap;
         }

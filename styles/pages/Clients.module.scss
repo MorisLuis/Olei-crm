@@ -1,10 +1,12 @@
-@import "../main.scss";
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/variables";
 
 
 .clientDetails {
     display: flex;
     flex-direction: row;
-    gap: $gap*4;
+    gap: variables.$gap*4;
 
     &__calendar{
         width: 60%;

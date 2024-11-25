@@ -1,9 +1,13 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
 /* header */
 .fc-toolbar {
-    color: $text-color;
+    color: variables.$text-color;
     text-transform: capitalize;
-    font-size: $font-medium;
-    gap: $gap;
+    font-size: variables.$font-medium;
+    gap: variables.$gap;
 
     .fc-toolbar-chunk:nth-child(3) {
         display: flex;
@@ -12,8 +16,8 @@
     .fc-today-button,
     .fc-prev-button,
     .fc-next-button {
-        background-color: $color-tertiary;
-        border-radius: $border-radius;
+        background-color: variables.$color-tertiary;
+        border-radius: variables.$border-radius;
     }
 
     .fc-today-button:disabled {
@@ -29,20 +33,20 @@
     }
 
     th {
-        border: 1px solid $color-border;
+        border: 1px solid variables.$color-border;
         border-style: solid none;
 
         a {
             text-transform: capitalize;
-            color: $text-color-secondary;
+            color: variables.$text-color-secondary;
         }
     }
 
     td {
-        border: 1px solid $color-border;
+        border: 1px solid variables.$color-border;
         border-style: solid none;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             border-style: solid none;
         }
     }
@@ -54,18 +58,18 @@
 // Today
 .fc-view {
     border: 0px solid;
-    border-radius: $border-radius;
-    background-color: $background-color-secondary;
+    border-radius: variables.$border-radius;
+    background-color: variables.$background-color-secondary;
 }
 
 .fc-day-today {
-    background-color: $background-color !important;
+    background-color: variables.$background-color !important;
     border-radius: 100px;
 
     .fc-daygrid-day-number{
-        background-color: $color-red;
+        background-color: variables.$color-red;
         border-radius: 100%;
-        color: $text-color-light;
+        color: variables.$text-color-light;
     }
 
     .fc-event-time{
@@ -76,30 +80,30 @@
 
 // Header Days
 .fc-col-header-cell {
-    color: $text-color;
+    color: variables.$text-color;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: $font-small;
+    font-size: variables.$font-small;
     text-align: center;
 }
 
 // Grid
 .fc-daygrid-day {
-    background-color: $background-color;
-    border: 1px solid $color-border !important;
+    background-color: variables.$background-color;
+    border: 1px solid variables.$color-border !important;
     box-sizing: border-box !important;
 
     &:hover {
-        background-color: $background-color-tertiary;
+        background-color: variables.$background-color-tertiary;
     }
 }
 
 // Event
 .fc-event {
-    background-color: $background-color-tertiary;
-    border-radius: $border-radius;
-    padding: $padding/3 $padding;
-    border: 1px solid $color-border;
+    background-color: variables.$background-color-tertiary;
+    border-radius: variables.$border-radius;
+    padding: calc(variables.$padding/3) variables.$padding;
+    border: 1px solid variables.$color-border;
     width: 75%;
 
     .fc-event-time{
@@ -108,8 +112,8 @@
 }
 
 .fc-event-title-container {
-    color: $text-color;
-    font-size: $font-small;
+    color: variables.$text-color;
+    font-size: variables.$font-small;
 }
 
 // Each cell
@@ -117,19 +121,19 @@
     cursor: pointer;
 
     &:hover {
-        background-color: $background-color-tertiary;
+        background-color: variables.$background-color-tertiary;
     }
 }
 
 .fc-day-other {
-    background-color: $background-color-tertiary;
+    background-color: variables.$background-color-tertiary;
 }
 
 .fc-daygrid-day {
-    border: 1px solid $color-border !important;
+    border: 1px solid variables.$color-border !important;
     box-sizing: border-box !important;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         border-style: solid none !important;
     }
 }

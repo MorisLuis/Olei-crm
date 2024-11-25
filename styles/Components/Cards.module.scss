@@ -1,14 +1,17 @@
-@import "../main.scss";
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
 
 .ProductCard {
     width: 100%;
-    padding: $padding;
-    margin-bottom: $margin-vertical;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
+    padding: variables.$padding;
+    margin-bottom: variables.$margin-vertical;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
     position: relative;
-    font-size: $font-medium;
-    box-shadow: $box-shadow-button;
+    font-size: variables.$font-medium;
+    box-shadow: variables.$box-shadow-button;
 
 
     .productHeader {
@@ -22,13 +25,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal;
-            margin-bottom: $margin-vertical / 2;
+            margin-bottom: calc(variables.$margin-vertical / 2);
         }
 
         .delete {
-            background-color: $background-color-tertiary;
-            border: 1px solid $color-border-secondary;
-            border-radius: $border-radius;
+            background-color: variables.$background-color-tertiary;
+            border: 1px solid variables.$color-border-secondary;
+            border-radius: variables.$border-radius;
             width: 26px;
             height: 26px;
             position: absolute;
@@ -44,7 +47,7 @@
 
             &:hover {
                 opacity: 100%;
-                border: 1px solid $color-border-tertiary;
+                border: 1px solid variables.$color-border-tertiary;
             }
         }
     }
@@ -52,7 +55,7 @@
     .productInfo {
         display: flex;
 
-        @include respond(phone) {
+        @include mixins.respond(phone) {
             flex-direction: column;
         }
 
@@ -61,9 +64,9 @@
             flex-direction: column;
             width: 60%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 width: 80%;
-                margin-bottom: $margin-vertical*2;
+                margin-bottom: variables.$margin-vertical*2;
             }
 
             .price {
@@ -74,11 +77,10 @@
         .counter {
             width: 40%;
 
-            @include respond(phone) {
+            @include mixins.respond(phone) {
                 width: 100%;
                 :first-child{
                     display: flex;
-                    //justify-content: flex-end;
                 }
             }
         }
@@ -87,19 +89,19 @@
 
 .ProductSquareCard {
     min-width: 180px;
-    font-size: $font-medium;
+    font-size: variables.$font-medium;
 
     .content {
 
         .image {
-            background-color: $background-color-tertiary;
+            background-color: variables.$background-color-tertiary;
             height: 240px;
-            margin-bottom: $margin-vertical*2;
+            margin-bottom: variables.$margin-vertical*2;
 
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: $border-radius;
+            border-radius: variables.$border-radius;
 
             .notImage {
                 display: flex;
@@ -119,11 +121,11 @@
                 width: auto;
                 max-height: 180px;
                 box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-                border-radius: $border-radius;
+                border-radius: variables.$border-radius;
             }
 
             &:hover {
-                background-color: $background-color-secondary;
+                background-color: variables.$background-color-secondary;
                 transition: 0.2s ease-in-out;
             }
         }
@@ -135,8 +137,8 @@
             .description {
                 display: flex;
                 justify-content: space-between;
-                margin-bottom: $margin-horizontal / 2;
-                gap: $gap;
+                margin-bottom: calc(variables.$margin-horizontal / 2);
+                gap: variables.$gap;
 
                 h4 {
                     display: -webkit-box;
@@ -144,20 +146,20 @@
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    font-size: $font-normal;
-                    max-height: $font-normal*2;
-                    min-height: $font-normal*2;
-                    line-height: $font-normal;
+                    font-size: variables.$font-normal;
+                    max-height: variables.$font-normal*2;
+                    min-height: variables.$font-normal*2;
+                    line-height: variables.$font-normal;
                 }
             }
 
             .data {
-                margin-bottom: $margin-horizontal / 2;
-                font-size: $font-medium;
+                margin-bottom: calc(variables.$margin-horizontal / 2);
+                font-size: variables.$font-medium;
 
                 .stock {
                     display: flex;
-                    gap: $gap;
+                    gap: variables.$gap;
                 }
             }
 
@@ -165,17 +167,12 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                color: $text-color-secondary;
-                font-size: $font-normal;
+                color: variables.$text-color-secondary;
+                font-size: variables.$font-normal;
 
                 .price {
                     width: 50%;
                 }
-
-
-                /* >div {
-                    width: 50%;
-                } */
             }
         }
 
@@ -184,22 +181,22 @@
 
 .MessageCard {
     width: 100%;
-    padding: $padding * 4;
-    background-color: $background-color;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
+    padding: variables.$padding * 4;
+    background-color: variables.$background-color;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
 
-    @include respond(phone) {
+    @include mixins.respond(phone) {
         padding: 4em 3em;
     }
 
     .icon {
-        background-color: $background-color-secondary;
+        background-color: variables.$background-color-secondary;
         width: 40px;
         height: 40px;
-        border: 1px solid $color-border;
-        border-radius: $border-radius;
-        margin-bottom: $margin-horizontal;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
+        margin-bottom: variables.$margin-horizontal;
 
         display: flex;
         justify-content: center;
@@ -207,26 +204,26 @@
     }
 
     .paragraph {
-        font-size: $font-medium;
+        font-size: variables.$font-medium;
     }
 
     h2 {
-        margin-bottom: $margin-vertical / 2;
+        margin-bottom: calc(variables.$margin-vertical / 2);
     }
 }
 
 .ActionCard {
     display: flex;
     justify-content: space-between;
-    padding: $padding;
-    background-color: $background-color-secondary;
-    margin-bottom: $margin-vertical;
-    border-radius: $border-radius;
-    border: 1px solid $color-border;
+    padding: variables.$padding;
+    background-color: variables.$background-color-secondary;
+    margin-bottom: variables.$margin-vertical;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
     align-items: center;
 
     &.red {
-        border: 1px solid $color-red;
+        border: 1px solid variables.$color-red;
     }
 
     .message {
@@ -240,16 +237,16 @@
 .BriefCard {
     display: flex;
     flex-direction: column;
-    background-color: $color-cuaternary;
-    padding: $padding;
-    border-radius: $border-radius;
-    font-size: $font-medium;
-    border: 1px solid $color-border;
-    box-shadow: $box-shadow-button;
+    background-color: variables.$color-cuaternary;
+    padding: variables.$padding;
+    border-radius: variables.$border-radius;
+    font-size: variables.$font-medium;
+    border: 1px solid variables.$color-border;
+    box-shadow: variables.$box-shadow-button;
 
     .data{
         label{
-            color: $text-color-secondary;
+            color: variables.$text-color-secondary;
         }
 
         &:last-of-type .dividerLocal{

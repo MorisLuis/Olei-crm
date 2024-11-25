@@ -1,4 +1,7 @@
-@import "../main.scss";
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
 
 .SellsClient {
     display: flex;
@@ -7,17 +10,17 @@
     
     .content {
         display: flex;
-        gap: $gap;
+        gap: variables.$gap;
         width: 100%;
 
-        @include respond(tab-port) {
+        @include mixins.respond(tab-port) {
             flex-direction: column-reverse;
         }
 
         .table {
             width: 100%;
 
-            @include respond(tab-port) {
+            @include mixins.respond(tab-port) {
                 width: 100%;
             }
         }
@@ -25,7 +28,7 @@
         .brief {
             width: 25%;
 
-            @include respond(tab-port) {
+            @include mixins.respond(tab-port) {
                 width: 100%;
             }
         }
@@ -37,20 +40,20 @@
     .send_message{
 
         .send_header{
-            font-size: $font-medium;
-            margin-bottom: $margin-vertical;
+            font-size: variables.$font-medium;
+            margin-bottom: variables.$margin-vertical;
         }
 
         .send_input{
             display: flex;
             flex-direction: column;
-            margin-bottom: $margin-vertical;
-            gap: $gap;
+            margin-bottom: variables.$margin-vertical;
+            gap: variables.$gap;
         }
 
         .message_decision{
             display: flex;
-            gap: $gap;
+            gap: variables.$gap;
         }
     }
 }
