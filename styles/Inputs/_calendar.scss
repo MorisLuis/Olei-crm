@@ -62,10 +62,14 @@
     background-color: $background-color !important;
     border-radius: 100px;
 
-    a {
+    .fc-daygrid-day-number{
         background-color: $color-red;
         border-radius: 100%;
         color: $text-color-light;
+    }
+
+    .fc-event-time{
+        display: none;
     }
 }
 
@@ -93,9 +97,14 @@
 // Event
 .fc-event {
     background-color: $background-color-tertiary;
-    border-radius: $border-radius/2;
-    padding: $padding/3 $padding/2;
+    border-radius: $border-radius;
+    padding: $padding/3 $padding;
     border: 1px solid $color-border;
+    width: 75%;
+
+    .fc-event-time{
+        display: none;
+    }
 }
 
 .fc-event-title-container {

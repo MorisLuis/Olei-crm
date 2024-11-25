@@ -1,5 +1,6 @@
 import { SellsInterface } from "@/interface/sells";
 
+// For enterprise
 export const sellsExample: SellsInterface[] = [
     {
         UniqueKey: '1',
@@ -43,6 +44,7 @@ export const sellsExample: SellsInterface[] = [
 
 ];
 
+// For client
 export const sellsClientExample: SellsInterface[] = [
     {
         UniqueKey: '1',

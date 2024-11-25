@@ -7,12 +7,12 @@ export const columnsSells: ColumnConfig<SellsInterface>[] = [
     {
         key: 'Id_Cliente',
         label: 'Id_Cliente',
-        render: (Id_Cliente) => <span>{Id_Cliente}</span>
+        render: (Id_Cliente) => <span>{Id_Cliente?.toString()}</span>
     },
     {
         key: 'Nombre',
         label: 'Nombre',
-        render: (Nombre) => <span style={{ fontWeight: 'bold' }}>{Nombre}</span>
+        render: (Nombre) => <span style={{ fontWeight: 'bold' }}>{Nombre?.toString()}</span>
 
     },
     {
