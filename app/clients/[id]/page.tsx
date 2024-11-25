@@ -59,7 +59,7 @@ export default function ClientDetailsPage() {
             <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
             <div className={styles.clientDetails}>
                 <div className={styles.clientDetails__calendar}>
-                    <MyCalendar/>
+                    <MyCalendar onClickEvent={() => console.log()} onClickDay={() => console.log()}/>
                 </div>
                 <div className={styles.clientDetails__brief}>
                     <BriefCard data={briefData} header='Detalles de empresa'/>

@@ -1,0 +1,42 @@
+@import "../main.scss";
+
+.event {
+    position: relative;
+
+    .content {
+        display: flex;
+        gap: $gap * 2;
+        position: relative;
+
+        .brief {
+            width: 50%;
+            position: sticky; // Corrige el prefijo
+            top: 10px; // Define la distancia desde el borde superior
+            height: fit-content;
+
+            @include respond(tab-port) {
+                display: none;
+            }
+
+            &__instruction {
+                margin-bottom: $margin-vertical;
+                font-size: $font-medium;
+                color: $text-color-secondary;
+            }
+
+            h4 {
+                margin-bottom: $margin-vertical;
+            }
+        }
+
+        .timeline {
+            width: 50%;
+            z-index: 0;
+
+
+            @include respond(tab-port) {
+                width: 100%;
+            }
+        }
+    }
+}

@@ -1,21 +1,20 @@
 .fc {
-
-    // Contenedor general
-   /*  .fc-view {
-        //background-color: $background-color-tertiary;
+    .fc-view-harness{
+        border: 1px solid $color-border;
         border-radius: $border-radius;
-        background-color: orchid;
-    } */
+        overflow: hidden;
+    }
 
     .fc-header-toolbar{
         justify-content: start;
         padding: 0px;
         align-items: start;
-        display: none;
+
 
         .fc-toolbar-title{
             font-size: $font-big;
             width: 100%;
+            text-transform: lowercase;
         }
     }
 
@@ -25,7 +24,6 @@
         font-size: $font-medium;
         font-weight: bold;
         text-align: right;
-        text-transform: uppercase;
     }
 
     // Renglones del grid
@@ -42,15 +40,17 @@
         font-weight: 500;
         padding: $padding;
         box-shadow: $box-shadow-input;
-    }
-
-    .fc-event-title{
-        color: $text-color;
+        border: 1px solid $color-border-secondary;
     }
 
     // Hover en eventos
     .fc-timegrid-event:hover {
-        background-color: gray;
+        border: 1px solid $color-border-tertiary;
+    }
+
+
+    .fc-event-title{
+        color: $text-color;
     }
 
 }

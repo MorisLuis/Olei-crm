@@ -7,7 +7,16 @@ import esLocale from '@fullcalendar/core/locales/es'; // Importar idioma españo
 import { calendarData } from '@/seed/calendarData';
 import { EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
 
-const MyCalendar = () => {
+interface MyCalendarInterface {
+    onClickEvent: () => void;
+    onClickDay: () => void
+
+}
+
+const MyCalendar = ({
+    onClickEvent,
+    onClickDay
+} : MyCalendarInterface ) => {
 
     // Transforma calendarData al formato esperado
     const transformedEvents: EventSourceInput = calendarData.map(event => ({
@@ -21,6 +30,7 @@ const MyCalendar = () => {
 
     const handleEventClick = (info: EventClickArg) => {
         console.log({ info: info.event.extendedProps })
+        onClickEvent()
     };
 
     return (
@@ -30,7 +40,7 @@ const MyCalendar = () => {
             editable={true} // Permite mover eventos
             selectable={true} // Permite seleccionar fechas
             events={transformedEvents} // Lista de eventos transformada
-            //dateClick={handleDateClick} // Escucha clics en fechas
+            dateClick={onClickDay} // Escucha clics en fechas
             eventClick={handleEventClick} // Escucha clics en eventos
             height="auto" // Ajuste automático de altura
             locale={esLocale} // Establecer idioma a español

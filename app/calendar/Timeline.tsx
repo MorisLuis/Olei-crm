@@ -4,7 +4,18 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import esLocale from '@fullcalendar/core/locales/es'; // Importar idioma español
 
-const MyTimeline = () => {
+interface MyTimelineInterface {
+    onClickEvent: () => void;
+}
+
+const MyTimeline = ({
+    onClickEvent
+} : MyTimelineInterface ) => {
+
+    const handeOnClickEvent = () => {
+        onClickEvent()
+    }
+
     return (
         <FullCalendar
             plugins={[timeGridPlugin]}
@@ -19,13 +30,9 @@ const MyTimeline = () => {
                 center: "title",
                 end: "",
             }}
+            eventClick={handeOnClickEvent} // Escucha clics en eventos
             allDaySlot={false} // Oculta la fila de "Todo el día"
             locale={esLocale} // Establecer idioma a español
-           /*  slotLabelFormat={{
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true, // Forzar formato de 12 horas
-            }} */
             height={"auto"}
         />
     );
