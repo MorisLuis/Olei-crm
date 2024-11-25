@@ -2,7 +2,7 @@ import { SellsInterface } from '@/interface/sells';
 
 export const docType = (value: SellsInterface['TipoDoc']) => {
 
-    let type = "Cotizacion"
+    let type = ""
 
     if ( value === 1) type = "Cotizacion"
     if ( value === 2) type = "Factura"

@@ -5,15 +5,15 @@ export interface SellsInterface {
     TipoDoc: 0 | 1 | 2 | 3 | 4;
     Folio: number;
     Serie: string;
-    Fecha: string;
-    FechaEntrega?: string;
+    Fecha: Date;
+    FechaEntrega?: Date | null;
     Saldo: number;
     Total: number;
     Nombre: string;
 
     ExpiredDays?: number;
     Impuesto?: number;
-    FechaLiq?: string;
+    FechaLiq?: Date;
     Piezas?: number;
 }
 

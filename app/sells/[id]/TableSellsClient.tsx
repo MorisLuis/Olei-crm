@@ -10,6 +10,7 @@ import { Tag } from '@/components/UI/Tag';
 import Table from '@/components/UI/Tables/Table';
 import { docType } from '@/utils/docType';
 import { useTagColor } from '@/hooks/useTagColor';
+import { formatDate } from '@/utils/formatDate';
 
 interface TableSellsClientInterface {
     sells: SellsInterface[];
@@ -44,11 +45,21 @@ export default function TableSellsClient({
         },
         {
             key: 'Fecha',
-            label: 'Fecha'
+            label: 'Fecha',
+            render: (Fecha) => (
+                <div>
+                    <p>{formatDate(Fecha as Date)}</p>
+                </div>
+            )
         },
         {
             key: 'FechaEntrega',
-            label: 'Fecha Vencimiento'
+            label: 'Fecha Vencimiento',
+            render: (FechaEntrega) => (
+                <div>
+                    <p>{formatDate(FechaEntrega as Date)}</p>
+                </div>
+            )
         },
         {
             key: 'ExpiredDays',

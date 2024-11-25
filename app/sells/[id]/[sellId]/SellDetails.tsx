@@ -4,16 +4,15 @@ import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/Tabl
 import { SellsInterface } from '@/interface/sells';
 import { sellDetailsExample } from '@/seed/sellsData'
 import React from 'react'
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from '../../../../styles/pages/SellDetails.module.scss'
-import {  useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { formatDate } from '@/utils/formatDate';
 
 export default function SellDetails() {
 
     const rawSearchParams = useSearchParams();
     const searchParams = new URLSearchParams(rawSearchParams);
-    const sellId = searchParams.get('sellId');    
+    const sellId = searchParams.get('sellId');
     const sellsData = {
         Nombre: sellDetailsExample.Nombre,
         Folio: sellDetailsExample?.Folio,
@@ -38,7 +37,6 @@ export default function SellDetails() {
             label: 'Nombre',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
                     <p>Nombre</p>
                 </div>
             )
@@ -48,7 +46,6 @@ export default function SellDetails() {
             label: 'Folio',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
                     <p>Folio</p>
                 </div>
             )
@@ -58,8 +55,12 @@ export default function SellDetails() {
             label: 'Fecha',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
                     <p>Fecha</p>
+                </div>
+            ),
+            render: (Fecha) => (
+                <div>
+                    <p>{formatDate(Fecha as Date)}</p>
                 </div>
             )
         },
@@ -68,8 +69,12 @@ export default function SellDetails() {
             label: 'FechaEntrega',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
-                    <p>FechaEntrega</p>
+                    <p>Fecha Entrega</p>
+                </div>
+            ),
+            render: (FechaEntrega) => (
+                <div>
+                    <p>{formatDate(FechaEntrega as Date)}</p>
                 </div>
             )
         },
@@ -78,8 +83,12 @@ export default function SellDetails() {
             label: 'Fecha Liquidación',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
-                    <p>FechaLiq</p>
+                    <p>Fecha Liquidación</p>
+                </div>
+            ),
+            render: (FechaLiq) => (
+                <div>
+                    <p>{formatDate(FechaLiq as Date)}</p>
                 </div>
             )
         },
@@ -88,8 +97,7 @@ export default function SellDetails() {
             label: 'Id Almacen',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
-                    <p>Id_Almacen</p>
+                    <p>Almacen</p>
                 </div>
             )
         },
@@ -98,8 +106,7 @@ export default function SellDetails() {
             label: 'Id Cliente',
             renderLabel: () => (
                 <div className={styles.sellItem}>
-                    <FontAwesomeIcon icon={faUser} className="icon__small" />
-                    <p>Id_Cliente</p>
+                    <p>Cliente</p>
                 </div>
             )
         },
