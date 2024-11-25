@@ -35,7 +35,7 @@ export default function SellsClientPage() {
         console.log("loadMoreProducts")
     };
 
-    const executeQuery = () => {
+    const executeQuery = useCallback(() => {
         // Buscar los filtros en el estado y asignar valores booleanos.
         const FilterTipoDoc = filtersActive.some((item) => (item.value !== 0) && item.filter === 'TipoDoc') ? 1 : 0;
         const FilterExpired = filtersActive.some((item) => item.value === 'Expired') ? 1 : 0;
@@ -45,7 +45,7 @@ export default function SellsClientPage() {
         const queryUrl = `api/sells/client/3?FilterTipoDoc=${FilterTipoDoc}&FilterExpired=${FilterExpired}&FilterNotExpired=${FilterNotExpired}&TipoDoc=${TipoDoc ?? 0}&OrderCondition=${orderActive.order}`;
 
         console.log({ query: queryUrl });
-    };
+    }, [filtersActive, orderActive]);
 
     const onSelectOrder = useCallback((value: string | number) => {
         const orderActive = orderSellsClient.find((item) => item.value == value)
@@ -65,7 +65,7 @@ export default function SellsClientPage() {
 
     useEffect(() => {
         executeQuery()
-    }, [filtersActive, orderActive])
+    }, [executeQuery])
 
     return (
         <>

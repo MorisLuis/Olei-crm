@@ -26,7 +26,7 @@ export default function CommentsModal({
 
     useEffect(() => {
         setNewComments(valueProp)
-    },[])
+    },[valueProp])
 
     return (
         <div className={styles.SellActions}>

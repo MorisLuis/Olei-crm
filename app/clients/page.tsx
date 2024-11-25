@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import HeaderTable from '@/components/navigation/headerTable';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import Header from '@/components/navigation/header';
@@ -31,16 +31,16 @@ export default function Clients() {
         setClientSearchValue(value)
     }
 
-    const executeQuery = () => {
+    const executeQuery = useCallback(() => {
         // Construir la query URL.
         const queryUrl = `api/client&clientOrderCondition=${orderActive.order}?Nombre=${clientSearchValue}`;
         console.log({ query: queryUrl });
-    };
+    }, [orderActive, clientSearchValue]);
 
 
     useEffect(() => {
         executeQuery()
-    }, [orderActive, clientSearchValue])
+    }, [executeQuery])
 
     return (
         <div className={styles.page}>

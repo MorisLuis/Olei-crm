@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import HeaderTable from '@/components/navigation/headerTable';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import Header, { ActionsInterface } from '@/components/navigation/header';
@@ -41,15 +41,14 @@ export default function Bitacora() {
         setOrderActive(orderActive)
     };
 
-    const executeQuery = () => {
-        // Construir la query URL.
+    const executeQuery = useCallback(() => {
         const queryUrl = `/api/meetings&meetginOrderCondition=${orderActive.order}`;
         console.log({ query: queryUrl });
-    };
+    }, [orderActive]);
 
     useEffect(() => {
         executeQuery()
-    }, [orderActive])
+    }, [executeQuery])
 
     return (
         <div className={styles.page}>

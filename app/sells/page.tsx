@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TableSells from './TableSells';
 import { sellsExample } from '@/seed/sellsData';
 import HeaderTable from '@/components/navigation/headerTable';
@@ -26,15 +26,15 @@ export default function Sells() {
         setOrderActive(orderActive)
     };
 
-    const executeQuery = () => {
+    const executeQuery = useCallback(() => {
         // Construir la query URL.
         const queryUrl = `api/sells/3?sellsFilterCondition=${orderActive.order}`;
         console.log({ query: queryUrl });
-    };
+    }, [orderActive]);
 
     useEffect(() => {
         executeQuery()
-    }, [orderActive])
+    }, [executeQuery])
 
     return (
         <div className={styles.page}>
