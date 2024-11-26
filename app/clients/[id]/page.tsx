@@ -59,10 +59,10 @@ export default function ClientDetailsPage() {
             <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
             <div className={styles.clientDetails}>
                 <div className={styles.clientDetails__calendar}>
-                    <MyCalendar onClickEvent={() => console.log()} onClickDay={() => console.log()}/>
+                    <MyCalendar onClickEvent={() => console.log()} onClickDay={() => console.log()} />
                 </div>
                 <div className={styles.clientDetails__brief}>
-                    <BriefCard data={briefData} header='Detalles de empresa'/>
+                    <BriefCard data={briefData} header='Detalles de empresa' />
                 </div>
             </div>
 
@@ -72,7 +72,7 @@ export default function ClientDetailsPage() {
                 onClose={() => setOpenModalWhatsApp(false)}
                 modalSize='small'
             >
-                <WhatsAppModal />
+                <WhatsAppModal onClose={() => setOpenModalWhatsApp(false)} />
             </Modal>
 
             <Modal
@@ -81,7 +81,7 @@ export default function ClientDetailsPage() {
                 onClose={() => setOpenModalEmail(false)}
                 modalSize='small'
             >
-                <EmailModal />
+                <EmailModal onClose={() => setOpenModalEmail(false)} />
             </Modal>
         </>
     )

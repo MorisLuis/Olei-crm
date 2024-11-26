@@ -1,9 +1,44 @@
 import Button from '@/components/Buttons/Button'
 import Input from '@/components/Inputs/input'
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../../styles/pages/Sells.module.scss'
+import InputTextBox from '@/components/Inputs/inputTextBox';
+import useToast from '@/hooks/useToast';
 
-export default function EmailModal() {
+interface EmailModalInterface {
+    onClose: () => void;
+};
+
+export default function EmailModal({
+    onClose
+} : EmailModalInterface ) {
+
+    const { showSuccess } = useToast()
+
+    const [messageSended, setMessageSended] = useState<string>('');
+    const [subject, setSubject] = useState<string>('');
+
+    const sendDisabled = subject === "" || messageSended === ""
+
+    const onChangeEmaiSubjectlMessage = (value: string) => {
+        setSubject(value)
+    }
+    const onChangeEmailMessage = (value: string) => {
+        setMessageSended(value)
+    }
+
+    const onSendEmailPredetermined = () => {
+        onClose()
+        showSuccess('Correo enviado exitosamente!')
+    }
+
+    const onSendEmail = () => {
+        if(subject === '') return;
+        if(messageSended === '') return;
+        onClose()
+        showSuccess('Correo enviado exitosamente!')
+    }
+
     return (
         <div className={styles.SellActions}>
             <div className={styles.send_message}>
@@ -12,20 +47,21 @@ export default function EmailModal() {
                 </div>
                 <div className={styles.send_input}>
                     <Input
-                        value=''
+                        value={subject}
                         name='Asunto'
                         placeholder='Escribe el asunto.'
+                        onChange={onChangeEmaiSubjectlMessage}
                     />
-                    <Input
-                        value=''
-                        name='Email'
-                        placeholder='Escribe el correo'
+                    <InputTextBox
+                        value={messageSended}
+                        placeholder='Escribe el mensaje'
+                        onChange={onChangeEmailMessage}
                     />
                 </div>
 
                 <div className={styles.message_decision}>
-                    <Button text='Mensaje Predeterminado' disabled={false} className="white" />
-                    <Button text='Enviar' disabled={false} />
+                    <Button text='Mensaje Predeterminado' disabled={false} className="white" onClick={onSendEmailPredetermined}/>
+                    <Button text='Enviar' disabled={sendDisabled} onClick={onSendEmail}/>
                 </div>
             </div>
         </div>

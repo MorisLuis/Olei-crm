@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 
 interface AutoResizeTextareaProps {
     value: string;
-    placeholder?: string;
     onChange: (value: string) => void;
+    placeholder?: string;
     maxRows?: number;
     label?: string
 }
