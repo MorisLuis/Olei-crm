@@ -26,10 +26,8 @@ export default function TableTertiaryBitacoraDetails({
 
     const pathname = usePathname();
     const [basePath, id] = pathname.split('/').filter(Boolean);
-
     const { changeColor } = useTagColor();
     const [openCommentsModal, setOpenCommentsModal] = useState(false);
-
 
     const sellsDataBack: MeetingInterface = meetingsExamples.find((item) => item.Id_Bitacora == (Id_Bitacora ?? Number(id))) ?? meetingExample; // API - Get product 
     const [sellsData, setSellsData] = useState(sellsDataBack)

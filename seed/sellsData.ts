@@ -89,7 +89,7 @@ export const sellsClientExample: SellsInterface[] = [
         ExpiredDays: 1
     },
     {
-        UniqueKey: '3',
+        UniqueKey: '4',
         Nombre: "Empresa 4",
         Id_Cliente: 2,
         Id_Almacen: 1,
@@ -97,13 +97,13 @@ export const sellsClientExample: SellsInterface[] = [
         Folio: 204,
         Serie: '001',
         Fecha: new Date(2024, 4, 10),
-        FechaEntrega: null,
+        FechaEntrega: new Date(2024, 10, 23),
         Saldo: 1500,
         Total: 1500,
         ExpiredDays: 0
     },
     {
-        UniqueKey: '2',
+        UniqueKey: '5',
         Nombre: "Rosa Maria",
         Id_Cliente: 2,
         Id_Almacen: 1,
@@ -111,7 +111,7 @@ export const sellsClientExample: SellsInterface[] = [
         Folio: 207,
         Serie: '001',
         Fecha: new Date(2024, 4, 10),
-        FechaEntrega: null,
+        FechaEntrega: new Date(2024, 10, 23),
         Saldo: 1200,
         Total: 1340,
         ExpiredDays: 0
