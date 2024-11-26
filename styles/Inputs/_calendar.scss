@@ -8,9 +8,22 @@
     text-transform: capitalize;
     font-size: variables.$font-medium;
     gap: variables.$gap;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-between !important;
+    align-items: center !important;
 
-    .fc-toolbar-chunk:nth-child(3) {
-        display: flex;
+
+    .fc-toolbar-chunk {
+        h2 {
+            font-size: variables.$font-normal !important;
+            text-transform: uppercase !important;
+            color: variables.$text-color-secondary;
+        }
+
+        .fc-button-group{
+            gap: calc(variables.$gap/2);
+        }
     }
 
     .fc-today-button,
@@ -18,10 +31,13 @@
     .fc-next-button {
         background-color: variables.$color-tertiary;
         border-radius: variables.$border-radius;
+        box-shadow: variables.$box-shadow-button;
     }
 
     .fc-today-button:disabled {
-        opacity: 70%;
+        background-color: variables.$color-primary;
+        border: 1px solid variables.$color-border;
+        color: variables.$text-color;
     }
 }
 
@@ -66,13 +82,13 @@
     background-color: variables.$background-color !important;
     border-radius: 100px;
 
-    .fc-daygrid-day-number{
+    .fc-daygrid-day-number {
         background-color: variables.$color-red;
         border-radius: 100%;
         color: variables.$text-color-light;
     }
 
-    .fc-event-time{
+    .fc-event-time {
         display: none;
     }
 }
@@ -102,11 +118,11 @@
 .fc-event {
     background-color: variables.$background-color-tertiary;
     border-radius: variables.$border-radius;
-    padding: calc(variables.$padding/3) variables.$padding;
+    padding: calc(variables.$padding/3);
     border: 1px solid variables.$color-border;
     width: 75%;
 
-    .fc-event-time{
+    .fc-event-time {
         display: none;
     }
 }
@@ -140,4 +156,12 @@
 
 .fc-daygrid-header th {
     border: none !important;
+}
+
+.fc-daygrid-event-harness{
+    a{
+        .fc-daygrid-event-dot{
+            border: 4px solid variables.$color-green !important;
+        }
+    }
 }
