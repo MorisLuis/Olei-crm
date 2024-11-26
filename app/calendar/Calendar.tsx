@@ -29,7 +29,6 @@ const MyCalendar = ({
     }));
 
     const handleEventClick = (info: EventClickArg) => {
-        console.log({info})
         onClickEvent(info)
     };
 

@@ -17,7 +17,6 @@ const InputDatePicker = ({
     value
 }: InputDatePicker) => {
 
-    console.log({value})
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const getDayClassName = (date: Date) => {
         const today = new Date();

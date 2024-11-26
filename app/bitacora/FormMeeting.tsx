@@ -25,12 +25,14 @@ interface FormMeetingInterface {
     meetingProp?: MeetingInterface;
     visible: boolean;
     onClose: () => void;
+    isEditing?: boolean
 }
 
 export default function FormMeeting({
     meetingProp,
     visible,
-    onClose
+    onClose,
+    isEditing
 }: FormMeetingInterface) {
 
     const { showSuccess, showInfo } = useToast()
@@ -61,7 +63,8 @@ export default function FormMeeting({
             return showInfo("Es necesario agregar titulo")
         }
         onClose()
-        showSuccess(`Reunión ${meetingForm.Title} Creada!`)
+        const messageShowed = isEditing ? `Reunión ${meetingForm.Title} editada!` : `Reunión ${meetingForm.Title} Creada!`
+        showSuccess(messageShowed)
     }
 
     useEffect(() => {
@@ -81,7 +84,7 @@ export default function FormMeeting({
                 },
                 action2: {
                     action: () => onPostMeeting(),
-                    label: "Crear reunión"
+                    label: isEditing ? "Editar" : "Crear reunión"
                 }
             }}
         >

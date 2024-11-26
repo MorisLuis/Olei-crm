@@ -2,36 +2,34 @@
 
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
 import { SellsInterface } from '@/interface/sells';
-import { sellDetailsExample } from '@/seed/sellsData'
+import { sellsClientExample } from '@/seed/sellsData'
 import React from 'react'
 import styles from '../../../../styles/pages/SellDetails.module.scss'
 import { useSearchParams } from 'next/navigation'
 import { formatDate } from '@/utils/formatDate';
+import { Tag } from '@/components/UI/Tag';
+import { useTagColor } from '@/hooks/useTagColor';
+import { docType } from '@/utils/docType';
 
 export default function SellDetails() {
 
     const rawSearchParams = useSearchParams();
     const searchParams = new URLSearchParams(rawSearchParams);
     const sellId = searchParams.get('sellId');
-    const sellsData = {
-        Nombre: sellDetailsExample.Nombre,
-        Folio: sellDetailsExample?.Folio,
-        Fecha: sellDetailsExample.Fecha,
-        FechaEntrega: sellDetailsExample.FechaEntrega,
-        FechaLiq: sellDetailsExample.FechaLiq,
-        Id_Almacen: sellDetailsExample.Id_Almacen,
-        Id_Cliente: sellDetailsExample.Id_Cliente,
-        Piezas: sellDetailsExample.Piezas,
-        Impuesto: sellDetailsExample.Impuesto,
-        ExpiredDays: sellDetailsExample.ExpiredDays,
-        Total: sellDetailsExample.Total,
-        Saldo: sellDetailsExample.Saldo,
-        Serie: sellDetailsExample.Serie,
-        TipoDoc: sellDetailsExample.TipoDoc,
-        UniqueKey: sellDetailsExample.UniqueKey,
-    };
+    const { changeColor } = useTagColor()
 
-    const columns: ColumnTertiaryConfig<Partial<SellsInterface>>[] = [
+    console.log({sellId})
+    const sellsData = sellsClientExample.find((item) => item.UniqueKey === sellId) ?? sellsClientExample[0];
+
+    console.log({sellsData})
+
+    const columns: ColumnTertiaryConfig<SellsInterface>[] = [
+        {
+            key: 'TipoDoc',
+            label: 'Tipo de documento',
+            renderLabel: () => <div className={styles.sellItem}><p>Tipo de documento</p></div>,
+            render: (_, item) => <Tag color={changeColor(item.TipoDoc)}>{docType(item.TipoDoc)}</Tag>
+        },
         {
             key: 'Nombre',
             label: 'Nombre',

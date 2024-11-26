@@ -1,31 +1,37 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import MyCalendar from './Calendar';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useRouter } from 'next/navigation';
 import FormMeeting, { INITIAL_MEETING } from '../bitacora/FormMeeting';
 import { EventClickArg } from '@fullcalendar/core/index.js';
 import { meetingExample } from '@/seed/bitacoraData';
+import Modal from '@/components/Modals/Modal';
+import SellDetails from '../sells/[id]/[sellId]/SellDetails';
 
 export default function Calendar() {
 
-    const { push } = useRouter()
+    const { push, back } = useRouter()
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
     const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING)
+    const [openModalSell, setOpenModalSell] = useState(false)
 
     const handelOnClickEvent = (info: EventClickArg) => {
         const dataEvent = info.event.extendedProps
-        console.log({dataEvent})
 
-        if(dataEvent.TableType === "Bitacora"){
+        if (dataEvent.TableType === "Bitacora") {
+            // Get meeting from API
             setEventToOpen(meetingExample);
             setOpenModalCreateMeeting(true);
             return;
         }
 
-        if(dataEvent.TableType === "Ventas"){
-            alert("Ventas")
+        if (dataEvent.TableType === "Ventas") {
+            // Get sell and folio from API.
+            setOpenModalSell(true)
+            // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
+            push(`/calendar/?sellId=3`) 
             return;
         }
 
@@ -36,6 +42,10 @@ export default function Calendar() {
         setEventToOpen(INITIAL_MEETING)
     }
 
+    const handleCloseModalSell = useCallback(() => {
+        setOpenModalSell(false)
+        back()
+    }, [back])
 
     const clientActions: ActionsInterface[] = [
         {
@@ -59,7 +69,17 @@ export default function Calendar() {
                 visible={openModalCreateMeeting}
                 onClose={handleCloseMeetingModal}
                 meetingProp={eventToOpen}
+                isEditing
             />
+
+            <Modal
+                visible={openModalSell}
+                title='Detalle de venta'
+                onClose={handleCloseModalSell}
+                modalSize='medium'
+            >
+                <SellDetails />
+            </Modal>
 
         </div>
     )
