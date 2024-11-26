@@ -2,3 +2,20 @@
 @use "../main.scss";
 @use "../Abstracts/mixins";
 @use "../Abstracts/variables";
+
+.modalShareCobranza{
+    display: flex;
+    flex-direction: column;
+    gap: variables.$gap;
+
+    .title{
+        margin-bottom: variables.$margin-vertical;
+        font-size: variables.$font-medium;
+        width: 80%;
+    }
+
+    .actions{
+        display: flex;
+        gap: variables.$gap;
+    }
+}

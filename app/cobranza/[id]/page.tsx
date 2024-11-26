@@ -13,26 +13,27 @@ import { usePathname, useRouter } from 'next/navigation';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from '@/app/sells/[id]/[sellId]/SellDetails';
 import { SellsInterface } from '@/interface/sells';
+import ShareCobranzaModal from './ShareCobranzaModal';
 import styles from "../../../styles/pages/Cobranza.module.scss";
 
 export default function Cobranza() {
 
     const { push, back } = useRouter()
     const pathname = usePathname();
-    const [basePath, id] = pathname.split('/').filter(Boolean);
-    console.log({basePath})
+    const id = pathname.split('/').filter(Boolean)[1];    
 
     const { orderMeetings } = useOrderMeetingsConfig()
     const [orderActive, setOrderActive] = useState<OrderObject>(orderMeetings[0])
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersMeeting, filterOfMeetings } = useFiltersMeetingConfig();
-    const [openModalSell, setOpenModalSell] = useState(false)
+    const [openModalSell, setOpenModalSell] = useState(false);
+    const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
 
     const clientActions: ActionsInterface[] = [
         {
             id: 1,
             text: 'Compartir Relación',
-            onclick: () => console.log(true),
+            onclick: () => setOpenModalShareCobranza(true),
             color: 'yellow'
         }
     ]
@@ -57,6 +58,10 @@ export default function Cobranza() {
     const handleCloseModalSell = () => {
         back()
         setOpenModalSell(false)
+    };
+
+    const handleCloseModalShareCobranza = () => {
+        setOpenModalShareCobranza(false)
     }
 
     const executeQuery = useCallback(() => {
@@ -102,6 +107,11 @@ export default function Cobranza() {
             >
                 <SellDetails />
             </Modal>
+
+            <ShareCobranzaModal
+                visible={openModalShareCobranza}
+                onClose={handleCloseModalShareCobranza}
+            />
 
         </div>
     )

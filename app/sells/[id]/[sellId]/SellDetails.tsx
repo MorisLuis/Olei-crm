@@ -17,11 +17,7 @@ export default function SellDetails() {
     const searchParams = new URLSearchParams(rawSearchParams);
     const sellId = searchParams.get('sellId');
     const { changeColor } = useTagColor()
-
-    console.log({sellId})
     const sellsData = sellsClientExample.find((item) => item.UniqueKey === sellId) ?? sellsClientExample[0];
-
-    console.log({sellsData})
 
     const columns: ColumnTertiaryConfig<SellsInterface>[] = [
         {

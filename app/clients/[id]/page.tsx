@@ -49,7 +49,7 @@ export default function ClientDetailsPage() {
         {
             id: 5,
             text: 'Cobranza',
-            onclick: () => console.log()
+            onclick: () => push(`/cobranza/${clientDetailsExample.Id_Cliente}`)
         }
     ]
 

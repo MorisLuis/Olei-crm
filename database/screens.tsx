@@ -51,5 +51,12 @@ export const screenData : screenDataInterface[] = [
         pathname: "/settings",
         description: "Configuración Olei CRM by olei software",
         icon: faGear
+    },
+    {
+        id: 6,
+        name: "Cobranza",
+        pathname: "/cobranza",
+        description: "Cobranza Olei CRM by olei software",
+        icon: faGear
     }
 ]
