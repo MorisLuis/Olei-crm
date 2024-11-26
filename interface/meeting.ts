@@ -4,6 +4,7 @@ export default interface MeetingInterface {
     Id_Cliente?: number;
     Fecha: Date;
     Hour: string;
+    HourEnd: string;
     Title: string;
     Descripcion: string;
     TipoContacto: 0 | 1 | 2 | 3 | 4;

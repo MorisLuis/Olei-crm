@@ -1,10 +1,10 @@
 "use client"
 
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
-import React, { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import MeetingInterface from '@/interface/meeting';
-import { meetingExample } from '@/seed/bitacoraData';
+import { meetingExample, meetingsExamples } from '@/seed/bitacoraData';
 import { Tag } from '@/components/UI/Tag';
 import { contactType } from '@/utils/contactType';
 import { useTagColor } from '@/hooks/useTagColor'
@@ -12,29 +12,27 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '@/components/Modals/Modal';
 import CommentsModal from './ModalComments';
-import styles from '../../../styles/pages/SellDetails.module.scss'
 import { formatDate } from '@/utils/formatDate';
 import { formatTime } from '@/utils/formatTime';
+import styles from '../../../styles/pages/SellDetails.module.scss'
 
-export default function TableTertiaryBitacoraDetails() {
+interface TableTertiaryBitacoraDetailsInterface {
+    Id_Bitacora?: number;
+}
 
-    const rawSearchParams = useSearchParams();
+export default function TableTertiaryBitacoraDetails({
+    Id_Bitacora
+}: TableTertiaryBitacoraDetailsInterface) {
+
+    const pathname = usePathname();
+    const [basePath, id] = pathname.split('/').filter(Boolean);
+
     const { changeColor } = useTagColor();
-    const [openCommentsModal, setOpenCommentsModal] = useState(false)
+    const [openCommentsModal, setOpenCommentsModal] = useState(false);
 
-    const searchParams = new URLSearchParams(rawSearchParams);
-    const sellId = searchParams.get('sellId');
-    const sellsData = {
-        Title: meetingExample.Title,
-        Id_Bitacora: meetingExample.Id_Bitacora,
-        Id_Almacen: meetingExample.Id_Almacen,
-        Id_Cliente: meetingExample.Id_Cliente,
-        Fecha: meetingExample.Fecha,
-        Hour: meetingExample.Hour,
-        Descripcion: meetingExample.Descripcion,
-        TipoContacto: meetingExample.TipoContacto,
-        Comentarios: meetingExample.Comentarios
-    };
+
+    const sellsDataBack: MeetingInterface = meetingsExamples.find((item) => item.Id_Bitacora == (Id_Bitacora ?? Number(id))) ?? meetingExample; // API - Get product 
+    const [sellsData, setSellsData] = useState(sellsDataBack)
 
     const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
         {
@@ -137,6 +135,10 @@ export default function TableTertiaryBitacoraDetails() {
         },
     ];
 
+    useEffect(() => {
+        setSellsData(sellsDataBack)
+    }, [Id_Bitacora, sellsDataBack]);
+
     return (
         <>
             <div className={styles.sellDetails}>
@@ -144,7 +146,7 @@ export default function TableTertiaryBitacoraDetails() {
                     columns={columns}
                     data={sellsData}
                 />
-                <div className='none'>{sellId}</div>
+                <div style={{ display: 'none' }}>{basePath}</div>
             </div>
             <Modal
                 title='Comentarios'
@@ -152,7 +154,7 @@ export default function TableTertiaryBitacoraDetails() {
                 onClose={() => setOpenCommentsModal(false)}
                 modalSize='small'
             >
-                <CommentsModal  onClose={() => setOpenCommentsModal(false)} value=''/>
+                <CommentsModal onClose={() => setOpenCommentsModal(false)} value='' />
             </Modal>
         </>
     )

@@ -25,6 +25,7 @@ export default function FormMeeting({
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>({
         Fecha: new Date(),
         Hour: "",
+        HourEnd: '',
         Descripcion: "",
         Title: "",
         TipoContacto: 0,

@@ -5,8 +5,8 @@ import { clientDetailsExample } from '@/seed/clientsData';
 import React from 'react'
 import Header from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
-import styles from "../../../styles/pages/Bitacora.module.scss";
 import FileUploader from '@/components/UI/FileUploader';
+import styles from "../../../styles/pages/Bitacora.module.scss";
 
 export default function ClientDetailsPage() {
 
@@ -24,7 +24,7 @@ export default function ClientDetailsPage() {
                 <div className={styles.bitacoraDetails__data}>
                     <div className={styles.details}>
                         <h4>Reunión</h4>
-                        <TableTertiaryBitacoraDetails />
+                        <TableTertiaryBitacoraDetails/>
                     </div>
                     <FileUploader/>
                 </div>

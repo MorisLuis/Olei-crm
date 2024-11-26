@@ -1,38 +1,45 @@
-"use client";
-
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import esLocale from '@fullcalendar/core/locales/es'; // Importar idioma español
+import esLocale from '@fullcalendar/core/locales/es'; // Idioma español
+import { EventClickArg } from "@fullcalendar/core/index.js";
+import MeetingInterface from "@/interface/meeting";
+import { meetingsExamples } from "@/seed/bitacoraData";
 
 interface MyTimelineInterface {
-    onClickEvent: () => void;
+    onClickEvent: (eventBody: MeetingInterface) => void;
 }
 
 const MyTimeline = ({
     onClickEvent
-} : MyTimelineInterface ) => {
+}: MyTimelineInterface) => {
 
-    const handeOnClickEvent = () => {
-        onClickEvent()
-    }
+    // Mapeo de meetings a formato de FullCalendar
+    const events = meetingsExamples.map(meeting => ({
+        id: meeting.Id_Bitacora?.toString() || "", // Asegúrate de usar un string para `id`
+        start: `${meeting.Fecha.toISOString().split('T')[0]}T${meeting.Hour}`, // Fecha y hora de inicio
+        end: `${meeting.Fecha.toISOString().split('T')[0]}T${meeting.HourEnd}`, // Fecha y hora de fin
+        title: meeting.Title, // Título
+        extendedProps: { Id_Bitacora: meeting.Id_Bitacora } // Agrega todas las propiedades adicionales
+    }));
+
+    const handeOnClickEvent = (arg: EventClickArg) => {
+        onClickEvent(arg.event.extendedProps as MeetingInterface); // Pasar el evento completo al callback
+    };
 
     return (
         <FullCalendar
             plugins={[timeGridPlugin]}
             initialView="timeGridDay"
             slotDuration="01:00:00"
-            events={[
-                { id: "1", start: "2024-11-25T09:00:00", end: "2024-11-25T11:00:00", title: "Tarea 1" },
-                { id: "2", start: "2024-11-25T13:00:00", end: "2024-11-25T15:00:00", title: "Tarea 2" },
-            ]}
+            events={events} // Usar el arreglo mapeado
             headerToolbar={{
-                start: "", // Oculta el header
+                start: "",
                 center: "title",
                 end: "",
             }}
-            eventClick={handeOnClickEvent} // Escucha clics en eventos
-            allDaySlot={false} // Oculta la fila de "Todo el día"
-            locale={esLocale} // Establecer idioma a español
+            eventClick={handeOnClickEvent}
+            allDaySlot={false}
+            locale={esLocale}
             height={"auto"}
         />
     );
