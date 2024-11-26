@@ -19,6 +19,7 @@ export const INITIAL_MEETING: MeetingInterface = {
     Title: "",
     TipoContacto: 0,
     Comentarios: "",
+    Id_Bitacora: 0
 }
 
 interface FormMeetingInterface {

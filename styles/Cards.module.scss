@@ -227,10 +227,12 @@
 
     .paragraph {
         font-size: variables.$font-medium;
+        color: variables.$text-color-secondary;
     }
 
     h2 {
         margin-bottom: calc(variables.$margin-vertical / 2);
+        color: variables.$color-tertiary;
     }
 }
 

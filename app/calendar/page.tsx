@@ -9,6 +9,7 @@ import { EventClickArg } from '@fullcalendar/core/index.js';
 import { meetingExample } from '@/seed/bitacoraData';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from '../sells/[id]/[sellId]/SellDetails';
+import { DateClickArg } from '@fullcalendar/interaction/index.js';
 
 export default function Calendar() {
 
@@ -37,6 +38,10 @@ export default function Calendar() {
 
     };
 
+    const handleOnClickDay = (arg: DateClickArg) => {
+        push(`calendar/event/${arg.date}`)
+    }
+
     const handleCloseMeetingModal = () => {
         setOpenModalCreateMeeting(false);
         setEventToOpen(INITIAL_MEETING)
@@ -62,7 +67,7 @@ export default function Calendar() {
 
             <MyCalendar
                 onClickEvent={handelOnClickEvent}
-                onClickDay={() => push(`calendar/event/1`)}
+                onClickDay={handleOnClickDay}
             />
 
             <FormMeeting

@@ -2,14 +2,14 @@
 
 import FullCalendar from '@fullcalendar/react'; // Importa el componente principal
 import dayGridPlugin from '@fullcalendar/daygrid'; // Vista mensual
-import interactionPlugin from '@fullcalendar/interaction'; // Plugin de interacción
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction'; // Plugin de interacción
 import esLocale from '@fullcalendar/core/locales/es'; // Importar idioma español
 import { calendarData } from '@/seed/calendarData';
 import { EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
 
 interface MyCalendarInterface {
     onClickEvent: (info: EventClickArg) => void;
-    onClickDay: () => void
+    onClickDay: (arg: DateClickArg) => void
 
 }
 
