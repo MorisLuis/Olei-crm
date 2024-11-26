@@ -1,15 +1,19 @@
 import useToast from '@/hooks/useToast';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface TimeInputInterface {
+    value?: string;
     onChange: (value: string) => void;
     label?: string
 }
 
 const TimeInput = ({
+    value,
     onChange,
     label
 }: TimeInputInterface) => {
+
+
     const [time, setTime] = useState('');
     const { showError } = useToast();
 
@@ -42,6 +46,19 @@ const TimeInput = ({
         }
     };
 
+    useEffect(() => {
+        if (!value) return;
+        const formattedValue = value.slice(0, 5);
+
+        if (/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(formattedValue)) {
+            setTime(formattedValue);
+        } else {
+            setTime('');
+            showError("Valor inicial inválido");
+        }
+    }, [value, showError]);
+
+
     return (
         <div>
             {label && <label htmlFor={label} className="label">{label}</label>}
@@ -53,6 +70,7 @@ const TimeInput = ({
                 placeholder="hh:mm"
                 maxLength={5}
                 className='input'
+                pattern="^(?:[01]\d|2[0-3]):[0-5]\d$" // Validar hh:mm directamente
             />
         </div>
     );

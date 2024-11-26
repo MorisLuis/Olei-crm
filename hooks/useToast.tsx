@@ -1,4 +1,5 @@
 // hooks/useToast.ts
+
 import { toast } from 'react-hot-toast';
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

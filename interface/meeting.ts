@@ -3,7 +3,7 @@ export default interface MeetingInterface {
     Id_Almacen?: number;
     Id_Cliente?: number;
     Fecha: Date;
-    Hour: string;
+    Hour: string | undefined;
     HourEnd: string;
     Title: string;
     Descripcion: string;

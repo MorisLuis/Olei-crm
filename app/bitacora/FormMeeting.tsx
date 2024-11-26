@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputDatePicker from "@/components/Inputs/inputDate";
 import TimeInput from "@/components/Inputs/inputTime";
 import Input from "@/components/Inputs/input";
@@ -11,26 +11,30 @@ import styles from '../../styles/Form.module.scss';
 import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
 
+export const INITIAL_MEETING: MeetingInterface = {
+    Fecha: new Date(), // Fecha actual como objeto Date
+    Hour: undefined,
+    HourEnd: '',
+    Descripcion: "",
+    Title: "",
+    TipoContacto: 0,
+    Comentarios: "",
+}
+
 interface FormMeetingInterface {
+    meetingProp?: MeetingInterface;
     visible: boolean;
     onClose: () => void;
 }
 
 export default function FormMeeting({
+    meetingProp,
     visible,
     onClose
 }: FormMeetingInterface) {
 
     const { showSuccess, showInfo } = useToast()
-    const [meetingForm, setMeetingForm] = useState<MeetingInterface>({
-        Fecha: new Date(),
-        Hour: "",
-        HourEnd: '',
-        Descripcion: "",
-        Title: "",
-        TipoContacto: 0,
-        Comentarios: "",
-    });
+    const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
 
     const [emailsResend, setEmailsResend] = useState<string[]>([]);
     const availableToPost = meetingForm.Title
@@ -48,17 +52,21 @@ export default function FormMeeting({
     };
 
     const handleResendEmail = (value: MultiValue<OptionInputSelectTag>) => {
-        console.log({emailsResend})
+        console.log({ emailsResend })
         setEmailsResend((prevState) => [...prevState, value[value.length - 1].value]);
     }
 
     const onPostMeeting = () => {
-        if(!availableToPost) {
+        if (!availableToPost) {
             return showInfo("Es necesario agregar titulo")
         }
         onClose()
         showSuccess(`Reunión ${meetingForm.Title} Creada!`)
     }
+
+    useEffect(() => {
+        setMeetingForm(meetingProp ?? INITIAL_MEETING)
+    }, [meetingProp])
 
     return (
         <Modal
@@ -106,10 +114,12 @@ export default function FormMeeting({
                 <InputDatePicker
                     onChange={(value) => handleChange("Fecha", value ?? new Date())}
                     label="Cuando sera tu tarea?"
+                    value={meetingForm.Fecha && new Date(meetingForm.Fecha).toLocaleDateString("es-MX")}
                 />
                 <TimeInput
                     onChange={(value) => handleChange("Hour", value)}
                     label="A que hora sera tu tarea?"
+                    value={meetingForm.Hour ? meetingForm.Hour : undefined}
                 />
                 <InputTextBox
                     placeholder="Comentarios de la reunión"

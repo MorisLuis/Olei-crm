@@ -8,13 +8,16 @@ import { es } from "date-fns/locale"; // Importa el idioma deseado
 interface InputDatePicker {
     onChange: (date: Date | null) => void;
     label?: string;
+    value?: string
 }
 
 const InputDatePicker = ({
     onChange,
-    label
+    label,
+    value
 }: InputDatePicker) => {
 
+    console.log({value})
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const getDayClassName = (date: Date) => {
         const today = new Date();
@@ -46,6 +49,7 @@ const InputDatePicker = ({
                 locale={es}
                 popperPlacement="bottom-start"
                 dayClassName={getDayClassName}
+                value={value || undefined}
             />
         </div>
     );

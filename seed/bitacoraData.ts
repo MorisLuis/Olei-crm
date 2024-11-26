@@ -65,9 +65,9 @@ export const meetingExample: MeetingInterface =
         Id_Almacen: 1,
         Id_Cliente: 1,
         Fecha: new Date(2025, 0, 1),
-        Hour: "10:20",
-        HourEnd: "02:40",
+        Hour: "13:00:00",
+        HourEnd: "15:00:00",
         Descripcion: "Reunion para avances",
-        TipoContacto: 1,
+        TipoContacto: 3,
         Comentarios: "En esta reunion reunionreunionreunionreunion reunionreunionreunionreunion se platico de muchas cosas"
     }

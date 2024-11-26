@@ -8,7 +8,7 @@ import { calendarData } from '@/seed/calendarData';
 import { EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
 
 interface MyCalendarInterface {
-    onClickEvent: () => void;
+    onClickEvent: (info: EventClickArg) => void;
     onClickDay: () => void
 
 }
@@ -30,7 +30,7 @@ const MyCalendar = ({
 
     const handleEventClick = (info: EventClickArg) => {
         console.log({info})
-        onClickEvent()
+        onClickEvent(info)
     };
 
     return (
