@@ -3,7 +3,13 @@ import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 
-const FileUploader: React.FC = () => {
+interface FileUploaderInterface {
+    label?: string;
+}
+
+const FileUploader = ({
+    label
+}: FileUploaderInterface) => {
     const [filePreview, setFilePreview] = useState<string | null>(null);
     const [fileType, setFileType] = useState<string | null>(null)
 
@@ -18,6 +24,7 @@ const FileUploader: React.FC = () => {
 
     return (
         <div className='input_uploader'>
+            {label && <label htmlFor={label} className="label">{label}</label>}
             {
                 !filePreview &&
                 <label

@@ -7,9 +7,10 @@ import MeetingInterface from "@/interface/meeting";
 import InputTextBox from "@/components/Inputs/inputTextBox";
 import InputSelectTag, { OptionInputSelectTag } from "@/components/Inputs/inputSelectTag";
 import { MultiValue } from "react-select";
-import styles from '../../styles/Form.module.scss';
 import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
+import styles from '../../styles/Form.module.scss';
+import FileUploader from "@/components/UI/FileUploader";
 
 export const INITIAL_MEETING: MeetingInterface = {
     Fecha: new Date(), // Fecha actual como objeto Date
@@ -90,6 +91,7 @@ export default function FormMeeting({
             }}
         >
             <div className={styles.formMetting}>
+
                 <SelectReact
                     options={optionTipoMeeting}
                     name="Tipo de contacto"
@@ -120,21 +122,35 @@ export default function FormMeeting({
                     label="Cuando sera tu tarea?"
                     value={meetingForm.Fecha && new Date(meetingForm.Fecha).toLocaleDateString("es-MX")}
                 />
-                <TimeInput
-                    onChange={(value) => handleChange("Hour", value)}
-                    label="A que hora sera tu tarea?"
-                    value={meetingForm.Hour ? meetingForm.Hour : undefined}
-                />
+                <div className={styles.hours}>
+                    <TimeInput
+                        onChange={(value) => handleChange("Hour", value)}
+                        label="A que hora sera tu tarea?"
+                        value={meetingForm.Hour ? meetingForm.Hour : undefined}
+                        placeholder="Inicio"
+                    />
+                    <TimeInput
+                        onChange={(value) => handleChange("HourEnd", value)}
+                        label="."
+                        value={meetingForm.HourEnd ? meetingForm.HourEnd : undefined}
+                        placeholder="Fin"
+
+                    />
+                </div>
+
                 <InputTextBox
                     placeholder="Comentarios de la reunión"
                     value={meetingForm.Comentarios ?? ""}
                     onChange={(value) => handleChange("Comentarios", value)}
                     label="Algun comentario extra? Estos comentarios podran ser editados después"
                 />
+
                 <InputSelectTag
                     onChange={(value) => handleResendEmail(value)}
                     label="Escribe el correo de aquien lo quieres reenviar esta tarea"
                 />
+
+                <FileUploader label='Deseas adjuntar algun archivo?'/>
             </div>
         </Modal>
     );

@@ -4,13 +4,15 @@ import React, { useEffect, useState } from 'react';
 interface TimeInputInterface {
     value?: string;
     onChange: (value: string) => void;
-    label?: string
+    label?: string;
+    placeholder?: string
 }
 
 const TimeInput = ({
     value,
     onChange,
-    label
+    label,
+    placeholder
 }: TimeInputInterface) => {
 
 
@@ -67,7 +69,7 @@ const TimeInput = ({
                 value={time}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="hh:mm"
+                placeholder={`${placeholder ?? ''} hh:mm`}
                 maxLength={5}
                 className='input'
                 pattern="^(?:[01]\d|2[0-3]):[0-5]\d$" // Validar hh:mm directamente

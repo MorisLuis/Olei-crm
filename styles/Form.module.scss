@@ -7,4 +7,15 @@
     flex-direction: column;
     min-height: 60vh;
     gap: calc(variables.$gap*2);
+
+
+    .hours{
+        width: 100%;
+        display: flex;
+        gap: variables.$gap;
+
+        >div{
+            width: 50%;
+        }
+    }
 }
