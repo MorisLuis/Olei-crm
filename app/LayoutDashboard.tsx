@@ -14,8 +14,9 @@ export default function LayoutDashboard({
     children
 }: LayoutDashboardInterface) {
 
-    const [openMenu, setOpenMenu] = useState(true);
+    const [openMenu, setOpenMenu] = useState(false);
     const handleOpenMenu = () => setOpenMenu(!openMenu)
+
 
     return (
         <body className={styles.RootLayout}>

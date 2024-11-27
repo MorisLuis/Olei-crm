@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MyTimeline from '../../Timeline';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from '@/app/bitacora/[id]/TableTertiaryBitacoraDetails';
@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation';
 import { meetingsExamples } from '@/seed/bitacoraData';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import { faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 export default function EventDetails() {
 
@@ -23,7 +24,7 @@ export default function EventDetails() {
     const eventsOfTheDay = meetingsExamples;
 
     const [openModalEvent, setOpenModalEvent] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+    const { isMobile } = useWindowSize()
     const [eventSelected, setEventSelected] = useState<number>(eventsOfTheDay[0]?.Id_Bitacora)
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
 
@@ -46,16 +47,6 @@ export default function EventDetails() {
             color: 'yellow'
         }
     ]
-
-    // Detectar si es móvil
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 912); // Umbral para considerar "móvil"
-        };
-        handleResize(); // Verificar en el primer render
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     return (
         <div className={styles.event}>

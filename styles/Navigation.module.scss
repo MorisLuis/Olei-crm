@@ -17,8 +17,8 @@
     font-size: variables.$font-medium;
     border: 1px solid variables.$color-border-secondary;
 
-    &.hide{
-        display: none;
+    &.active{
+        display: block;
     }
 
     @include mixins.respond(tab-port) {
@@ -27,6 +27,7 @@
     }
 
     @include mixins.respond(phone) {
+        display:  none;
         z-index: 99999;
         min-width: 80vw;
         position: fixed;
@@ -143,7 +144,7 @@
                     }
                 }
 
-                @include mixins.respond(phone) {
+                @include mixins.respond(tab-port) {
                     display: none;
                 }
             }
@@ -151,7 +152,7 @@
             .menu {
                 display: none;
 
-                @include mixins.respond(phone) {
+                @include mixins.respond(tab-port) {
                     display: flex;
                 }
             }
