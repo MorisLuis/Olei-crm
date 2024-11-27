@@ -2,13 +2,16 @@
 
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard'
 import { clientDetailsExample } from '@/seed/clientsData';
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Header from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
 import FileUploader from '@/components/UI/FileUploader';
 import styles from "../../../styles/pages/Bitacora.module.scss";
+import { SettingsContext } from '@/context/Settings/SettingsContext';
 
 export default function ClientDetailsPage() {
+
+    const { handleUpdatePathname } = useContext(SettingsContext);
 
     const briefData: briefDataInterface[] = [
         { id: 1, label: 'Nombre', value: `${clientDetailsExample?.Nombre ?? ''}` },
@@ -16,6 +19,12 @@ export default function ClientDetailsPage() {
         { id: 3, label: 'Telefono', value: `${clientDetailsExample?.Telefono1 ?? 'N/A'}` },
         { id: 4, label: 'Correo', value: `${clientDetailsExample?.CorreoVtas ?? 'N/A'}` }
     ];
+
+
+    useEffect(() => {
+        if(!clientDetailsExample) return;
+        handleUpdatePathname(clientDetailsExample.Nombre ?? undefined)
+    }, [handleUpdatePathname])
 
     return (
         <>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { sellsClientExample, sellsExample } from '@/seed/sellsData';
 import { useParams, useRouter } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
@@ -15,11 +15,13 @@ import { SellsInterface } from '@/interface/sells';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from './[sellId]/SellDetails';
 import styles from "../../../styles/pages/Sells.module.scss";
+import { SettingsContext } from '@/context/Settings/SettingsContext';
 
 export default function SellsClientPage() {
 
     const { id } = useParams();
-    const { push, back } = useRouter()
+    const { push, back } = useRouter();
+    const { handleUpdatePathname } = useContext(SettingsContext);
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells } = useFiltersSellsConfig();
     const { orderSellsClient } = useOrderSellsClientConfig();
@@ -66,6 +68,11 @@ export default function SellsClientPage() {
     useEffect(() => {
         executeQuery()
     }, [executeQuery])
+
+    useEffect(() => {
+        if(!sell) return;
+        handleUpdatePathname(sell.Nombre ?? undefined)
+    }, [sell, handleUpdatePathname])
 
     return (
         <>

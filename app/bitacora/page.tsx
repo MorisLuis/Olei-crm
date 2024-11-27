@@ -18,7 +18,7 @@ export default function Bitacora() {
     const [orderActive, setOrderActive] = useState<OrderObject>(orderMeetings[0])
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersMeeting, filterOfMeetings } = useFiltersMeetingConfig();
-    const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false)
+    const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
 
     const clientActions: ActionsInterface[] = [
         {
@@ -49,6 +49,8 @@ export default function Bitacora() {
     useEffect(() => {
         executeQuery()
     }, [executeQuery])
+
+
 
     return (
         <div className={styles.page}>

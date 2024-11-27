@@ -1,5 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faCoffee, faChartSimple, faMoneyBill1, faSheetPlastic, faCalendar, faUserGroup, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faChartSimple, faMoneyBill1, faSheetPlastic, faCalendar, faUserGroup, faGear } from '@fortawesome/free-solid-svg-icons';
 
 interface screenDataInterface {
     id: number;

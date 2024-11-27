@@ -1,11 +1,10 @@
 "use client"
 
-import React, { useContext } from 'react'
+import React from 'react'
 import { MessageCard } from '@/components/Cards/MessageCard';
 import Table from '@/components/UI/Tables/Table';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import { useRouter } from 'next/navigation';
-import { SettingsContext } from '@/context/Settings/SettingsContext';
 import { columnClients } from './TableClientsData';
 import { ClientInterface } from '@/interface/client';
 
@@ -27,12 +26,10 @@ export default function TableClients({
 }: TableSellsInterface) {
 
     const { push } = useRouter();
-    const { handleUpdatePathname } = useContext(SettingsContext);
     const NoMoreProductToShow = clients.length === totalClients;
 
     const handleSelectClientSells = (item: ClientInterface) => {
         push(`/clients/${item.Id_Cliente}`);
-        handleUpdatePathname(item.Nombre as string, 'clients');
     };
 
     if (loadingData) {

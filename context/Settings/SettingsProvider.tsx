@@ -1,31 +1,29 @@
 "use client";
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { SettingsContext } from "./SettingsContext"
-
-// Define el tipo de filtro
-type FilterType = {
-    filterType: string;
-    filter: string;
-    filterValue: string | number;
-};
-
-type FilterObject = {
-    label: string;
-    value: string | number;
-};
-
+import { usePathname } from "next/navigation";
+import { screenData } from "@/database/screens";
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
-    const [globalPathname, setGlobalPathname] = useState<{ value: string, pathname: string }>({ value: '', pathname: '' });
+    const [globalPathname, setGlobalPathname] = useState<string>('');
+    const pathname = usePathname();
+    const basePath = pathname.split('/').filter(Boolean)[0];
 
-    const handleUpdatePathname = (value: string, pathname: string) => {
+    useEffect(() => {
+        handleNavigateTitle()
+    }, [pathname, basePath])
 
-        setGlobalPathname({
-            value: value,
-            pathname: pathname
-        })
+    const handleUpdatePathname = (value: string | undefined) => {
+        const findPathname = screenData.find((item) => item.pathname === `/${basePath}`);
+        const newBasePath = findPathname?.name ?? "Inicio"
+        setGlobalPathname(`${newBasePath} ${value ? "/ " + value : ""}`)
     };
+
+    const handleNavigateTitle = () => {
+        const newTitle = screenData.find((item) => item.pathname === `/${basePath}`);
+        setGlobalPathname(newTitle?.name ?? 'Inicio')
+    }
 
 
     return (
