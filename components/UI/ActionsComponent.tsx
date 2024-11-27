@@ -17,19 +17,39 @@ export default function ActionsComponent({
 
     const [modalOpen, setModalOpen] = useState(false);
 
+
     return (
         <div className={styles.actions}>
             <div className={styles.buttons}>
                 {
                     actions?.map((item) =>
-                        <ButtonSmall text={item.text} onClick={item.onclick} key={item.id} color={item.color ?? 'white'}/>
+                        <ButtonSmall text={item.text} onClick={item.onclick} key={item.id} color={item.color ?? 'white'} />
                     )
                 }
             </div>
 
-            <div className={styles.hamburguer} onClick={() => setModalOpen(!modalOpen)}>
-                <FontAwesomeIcon icon={faEllipsis} className={`${styles.icon} icon__small`} />
+            <div className={styles.buttonsMobile}>
+                {
+                    actions?.length === 1 ? (
+                        <ButtonSmall
+                            text={actions[0].text}
+                            onClick={actions[0].onclick}
+                            key={actions[0].id}
+                            color={actions[0].color ?? 'white'}
+                        />
+                    ) : actions && actions?.length >= 1 ? (
+                        <div className={styles.hamburguer} onClick={() => setModalOpen(!modalOpen)}>
+                            <FontAwesomeIcon icon={faEllipsis} className={`${styles.icon} icon__small`} />
+                        </div>
+                    ) : (
+                        <></>
+                    )
+                }
+
+
+
             </div>
+
 
             {
                 modalOpen &&

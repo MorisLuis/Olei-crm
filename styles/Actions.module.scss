@@ -20,23 +20,30 @@
         }
     }
 
-    .hamburguer {
+    .buttonsMobile{
         display: none;
-        background-color: variables.$background-color-secondary;
-        padding: variables.$padding*0.5;
-        border-radius: variables.$border-radius;
-        border: 1px solid variables.$color-border;
-        cursor: pointer;
-
         @include mixins.respond(phone) {
-            display: block;
+            display: flex;
         }
-
-        &:hover {
-            background-color: variables.$background-color-tertiary;
+        .hamburguer {
+            display: none;
+            background-color: variables.$background-color-secondary;
+            padding: variables.$padding*0.5;
+            border-radius: variables.$border-radius;
             border: 1px solid variables.$color-border;
+            cursor: pointer;
+    
+            @include mixins.respond(phone) {
+                display: block;
+            }
+    
+            &:hover {
+                background-color: variables.$background-color-tertiary;
+                border: 1px solid variables.$color-border;
+            }
         }
     }
+
 
     .modalActions {
         position: absolute;

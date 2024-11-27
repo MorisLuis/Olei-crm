@@ -53,7 +53,6 @@ export default function ClientDetailsPage() {
         }
     ]
 
-
     return (
         <>
             <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
