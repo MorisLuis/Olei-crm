@@ -5,7 +5,6 @@ import MyTimeline from '../../Timeline';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from '@/app/bitacora/[id]/TableTertiaryBitacoraDetails';
 import Modal from '@/components/Modals/Modal';
-import styles from "../../../../styles/pages/Calendar.module.scss";
 import MeetingInterface from '@/interface/meeting';
 import FormMeeting from '@/app/bitacora/FormMeeting';
 import { usePathname } from 'next/navigation';
@@ -13,6 +12,7 @@ import { meetingsExamples } from '@/seed/bitacoraData';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import { faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '@/hooks/useWindowSize';
+import styles from "../../../../styles/pages/Calendar.module.scss";
 
 export default function EventDetails() {
 

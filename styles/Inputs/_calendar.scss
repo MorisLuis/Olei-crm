@@ -7,7 +7,7 @@
     color: variables.$text-color;
     text-transform: capitalize;
     font-size: variables.$font-medium;
-    gap: variables.$gap;
+    //gap: variables.$gap;
     display: flex !important;
     flex-direction: row;
     justify-content: space-between !important;
@@ -24,6 +24,22 @@
         .fc-button-group{
             gap: calc(variables.$gap/2);
         }
+
+        @include mixins.respond(tab-port) {
+            .fc-toolbar-title{
+                width: 80% !important;
+            }
+        }
+
+    }
+
+
+    .fc-button-group{
+        max-width: 60% !important;
+    }
+
+    .fc-today-button{
+        max-width: 40% !important;
     }
 
     .fc-today-button,
@@ -96,11 +112,15 @@
 
 // Header Days
 .fc-col-header-cell {
-    color: variables.$text-color;
-    text-transform: uppercase;
-    font-weight: bold;
     font-size: variables.$font-small;
-    text-align: center;
+    text-align: end !important;
+    
+    a{
+        color: variables.$text-color;
+        text-transform: uppercase !important; 
+        font-weight: normal;
+    }
+
 }
 
 // Grid
@@ -122,6 +142,7 @@
     border: 1px solid variables.$color-border;
     width: 75%;
 
+
     .fc-event-time {
         display: none;
     }
@@ -135,6 +156,28 @@
 // Each cell
 .fc-day {
     cursor: pointer;
+
+
+    @include mixins.respond(tab-port) {
+        .fc-daygrid-event-harness{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            a{
+                width: fit-content;
+            }
+
+            .fc-event-title{
+                display: none;
+            }
+
+            &:not(:first-child) {
+                display: none;
+            }
+        }
+    }
 
     &:hover {
         background-color: variables.$background-color-tertiary;

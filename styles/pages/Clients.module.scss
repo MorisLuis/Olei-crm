@@ -1,6 +1,7 @@
 @use "sass:math";
 @use "../main.scss";
 @use "../Abstracts/variables";
+@use "../Abstracts/mixins";
 
 
 .clientDetails {
@@ -8,14 +9,27 @@
     flex-direction: row;
     gap: variables.$gap*4;
 
-    &__calendar{
+    @include mixins.respond(tab-port) {
+        flex-direction: column;
+    }
+
+    &__calendar {
         width: 60%;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include mixins.respond(tab-port) {
+            width: 100%;
+        }
+
     }
 
-    &__brief{
+    &__brief {
         width: 40%;
+
+        @include mixins.respond(tab-port) {
+            width: 100%;
+        }
     }
 }

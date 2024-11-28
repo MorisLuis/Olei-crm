@@ -17,12 +17,16 @@ export default function ClientDetailsPage() {
     const [openModalWhatsApp, setOpenModalWhatsApp] = useState(false);
     const [openModalEmail, setOpenModalEmail] = useState(false);
 
-
     const briefData: briefDataInterface[] = [
         { id: 1, label: 'Nombre', value: `${clientDetailsExample?.Nombre ?? ''}` },
         { id: 2, label: 'RazonSocial', value: `${clientDetailsExample?.RazonSocial ?? 'N/A'}` },
         { id: 3, label: 'Telefono', value: `${clientDetailsExample?.Telefono1 ?? 'N/A'}` },
-        { id: 4, label: 'Correo', value: `${clientDetailsExample?.CorreoVtas ?? 'N/A'}` }
+        { id: 4, label: 'Correo', value: `${clientDetailsExample?.CorreoVtas ?? 'N/A'}` },
+        {
+            id: 5,
+            label: 'Dirección',
+            value: `${clientDetailsExample?.Calle || ''} ${clientDetailsExample?.NoExt ? `#${clientDetailsExample.NoExt}` : ''}, ${clientDetailsExample?.Colonia || ''}`
+        }        
     ];
 
     const clientActions: ActionsInterface[] = [
@@ -61,7 +65,7 @@ export default function ClientDetailsPage() {
                     <MyCalendar onClickEvent={() => console.log()} onClickDay={() => console.log()} />
                 </div>
                 <div className={styles.clientDetails__brief}>
-                    <BriefCard data={briefData} header='Detalles de empresa' />
+                    <BriefCard data={briefData} header='Detalles de cliente' />
                 </div>
             </div>
 

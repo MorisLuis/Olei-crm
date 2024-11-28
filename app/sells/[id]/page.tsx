@@ -56,7 +56,8 @@ export default function SellsClientPage() {
     }, [orderSellsClient])
 
     const handleSelectItem = useCallback((item: SellsInterface) => {
-        push(`/sells/${id}/?sellId=${item.Folio}`)
+        const sellId = `${item.Id_Almacen}-${item.TipoDoc}-${item?.Serie?.trim()}-${item.Folio}`
+        push(`/sells/${id}/?sellId=${sellId}`)
         setOpenModalSell(true)
     }, [id, push])
 
@@ -70,7 +71,7 @@ export default function SellsClientPage() {
     }, [executeQuery])
 
     useEffect(() => {
-        if(!sell) return;
+        if (!sell) return;
         handleUpdatePathname(sell.Nombre ?? undefined)
     }, [sell, handleUpdatePathname])
 
