@@ -26,6 +26,7 @@ export default function ClientDetailsPage() {
     const [openModalSell, setOpenModalSell] = useState(false)
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
 
+
     const handleCloseMeetingModal = () => {
         setOpenModalCreateMeeting(false);
         setEventToOpen(INITIAL_MEETING)
@@ -129,6 +130,7 @@ export default function ClientDetailsPage() {
             >
                 <SellDetails />
             </Modal>
+
         </>
     )
 }

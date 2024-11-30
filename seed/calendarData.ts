@@ -19,6 +19,6 @@ export const calendarTimelineExamples: TimelineInterface[] = [
     { Title: 'Reunion madrugada', Fecha: new Date(2024, 10, 27), TableType: "Bitacora", Id_Bitacora: 1, Hour: "01:30", HourEnd: "02:20" },
     { Title: 'Reunion para temas muy importantes', Fecha: new Date(2024, 10, 27), TableType: "Bitacora", Id_Bitacora: 2, Hour: "12:30", HourEnd: "13:20" },
     { Title: 'Reunion para temas muy importantes', Fecha: new Date(2024, 10, 27), TableType: "Bitacora", Id_Bitacora: 3, Hour: "12:30", HourEnd: "14:20" },
-    { Title: 'Remisión', Fecha: new Date(2024, 10, 27), TableType: "Ventas", Id_Sell: "1"},
-    { Title: 'Cotización', Fecha: new Date(2024, 10, 27), TableType: "Ventas", Id_Sell: "2"}
+    { Title: 'Remisión', Folio: 21, Fecha: new Date(2024, 10, 27), TableType: "Ventas", Id_Sell: "1"},
+    { Title: 'Cotización', Folio: 212, Fecha: new Date(2024, 10, 27), TableType: "Ventas", Id_Sell: "2"}
 ] 

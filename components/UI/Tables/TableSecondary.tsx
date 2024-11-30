@@ -13,9 +13,9 @@ export interface ColumnSecondaryConfig<T> {
 interface TableProps<T> {
     data: T[];
     columns: ColumnSecondaryConfig<T>[];
-    handleLoadMore?: () => void;
     loadingMoreData: boolean;
     noMoreData: boolean;
+    handleLoadMore?: () => void;
     onClick?: (item: T) => void;
 }
 

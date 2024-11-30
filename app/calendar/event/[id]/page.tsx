@@ -14,16 +14,18 @@ import { useWindowSize } from '@/hooks/useWindowSize';
 import { calendarTimelineExamples } from '@/seed/calendarData';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import styles from "../../../../styles/pages/Calendar.module.scss";
+import ModalSells from './ModalSells';
 
 export default function EventDetails() {
 
     const pathname = usePathname();
     const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1); // Extract last part that is the date.
     const decodedDate = decodeURIComponent(lastSegment!);
+    const [openModalSells, setOpenModalSells] = useState(false)
 
     // We will get event by day - API
     const eventsOfTheDay = calendarTimelineExamples;
-    const sellEvents = eventsOfTheDay.map((item) => item.TableType === "Ventas");
+    const sellEvents = eventsOfTheDay.filter((item) => item.TableType === "Ventas");
 
     const [openModalEvent, setOpenModalEvent] = useState(false);
     const { isMobile } = useWindowSize()
@@ -61,7 +63,7 @@ export default function EventDetails() {
                             title={"Hay docuentos que expiran hoy."}
                             icon={faFileExcel}
                             action={{
-                                onClick: () => console.log(),
+                                onClick: () => setOpenModalSells(true),
                                 color: 'blue',
                                 text: "Ver documentos"
                             }}
@@ -107,6 +109,12 @@ export default function EventDetails() {
             <FormMeeting
                 visible={openModalCreateMeeting}
                 onClose={handleCloseMeetingModal}
+            />
+
+            <ModalSells
+                visible={openModalSells}
+                onClose={() => setOpenModalSells(false)}
+                sellEvents={sellEvents}
             />
         </div>
     );

@@ -7,6 +7,7 @@ export interface CalendarInterface {
 
 export interface TimelineInterface {
     Id_Bitacora?: number;
+    Folio?: number,
     Id_Sell?: string;
     Fecha: Date;
     Title: string;

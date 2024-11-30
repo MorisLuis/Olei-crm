@@ -52,6 +52,12 @@
     }
 }
 
+.instruction{
+    font-size: variables.$font-medium;
+    color: variables.$text-color-secondary;
+    margin-bottom: variables.$margin-vertical;
+}
+
 .divider {
     width: 100%;
     height: 1px;

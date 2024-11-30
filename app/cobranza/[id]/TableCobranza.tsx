@@ -5,9 +5,8 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import { SellsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
-import { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { Tag } from '@/components/UI/Tag';
-import Table from '@/components/UI/Tables/Table';
+import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { docType } from '@/utils/docType';
 import { useTagColor } from '@/hooks/useTagColor';
 import { formatDate } from '@/utils/formatDate';
@@ -33,7 +32,7 @@ export default function TableCobranza({
     const NoMoreProductToShow = sells.length === totalSells;
     const { changeColor } = useTagColor()
 
-    const columns: ColumnSecondaryConfig<SellsInterface>[] = [
+    const columns: ColumnConfig<SellsInterface>[] = [
         {
             key: 'TipoDoc',
             label: 'Tipo de documento',
