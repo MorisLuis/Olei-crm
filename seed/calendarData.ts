@@ -1,4 +1,4 @@
-import { CalendarInterface } from "@/interface/calendar";
+import { CalendarInterface, TimelineInterface } from "@/interface/calendar";
 
 
 export const calendarData: CalendarInterface[] = [
@@ -13,3 +13,12 @@ export const calendarData: CalendarInterface[] = [
     { Title: 'Evento 5', Fecha: new Date(2024, 11, 15), TableType: "Bitacora", id: 1 },
     { Title: 'Evento 6', Fecha: new Date(2024, 11, 20), id: 1 },
 ]
+
+
+export const calendarTimelineExamples: TimelineInterface[] = [
+    { Title: 'Reunion madrugada', Fecha: new Date(2024, 10, 27), TableType: "Bitacora", Id_Bitacora: 1, Hour: "01:30", HourEnd: "02:20" },
+    { Title: 'Reunion para temas muy importantes', Fecha: new Date(2024, 10, 27), TableType: "Bitacora", Id_Bitacora: 2, Hour: "12:30", HourEnd: "13:20" },
+    { Title: 'Reunion para temas muy importantes', Fecha: new Date(2024, 10, 27), TableType: "Bitacora", Id_Bitacora: 3, Hour: "12:30", HourEnd: "14:20" },
+    { Title: 'Remisión', Fecha: new Date(2024, 10, 27), TableType: "Ventas", Id_Sell: "1"},
+    { Title: 'Cotización', Fecha: new Date(2024, 10, 27), TableType: "Ventas", Id_Sell: "2"}
+] 

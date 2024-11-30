@@ -33,8 +33,11 @@
         }
 
         .timeline {
+            display: flex;
+            flex-direction: column;
             width: 50%;
             z-index: 0;
+            gap: calc(variables.$gap * 2);
 
 
             @include mixins.respond(tab-port) {

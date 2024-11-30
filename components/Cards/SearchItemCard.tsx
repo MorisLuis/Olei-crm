@@ -1,9 +1,10 @@
 import React from 'react';
-import styles from "../../styles/Cards.module.scss";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { capitalizarTexto } from '@/utils/textCapitalize';
+import styles from "../../styles/Components/Cards.module.scss";
+
+
 interface Props {
     productName: string,
     onclick: (value: string) => void,

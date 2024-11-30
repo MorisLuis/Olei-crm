@@ -8,10 +8,11 @@ import Modal from '@/components/Modals/Modal';
 import MeetingInterface from '@/interface/meeting';
 import FormMeeting from '@/app/bitacora/FormMeeting';
 import { usePathname } from 'next/navigation';
-import { meetingsExamples } from '@/seed/bitacoraData';
 import { MessageCard } from '@/components/Cards/MessageCard';
-import { faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarXmark, faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '@/hooks/useWindowSize';
+import { calendarTimelineExamples } from '@/seed/calendarData';
+import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import styles from "../../../../styles/pages/Calendar.module.scss";
 
 export default function EventDetails() {
@@ -21,13 +22,13 @@ export default function EventDetails() {
     const decodedDate = decodeURIComponent(lastSegment!);
 
     // We will get event by day - API
-    const eventsOfTheDay = meetingsExamples;
+    const eventsOfTheDay = calendarTimelineExamples;
+    const sellEvents = eventsOfTheDay.map((item) => item.TableType === "Ventas");
 
     const [openModalEvent, setOpenModalEvent] = useState(false);
     const { isMobile } = useWindowSize()
-    const [eventSelected, setEventSelected] = useState<number>(eventsOfTheDay[0]?.Id_Bitacora)
+    const [eventSelected, setEventSelected] = useState<number>(eventsOfTheDay[0]?.Id_Bitacora ?? 0);
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
-
 
     // Abrir modal solo en móviles
     const handleEventClick = (Id: MeetingInterface) => {
@@ -54,6 +55,18 @@ export default function EventDetails() {
 
             <div className={styles.content}>
                 <div className={styles.timeline}>
+                    {
+                        sellEvents.length > 0 &&
+                        <MessageSecondaryCard
+                            title={"Hay docuentos que expiran hoy."}
+                            icon={faFileExcel}
+                            action={{
+                                onClick: () => console.log(),
+                                color: 'blue',
+                                text: "Ver documentos"
+                            }}
+                        />
+                    }
                     <MyTimeline
                         onClickEvent={handleEventClick}
                         initialDateProp={decodedDate}

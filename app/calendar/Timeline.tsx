@@ -3,11 +3,12 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import esLocale from '@fullcalendar/core/locales/es'; // Idioma español
 import { EventClickArg } from "@fullcalendar/core/index.js";
 import MeetingInterface from "@/interface/meeting";
+import { TimelineInterface } from "@/interface/calendar";
 
 interface MyTimelineInterface {
     onClickEvent: (eventBody: MeetingInterface) => void;
     initialDateProp?: string | Date; // La fecha puede ser undefined
-    eventsOfTheDay: MeetingInterface[]
+    eventsOfTheDay: TimelineInterface[]
 }
 
 const MyTimeline = ({

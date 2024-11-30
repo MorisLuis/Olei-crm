@@ -212,6 +212,24 @@
     }
 }
 
+.MessageSecondaryCard{
+    background-color: variables.$background-color-secondary;
+    padding: calc(variables.$padding*1.5) variables.$padding;
+    border: 1px solid variables.$color-border;
+    box-shadow: variables.$box-shadow-button;
+    border-radius: variables.$border-radius;
+    font-size: variables.$font-medium;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left{
+        display: flex;
+        gap: variables.$gap;
+    }
+}
+
 .ActionCard {
     display: flex;
     justify-content: space-between;
