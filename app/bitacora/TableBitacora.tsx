@@ -61,8 +61,8 @@ export default function TableBitacora({
         },
         {
             key: 'Hour',
-            label: 'Hour',
-            render: (Hour) => <span>{formatTime(Hour as string)}</span>
+            label: 'Inicio / Fin',
+            render: (_, item: MeetingInterface) => <span>{formatTime(item.Hour as string)} / {formatTime(item.HourEnd as string)}</span>
         },
     ]
 

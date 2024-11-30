@@ -58,15 +58,11 @@ export default function TableTertiaryBitacoraDetails({
         },
         {
             key: 'Hour',
-            label: 'Hora',
+            label: 'Inicio / Fin',
+            render: (_, item: MeetingInterface) => <span>{formatTime(item.Hour as string)} / {formatTime(item.HourEnd as string)}</span>,
             renderLabel: () => (
                 <div className={styles.sellItem}>
                     <p>Hora</p>
-                </div>
-            ),
-            render: (Hour) => (
-                <div className={styles.sellItem}>
-                    <p>{formatTime(Hour as string)}</p>
                 </div>
             )
         },
