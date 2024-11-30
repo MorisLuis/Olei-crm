@@ -4,13 +4,16 @@ import React, { useState } from 'react';
 import styles from '../../../styles/pages/Sells.module.scss'
 import InputTextBox from '@/components/Inputs/inputTextBox';
 import useToast from '@/hooks/useToast';
+import Modal from '@/components/Modals/Modal';
 
 interface EmailModalInterface {
     onClose: () => void;
+    visible: boolean
 };
 
 export default function EmailModal({
-    onClose
+    onClose,
+    visible
 } : EmailModalInterface ) {
 
     const { showSuccess } = useToast()
@@ -40,6 +43,13 @@ export default function EmailModal({
     }
 
     return (
+        <Modal
+        title='Correo electronico'
+        visible={visible}
+        onClose={onClose}
+        modalSize='small'
+    >
+
         <div className={styles.SellActions}>
             <div className={styles.send_message}>
                 <div className={styles.send_header}>
@@ -65,5 +75,6 @@ export default function EmailModal({
                 </div>
             </div>
         </div>
+    </Modal>
     )
 }
