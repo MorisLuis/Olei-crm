@@ -19,7 +19,7 @@ export default function Calendar() {
     const [openModalSell, setOpenModalSell] = useState(false)
 
     const handelOnClickEvent = (info: EventClickArg) => {
-        const dataEvent = info.event.extendedProps
+        const dataEvent = info.event.extendedProps;
 
         if (dataEvent.TableType === "Bitacora") {
             // Get meeting from API
@@ -32,7 +32,7 @@ export default function Calendar() {
             // Get sell and folio from API.
             setOpenModalSell(true)
             // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-            push(`/calendar/?sellId=3`) 
+            push(`/calendar/?sellId=${dataEvent.Id}`) 
             return;
         }
 

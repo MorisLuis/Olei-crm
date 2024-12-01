@@ -33,9 +33,9 @@ export default function EventDetails() {
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
 
     // Abrir modal solo en móviles
-    const handleEventClick = (Id: MeetingInterface) => {
+    const handleSelectEvent = (Id: MeetingInterface) => {
         if (isMobile) setOpenModalEvent(true);
-        setEventSelected(Id.Id_Bitacora ?? 1)
+        setEventSelected(Id.Id_Bitacora)
     };
 
     const handleCloseMeetingModal = () => {
@@ -70,7 +70,7 @@ export default function EventDetails() {
                         />
                     }
                     <MyTimeline
-                        onClickEvent={handleEventClick}
+                        onClickEvent={handleSelectEvent}
                         initialDateProp={decodedDate}
                         eventsOfTheDay={eventsOfTheDay}
                     />

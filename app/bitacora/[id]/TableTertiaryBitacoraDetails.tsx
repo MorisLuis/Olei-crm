@@ -2,9 +2,8 @@
 
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
 import React, { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
 import MeetingInterface from '@/interface/meeting';
-import { meetingExample, meetingsExamples } from '@/seed/bitacoraData';
+import { meetingsExamples } from '@/seed/bitacoraData';
 import { Tag } from '@/components/UI/Tag';
 import { contactType } from '@/utils/contactType';
 import { useTagColor } from '@/hooks/useTagColor'
@@ -17,19 +16,19 @@ import { formatTime } from '@/utils/formatTime';
 import styles from '../../../styles/pages/SellDetails.module.scss'
 
 interface TableTertiaryBitacoraDetailsInterface {
-    Id_Bitacora?: number;
+    Id_Bitacora: number;
 }
 
 export default function TableTertiaryBitacoraDetails({
     Id_Bitacora
 }: TableTertiaryBitacoraDetailsInterface) {
 
-    const pathname = usePathname();
-    const [basePath, id] = pathname.split('/').filter(Boolean);
+
     const { changeColor } = useTagColor();
     const [openCommentsModal, setOpenCommentsModal] = useState(false);
 
-    const sellsDataBack: MeetingInterface = meetingsExamples.find((item) => item.Id_Bitacora == (Id_Bitacora ?? Number(id))) ?? meetingExample; // API - Get product 
+    // API - Get meeting by Id_Bitacora.
+    const sellsDataBack: MeetingInterface = meetingsExamples.find((item) => item.Id_Bitacora === Id_Bitacora) as MeetingInterface;
     const [sellsData, setSellsData] = useState(sellsDataBack)
 
     const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
@@ -140,7 +139,6 @@ export default function TableTertiaryBitacoraDetails({
                     columns={columns}
                     data={sellsData}
                 />
-                <div style={{ display: 'none' }}>{basePath}</div>
             </div>
             <Modal
                 title='Comentarios'

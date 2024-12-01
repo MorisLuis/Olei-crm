@@ -6,6 +6,7 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction'; // 
 import esLocale from '@fullcalendar/core/locales/es'; // Importar idioma español
 import { calendarData } from '@/seed/calendarData';
 import { EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
+import { CalendarInterface } from '@/interface/calendar';
 
 interface MyCalendarInterface {
     onClickEvent: (info: EventClickArg) => void;
@@ -19,12 +20,12 @@ const MyCalendar = ({
 } : MyCalendarInterface ) => {
 
     // Transforma calendarData al formato esperado
-    const transformedEvents: EventSourceInput = calendarData.map(event => ({
+    const transformedEvents: EventSourceInput = calendarData.map((event : Partial<CalendarInterface>) => ({
         title: event.Title,
         start: event.Fecha,
         extendedProps: {
             TableType: event.TableType, // Propiedad adicional opcional
-            id: event.id
+            Id: event.TableType === 'Bitacora' ? event.Id_Bitacora : event.Id_Sell
         },
     }));
 
