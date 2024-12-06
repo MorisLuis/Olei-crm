@@ -14,8 +14,10 @@ import { OrderObject } from '@/components/UI/OrderComponent';
 import { SellsInterface } from '@/interface/sells';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from './[sellId]/SellDetails';
-import styles from "../../../styles/pages/Sells.module.scss";
 import { SettingsContext } from '@/context/Settings/SettingsContext';
+import RenderDateFilter from './RenderDateFilter';
+import styles from "../../../styles/pages/Sells.module.scss";
+
 
 export default function SellsClientPage() {
 
@@ -75,6 +77,24 @@ export default function SellsClientPage() {
         handleUpdatePathname(sell.Nombre ?? undefined)
     }, [sell, handleUpdatePathname])
 
+
+    // Select filters custum ( optional )
+    const CustumFilters = ['Date'] as const;
+    type CustomRenderKey = typeof CustumFilters[number];
+    type CustomRenderType = {
+        [key in CustomRenderKey]?: React.ReactNode;
+    };
+
+    const CustumRenders: CustomRenderType[] = [
+        {
+            Date: RenderDateFilter({
+                onSelectFilter: onSelectFilterValue,
+                onDeleteFilter,
+                filtersActive
+            })
+        },
+    ];
+
     return (
         <>
             <div className={styles.SellsClient}>
@@ -90,6 +110,9 @@ export default function SellsClientPage() {
                     orderSells={orderSellsClient}
                     onSelectOrder={onSelectOrder}
                     orderActive={orderActive}
+
+                    customFilters={CustumFilters}
+                    customRenders={CustumRenders}
                 />
 
                 <div className={styles.content}>

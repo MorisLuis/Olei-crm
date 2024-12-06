@@ -1,0 +1,24 @@
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+.InputRangeDate {
+    display: flex;
+    flex-direction: column;
+    gap: calc(variables.$gap * 2);
+    font-size: variables.$font-small;
+    color: variables.$text-color-secondary;
+
+    .exactly{
+        p {
+            margin-bottom: calc(variables.$margin-vertical / 2)
+        }
+    }
+    
+    .range{
+        p {
+            margin-bottom: calc(variables.$margin-vertical / 2)
+        }
+    }
+}

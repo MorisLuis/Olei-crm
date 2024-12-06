@@ -1,10 +1,11 @@
 import { FilterData } from "@/hooks/Filters/useFilters";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { fa0, faClock, faFile, faWalkieTalkie } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faFile, faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 export type FilterSectionType = { value: string, label: string, icon?: IconDefinition };
 
 export const filtersSells : FilterSectionType[] = [
+    { value: 'Date', label: 'Fecha', icon: faCalendar },
     { value: 'Expired', label: 'Expiracion', icon: faClock },
     { value: 'TipoDoc', label: 'Tipo de documento', icon: faFile }
 ];
@@ -44,6 +45,13 @@ export const filtersOfSectionSells : FilterData[] = [
                 value: 'Not Expired', 
                 label: 'No Expirado'
             }
+        ],
+        value: ''
+    },
+    {
+        type: 'Date',
+        data: [
+
         ],
         value: ''
     }

@@ -109,9 +109,7 @@ export default function FiltersComponent({
                                         className={styles.filterItemDetail}
                                         onChange={handleCheckboxChange}
                                     />
-                                    <p>
-                                        {item.label}
-                                    </p>
+                                    <p>{item.label}</p>
                                 </label>
                             </div>
                         ))

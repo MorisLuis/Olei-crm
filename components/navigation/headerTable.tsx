@@ -27,6 +27,9 @@ interface HeaderInterface {
     orderActive: OrderObject
 
     onSearch?: (value: string) => void;
+
+    customFilters?: readonly string[];
+    customRenders?: Array<{ [key: string]: React.ReactNode }>;
 }
 
 export default function HeaderTable({
@@ -39,7 +42,9 @@ export default function HeaderTable({
     orderSells,
     onSelectOrder,
     orderActive,
-    onSearch
+    onSearch,
+    customFilters,
+    customRenders
 }: HeaderInterface) {
 
     const [openFilterModal, setOpenFilterModal] = useState(false);
@@ -74,6 +79,9 @@ export default function HeaderTable({
                 onSelectFilter={onSelectFilter!}
                 filtersOfSection={filtersOfSection!}
                 filtersActive={filtersActive!}
+
+                customFilters={customFilters}
+                customRenders={customRenders}
             />
             {filterActive?.map((item, index) => (
                 <Tag

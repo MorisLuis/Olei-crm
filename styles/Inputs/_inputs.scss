@@ -19,7 +19,11 @@
     -webkit-box-shadow: 0px 10px 10px -15px rgba(101, 116, 130, 1);
     -moz-box-shadow: 0px 10px 10px -15px rgba(101, 116, 130, 1);
     box-shadow: 0px 10px 10px -15px rgba(101, 116, 130, 1);
-    font-size: variables.$font-normal;
+    font-size: variables.$font-medium;
+
+    @include mixins.respond(phone) {
+        font-size: variables.$font-normal;
+    }
 
     &.textbox {
         height: fit-content;
@@ -47,11 +51,17 @@
 .inputComponent {
     width: 100%;
     position: relative;
-    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+
+    @include mixins.respond(phone) {
+        font-size: variables.$font-normal;
+    }
 
     label {
         font-size: variables.$font-medium;
-        color: variables.$text-color-secondary;
+        color: variables.$text-color;
+        padding-bottom: calc(variables.$margin-vertical / 2);
     }
 
     input {
@@ -67,8 +77,11 @@
         transition-duration: .15s;
         padding: variables.$padding-horizontal;
         box-shadow: variables.$box-shadow-input;
-        font-size: 16px;
+        font-size: variables.$font-medium;
 
+        @include mixins.respond(phone) {
+            font-size: variables.$font-normal;
+        }
         &::placeholder {
             color: variables.$color-gray;
         }
@@ -105,6 +118,11 @@
             background-color: variables.$background-color;
         }
     }
+}
+
+.inputRangeDate {
+    display: flex;
+    gap: variables.$gap;
 }
 
 .input_search {
@@ -195,6 +213,12 @@
     height: 48px;
     border: 1px solid variables.$color-border;
     border-radius: variables.$border-radius;
+
+    font-size: variables.$font-medium;
+
+    @include mixins.respond(phone) {
+        font-size: variables.$font-normal;
+    }
 }
 
 .toggleSwitch {
@@ -356,6 +380,8 @@
 }
 
 .label {
+    display: flex;
     font-size: variables.$font-medium;
-    color: variables.$text-color-secondary;
+    color: variables.$text-color;
+    padding-bottom: calc(variables.$margin-vertical / 2);
 }

@@ -5,6 +5,11 @@ export const useFiltersSellsConfig = () => {
 
     const filtersOfSectionSells: FilterData[] = [
         {
+            type: 'Date',
+            data: [],
+            value: filtersActive.find((item) => item.filter === 'Date')?.value ?? ''
+        },
+        {
             type: 'TipoDoc',
             data: [
                 { filter: 'TipoDoc', value: 1, label: 'Cotizacion' },
