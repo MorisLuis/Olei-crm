@@ -23,6 +23,10 @@
         animation: modal-close 0.2s ease-in-out forwards;
     }
 
+    @include mixins.respond(tab-port) {
+        width: 90%;
+    }
+
     @include mixins.respond(phone) {
         width: 100%;
         transform: translate(0, 0) scale(0.8);

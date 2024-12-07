@@ -1,4 +1,4 @@
-import { SellsInterface } from "@/interface/sells";
+import { SellsDetailsInterface, SellsInterface } from "@/interface/sells";
 
 // For enterprise
 export const sellsExample: SellsInterface[] = [
@@ -118,18 +118,41 @@ export const sellsClientExample: SellsInterface[] = [
     },
 ];
 
-export const sellDetailsExample: SellsInterface = {
-    Id_Cliente: 1,
-    Id_Almacen: 1,
-    TipoDoc: 3,
-    Folio: 102,
-    Serie: 'A',
-    Fecha: new Date(2025, 4, 10),
-    FechaEntrega: new Date(2024, 4, 21),
-    Saldo: 1200,
-    Total: 1230,
-    Impuesto: 120,
-    Nombre: "Empresa 1",
-    FechaLiq: new Date(2025, 2, 2),
-    Piezas: 10
-}
+export const sellDetailsExample: SellsDetailsInterface[] = [
+    {
+        Codigo: "1234",
+        Cantidad: 23,
+        Unidad: "PZA",
+        Descripcion: "Calabaza",
+        Precio: 1200,
+        Impuesto: 220,
+        Importe: 1200
+    },
+    {
+        Codigo: "2032",
+        Cantidad: 2,
+        Unidad: "PZA",
+        Descripcion: "Pollo",
+        Precio: 666,
+        Impuesto: 243,
+        Importe: 1333
+    },
+    {
+        Codigo: "0001",
+        Cantidad: 10,
+        Unidad: "PZA",
+        Descripcion: "Pepino",
+        Precio: 12,
+        Impuesto: 220,
+        Importe: 1200
+    },
+    {
+        Codigo: "0033",
+        Cantidad: 99,
+        Unidad: "PZA",
+        Descripcion: "Manzanas",
+        Precio: 20,
+        Impuesto: 220,
+        Importe: 1890
+    },
+]

@@ -2,14 +2,15 @@
 
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
 import { SellsInterface } from '@/interface/sells';
-import { sellsClientExample } from '@/seed/sellsData'
+import { sellDetailsExample, sellsClientExample } from '@/seed/sellsData'
 import React from 'react'
-import styles from '../../../../styles/pages/SellDetails.module.scss'
 import { useSearchParams } from 'next/navigation'
 import { formatDate } from '@/utils/formatDate';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
 import { docType } from '@/utils/docType';
+import TableSellsDetailsClient from './TableSellsDetails';
+import styles from '../../../../styles/pages/SellDetails.module.scss'
 
 export default function SellDetails() {
 
@@ -19,21 +20,18 @@ export default function SellDetails() {
     const { changeColor } = useTagColor()
     const sellsData = sellsClientExample.find((item) => item.UniqueKey === sellId) ?? sellsClientExample[0];
 
+    // ESTO CAMBIA
+    const totalSells = 4;
+    const loadMoreProducts = async () => {
+    }
+    // TERMINA CAMBIO
+
     const columns: ColumnTertiaryConfig<SellsInterface>[] = [
         {
             key: 'TipoDoc',
             label: 'Tipo de documento',
             renderLabel: () => <div className={styles.sellItem}><p>Tipo de documento</p></div>,
             render: (_, item) => <Tag color={changeColor(item.TipoDoc)}>{docType(item.TipoDoc)}</Tag>
-        },
-        {
-            key: 'Nombre',
-            label: 'Nombre',
-            renderLabel: () => (
-                <div className={styles.sellItem}>
-                    <p>Nombre</p>
-                </div>
-            )
         },
         {
             key: 'Folio',
@@ -71,39 +69,7 @@ export default function SellDetails() {
                     <p>{formatDate(FechaEntrega as Date)}</p>
                 </div>
             )
-        },
-        {
-            key: 'FechaLiq',
-            label: 'Fecha Liquidación',
-            renderLabel: () => (
-                <div className={styles.sellItem}>
-                    <p>Fecha Liquidación</p>
-                </div>
-            ),
-            render: (FechaLiq) => (
-                <div>
-                    <p>{formatDate(FechaLiq as Date)}</p>
-                </div>
-            )
-        },
-        {
-            key: 'Id_Almacen',
-            label: 'Id Almacen',
-            renderLabel: () => (
-                <div className={styles.sellItem}>
-                    <p>Almacen</p>
-                </div>
-            )
-        },
-        {
-            key: 'Id_Cliente',
-            label: 'Id Cliente',
-            renderLabel: () => (
-                <div className={styles.sellItem}>
-                    <p>Cliente</p>
-                </div>
-            )
-        },
+        }
     ];
 
     return (
@@ -112,6 +78,16 @@ export default function SellDetails() {
                 columns={columns}
                 data={sellsData}
             />
+
+            <TableSellsDetailsClient
+                sells={sellDetailsExample}
+                totalSells={totalSells}
+                buttonIsLoading={false}
+                loadingData={false}
+                loadMoreProducts={loadMoreProducts}
+                handleSelectItem={(item) => console.log({ item })}
+            />
+
             <div className='none'>{sellId}</div>
         </div>
     )

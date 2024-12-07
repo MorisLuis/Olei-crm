@@ -5,6 +5,9 @@
 @use "../Abstracts/variables";
 
 .sellDetails {
+    display: flex;
+    flex-direction: column;
+    gap: calc(variables.$gap * 2);
 
     .sellItem {
         display: flex;

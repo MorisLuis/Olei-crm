@@ -17,8 +17,19 @@ export interface SellsInterface {
     Piezas?: number;
 }
 
+
 export type SellsOrderConditionType = 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
 export const SellsOrderCondition : SellsOrderConditionType[] = ['TipoDoc' , 'Folio' , 'Fecha' , 'FechaEntrega' , 'ExpiredDays']
 
 export type SellsFilterConditionType = 'TipoDoc' | 'Expired' | "Not Expired"
 export const SellsFilterCondition : SellsFilterConditionType[] = ['TipoDoc', 'Expired', "Not Expired"]
+
+export interface SellsDetailsInterface {
+    Codigo: string;
+    Cantidad: number;
+    Unidad: string;
+    Descripcion: string;
+    Precio: number;
+    Impuesto: number;
+    Importe: number;
+}

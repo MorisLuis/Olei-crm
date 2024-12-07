@@ -133,7 +133,7 @@ export default function SellsClientPage() {
                 visible={openModalSell}
                 title='Detalle de venta'
                 onClose={handleCloseModalSell}
-                modalSize='medium'
+                //modalSize='medium'
             >
                 <SellDetails />
             </Modal>

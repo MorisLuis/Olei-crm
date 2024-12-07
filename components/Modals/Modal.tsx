@@ -2,8 +2,8 @@ import React, { CSSProperties, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand, faClose } from '@fortawesome/free-solid-svg-icons';
 import ButtonSmall from '../Buttons/ButtonSmall';
-import styles from "../../styles/Modal.module.scss";
 import useLockBodyScroll from '@/hooks/useLockBodyScroll';
+import styles from "../../styles/Modal.module.scss";
 
 
 interface Props {
