@@ -74,16 +74,11 @@ export default function ClientDetailsPage() {
         },
         {
             id: 3,
-            text: 'Reunión',
-            onclick: () => console.log("Reunión")
-        },
-        {
-            id: 4,
             text: 'Ventas',
             onclick: () => push(`/sells/${clientDetailsExample.Id_Cliente}`)
         },
         {
-            id: 5,
+            id: 4,
             text: 'Cobranza',
             onclick: () => push(`/cobranza/${clientDetailsExample.Id_Cliente}`)
         }

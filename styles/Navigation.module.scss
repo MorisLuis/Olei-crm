@@ -82,6 +82,7 @@
                 display: flex;
                 align-items: center;
                 gap: variables.$gap;
+                font-size: variables.$font-normal;
 
                 @include mixins.respond(tab-port) {
                     width: fit-content;
@@ -107,6 +108,7 @@
                 &.active {
                     background-color: variables.$background-color-secondary;
                     border: 1px solid variables.$color-border;
+                    font-weight: bold;
                 }
             }
         }
