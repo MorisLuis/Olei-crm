@@ -21,12 +21,12 @@
             color: variables.$text-color-secondary;
         }
 
-        .fc-button-group{
+        .fc-button-group {
             gap: calc(variables.$gap/2);
         }
 
         @include mixins.respond(tab-port) {
-            .fc-toolbar-title{
+            .fc-toolbar-title {
                 width: 80% !important;
             }
         }
@@ -34,11 +34,11 @@
     }
 
 
-    .fc-button-group{
+    .fc-button-group {
         max-width: 60% !important;
     }
 
-    .fc-today-button{
+    .fc-today-button {
         max-width: 40% !important;
     }
 
@@ -96,12 +96,19 @@
 
 .fc-day-today {
     background-color: variables.$background-color !important;
-    border-radius: 100px;
+    //border-radius: 100px;
 
     .fc-daygrid-day-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: variables.$color-red;
-        border-radius: 100%;
         color: variables.$text-color-light;
+        width: variables.$font-normal;
+        height: variables.$font-normal;
+        padding: calc(variables.$padding/1.25);
+        border-radius: 100%;
+
     }
 
     .fc-event-time {
@@ -114,10 +121,10 @@
 .fc-col-header-cell {
     font-size: variables.$font-small;
     text-align: end !important;
-    
-    a{
+
+    a {
         color: variables.$text-color;
-        text-transform: uppercase !important; 
+        text-transform: uppercase !important;
         font-weight: normal;
     }
 
@@ -135,16 +142,61 @@
 }
 
 // Event
-.fc-event {
+.fc-event-modified {
+    display: flex;
+    align-items: center;
     background-color: variables.$background-color-tertiary;
     border-radius: variables.$border-radius;
     padding: calc(variables.$padding/3);
     border: 1px solid variables.$color-border;
     width: 75%;
+    gap: calc(variables.$gap / 2);
 
+    &:hover{
+        background-color: variables.$background-color;
+        border: 1px solid variables.$color-border !important;
 
-    .fc-event-time {
-        display: none;
+    }
+
+    &.many-events {
+        background-color: variables.$background-color-tertiary;
+        border: 1px solid variables.$color-border-tertiary !important;
+        font-weight: bold;
+        text-align: center;
+
+        &:hover{
+            background-color: variables.$background-color;
+            border: 1px solid variables.$color-border-tertiary !important;
+        }
+    }
+
+    .blue{
+        background-color: variables.$color-blue;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%
+    }
+
+    .red{
+        background-color: variables.$color-red;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%
+    }
+
+    .white{
+        background-color: variables.$background-color;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        border: 1px solid variables.$color-border-tertiary
+    }
+
+    p{
+        width: 100%;
+        overflow:hidden; 
+        white-space:nowrap; 
+        text-overflow: ellipsis;
     }
 }
 
@@ -159,17 +211,17 @@
 
 
     @include mixins.respond(tab-port) {
-        .fc-daygrid-event-harness{
+        .fc-daygrid-event-harness {
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
 
-            a{
+            a {
                 width: fit-content;
             }
 
-            .fc-event-title{
+            .fc-event-title {
                 display: none;
             }
 
@@ -201,10 +253,10 @@
     border: none !important;
 }
 
-.fc-daygrid-event-harness{
-    a{
-        .fc-daygrid-event-dot{
-            border: 4px solid variables.$color-green !important;
+.fc-daygrid-event-harness {
+    a {
+        &:hover{
+            background-color: variables.$background-color-tertiary;
         }
     }
 }
