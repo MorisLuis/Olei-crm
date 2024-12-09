@@ -27,9 +27,10 @@ interface Props {
             action: () => void;
             label: string
         },
-        action2:  {
+        action2: {
             action: () => void;
-            label: string
+            label: string;
+            disabled: boolean
         },
     }
 }
@@ -80,7 +81,7 @@ const Modal = ({
         </div>
     );
 
-    const renderFooter = () =>  actionsBottom && (
+    const renderFooter = () => actionsBottom && (
         <div className={styles.footer}>
             <ButtonSmall
                 text={actionsBottom.action1.label}
@@ -91,6 +92,7 @@ const Modal = ({
             <ButtonSmall
                 text={actionsBottom.action2.label}
                 onClick={actionsBottom.action2.action}
+                disabled={actionsBottom.action2.disabled}
                 extraStyles={{ width: "30%" }}
                 color='blue'
             />
@@ -107,22 +109,25 @@ const Modal = ({
 
             <div className={`${styles.Modal} ${styles[modalSize]} ${isClosing ? styles.closing : ''}`} style={extraStyles}>
 
-                <div className={styles.header} >
-                    <div className={styles.left}>
-                        {title && <h3>{title}</h3>}
-                        {actionsVisible && renderActions()}
+                <div className={styles.container}>
+                    <div className={styles.header} >
+                        <div className={styles.left}>
+                            {title && <h3>{title}</h3>}
+                            {actionsVisible && renderActions()}
+                        </div>
+
+                        <div className={`${styles.close} cursor`} onClick={handleClose}>
+                            <FontAwesomeIcon icon={faClose} className={'icon'} />
+                        </div>
                     </div>
 
-                    <div className={`${styles.close} cursor`} onClick={handleClose}>
-                        <FontAwesomeIcon icon={faClose} className={'icon'} />
+                    <div className={styles.content}>
+                        {children}
                     </div>
+
+                    {renderFooter()}
                 </div>
 
-                <div className={styles.content}>
-                    {children}
-                </div>
-
-                {renderFooter()}
             </div>
         </>
         : null

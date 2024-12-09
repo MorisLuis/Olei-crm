@@ -90,12 +90,12 @@ const InputSelectTagComponent = ({
                     placeholder: (base) => ({
                         ...base,
                         color: '#ccc',
-                        fontSize: 16,
+                        fontSize: 14,
                     }),
                     input: (base) => ({
                         ...base,
                         color: '#1D2A36',
-                        padding: '10px',
+                        //padding: '10px',
                     }),
                 }}
             />

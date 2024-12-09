@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
@@ -16,9 +16,10 @@ const MyCalendar = ({
     onClickEvent,
     onClickDay,
 }: MyCalendarInterface) => {
-
     // Usamos useRef para mantener el estado de los días procesados sin causar re-renderizados
     const processedDaysRef = useRef<{ [key: string]: boolean }>({});
+    
+    const [events, setEvents] = useState<EventSourceInput>([]); // Estado para los eventos
 
     const eventsByDay: { [key: string]: number } = calendarData.reduce(
         (acc: { [key: string]: number }, event: Partial<CalendarInterface>) => {
@@ -28,7 +29,6 @@ const MyCalendar = ({
         },
         {} as { [key: string]: number } // Tipamos el objeto vacío inicial
     );
-    
 
     const transformedEvents: EventSourceInput = calendarData.map((event: Partial<CalendarInterface>) => {
         const eventDate = new Date(event.Fecha as Date).toISOString().split("T")[0];
@@ -43,8 +43,25 @@ const MyCalendar = ({
         };
     });
 
+    // Para asegurar que los eventos se actualizan al regresar del modal
+    useEffect(() => {
+        setEvents(transformedEvents); // Actualiza los eventos
+    }, [calendarData]); // Actualiza solo cuando calendarData cambie
+
     const handleEventClick = (info: EventClickArg) => {
-        onClickEvent(info);
+        const countEvents = info.event.extendedProps.eventCount;
+        if (countEvents >= 3) {
+            const dateClickArg: DateClickArg = {
+                date: info.event.start as Date,
+                dateStr: info.event.startStr,
+                allDay: false,
+                dayEl: info.el, // Usa el elemento del evento si está disponible
+                jsEvent: {} as MouseEvent,
+                view: info.view,
+            };
+            return onClickDay(dateClickArg); // Llama a onClickDay con el argumento
+        }
+        onClickEvent(info); // Llama a la función que pasa como prop
     };
 
     const renderEventContent = useCallback((eventInfo: EventContentArg) => {
@@ -82,7 +99,6 @@ const MyCalendar = ({
     }, []);
 
     const handleViewChange = () => {
-        // Limpiar el estado de días procesados al cambiar la vista
         processedDaysRef.current = {}; // Resetear el ref
     };
 
@@ -92,7 +108,7 @@ const MyCalendar = ({
             initialView="dayGridMonth" // Vista inicial
             editable={true} // Permite mover eventos
             selectable={true} // Permite seleccionar fechas
-            events={transformedEvents} // Lista de eventos transformada
+            events={events} // Usa el estado de eventos
             dateClick={onClickDay} // Escucha clics en fechas
             eventClick={handleEventClick} // Escucha clics en eventos
             height="auto" // Ajuste automático de altura

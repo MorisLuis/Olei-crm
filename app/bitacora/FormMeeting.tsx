@@ -11,6 +11,8 @@ import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
 import styles from '../../styles/Form.module.scss';
 import FileUploader from "@/components/UI/FileUploader";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { clientsSelectExample } from "@/seed/clientsData";
 
 export const INITIAL_MEETING: MeetingInterface = {
     Fecha: new Date(), // Fecha actual como objeto Date
@@ -20,7 +22,8 @@ export const INITIAL_MEETING: MeetingInterface = {
     Title: "",
     TipoContacto: 0,
     Comentarios: "",
-    Id_Bitacora: 0
+    Id_Bitacora: 0,
+    Id_Cliente: 0
 }
 
 interface FormMeetingInterface {
@@ -39,9 +42,9 @@ export default function FormMeeting({
 
     const { showSuccess, showInfo } = useToast()
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
-
+    const { isMobile } = useWindowSize()
     const [emailsResend, setEmailsResend] = useState<string[]>([]);
-    const availableToPost = meetingForm.Title
+    const availableToPost : boolean = (meetingForm.Title && meetingForm.TipoContacto && meetingForm.Id_Cliente) ? true : false
 
     const optionTipoMeeting: OptionType[] = [
         { value: 1, label: "Reunión" },
@@ -49,6 +52,12 @@ export default function FormMeeting({
         { value: 3, label: "Cita" },
         { value: 4, label: "Tarea" },
     ];
+
+    const optionsClients: OptionType[] = clientsSelectExample.map((item) => ({
+        label: item.Nombre as string, // Asume que item.Nombre es un string
+        value: item.Id_Cliente as number, // Asume que item.Id_Cliente es string o number
+    }));
+
 
     // Manejo genérico de cambios
     const handleChange = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]) => {
@@ -86,20 +95,35 @@ export default function FormMeeting({
                 },
                 action2: {
                     action: () => onPostMeeting(),
-                    label: isEditing ? "Editar" : "Crear reunión"
+                    label: isEditing ? "Editar" : "Crear reunión",
+                    disabled: !availableToPost
                 }
+            }}
+            extraStyles={{
+                width: isMobile ? "100%" : "40%"
             }}
         >
             <div className={styles.formMetting}>
+                <SelectReact
+                    options={optionsClients}
+                    name="Cliente"
+                    onChange={(option) => handleChange("Id_Cliente", Number(option?.value ?? null))}
+                    value={
+                        optionsClients.find(
+                            (item) => item.value === meetingForm.Id_Cliente
+                        ) ?? null
+                    }
+                    label="Selecciona el cliente"
+                />
 
                 <SelectReact
                     options={optionTipoMeeting}
                     name="Tipo de contacto"
-                    onChange={(option) => handleChange("TipoContacto", Number(option.value) as 0 | 1 | 2 | 3 | 4)}
+                    onChange={(option) => handleChange("TipoContacto", Number(option?.value ?? null) as 0 | 1 | 2 | 3 | 4)}
                     value={
                         optionTipoMeeting.find(
                             (item) => item.value === meetingForm.TipoContacto
-                        ) ?? optionTipoMeeting[0]
+                        ) ?? null
                     }
                     label="Selecciona el tipo de tarea"
                 />
@@ -150,7 +174,7 @@ export default function FormMeeting({
                     label="Escribe el correo de aquien lo quieres reenviar esta tarea"
                 />
 
-                <FileUploader label='Deseas adjuntar algun archivo?'/>
+                <FileUploader label='Deseas adjuntar algun archivo?' />
             </div>
         </Modal>
     );

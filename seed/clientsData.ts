@@ -83,6 +83,51 @@ export const clientsExample: ClientInterface[] = [
     },
 ];
 
+export const clientsSelectExample: Partial<ClientInterface>[] = [
+    {
+        Nombre: "Empresa 1",
+        Id_Cliente: 1,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    },
+    {
+        Nombre: "Gamesa",
+        Id_Cliente: 2,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    },
+    {
+        Nombre: "Rosco",
+        Id_Cliente: 3,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    },
+    {
+        Nombre: "Mattel",
+        Id_Cliente: 3,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    },
+    {
+        Nombre: "Empresa 2",
+        Id_Cliente: 4,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    },
+    {
+        Nombre: "Flores",
+        Id_Cliente: 5,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    },
+    {
+        Nombre: "Alguna otra",
+        Id_Cliente: 6,
+        Id_Almacen: 1,
+        Id_ListPre: 1
+    }
+]
+
 
 export const clientDetailsExample: ClientInterface = {
     IdOLEI: 1,

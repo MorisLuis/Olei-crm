@@ -24,7 +24,6 @@ export default function RenderDateFilter({
     const [startDate, setStartDate] = useState<string>(''); // Selected start date
 
     const handelSelectExactlyDate = (date: Date) => {
-        console.log({ date: transformDate(date) });
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
@@ -43,7 +42,6 @@ export default function RenderDateFilter({
     };
 
     const handelSelectStartDate = (date: Date) => {
-        console.log({ dateStart: transformDate(date) });
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
@@ -62,7 +60,6 @@ export default function RenderDateFilter({
     };
 
     const handelSelectEndDate = (date: Date) => {
-        console.log({ dateEnd: transformDate(date) });
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
