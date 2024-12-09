@@ -189,7 +189,7 @@
 
 .ModalDouble {
     background-color: transparent;
-    width: 50%;
+    //width: 40%;
     height: 100%;
     max-width: 1200px;
     position: fixed;
@@ -202,7 +202,7 @@
     display: flex;
     gap: variables.$gap;
 
-    @include mixins.respond(phone) {
+    @include mixins.respond(tab-port) {
         flex-direction: column;
         height: 100vh;
         max-height: 100%;
@@ -212,7 +212,7 @@
     &.active {
         width: 75%;
 
-        @include mixins.respond(phone) {
+        @include mixins.respond(tab-land) {
             width: 100%;
         }
     }
@@ -224,7 +224,7 @@
     .modalInDouble {
         display: none;
 
-        @include mixins.respond(phone) {
+        @include mixins.respond(tab-port) {
             display: block;
         }
     }
@@ -240,7 +240,7 @@
         display: flex;
         flex-direction: column;
 
-        @include mixins.respond(phone) {
+        @include mixins.respond(tab-port) {
             width: 100%;
         }
 
@@ -254,7 +254,7 @@
             max-height: 50px;
             border-radius: variables.$border-radius;
 
-            @include mixins.respond(phone) {
+            @include mixins.respond(tab-port) {
                 margin-bottom: variables.$margin-vertical;
             }
 
@@ -291,9 +291,9 @@
     }
 
     .secondary {
-        width: 50%;
+        //width: 60%;
 
-        @include mixins.respond(phone) {
+        @include mixins.respond(tab-port) {
             position: fixed;
             bottom: 0;
             height: 80%;
