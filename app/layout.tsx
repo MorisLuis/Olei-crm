@@ -4,6 +4,7 @@ import LayoutDashboard from "./LayoutDashboard";
 import iconLogo from '../public/circle-solid.svg'
 import '../styles/globals.scss'
 import { SettingsProvider } from "@/context/Settings/SettingsProvider";
+import NProgressComponent from "@/components/Nprogress";
 
 export const metadata: Metadata = {
   title: "Olei CRM",
@@ -24,6 +25,7 @@ export default function RootLayout({
       </Head>
       <SettingsProvider>
         <LayoutDashboard>
+          <NProgressComponent />
           {children}
         </LayoutDashboard>
       </SettingsProvider>

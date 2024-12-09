@@ -1,6 +1,12 @@
 @use "sass:math";
 @use "main.scss";
 @use "Abstracts/variables";
+@import 'nprogress/nprogress.css';
+
+#nprogress .bar {
+  background: variables.$color-blue; /* Cambiar el color */
+  height: 4px;
+}
 
 :root {
   --background: $background-color;
