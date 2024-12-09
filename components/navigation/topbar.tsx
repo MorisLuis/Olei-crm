@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+"use client";
+
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
 import styles from '../../styles/Navigation.module.scss';
 
@@ -13,6 +15,20 @@ export default function Topbar({
 }: TopbarInterface) {
 
     const { globalPathname } = useContext(SettingsContext);
+    const [openMenuProfile, setOpenMenuProfile] = useState(false)
+
+    const renderProfile = () => {
+        return (
+            <div className={styles.profile} onClick={() => setOpenMenuProfile(!openMenuProfile)}>
+                <div className={styles.info}>
+                    <p>Luce</p>
+                </div>
+                <div className={styles.circle}>
+                    <p>L</p>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className={styles.topbar}>
@@ -25,15 +41,22 @@ export default function Topbar({
                         {globalPathname}
                     </p>
                 </div>
+
                 <div className={styles.right}>
-                    <div className={styles.profile} onClick={() => console.log(true)}>
-                        <div className={styles.info}>
-                            <p>Luce</p>
+                    {renderProfile()}
+
+                    {
+                        openMenuProfile &&
+                        <div className={styles.profileOptions}>
+                            <div className={styles.profile__active}>
+                                {renderProfile()}
+                            </div>
+                            <div className={styles.item}>
+                                <p>Cerrar sesión</p>
+                                <FontAwesomeIcon icon={faRightFromBracket} className={`${styles.itemicon} icon`} />
+                            </div>
                         </div>
-                        <div className={styles.circle}>
-                            <p>L</p>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

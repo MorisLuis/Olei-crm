@@ -17,7 +17,7 @@
     font-size: variables.$font-medium;
     border: 1px solid variables.$color-border-secondary;
 
-    &.active{
+    &.active {
         display: block;
     }
 
@@ -27,7 +27,7 @@
     }
 
     @include mixins.respond(phone) {
-        display:  none;
+        display: none;
         z-index: 99999;
         min-width: 80vw;
         position: fixed;
@@ -35,7 +35,7 @@
         width: 60%;
     }
 
-    .logoOlei{
+    .logoOlei {
         bottom: 0px;
         left: 0px;
         height: 26px;
@@ -48,7 +48,9 @@
 
         @include mixins.respond(tab-port) {
             display: none;
-        };
+        }
+
+        ;
 
         @include mixins.respond(phone) {
             display: block;
@@ -65,7 +67,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: calc(100% - 26px -  variables.$margin-vertical*2);
+        height: calc(100% - 26px - variables.$margin-vertical*2);
 
         ul {
             padding: 0px;
@@ -139,9 +141,10 @@
 
             .headertitle {
 
-                span{
+                span {
                     cursor: pointer;
-                    &:hover{
+
+                    &:hover {
                         opacity: 50%;
                     }
                 }
@@ -160,7 +163,9 @@
             }
         }
 
-        .right{
+        .right {
+            position: relative;
+
             .profile {
                 gap: calc(variables.$gap/2);
                 position: relative;
@@ -251,11 +256,61 @@
                     opacity: 70%;
                 }
             }
+
+            .profileOptions {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-end;
+                right: -10%;
+                top: -20%;
+                width: 200px;
+                background-color: variables.$background-color-secondary;
+                z-index: 999;
+                border: 1px solid variables.$color-border;
+                border-radius: variables.$border-radius;
+                box-shadow: variables.$box-shadow-modal;
+
+                @include mixins.respond(phone) {
+                    width: calc(100svw - 4*variables.$padding);
+                }
+
+                .profile__active{
+                    padding: calc(variables.$padding / 3);
+                }
+
+                .item {
+                    display: flex;
+                    gap: variables.$gap;
+                    justify-content: flex-end;
+                    align-items: center;
+                    width: 100%;
+                    padding: calc(variables.$padding / 3);
+                    cursor: pointer;
+                    border: 1px solid transparent;
+
+                    .itemicon {
+                        background-color: variables.$background-color;
+                        border: 1px solid variables.$color-border;
+                        padding: calc(variables.$padding / 3);
+                        border-radius: variables.$border-radius;
+                    }
+
+                    &:hover {
+                        background-color: variables.$background-color;
+                        border: 1px solid variables.$color-border;
+                        border-radius: variables.$border-radius;
+                    }
+                }
+            }
         }
     }
-};
+}
 
-.header{
+;
+
+.header {
     margin-bottom: variables.$margin-vertical;
     color: variables.$color-tertiary;
 
@@ -263,17 +318,17 @@
     justify-content: space-between;
     align-items: center;
 
-    &__title{
+    &__title {
         display: flex;
         gap: calc(variables.$gap/2);
         height: 100%;
 
-        .icon{
+        .icon {
             padding: calc(variables.$padding/2);
             border: 1px solid transparent;
             cursor: pointer;
 
-            &:hover{
+            &:hover {
                 background-color: variables.$background-color-tertiary;
                 border-radius: variables.$border-radius;
                 border: 1px solid variables.$color-border-secondary;
@@ -281,7 +336,7 @@
         }
     }
 
-    .filters{
+    .filters {
         display: flex;
         align-items: center;
         height: auto;
@@ -294,13 +349,13 @@
     }
 }
 
-.headerTable{
+.headerTable {
     margin-bottom: variables.$margin-vertical;
     color: variables.$color-tertiary;
     display: flex;
     justify-content: space-between;
 
-    .filters{
+    .filters {
         display: flex;
         align-items: center;
         height: auto;
