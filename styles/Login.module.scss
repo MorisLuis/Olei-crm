@@ -1,0 +1,82 @@
+@use "sass:math";
+@use "main.scss";
+@use "Abstracts/mixins";
+@use "Abstracts/variables";
+
+.login {
+    width: 100vw;
+    height: 100svh;
+    position: relative;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100svh;
+
+        img {
+            height: 15%;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: variables.$margin-horizontal;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 30%;
+            height: 55%;
+            max-height: 600px;
+            padding: variables.$padding;
+            box-shadow: variables.$box-shadow-modal;
+            position: relative;
+            z-index: 9999;
+            border-radius: variables.$border-radius;
+            background-color: transparent;
+            border: 1px solid variables.$color-border-secondary;
+
+            .header {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: variables.$margin-vertical*2;
+            }
+
+            .form__content {
+                display: flex;
+                flex-direction: column;
+                gap: variables.$gap;
+            }
+
+            .iconLogin {
+                background-color: variables.$background-color;
+                border-radius: 100%;
+                border: 1px solid variables.$color-border;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: variables.$margin-vertical;
+            }
+
+            @include mixins.respond(tab-port) {
+                width: 50%;
+                height: 70%;
+
+                .iconLogin {
+                    padding: variables.$padding;
+                }
+            }
+
+            @include mixins.respond(phone) {
+                width: 90%;
+                height: 70%;
+                padding: variables.$padding;
+            }
+        }
+    }
+}

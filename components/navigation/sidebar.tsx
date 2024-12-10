@@ -17,7 +17,7 @@ export default function Sidebar({
 }: SidebarInterface) {
 
     const pathname = usePathname();
-    const [basePath] = pathname.split('/').filter(Boolean);
+    const basePath = pathname.split('/')[2]
 
     return (
         <aside className={`${styles.sidebar} ${visible && `${styles.active}`}`}>
@@ -34,7 +34,7 @@ export default function Sidebar({
                 <ul>
                     {
                         screenData.slice(1, -2).map((item) =>
-                            <Link href={item.pathname} className={`/${basePath}` === item.pathname ? styles.active : ''} key={item.id}>
+                            <Link href={item.pathname} className={`/dashboard/${basePath}` === item.pathname ? styles.active : ''} key={item.id}>
                                 <FontAwesomeIcon icon={item.icon} className={'icon'} />
                                 <p>{item.name}</p>
                             </Link>
@@ -43,7 +43,7 @@ export default function Sidebar({
                 </ul>
 
                 <ul>
-                    <Link href="/settings" className={pathname === '/settings' ? styles.active : ''}>
+                    <Link href="/dashboard/settings" className={pathname === '/dashboard/settings' ? styles.active : ''}>
                         <FontAwesomeIcon icon={faGear} className={'icon'} />
                         <p>Configuración</p>
                     </Link>
