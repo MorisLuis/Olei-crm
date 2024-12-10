@@ -270,7 +270,8 @@
                 z-index: 999;
                 border: 1px solid variables.$color-border;
                 border-radius: variables.$border-radius;
-                box-shadow: variables.$box-shadow-modal;
+                box-shadow: variables.$box-shadow-button;
+                padding: calc(variables.$padding / 3);
 
                 @include mixins.respond(phone) {
                     width: calc(100svw - 4*variables.$padding);

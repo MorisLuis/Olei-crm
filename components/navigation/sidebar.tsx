@@ -33,7 +33,7 @@ export default function Sidebar({
             <nav>
                 <ul>
                     {
-                        screenData.slice(0, -2).map((item) =>
+                        screenData.slice(1, -2).map((item) =>
                             <Link href={item.pathname} className={`/${basePath}` === item.pathname ? styles.active : ''} key={item.id}>
                                 <FontAwesomeIcon icon={item.icon} className={'icon'} />
                                 <p>{item.name}</p>

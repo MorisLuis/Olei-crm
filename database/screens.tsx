@@ -11,44 +11,51 @@ interface screenDataInterface {
 
 export const screenData: screenDataInterface[] = [
     {
+        id: 0,
+        name: "Iniciar sesión",
+        pathname: "/dashboard/login",
+        description: "Clientes Olei CRM by olei software",
+        icon: faUserGroup
+    },
+    {
         id: 1,
         name: "Clientes",
-        pathname: "/clients",
+        pathname: "/dashboard/clients",
         description: "Clientes Olei CRM by olei software",
         icon: faUserGroup
     },
     {
         id: 2,
         name: "Ventas",
-        pathname: "/sells",
+        pathname: "/dashboard/sells",
         description: "Ventas Olei CRM by olei software",
         icon: faMoneyBill1
     },
     {
         id: 3,
         name: "Bitacora",
-        pathname: "/bitacora",
+        pathname: "/dashboard/bitacora",
         description: "Bitacora Olei CRM by olei software",
         icon: faSheetPlastic
     },
     {
         id: 4,
         name: "Calendario",
-        pathname: "/calendar",
+        pathname: "/dashboard/calendar",
         description: "Calendario Olei CRM by olei software",
         icon: faCalendar
     },
     {
         id: 5,
         name: "Configuracion",
-        pathname: "/settings",
+        pathname: "/dashboard/settings",
         description: "Configuración Olei CRM by olei software",
         icon: faGear
     },
     {
         id: 6,
         name: "Cobranza",
-        pathname: "/cobranza",
+        pathname: "/dashboard/cobranza",
         description: "Cobranza Olei CRM by olei software",
         icon: faGear
     }

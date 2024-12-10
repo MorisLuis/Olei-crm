@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
 import styles from '../../styles/Navigation.module.scss';
+import { useRouter } from 'next/navigation';
 
 interface TopbarInterface {
     openMenu: () => void
@@ -15,7 +16,12 @@ export default function Topbar({
 }: TopbarInterface) {
 
     const { globalPathname } = useContext(SettingsContext);
-    const [openMenuProfile, setOpenMenuProfile] = useState(false)
+    const [openMenuProfile, setOpenMenuProfile] = useState(false);
+    const { push } = useRouter();
+
+    const onLogOut = () => {
+        push('/login')
+    }
 
     const renderProfile = () => {
         return (
@@ -51,7 +57,7 @@ export default function Topbar({
                             <div className={styles.profile__active}>
                                 {renderProfile()}
                             </div>
-                            <div className={styles.item}>
+                            <div className={styles.item} onClick={onLogOut}>
                                 <p>Cerrar sesión</p>
                                 <FontAwesomeIcon icon={faRightFromBracket} className={`${styles.itemicon} icon`} />
                             </div>
