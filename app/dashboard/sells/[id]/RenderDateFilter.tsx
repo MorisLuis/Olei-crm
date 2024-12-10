@@ -20,6 +20,7 @@ export default function RenderDateFilter({
 
     // States to store the labels of the start and end date filters.
     // Used just to delete this filters if we selected exactly date.
+    const [exactlyDate, setExactlyDate] = useState<string>('')
     const [endDate, setEndDate] = useState<string>(''); // Selected end date
     const [startDate, setStartDate] = useState<string>(''); // Selected start date
 
@@ -27,15 +28,18 @@ export default function RenderDateFilter({
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
+        const labelDate =`Fecha exacta: ${valueDate}`;
+
         const filterSelected = { 
             filter: 'Date', 
             value: valueDate, 
-            label: `Exact Date: ${valueDate}` 
+            label: labelDate
         };
 
         // Remove any active range filters (start and end dates)
         onDeleteFilter(endDate);
         onDeleteFilter(startDate);
+        setExactlyDate(labelDate)
 
         // Notify the selection of the new exact date filter
         onSelectFilter({ filterObject: filterSelected, filterType: 'Date' });
@@ -45,7 +49,7 @@ export default function RenderDateFilter({
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
-        const labelDate = `Start Date: ${valueDate}`;
+        const labelDate = `Fecha Inicio: ${valueDate}`;
         const filterSelected = { 
             filter: 'DateStart', 
             value: valueDate, 
@@ -53,6 +57,7 @@ export default function RenderDateFilter({
         };
 
         // Update the state with the start date label
+        onDeleteFilter(exactlyDate);
         setStartDate(labelDate);
 
         // Notify the selection of the start date filter
@@ -63,7 +68,7 @@ export default function RenderDateFilter({
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
-        const labelDate = `End Date: ${valueDate}`;
+        const labelDate = `Fecha Fin: ${valueDate}`;
         const filterSelected = { 
             filter: 'DateEnd', 
             value: valueDate, 
@@ -71,6 +76,7 @@ export default function RenderDateFilter({
         };
 
         // Update the state with the end date label
+        onDeleteFilter(exactlyDate);
         setEndDate(labelDate);
 
         // Notify the selection of the end date filter
