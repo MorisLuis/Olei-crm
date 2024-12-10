@@ -2,21 +2,29 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import TableSells from './TableSells';
-import { sellsExample } from '@/seed/sellsData';
 import HeaderTable from '@/components/navigation/headerTable';
 import { useOrderSellsConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import Header from '@/components/navigation/header';
 import styles from "../../../styles/pages/Sells.module.scss";
+import { getSells } from '@/services/sells';
+import { SellsInterface } from '@/interface/sells';
 
 export default function Sells() {
 
     const { orderSells } = useOrderSellsConfig()
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSells[0]);
+    const [sellsData, setSellsData] = useState<SellsInterface[]>([])
 
     // ESTO CAMBIA
     const totalSells = 2;
     const loadMoreProducts = async () => {
+        try {
+            const data = await getSells({ PageNumber: 1});
+            setSellsData(data)
+        } catch (error) {
+            console.log({error})
+        }
     }
     // TERMINA CAMBIO
 
@@ -34,7 +42,8 @@ export default function Sells() {
 
     useEffect(() => {
         executeQuery()
-    }, [executeQuery])
+        loadMoreProducts()
+    }, [])
 
     return (
         <div className={styles.page}>
@@ -45,7 +54,7 @@ export default function Sells() {
                 orderActive={orderActive}
             />
             <TableSells
-                sells={sellsExample}
+                sells={sellsData}
                 totalSells={totalSells}
                 loadMoreProducts={loadMoreProducts}
                 buttonIsLoading={false}
