@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion';
-import styles from './../../../styles/Pages/NotFound.module.scss';
+import styles from '../../../styles/pages/NotFound.module.scss';
 import ButtonSmall from '@/components/Buttons/ButtonSmall';
 import { useRouter } from 'next/navigation';
 
