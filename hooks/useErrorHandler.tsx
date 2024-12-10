@@ -1,7 +1,11 @@
-import { useRouter } from 'next/router';
-import useToast from './useToast';
+"use client";
 
-interface ErrorResponse {
+import { useRouter } from 'next/navigation';
+import useToast from './useToast';
+import { useContext } from 'react';
+import { AuthContext } from '@/context/auth/AuthContext';
+
+export interface ErrorResponse {
     response?: {
         status?: number;
         config?: {
@@ -18,6 +22,7 @@ interface ErrorResponse {
 
 export const useErrorHandler = () => {
     const router = useRouter();
+    const {logoutUser} = useContext(AuthContext)
     const { showError } = useToast()
 
     const handleError = async (error: ErrorResponse) => {
@@ -31,7 +36,7 @@ export const useErrorHandler = () => {
             ?? "Unknown error";
 
         if (status === 401) {
-            //return logoutUser?.();
+            return await logoutUser();
         }
 
         /* await sendError({
@@ -43,7 +48,7 @@ export const useErrorHandler = () => {
         }); */
 
         if (status) {
-            switch (status) {
+            /* switch (status) {
                 case 404:
                     router.push('/404');
                     break;
@@ -56,7 +61,7 @@ export const useErrorHandler = () => {
                 default:
                     router.push('/404');
                     break;
-            }
+            } */
         } else {
             showError("Algo salió mal!");
         }

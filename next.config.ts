@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
       destination: '/login',
       permanent: true, // true para redirección 301 permanente, false para 302 temporal
     },
+    {
+      source: '/dashboard',
+      destination: '/dashboard/sells',
+      permanent: true,
+    },
     { source: '/bitacora', destination: '/dashboard/bitacora', permanent: true},
     { source: '/calendar', destination: '/dashboard/calendar', permanent: true},
     { source: '/clients', destination: '/dashboard/clients', permanent: true},

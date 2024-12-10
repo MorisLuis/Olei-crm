@@ -6,6 +6,7 @@ import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
 import styles from '../../styles/Navigation.module.scss';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '@/context/auth/AuthContext';
 
 interface TopbarInterface {
     openMenu: () => void
@@ -18,8 +19,10 @@ export default function Topbar({
     const { globalPathname } = useContext(SettingsContext);
     const [openMenuProfile, setOpenMenuProfile] = useState(false);
     const { push } = useRouter();
+    const { logoutUser } = useContext(AuthContext);
 
-    const onLogOut = () => {
+    const onLogOut = async () => {
+        await logoutUser()
         push('/login')
     }
 

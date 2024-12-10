@@ -1,40 +1,13 @@
 
-export interface UserSessionInterface {
-    serverclientes: string;
-    baseclientes: string;
-    PasswordSQL: string;
-    UsuarioSQL: string;
-    IdUsuarioOLEI: string;
-    RazonSocial: string;
-    SwImagenes: string;
-    Vigencia: string;
 
-    userId?: string;
-    userRol?: string;
-    from: 'web' | 'mobil' | 'crm',
-}
-
-export interface UserWebSessionInterface {
+export interface UserCRMInterface {
     Id: string,
     Nombre: string,
-    Serverweb: string,
-    Baseweb: string,
-
-    TipoUsuario: string,
-    Id_Cliente: number,
-    Id_ListPre: number,
     Vigencia: string,
-    TipoDocOO: number,
+    TipoUsuario: string,
     Id_Almacen: number,
-    PrecioIncIVA: number,
     Id_Usuario: string,
-    SwImagenes: boolean, 
     from: 'web' | 'mobil' | 'crm',
-
-    // Online
-    SwSinStock: boolean, 
-    SwsinPrecio: boolean, 
-    IsEmploye?: boolean
 }
 
 export type ValidationResult = {

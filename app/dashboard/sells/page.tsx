@@ -12,7 +12,7 @@ import styles from "../../../styles/pages/Sells.module.scss";
 export default function Sells() {
 
     const { orderSells } = useOrderSellsConfig()
-    const [orderActive, setOrderActive] = useState<OrderObject>(orderSells[0])
+    const [orderActive, setOrderActive] = useState<OrderObject>(orderSells[0]);
 
     // ESTO CAMBIA
     const totalSells = 2;
