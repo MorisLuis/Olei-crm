@@ -30,7 +30,7 @@
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
     "react-select": "^5.8.3",
-    "sass": "^1.80.7"
+    "sass": "^1.82.0"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.4",

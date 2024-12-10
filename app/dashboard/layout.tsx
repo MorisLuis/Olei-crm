@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Head from "next/head";
 import LayoutDashboard from "./LayoutDashboard";
 import iconLogo from '../../public/circle-solid.svg'
-import '../../styles/globals.scss'
 
 export const metadata: Metadata = {
   title: "Olei CRM",

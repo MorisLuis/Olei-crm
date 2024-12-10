@@ -24,7 +24,7 @@ export default function Login() {
     <div className={styles.login}>
       <div className={styles.content}>
 
-<h1>CRM</h1>
+        <h1>CRM</h1>
         <Image
           src={"/Logo_vertical.png"}
           alt="Olei online"
