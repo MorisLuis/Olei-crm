@@ -46,7 +46,7 @@ const MyCalendar = ({
     // Para asegurar que los eventos se actualizan al regresar del modal
     useEffect(() => {
         setEvents(transformedEvents); // Actualiza los eventos
-    }, [transformedEvents]); // Actualiza solo cuando calendarData cambie // before "calendarData"
+    }, []); // Actualiza solo cuando calendarData cambie // before "calendarData"
 
     const handleEventClick = (info: EventClickArg) => {
         const countEvents = info.event.extendedProps.eventCount;
