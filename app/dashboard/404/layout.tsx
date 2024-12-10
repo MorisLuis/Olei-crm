@@ -18,8 +18,8 @@ export default function layoutLogin({
 }>) {
 
     return (
-        <div>
+        <>
             {children}
-        </div>
+        </>
     )
 }

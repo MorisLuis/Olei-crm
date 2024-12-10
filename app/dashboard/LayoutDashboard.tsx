@@ -3,9 +3,9 @@
 import Sidebar from '@/components/navigation/sidebar'
 import Topbar from '@/components/navigation/topbar'
 import React, { ReactNode, useContext, useState } from 'react';
-import styles from "../../styles/RootLayout.module.scss";
 import { Toaster } from 'react-hot-toast';
 import { AuthContext } from '@/context/auth/AuthContext';
+import styles from "../../styles/RootLayout.module.scss";
 
 interface LayoutDashboardInterface {
     children: ReactNode

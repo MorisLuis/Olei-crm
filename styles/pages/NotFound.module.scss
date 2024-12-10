@@ -3,48 +3,57 @@
 @use "../Abstracts/mixins";
 @use "../Abstracts/variables";
 
-.NotFound{
+.NotFound {
     position: relative;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 80svh;
-    
-    .title{
-        font-size: 400px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    width: 100%;
+
+    .title {
+        font-size: clamp(30vh, 55vh, 55vh); // Ajusta el tamaño dinámicamente
+        max-width: 100%; // Limita el ancho máximo
+        max-height: 100%; // Limita la altura máxima
+        overflow: hidden; // Evita desbordamientos visuales
+        text-align: center; // Centra el texto si ocupa varias líneas
+        word-break: break-word; // Evita que palabras largas desborden
         z-index: 0;
-        color: variables.$background-color-secondary;
+        color: variables.$background-color-tertiary;
+
+        @include mixins.respond(tab-land) {
+            font-size: clamp(30vh, 45vh, 45vh); // Ajusta el tamaño dinámicamente
+        }
+
+        @include mixins.respond(tab-port) {
+            font-size: clamp(30vh, 40vh, 40vh); // Ajusta el tamaño dinámicamente
+        }
 
         @include mixins.respond(phone) {
-            font-size: 150px;
-            padding: 2em;
+            font-size: clamp(20vh, 20vh, 20vh); // Ajusta el tamaño dinámicamente
         }
-    
     }
 
-    .message{
+    .message {
         z-index: 99;
-        font-size: 20px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        font-size: variables.$font-normal;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        width: 80%;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
 
         @include mixins.respond(phone) {
             font-size: variables.$font-normal;
             padding: 2em;
         }
 
-        button{
+        button {
             margin-top: 10px;
         }
     }
