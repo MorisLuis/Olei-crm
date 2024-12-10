@@ -26,7 +26,7 @@ export default function Login() {
 
 <h1>CRM</h1>
         <Image
-          src={"/Logo_vertical.png" || ""}
+          src={"/Logo_vertical.png"}
           alt="Olei online"
           width={200}
           height={200}
