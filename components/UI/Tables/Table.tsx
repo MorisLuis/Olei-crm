@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from '../../../styles/Tables.module.scss';
+import ButtonLoad from '@/components/Buttons/ButtonLoad';
 
 export interface ColumnConfig<T> {
     key: keyof T;
@@ -14,7 +15,7 @@ export interface ColumnConfig<T> {
 interface TableProps<T> {
     data: T[];
     columns: ColumnConfig<T>[];
-    handleLoadMore?: () => void;
+    handleLoadMore: () => void;
     loadingMoreData: boolean;
     noMoreData: boolean;
     handleSelectItem?: (arg: T) => void
@@ -24,7 +25,9 @@ const Table = <T,>({
     data,
     columns,
     noMoreData = false,
-    handleSelectItem
+    handleSelectItem,
+    handleLoadMore,
+    loadingMoreData
 }: TableProps<T>) => {
 
     return (
@@ -68,7 +71,13 @@ const Table = <T,>({
 
             {
                 !noMoreData &&
-                <div className={styles.laodMore}>
+<div className={styles.laodMore}>
+                    <ButtonLoad
+                        buttonText='Ver más'
+                        onClick={handleLoadMore}
+                        loading={loadingMoreData}
+                        color='white'
+                    />
                 </div>
             }
 

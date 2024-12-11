@@ -36,7 +36,7 @@ export const useErrorHandler = () => {
             ?? "Unknown error";
 
         if (status === 401) {
-            return await logoutUser();
+            return await logoutUser?.();
         }
 
         /* await sendError({

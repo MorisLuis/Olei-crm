@@ -6,14 +6,17 @@ import { format } from '@/utils/currency';
 export const columnsSells: ColumnConfig<SellsInterface>[] = [
     {
         key: 'Id_Cliente',
-        label: 'Id_Cliente',
+        label: 'Id Cliente',
         render: (Id_Cliente) => <span>{Id_Cliente?.toString()}</span>
+    },
+    {
+        key: 'Id_Almacen',
+        label: 'Almacen'
     },
     {
         key: 'Nombre',
         label: 'Nombre',
         render: (Nombre) => <span style={{ fontWeight: 'bold' }}>{Nombre?.toString()}</span>
-
     },
     {
         key: 'Saldo',
