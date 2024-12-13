@@ -1,12 +1,6 @@
-import { SellsInterface } from '@/interface/sells';
+import { tipoDocMap } from '@/hooks/Filters/useFiltersSellsConfig';
+import { typeTipoDoc } from '@/interface/sells';
 
-export const docType = (value: SellsInterface['TipoDoc']) => {
-
-    let type = ""
-
-    if ( value === 1) type = "Cotizacion"
-    if ( value === 2) type = "Factura"
-    if ( value === 3) type = "Remisión"
-
-    return type
+export const docType = (value: typeTipoDoc ) => {
+    return tipoDocMap[value] || "Otro"; 
 }

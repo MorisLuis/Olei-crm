@@ -309,8 +309,6 @@
     }
 }
 
-;
-
 .header {
     margin-bottom: variables.$margin-vertical;
     color: variables.$color-tertiary;
@@ -323,6 +321,7 @@
         display: flex;
         gap: calc(variables.$gap/2);
         height: 100%;
+        align-items: center;
 
         .icon {
             padding: calc(variables.$padding/2);

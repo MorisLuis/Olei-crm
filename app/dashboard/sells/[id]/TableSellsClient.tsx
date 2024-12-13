@@ -57,13 +57,21 @@ export default function TableSellsClient({
             label: 'Fecha Vencimiento',
             render: (FechaEntrega) => (
                 <div>
-                    <p>{formatDate(FechaEntrega as Date)}</p>
+                    {
+                        FechaEntrega ? <p>{formatDate(FechaEntrega as Date)}</p>
+                        : <Tag color='gray'>Sin datos</Tag>}
                 </div>
             )
         },
         {
             key: 'ExpiredDays',
-            label: 'Dias vencidos'
+            label: 'Dias vencidos',
+            render: (ExpiredDays) => (
+                <div>
+                    {ExpiredDays ? <p>{formatDate(ExpiredDays as Date)}</p>
+                        : <Tag color='gray'>Sin datos</Tag>}
+                </div>
+            )
         },
         {
             key: 'Total',
@@ -93,6 +101,8 @@ export default function TableSellsClient({
             </MessageCard>
         )
     };
+
+    console.log({ sells })
 
     return (
         <Table

@@ -17,7 +17,7 @@ export interface ActionsInterface {
 
 
 interface HeaderInterface {
-    title: string;
+    title?: string | null;
     actions?: ActionsInterface[]
 }
 
@@ -43,7 +43,7 @@ export default function Header({
                         className={`${styles.icon} icon__small`}
                     />
                 }
-                <h2>{title}</h2>
+                <h2>{title ? title : "Regresar"}</h2>
                 <div className='none'>{basePath}</div>
             </div>
 

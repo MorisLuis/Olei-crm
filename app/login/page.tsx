@@ -41,10 +41,8 @@ export default function Login() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    console.log({formData})
     try {
-      const resp = await loginUser(formData.email, formData.password);
-      console.log({resp})
+      await loginUser(formData.email, formData.password);
       push("/dashboard");
 
     } catch (error) {

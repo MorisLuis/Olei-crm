@@ -40,8 +40,6 @@ export default function ClientDetailsPage() {
     const handelOnClickEvent = (info: EventClickArg) => {
         const dataEvent = info.event.extendedProps;
 
-        console.log({dataEvent})
-
         if (dataEvent.TableType === "Bitacora") {
             // Get meeting from API
             setEventToOpen(meetingExample);
