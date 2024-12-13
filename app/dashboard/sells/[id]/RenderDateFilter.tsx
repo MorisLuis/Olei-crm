@@ -2,7 +2,7 @@ import InputRangeDate from '@/components/Inputs/inputRangeDate'
 import React, { useState } from 'react'
 import styles from '../../../../styles/Components/InputRangeDate.module.scss';
 import InputDatePicker from '@/components/Inputs/inputDate';
-import { FilterObject } from '@/hooks/Filters/useFilters';
+import { FilterObject, useFilters } from '@/hooks/Filters/useFilters';
 import { transformDate } from '@/utils/transformDate';
 
 interface RenderDateFilterInterface {
@@ -11,7 +11,7 @@ interface RenderDateFilterInterface {
     filtersActive: FilterObject[]
 }
 
-export default function RenderDateFilter({
+function RenderDateFilter({
     onSelectFilter,
     onDeleteFilter,
     filtersActive
@@ -28,11 +28,11 @@ export default function RenderDateFilter({
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
-        const labelDate =`Fecha exacta: ${valueDate}`;
+        const labelDate = `Fecha exacta: ${valueDate}`;
 
-        const filterSelected = { 
-            filter: 'Date', 
-            value: valueDate, 
+        const filterSelected = {
+            filter: 'Date',
+            value: valueDate,
             label: labelDate
         };
 
@@ -50,10 +50,10 @@ export default function RenderDateFilter({
         // Convert the date to the desired format
         const valueDate = transformDate(date);
         const labelDate = `Fecha Inicio: ${valueDate}`;
-        const filterSelected = { 
-            filter: 'DateStart', 
-            value: valueDate, 
-            label: labelDate 
+        const filterSelected = {
+            filter: 'DateStart',
+            value: valueDate,
+            label: labelDate
         };
 
         // Update the state with the start date label
@@ -69,10 +69,10 @@ export default function RenderDateFilter({
         // Convert the date to the desired format
         const valueDate = transformDate(date);
         const labelDate = `Fecha Fin: ${valueDate}`;
-        const filterSelected = { 
-            filter: 'DateEnd', 
-            value: valueDate, 
-            label: labelDate 
+        const filterSelected = {
+            filter: 'DateEnd',
+            value: valueDate,
+            label: labelDate
         };
 
         // Update the state with the end date label
@@ -106,4 +106,32 @@ export default function RenderDateFilter({
             </div>
         </div>
     )
+};
+
+
+export const CustumRendersSellsByClient = () => {
+    const { filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
+
+    const CustumFilters = ['Date'] as const;
+    type CustomRenderKey = typeof CustumFilters[number];
+    type CustomRenderType = {
+        [key in CustomRenderKey]?: React.ReactNode;
+    };
+
+    const CustumRenders: CustomRenderType[] = [
+        {
+            Date:
+                RenderDateFilter({
+                    onSelectFilter: onSelectFilterValue,
+                    onDeleteFilter,
+                    filtersActive
+                })
+        },
+    ];
+
+    return {
+        CustumFilters,
+        CustumRenders
+    }
 }
+
