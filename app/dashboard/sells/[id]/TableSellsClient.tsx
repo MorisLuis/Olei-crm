@@ -102,8 +102,6 @@ export default function TableSellsClient({
         )
     };
 
-    console.log({ sells })
-
     return (
         <Table
             columns={columns}

@@ -22,7 +22,7 @@ export default function SellsClientPage() {
 
     const { id } = useParams();
     const searchParams = useSearchParams();
-    const client = searchParams.get('client');
+    const clientName = searchParams.get('client');
 
     const { push, back } = useRouter();
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
@@ -30,8 +30,8 @@ export default function SellsClientPage() {
     const { orderSellsClient } = useOrderSellsClientConfig();
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const [openModalSell, setOpenModalSell] = useState(false);
-    const filters = ExecuteFiltersSellsByClient({orderActive})
-    const{ CustumFilters, CustumRenders } = CustumRendersSellsByClient()
+    const filters = ExecuteFiltersSellsByClient({ orderActive })
+    const { CustumFilters, CustumRenders } = CustumRendersSellsByClient()
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData: () => getSellsByClient({ PageNumber: 1, client: Number(id), filters: filters }),
@@ -47,8 +47,8 @@ export default function SellsClientPage() {
     }, [orderSellsClient])
 
     const handleSelectItem = useCallback((item: SellsInterface) => {
-        const sellId = `${item.Id_Almacen}-${item.TipoDoc}-${item?.Serie?.trim()}-${item.Folio}`
-        push(`/dashboard/sells/${id}/?sellId=${sellId}`)
+        const { Id_Almacen, TipoDoc, Serie, Folio } = item;
+        push(`/dashboard/sells/${id}/?Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`);
         setOpenModalSell(true)
     }, [id, push])
 
@@ -64,7 +64,7 @@ export default function SellsClientPage() {
     return (
         <>
             <div className={styles.SellsClient}>
-                <Header title={client} />
+                <Header title={clientName} />
                 <HeaderTable
                     filters={filtersSells}
                     filterActive={filtersTag}
