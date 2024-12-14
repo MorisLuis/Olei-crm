@@ -56,6 +56,7 @@ export const getSellById = async ({
     TipoDoc
 }: getSellByIdInterface) => {
 
+
     try {
         const data = await api.get(`/api/sells/${Folio}?Serie=${Serie}&Id_Almacen=${Id_Almacen}&Id_Cliente=${Id_Cliente}&TipoDoc=${TipoDoc}`);
         return data.data;

@@ -30,7 +30,7 @@ export default function SellsClientPage() {
     const { orderSellsClient } = useOrderSellsClientConfig();
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const [openModalSell, setOpenModalSell] = useState(false);
-    const filters = ExecuteFiltersSellsByClient({ orderActive })
+    const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive})
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient()
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({

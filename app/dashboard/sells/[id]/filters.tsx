@@ -1,15 +1,16 @@
 import { OrderObject } from "@/components/UI/OrderComponent";
-import { useFilters } from "@/hooks/Filters/useFilters";
+import { FilterObject } from "@/hooks/Filters/useFilters";
 import { FilterSellsByClient, SellsInterface, SellsOrderByClientCondition, SellsOrderConditionByClientType } from "@/interface/sells";
 
 interface executeFiltersSellsByClientInterface {
-    orderActive: OrderObject
+    orderActive: OrderObject;
+    filtersActive: FilterObject[]
 }
 
 export const ExecuteFiltersSellsByClient = ({
-    orderActive
+    orderActive,
+    filtersActive
 } : executeFiltersSellsByClientInterface) => {
-    const { filtersActive } = useFilters();
 
     const FilterTipoDoc = filtersActive.some((item) => (item.value !== 0) && item.filter === 'TipoDoc') ? 1 : 0;
     const FilterExpired = filtersActive.some((item) => item.value === 'Expired') ? 1 : 0;
