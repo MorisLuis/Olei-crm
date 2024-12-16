@@ -26,12 +26,13 @@ export default function SellsClientPage() {
 
     const { push, back } = useRouter();
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
+
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
     const { orderSellsClient } = useOrderSellsClientConfig();
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const [openModalSell, setOpenModalSell] = useState(false);
-    const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive})
-    const { CustumFilters, CustumRenders } = CustumRendersSellsByClient()
+    const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
+    const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive })
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData: () => getSellsByClient({ PageNumber: 1, client: Number(id), filters: filters }),

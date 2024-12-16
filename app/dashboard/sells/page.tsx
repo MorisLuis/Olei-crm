@@ -30,7 +30,7 @@ export default function Sells() {
 
     useEffect(() => {
         handleResetData()
-    }, [orderActive])
+    }, [orderActive]);
 
     return (
         <div className={styles.page}>

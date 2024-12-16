@@ -2,17 +2,17 @@ import InputRangeDate from '@/components/Inputs/inputRangeDate'
 import React, { useState } from 'react'
 import styles from '../../../../styles/Components/InputRangeDate.module.scss';
 import InputDatePicker from '@/components/Inputs/inputDate';
-import { FilterObject, useFilters } from '@/hooks/Filters/useFilters';
+import { FilterObject } from '@/hooks/Filters/useFilters';
 import { transformDate } from '@/utils/transformDate';
 
 interface RenderDateFilterInterface {
-    onSelectFilter: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
+    onSelectFilterValue: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
     onDeleteFilter: (filterValue: string | number) => void;
     filtersActive: FilterObject[]
 }
 
 function RenderDateFilter({
-    onSelectFilter,
+    onSelectFilterValue,
     onDeleteFilter,
     filtersActive
 }: RenderDateFilterInterface) {
@@ -42,7 +42,7 @@ function RenderDateFilter({
         setExactlyDate(labelDate)
 
         // Notify the selection of the new exact date filter
-        onSelectFilter({ filterObject: filterSelected, filterType: 'Date' });
+        onSelectFilterValue({ filterObject: filterSelected, filterType: 'Date' });
     };
 
     const handelSelectStartDate = (date: Date) => {
@@ -61,7 +61,7 @@ function RenderDateFilter({
         setStartDate(labelDate);
 
         // Notify the selection of the start date filter
-        onSelectFilter({ filterObject: filterSelected, filterType: 'DateStart' });
+        onSelectFilterValue({ filterObject: filterSelected, filterType: 'DateStart' });
     };
 
     const handelSelectEndDate = (date: Date) => {
@@ -80,7 +80,7 @@ function RenderDateFilter({
         setEndDate(labelDate);
 
         // Notify the selection of the end date filter
-        onSelectFilter({ filterObject: filterSelected, filterType: 'DateEnd' });
+        onSelectFilterValue({ filterObject: filterSelected, filterType: 'DateEnd' });
     };
 
     return (
@@ -109,29 +109,34 @@ function RenderDateFilter({
 };
 
 
-export const CustumRendersSellsByClient = () => {
-    const { filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
+export const CustumRendersSellsByClient = ({
+    onSelectFilterValue,
+    onDeleteFilter,
+    filtersActive
+}: RenderDateFilterInterface) => {
 
     const CustumFilters = ['Date'] as const;
-    type CustomRenderKey = typeof CustumFilters[number];
+
+    type CustomRenderKey = typeof CustumFilters[number];  // 'Date'
     type CustomRenderType = {
         [key in CustomRenderKey]?: React.ReactNode;
     };
 
     const CustumRenders: CustomRenderType[] = [
         {
-            Date:
-                RenderDateFilter({
-                    onSelectFilter: onSelectFilterValue,
-                    onDeleteFilter,
-                    filtersActive
-                })
+            Date: (
+                <RenderDateFilter
+                    onSelectFilterValue={onSelectFilterValue}
+                    onDeleteFilter={onDeleteFilter}
+                    filtersActive={filtersActive}
+                />
+            )
         },
     ];
 
     return {
         CustumFilters,
-        CustumRenders
-    }
-}
+        CustumRenders,
 
+    };
+};
