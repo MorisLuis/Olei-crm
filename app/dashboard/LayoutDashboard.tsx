@@ -3,8 +3,8 @@
 import Sidebar from '@/components/navigation/sidebar'
 import Topbar from '@/components/navigation/topbar'
 import React, { ReactNode, useState } from 'react';
-import styles from "../../styles/RootLayout.module.scss";
 import { Toaster } from 'react-hot-toast';
+import styles from "../../styles/RootLayout.module.scss";
 
 interface LayoutDashboardInterface {
     children: ReactNode
@@ -16,7 +16,6 @@ export default function LayoutDashboard({
 
     const [openMenu, setOpenMenu] = useState(false);
     const handleOpenMenu = () => setOpenMenu(!openMenu)
-
 
     return (
         <div className={styles.RootLayout}>

@@ -16,7 +16,6 @@ export default function ClientDetailsPage() {
 
     const pathname = usePathname();
     const Id_Bitacora = pathname.split('/').filter(Boolean)[2];   
-    console.log({Id_Bitacora})
 
     const briefData: briefDataInterface[] = [
         { id: 1, label: 'Nombre', value: `${clientDetailsExample?.Nombre ?? ''}` },

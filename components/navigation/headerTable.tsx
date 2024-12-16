@@ -6,9 +6,9 @@ import useLockBodyScroll from '@/hooks/useLockBodyScroll';
 import { Tag } from '../UI/Tag';
 import OrderComponent, { OrderObject } from '../UI/OrderComponent';
 import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
-import { FilterSectionType } from '@/seed/Filters/FiltersSells';
 import styles from '../../styles/Navigation.module.scss'
 import InputSearch from '../Inputs/inputSearch';
+import { FilterSectionType } from '@/hooks/Filters/useFiltersSellsConfig';
 
 interface HeaderInterface {
 

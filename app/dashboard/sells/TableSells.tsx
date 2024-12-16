@@ -29,7 +29,7 @@ export default function TableSells({
     const NoMoreProductToShow = sells.length === totalSells;
 
     const handleSelectClientSells = (item: SellsInterface) => {
-        push(`sells/${item.Id_Cliente}`);
+        push(`sells/${item.Id_Cliente}?client=${encodeURIComponent(item.Nombre.trim())}`);
     };
 
     if (loadingData) {

@@ -1,6 +1,6 @@
 import { FilterData, useFilters } from "@/hooks/Filters/useFilters";
-import { FilterSectionType } from "@/seed/Filters/FiltersSells";
 import { fa0, faClock, faFile, faWalkieTalkie } from "@fortawesome/free-solid-svg-icons";
+import { FilterSectionType } from "./useFiltersSellsConfig";
 
 export const useFiltersMeetingConfig = () => {
     const { filtersActive } = useFilters();

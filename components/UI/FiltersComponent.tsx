@@ -4,8 +4,8 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ButtonSmall from '../Buttons/ButtonSmall';
 import { FilterData, FilterObject } from '@/hooks/Filters/useFilters';
-import { FilterSectionType } from '@/seed/Filters/FiltersSells';
 import styles from '../../styles/Filters.module.scss';
+import { FilterSectionType } from '@/hooks/Filters/useFiltersSellsConfig';
 
 
 interface FiltersComponentInterface {

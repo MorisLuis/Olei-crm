@@ -7,7 +7,6 @@
     display: flex;
     flex-direction: row;
     margin: 0px;
-    max-height: 100vh;
     background-color: variables.$background-color;
     width: 100vw;
 
@@ -22,7 +21,8 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        
+        overflow: scroll;
+        max-height: 100vh;
         .mainbody{
             padding: variables.$padding*2;
         }
