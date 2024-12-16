@@ -15,7 +15,7 @@ export default function ClientDetailsPage() {
     const { handleUpdatePathname } = useContext(SettingsContext);
 
     const pathname = usePathname();
-    const Id_Bitacora = pathname.split('/').filter(Boolean)[2];   
+    const Id_Bitacora = pathname.split('/').filter(Boolean)[2];
 
     const briefData: briefDataInterface[] = [
         { id: 1, label: 'Nombre', value: `${clientDetailsExample?.Nombre ?? ''}` },
@@ -26,7 +26,7 @@ export default function ClientDetailsPage() {
 
 
     useEffect(() => {
-        if(!clientDetailsExample) return;
+        if (!clientDetailsExample) return;
         handleUpdatePathname(clientDetailsExample.Nombre ?? undefined)
     }, [handleUpdatePathname])
 
@@ -37,12 +37,16 @@ export default function ClientDetailsPage() {
                 <div className={styles.bitacoraDetails__data}>
                     <div className={styles.details}>
                         <h4>Reunión</h4>
-                        <TableTertiaryBitacoraDetails Id_Bitacora={Number(Id_Bitacora)}/>
+                        <TableTertiaryBitacoraDetails Id_Bitacora={Number(Id_Bitacora)} />
                     </div>
-                    <FileUploader/>
+                    <FileUploader />
                 </div>
                 <div className={styles.bitacoraDetails__brief}>
-                    <BriefCard data={briefData} header="Detalle de cliente" />
+                    <BriefCard
+                        data={briefData}
+                        header="Detalle de cliente"
+                        isLoading={false}
+                    />
                 </div>
             </div>
         </>

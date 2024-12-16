@@ -1,10 +1,11 @@
 import { ColumnConfig } from "@/components/UI/Tables/Table";
+import { Tag } from "@/components/UI/Tag";
 import { ClientInterface } from "@/interface/client";
 
 export const columnClients: ColumnConfig<ClientInterface>[] = [
     {
         key: 'Id_Cliente',
-        label: 'Id_Cliente',
+        label: 'Id Cliente',
         render: (Id_Cliente) => <span>{Id_Cliente}</span>
     },
     {
@@ -16,12 +17,12 @@ export const columnClients: ColumnConfig<ClientInterface>[] = [
     {
         key: 'Telefono1',
         label: 'Telefono',
-        render: (Telefono1) => <span>{Telefono1}</span>
+        render: (Telefono1) => (Telefono1 ? <span>{Telefono1}</span> : <Tag color="gray">Sin datos</Tag>)
 
     },
     {
         key: 'CorreoVtas',
         label: 'Correo',
-        render: (CorreoVtas) => <span>{CorreoVtas}</span>
+        render: (CorreoVtas) => (CorreoVtas ? <span>{CorreoVtas}</span> : <Tag color="gray">Sin datos</Tag>)
     },
 ];

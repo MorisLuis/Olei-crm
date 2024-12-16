@@ -29,7 +29,11 @@ export default function TableClients({
     const NoMoreProductToShow = clients.length === totalClients;
 
     const handleSelectClientSells = (item: ClientInterface) => {
-        push(`clients/${item.Id_Cliente}`);
+        if(!item.Id_Almacen) {
+            return alert("No tiene almacen, no puedo acceder a su información")
+        };
+
+        push(`clients/${item.Id_Cliente}?Id_Almacen=${item.Id_Almacen}`);
     };
 
     if (loadingData) {

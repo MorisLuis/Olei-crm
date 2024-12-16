@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HeaderTable from '@/components/navigation/headerTable';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import Header from '@/components/navigation/header';
 import TableClients from './TableClients';
-import { clientsExample } from '@/seed/clientsData';
 import { useOrderClientsConfig } from '@/hooks/Orders/useOrderClientsConfig';
 import styles from "../../../styles/pages/Clients.module.scss";
+import { useLoadMoreData } from '@/hooks/useLoadMoreData';
+import { getClients, getTotalClients } from '@/services/clients';
 
 export default function Clients() {
 
@@ -15,11 +16,12 @@ export default function Clients() {
     const [orderActive, setOrderActive] = useState<OrderObject>(orderClients[0]);
     const [clientSearchValue, setClientSearchValue] = useState<string>()
 
-    // ESTO CAMBIA
-    const totalClients = 2;
-    const loadMoreProducts = async () => {
-    }
-    // TERMINA CAMBIO
+    const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
+        fetchInitialData: () => getClients({ PageNumber: 1, ClientsOrderCondition: orderActive }),
+        fetchPaginatedData: (_, nextPage) => getClients({ PageNumber: nextPage ?? 1, ClientsOrderCondition: orderActive }),
+        fetchTotalCount: () => getTotalClients(),
+        filters: orderActive
+    })
 
     const onSelectOrder = (value: string | number) => {
         const orderActive = orderClients.find((item) => item.value == value)
@@ -31,16 +33,10 @@ export default function Clients() {
         setClientSearchValue(value)
     }
 
-    const executeQuery = useCallback(() => {
-        // Construir la query URL.
-        const queryUrl = `api/client&clientOrderCondition=${orderActive.order}?Nombre=${clientSearchValue}`;
-        console.log({ query: queryUrl });
-    }, [orderActive, clientSearchValue]);
-
-
     useEffect(() => {
-        executeQuery()
-    }, [executeQuery])
+        handleResetData();
+        console.log({clientSearchValue})
+    }, [orderActive]);
 
     return (
         <div className={styles.page}>
@@ -52,11 +48,11 @@ export default function Clients() {
                 onSearch={onSearchClient}
             />
             <TableClients
-                clients={clientsExample}
-                totalClients={totalClients}
-                loadMoreProducts={loadMoreProducts}
-                buttonIsLoading={false}
-                loadingData={false}
+                clients={data}
+                totalClients={total ?? 9}
+                loadMoreProducts={handleLoadMore}
+                buttonIsLoading={isButtonLoading}
+                loadingData={isLoading}
             />
         </div>
     )
