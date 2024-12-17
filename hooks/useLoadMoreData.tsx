@@ -23,6 +23,7 @@ export const useLoadMoreData = ({
     const [total, setTotal] = useState<number | null>(null);
 
     const handleResetData = useCallback(async () => {
+        console.log("Ejecutando handleResetData");
         setIsLoading(true);
         try {
             const initialData = await fetchInitialData(filters);

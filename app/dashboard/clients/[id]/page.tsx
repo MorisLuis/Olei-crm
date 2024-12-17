@@ -34,7 +34,7 @@ export default function ClientDetailsPage() {
     const idAlmacen = searchParams.get("Id_Almacen"); // Acceder al parámetro de consulta
     const titleName = clientData ? clientData?.Nombre : null
 
-    const handleGetClientData = async () => {
+    const handleGetClientData = useCallback((async () => {
         if (!Id_Cliente || !idAlmacen) return;
         if (typeof Id_Cliente !== "string") return;
         if (typeof idAlmacen !== "string") return;
@@ -42,7 +42,7 @@ export default function ClientDetailsPage() {
         const clientData = await getClientById({ Id_Cliente, Id_Almacen: idAlmacen });
         setClientData(clientData);
         setLoadingClientData(false);
-    }
+    }), [Id_Cliente, idAlmacen])
 
     const handleCloseMeetingModal = () => {
         setOpenModalCreateMeeting(false);
@@ -108,7 +108,7 @@ export default function ClientDetailsPage() {
     useEffect(() => {
         if (!Id_Cliente || !idAlmacen) return;
         handleGetClientData()
-    }, [])
+    }, [Id_Cliente, idAlmacen, handleGetClientData])
 
     return (
         <>

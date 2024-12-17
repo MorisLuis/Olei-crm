@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import HeaderTable from '@/components/navigation/headerTable';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useFilters } from '@/hooks/Filters/useFilters';
@@ -31,7 +31,8 @@ export default function Cobranza() {
     const [openModalSell, setOpenModalSell] = useState(false);
     const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
-    const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive })
+    const filters = useMemo(() => ExecuteFiltersSellsByClient({ orderActive, filtersActive }), [orderActive, filtersActive]);
+    const memoizedFilters = useMemo(() => filters, [filters]);
 
     const clientActions: ActionsInterface[] = [
         {
@@ -40,14 +41,34 @@ export default function Cobranza() {
             onclick: () => setOpenModalShareCobranza(true),
             color: 'yellow'
         }
-    ]
+    ];
+
+    const fetchInitialData = useCallback(() => {
+        return getCobranza({
+            client: Number(id),
+            PageNumber: 1,
+            SellsOrderCondition: orderActive.order,
+            filters: memoizedFilters,
+        });
+    }, [id, orderActive.order, memoizedFilters]);
+    
+    const fetchPaginatedData = useCallback((_: unknown, nextPage: number) => {
+        return getCobranza({
+            client: Number(id),
+            PageNumber: nextPage ?? 1,
+            SellsOrderCondition: orderActive.order,
+            filters: memoizedFilters,
+        });
+    }, [id, orderActive.order, memoizedFilters]);
+    
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
-        fetchInitialData: () => getCobranza({ client: Number(id), PageNumber: 1, SellsOrderCondition: orderActive.order, filters }),
-        fetchPaginatedData: (_, nextPage) => getCobranza({ client: Number(id), PageNumber: nextPage ?? 1, SellsOrderCondition: orderActive.order, filters }),
+        fetchInitialData,
+        fetchPaginatedData: (_, nextPage) => fetchPaginatedData(_, nextPage as number),
         fetchTotalCount: () => getTotalCobranza(Number(id)),
-        filters: filters
-    })
+        filters: memoizedFilters
+    });
+    
 
     const onSelectOrder = (value: string | number) => {
         const orderActive = orderSellsClient.find((item) => item.value == value)
@@ -58,7 +79,7 @@ export default function Cobranza() {
     const handleSelectItem = (item: SellsInterface) => {
         setOpenModalSell(true)
         push(`/dashboard/cobranza/${id}?sellId=${item.UniqueKey}`)
-    }
+    };
 
     const handleCloseModalSell = () => {
         back()
@@ -71,7 +92,7 @@ export default function Cobranza() {
 
     useEffect(() => {
         handleResetData()
-    }, [filtersActive, orderActive]);
+    }, [handleResetData]);
 
     return (
         <div className={styles.page}>

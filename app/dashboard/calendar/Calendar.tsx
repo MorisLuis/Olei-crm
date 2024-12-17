@@ -18,7 +18,7 @@ const MyCalendar = ({
 }: MyCalendarInterface) => {
     // Usamos useRef para mantener el estado de los días procesados sin causar re-renderizados
     const processedDaysRef = useRef<{ [key: string]: boolean }>({});
-    
+
     const [events, setEvents] = useState<EventSourceInput>([]); // Estado para los eventos
 
     const eventsByDay: { [key: string]: number } = calendarData.reduce(
@@ -42,11 +42,6 @@ const MyCalendar = ({
             },
         };
     });
-
-    // Para asegurar que los eventos se actualizan al regresar del modal
-    useEffect(() => {
-        setEvents(transformedEvents); // Actualiza los eventos
-    }, []); // Actualiza solo cuando calendarData cambie // before "calendarData"
 
     const handleEventClick = (info: EventClickArg) => {
         const countEvents = info.event.extendedProps.eventCount;
@@ -101,6 +96,11 @@ const MyCalendar = ({
     const handleViewChange = () => {
         processedDaysRef.current = {}; // Resetear el ref
     };
+
+    // Para asegurar que los eventos se actualizan al regresar del modal
+    useEffect(() => {
+        setEvents(transformedEvents); // Actualiza los eventos
+    }, []); // Actualiza solo cuando calendarData cambie // before "calendarData"
 
     return (
         <FullCalendar
