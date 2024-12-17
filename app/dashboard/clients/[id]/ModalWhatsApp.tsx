@@ -7,12 +7,14 @@ import styles from '../../../../styles/pages/Sells.module.scss'
 
 interface WhatsAppModalInterface {
     onClose: () => void;
-    visible: boolean
+    visible: boolean;
+    phoneNumber?: string;
 }
 
 export default function WhatsAppModal({
     onClose,
-    visible
+    visible,
+    phoneNumber
 }: WhatsAppModalInterface) {
 
     const { showSuccess } = useToast()
@@ -34,8 +36,9 @@ export default function WhatsAppModal({
         showSuccess('Whatsapp enviado exitosamente!')
     }
 
-    return (
+    if (!phoneNumber) return;
 
+    return (
         <Modal
             title='Whatsapp'
             visible={visible}
@@ -46,7 +49,7 @@ export default function WhatsAppModal({
             <div className={styles.SellActions}>
                 <div className={styles.send_message}>
                     <div className={styles.send_header}>
-                        <p>Se enviara whatsapp a este numero: 90320974907</p>
+                        <p>Se enviara whatsapp a este numero: {phoneNumber}</p>
                     </div>
                     <div className={styles.send_input}>
                         <InputTextBox

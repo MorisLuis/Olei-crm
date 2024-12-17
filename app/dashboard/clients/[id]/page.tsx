@@ -38,10 +38,10 @@ export default function ClientDetailsPage() {
         if (!Id_Cliente || !idAlmacen) return;
         if (typeof Id_Cliente !== "string") return;
         if (typeof idAlmacen !== "string") return;
-        setLoadingClientData(true)
+        setLoadingClientData(true);
         const clientData = await getClientById({ Id_Cliente, Id_Almacen: idAlmacen });
         setClientData(clientData);
-        setLoadingClientData(false)
+        setLoadingClientData(false);
     }
 
     const handleCloseMeetingModal = () => {
@@ -82,12 +82,14 @@ export default function ClientDetailsPage() {
         {
             id: 1,
             text: 'Whatsapp',
-            onclick: () => setOpenModalWhatsApp(true)
+            onclick: () => setOpenModalWhatsApp(true),
+            notVsible: !clientData?.Telefono1
         },
         {
             id: 2,
             text: 'Correo',
-            onclick: () => setOpenModalEmail(true)
+            onclick: () => setOpenModalEmail(true),
+            notVsible: !clientData?.CorreoVtas
         },
         {
             id: 3,
@@ -129,11 +131,13 @@ export default function ClientDetailsPage() {
             <WhatsAppModal
                 visible={openModalWhatsApp}
                 onClose={() => setOpenModalWhatsApp(false)}
+                phoneNumber={clientData?.Telefono1}
             />
 
             <EmailModal
                 visible={openModalEmail}
                 onClose={() => setOpenModalEmail(false)}
+                email={clientData?.CorreoVtas}
             />
 
             <FormMeeting

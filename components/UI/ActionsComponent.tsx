@@ -23,7 +23,13 @@ export default function ActionsComponent({
             <div className={styles.buttons}>
                 {
                     actions?.map((item) =>
-                        <ButtonSmall text={item.text} onClick={item.onclick} key={item.id} color={item.color ?? 'white'} />
+                        <ButtonSmall
+                            text={item.text}
+                            onClick={item.onclick}
+                            key={item.id}
+                            color={item.color ?? 'white'}
+                            disabled={item.notVsible}
+                        />
                     )
                 }
             </div>

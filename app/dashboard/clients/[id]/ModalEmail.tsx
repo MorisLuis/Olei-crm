@@ -8,13 +8,15 @@ import Modal from '@/components/Modals/Modal';
 
 interface EmailModalInterface {
     onClose: () => void;
-    visible: boolean
+    visible: boolean;
+    email?: string;
 };
 
 export default function EmailModal({
     onClose,
-    visible
-} : EmailModalInterface ) {
+    visible,
+    email
+}: EmailModalInterface) {
 
     const { showSuccess } = useToast()
 
@@ -36,45 +38,46 @@ export default function EmailModal({
     }
 
     const onSendEmail = () => {
-        if(subject === '') return;
-        if(messageSended === '') return;
+        if (subject === '') return;
+        if (messageSended === '') return;
         onClose()
         showSuccess('Correo enviado exitosamente!')
     }
 
+    if (!email) return;
+
     return (
         <Modal
-        title='Correo electronico'
-        visible={visible}
-        onClose={onClose}
-        modalSize='small'
-    >
+            title='Correo electronico'
+            visible={visible}
+            onClose={onClose}
+            modalSize='small'
+        >
+            <div className={styles.SellActions}>
+                <div className={styles.send_message}>
+                    <div className={styles.send_header}>
+                        <p>Se enviara este correo al correo: {email}</p>
+                    </div>
+                    <div className={styles.send_input}>
+                        <Input
+                            value={subject}
+                            name='Asunto'
+                            placeholder='Escribe el asunto.'
+                            onChange={onChangeEmaiSubjectlMessage}
+                        />
+                        <InputTextBox
+                            value={messageSended}
+                            placeholder='Escribe el mensaje'
+                            onChange={onChangeEmailMessage}
+                        />
+                    </div>
 
-        <div className={styles.SellActions}>
-            <div className={styles.send_message}>
-                <div className={styles.send_header}>
-                    <p>Se enviara este correo al correo: moradoluisenrique@gmail.com</p>
-                </div>
-                <div className={styles.send_input}>
-                    <Input
-                        value={subject}
-                        name='Asunto'
-                        placeholder='Escribe el asunto.'
-                        onChange={onChangeEmaiSubjectlMessage}
-                    />
-                    <InputTextBox
-                        value={messageSended}
-                        placeholder='Escribe el mensaje'
-                        onChange={onChangeEmailMessage}
-                    />
-                </div>
-
-                <div className={styles.message_decision}>
-                    <Button text='Mensaje Predeterminado' disabled={false} className="white" onClick={onSendEmailPredetermined}/>
-                    <Button text='Enviar' disabled={sendDisabled} onClick={onSendEmail}/>
+                    <div className={styles.message_decision}>
+                        <Button text='Mensaje Predeterminado' disabled={false} className="white" onClick={onSendEmailPredetermined} />
+                        <Button text='Enviar' disabled={sendDisabled} onClick={onSendEmail} />
+                    </div>
                 </div>
             </div>
-        </div>
-    </Modal>
+        </Modal>
     )
 }

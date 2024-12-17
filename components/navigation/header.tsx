@@ -13,6 +13,7 @@ export interface ActionsInterface {
     onclick: () => void;
     icon?: IconDefinition;
     color?: "red" | "black" | "white" | "blue" | "yellow";
+    notVsible?: boolean
 }
 
 
