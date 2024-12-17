@@ -31,6 +31,7 @@ export default function Header({
     const pathname = usePathname();
     const [basePath, id] = pathname.split('/').filter(Boolean);
     const goBack = () => router.back();
+    const Title = title === null ? '' : title ? title : 'Regresar'
 
     return (
 
@@ -44,7 +45,7 @@ export default function Header({
                         className={`${styles.icon} icon__small`}
                     />
                 }
-                <h2>{title ? title : "Regresar"}</h2>
+                <h2>{Title}</h2>
                 <div className='none'>{basePath}</div>
             </div>
 

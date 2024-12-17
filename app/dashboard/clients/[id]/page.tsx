@@ -1,7 +1,6 @@
 "use client";
 
 import BriefCard from '@/components/Cards/BriefCard'
-import { clientDetailsExample } from '@/seed/clientsData';
 import React, { useCallback, useEffect, useState } from 'react'
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import Modal from '@/components/Modals/Modal';
@@ -33,6 +32,7 @@ export default function ClientDetailsPage() {
     const { id: Id_Cliente } = useParams();
     const searchParams = useSearchParams();
     const idAlmacen = searchParams.get("Id_Almacen"); // Acceder al parámetro de consulta
+    const titleName = clientData ? clientData?.Nombre : null
 
     const handleGetClientData = async () => {
         if (!Id_Cliente || !idAlmacen) return;
@@ -94,12 +94,14 @@ export default function ClientDetailsPage() {
         {
             id: 3,
             text: 'Ventas',
-            onclick: () => push(`/dashboard/sells/${clientDetailsExample.Id_Cliente}`)
+            onclick: () => push(`/dashboard/sells/${clientData?.Id_Cliente}`),
+            notVsible: !clientData?.Id_Cliente
         },
         {
             id: 4,
             text: 'Cobranza',
-            onclick: () => push(`/dashboard/cobranza/${clientDetailsExample.Id_Cliente}`)
+            onclick: () => push(`/dashboard/cobranza/${clientData?.Id_Cliente}`),
+            notVsible: !clientData?.Id_Cliente
         }
     ]
 
@@ -110,7 +112,7 @@ export default function ClientDetailsPage() {
 
     return (
         <>
-            <Header title={`${clientDetailsExample.Nombre}`} actions={clientActions} />
+            <Header title={titleName} actions={clientActions} />
 
             <div className={styles.clientDetails}>
                 <div className={styles.clientDetails__calendar}>
