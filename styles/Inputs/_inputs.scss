@@ -128,11 +128,15 @@
 }
 
 .input_search {
-    height: 100%;
-    border-radius: variables.$border-radius;
-    border: 1px solid variables.$color-border;
-    padding: 0px variables.$padding-horizontal;
-    box-shadow: variables.$box-shadow-button;
+    position: relative;
+
+    input{
+        height: 100%;
+        border-radius: variables.$border-radius;
+        border: 1px solid variables.$color-border;
+        padding: 0px variables.$padding-horizontal;
+        box-shadow: variables.$box-shadow-button;
+    }
 
     &::placeholder {
         color: variables.$text-color-secondary;
@@ -366,16 +370,16 @@
 }
 
 .iconClean {
-    width: 24px;
-    height: 24px;
-    background-color: variables.$background-color-secondary;
-    border: 1px solid variables.$color-border;
+    width: 18px;
+    height: 18px;
     position: absolute;
     border-radius: variables.$border-radius;
-    right: 2%;
-    top: 0%;
-    transform: translateY(25%);
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 9999;
+    color: variables.$color-gray;
+    cursor: pointer;
 
     &:hover {
         opacity: 50%;

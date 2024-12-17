@@ -27,6 +27,7 @@ interface HeaderInterface {
     orderActive: OrderObject
 
     onSearch?: (value: string) => void;
+    onCleanSearch?: (value: null) => void;
 
     customFilters?: readonly string[];
     customRenders?: Array<{ [key: string]: React.ReactNode }>;
@@ -43,6 +44,7 @@ export default function HeaderTable({
     onSelectOrder,
     orderActive,
     onSearch,
+    onCleanSearch,
     customFilters,
     customRenders
 }: HeaderInterface) {
@@ -100,7 +102,7 @@ export default function HeaderTable({
         <>
             <div className={styles.headerTable}>
                 {filterVisible && renderFilters()}
-                {onSearch && <InputSearch onSearch={onSearch} />}
+                {onSearch && onCleanSearch && <InputSearch onSearch={onSearch} onCleanSearch={onCleanSearch}/>}
                 {!onSearch && !filterVisible && <div></div>} {/* To send order to right */}
                 <OrderComponent
                     open={openOrderModal}

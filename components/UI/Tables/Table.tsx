@@ -71,7 +71,7 @@ const Table = <T,>({
 
             {
                 !noMoreData &&
-<div className={styles.laodMore}>
+                <div className={styles.laodMore}>
                     <ButtonLoad
                         buttonText='Ver más'
                         onClick={handleLoadMore}

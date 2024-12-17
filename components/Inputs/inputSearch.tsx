@@ -1,28 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface inputSearchInterface {
+interface InputSearchInterface {
     placeholder?: string;
     onSearch: (value: string) => void;
+    onCleanSearch: (value: null) => void;
 }
 
 export default function InputSearch({
     placeholder = "Buscar...",
-    onSearch
-}: inputSearchInterface) {
+    onSearch,
+    onCleanSearch
+}: InputSearchInterface) {
+
+    const [value, setValue] = useState(""); // Estado local para almacenar el valor del input
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = event.target.value;
+        setValue(inputValue); // Actualiza el estado local
         if (typeof onSearch === 'function') {
-            onSearch(event.target.value);
+            onSearch(inputValue);
+        }
+    };
+
+    const handleClear = () => {
+        setValue(""); // Limpia el input
+        if (typeof onSearch === 'function') {
+            onSearch(""); // Llama a onSearch con una cadena vacía
+            onCleanSearch(null)
         }
     };
 
     return (
-        <div>
+        <div className='input_search'>
             <input
-                className='input_search'
+                value={value} // Enlaza el estado con el input
                 placeholder={placeholder}
-                onChange={(event) => handleOnChange(event)}
+                onChange={handleOnChange}
             />
+            {value && ( // Renderiza el ícono solo si hay valor en el input
+                <FontAwesomeIcon
+                    icon={faCircleXmark}
+                    className={`iconClean`}
+                    onClick={handleClear} // Limpia el input al hacer clic en el ícono
+                    style={{ cursor: 'pointer' }} // Cambia el cursor para indicar interactividad
+                />
+            )}
         </div>
-    )
+    );
 }
