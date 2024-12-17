@@ -77,8 +77,9 @@ export default function Cobranza() {
     };
 
     const handleSelectItem = (item: SellsInterface) => {
-        setOpenModalSell(true)
-        push(`/dashboard/cobranza/${id}?sellId=${item.UniqueKey}`)
+        setOpenModalSell(true);
+        const { Id_Almacen, TipoDoc, Serie, Folio } = item;
+        push(`/dashboard/cobranza/${id}?sellId=${item.UniqueKey}&Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`)
     };
 
     const handleCloseModalSell = () => {

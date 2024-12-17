@@ -52,7 +52,7 @@ export default function SellDetails() {
         });
 
         setSellInformation(sellInformation)
-    }
+    };
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData: () => getSellDetails({Folio: Folio as string, PageNumber: 1}),
@@ -128,7 +128,7 @@ export default function SellDetails() {
         return (
             <p>Cargando...</p>
         )
-    }
+    };
 
     return (
         <div className={styles.sellDetails}>
