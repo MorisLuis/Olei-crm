@@ -1,33 +1,37 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HeaderTable from '@/components/navigation/headerTable';
-import { OrderObject } from '@/components/UI/OrderComponent';
 import Header, { ActionsInterface } from '@/components/navigation/header';
-import { useOrderMeetingsConfig } from '@/hooks/Orders/useOrderMeetingsConfig';
-import { useFiltersMeetingConfig } from '@/hooks/Filters/useFiltersMeetingsConfig';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import TableCobranza from './TableCobranza';
-import { sellsClientExample } from '@/seed/sellsData';
 import { usePathname, useRouter } from 'next/navigation';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from '@/app/dashboard/sells/[id]/[sellId]/SellDetails';
 import { SellsInterface } from '@/interface/sells';
 import ShareCobranzaModal from './ShareCobranzaModal';
 import styles from "../../../../styles/pages/Cobranza.module.scss";
+import { useLoadMoreData } from '@/hooks/useLoadMoreData';
+import { getCobranza, getTotalCobranza } from '@/services/sells';
+import { OrderObjectSellsByClient, useOrderSellsClientConfig } from '@/hooks/Orders/useOrderSellsConfig';
+import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
+import { CustumRendersSellsByClient } from '../../sells/[id]/RenderDateFilter';
+import { ExecuteFiltersSellsByClient } from '../../sells/[id]/filters';
 
 export default function Cobranza() {
 
     const { push, back } = useRouter()
     const pathname = usePathname();
-    const id = pathname.split('/').filter(Boolean)[2];    
+    const id = pathname.split('/').filter(Boolean)[2];
 
-    const { orderMeetings } = useOrderMeetingsConfig()
-    const [orderActive, setOrderActive] = useState<OrderObject>(orderMeetings[0])
+    const { orderSellsClient } = useOrderSellsClientConfig()
+    const [orderActive, setOrderActive] = useState<OrderObjectSellsByClient>(orderSellsClient[0])
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
-    const { filtersMeeting, filterOfMeetings } = useFiltersMeetingConfig();
+    const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
     const [openModalSell, setOpenModalSell] = useState(false);
     const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
+    const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
+    const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive })
 
     const clientActions: ActionsInterface[] = [
         {
@@ -38,14 +42,15 @@ export default function Cobranza() {
         }
     ]
 
-    // ESTO CAMBIA
-    const totalSells = 2;
-    const loadMoreProducts = async () => {
-    }
-    // TERMINA CAMBIO
+    const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
+        fetchInitialData: () => getCobranza({ client: Number(id), PageNumber: 1, SellsOrderCondition: orderActive.order, filters }),
+        fetchPaginatedData: (_, nextPage) => getCobranza({ client: Number(id), PageNumber: nextPage ?? 1, SellsOrderCondition: orderActive.order, filters }),
+        fetchTotalCount: () => getTotalCobranza(Number(id)),
+        filters: filters
+    })
 
     const onSelectOrder = (value: string | number) => {
-        const orderActive = orderMeetings.find((item) => item.value == value)
+        const orderActive = orderSellsClient.find((item) => item.value == value)
         if (!orderActive) return;
         setOrderActive(orderActive)
     };
@@ -64,38 +69,35 @@ export default function Cobranza() {
         setOpenModalShareCobranza(false)
     }
 
-    const executeQuery = useCallback(() => {
-        const queryUrl = `/api/meetings&meetginOrderCondition=${orderActive.order}`;
-        console.log({ query: queryUrl });
-    }, [orderActive]);
-
     useEffect(() => {
-        executeQuery()
-    }, [executeQuery])
+        handleResetData()
+    }, [filtersActive, orderActive]);
 
     return (
         <div className={styles.page}>
             <Header title='Cobranza' actions={clientActions} />
             <HeaderTable
-                filters={filtersMeeting}
-                filtersOfSection={filterOfMeetings}
-
+                filters={filtersSells}
                 filterActive={filtersTag}
+                filtersOfSection={filtersOfSectionSells}
                 filtersActive={filtersActive}
                 onSelectFilter={onSelectFilterValue}
                 onDeleteFilter={onDeleteFilter}
 
-                orderSells={orderMeetings}
+                orderSells={orderSellsClient}
                 onSelectOrder={onSelectOrder}
                 orderActive={orderActive}
+
+                customFilters={CustumFilters}
+                customRenders={CustumRenders}
             />
 
             <TableCobranza
-                sells={sellsClientExample}
-                totalSells={totalSells}
-                loadMoreProducts={loadMoreProducts}
-                buttonIsLoading={false}
-                loadingData={false}
+                sells={data}
+                totalSells={total ?? 0}
+                loadMoreProducts={handleLoadMore}
+                buttonIsLoading={isButtonLoading}
+                loadingData={isLoading}
                 handleSelectItem={handleSelectItem}
             />
 

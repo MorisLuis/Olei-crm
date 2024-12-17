@@ -1,6 +1,6 @@
 import { api } from "@/api/api";
 import { OrderObject } from "@/components/UI/OrderComponent";
-import { FilterSellsByClient, typeTipoDoc } from "@/interface/sells";
+import { FilterSellsByClient, SellsOrderConditionByClientType, typeTipoDoc } from "@/interface/sells";
 
 interface getSellsInterface {
     PageNumber: number;
@@ -94,7 +94,7 @@ export const getTotalSellsByClient = async ({ client, filters }: { client: numbe
     } catch (error) {
         return { error: error };
     }
-}
+};
 
 export const getTotalSellDetails = async (folio: string) => {
     try {
@@ -103,4 +103,38 @@ export const getTotalSellDetails = async (folio: string) => {
     } catch (error) {
         return { error: error };
     }
+};
+
+interface getCobranzaInterface {
+    client: number;
+    PageNumber: number,
+    SellsOrderCondition: SellsOrderConditionByClientType,
+    filters: FilterSellsByClient;
 }
+
+export const getCobranza = async ({
+    client,
+    PageNumber,
+    SellsOrderCondition,
+    filters
+}: getCobranzaInterface) => {
+
+    try {
+        const data = await api.get(`/api/sells/cobranza/${client}?PageNumber=${PageNumber}&FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`);
+        return data.data;
+    } catch (error) {
+        return { error: error };
+    }
+};
+
+
+
+export const getTotalCobranza = async (client: number) => {
+
+    try {
+        const data = await api.get(`/api/sells/cobranza/total/${client}`);
+        return data.data;
+    } catch (error) {
+        return { error: error };
+    }
+};

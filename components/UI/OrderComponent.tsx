@@ -3,8 +3,7 @@ import { faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons';
 import ButtonSmall from '../Buttons/ButtonSmall';
 import styles from '../../styles/Filters.module.scss';
 
-export type OrderObject = { order: string; value: string | number; label: string };
-
+export interface OrderObject { order: string; value: string | number; label: string };
 
 interface FiltersComponentInterface {
     open: boolean;

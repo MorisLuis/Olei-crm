@@ -1,4 +1,5 @@
 import { OrderObject } from "@/components/UI/OrderComponent";
+import { SellsOrderConditionByClientType } from "@/interface/sells";
 
 export const useOrderSellsConfig = () => {
 
@@ -11,9 +12,13 @@ export const useOrderSellsConfig = () => {
     return { orderSells };
 };
 
-export const useOrderSellsClientConfig = () => {
+export interface OrderObjectSellsByClient extends Omit<OrderObject, 'order'> {
+    order: SellsOrderConditionByClientType;
+};
 
-    const orderSellsClient : OrderObject[] = [
+
+export const useOrderSellsClientConfig = () => {
+    const orderSellsClient : OrderObjectSellsByClient[] = [
         { order: 'Fecha', value: 3, label: 'Fecha' },
         { order: 'TipoDoc', value: 1, label: 'Tipo documento' },
         { order: 'Folio', value: 2, label: 'Folio' },

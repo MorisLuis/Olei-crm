@@ -55,14 +55,25 @@ export default function TableCobranza({
             key: 'FechaEntrega',
             label: 'Fecha Vencimiento',
             render: (FechaEntrega) => (
-                <div>
-                    <p>{formatDate(FechaEntrega as Date)}</p>
-                </div>
+                FechaEntrega ?
+                    <div>
+                        <p>{formatDate(FechaEntrega as Date)}</p>
+                    </div>
+                    :
+                    <Tag color='gray'>Sin datos</Tag>
             )
         },
         {
             key: 'ExpiredDays',
-            label: 'Dias vencidos'
+            label: 'Dias vencidos',
+            render: (ExpiredDays) => (
+                ExpiredDays ?
+                    <div>
+                        <p>{formatDate(ExpiredDays as Date)}</p>
+                    </div>
+                    :
+                    <Tag color='gray'>Sin datos</Tag>
+            )
         },
         {
             key: 'Total',

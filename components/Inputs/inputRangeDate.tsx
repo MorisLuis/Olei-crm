@@ -3,7 +3,7 @@ import InputDatePicker from './inputDate';
 
 interface InputRangeDateInterface {
     labels: { label1: string, label2: string },
-    values: { value1: string, value2: string },
+    values: { value1: string | undefined, value2: string | undefined },
     onChanges: { 
         onChange1: (date: Date | null) => void
         onChange2: (date: Date | null) => void 

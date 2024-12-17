@@ -5,6 +5,12 @@ import InputDatePicker from '@/components/Inputs/inputDate';
 import { FilterObject } from '@/hooks/Filters/useFilters';
 import { transformDate } from '@/utils/transformDate';
 
+interface DatesValuesInterface {
+    exactlyDate: string | undefined,
+    endDate: string | undefined,
+    startDate: string | undefined
+}
+
 interface RenderDateFilterInterface {
     onSelectFilterValue: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
     onDeleteFilter: (filterValue: string | number) => void;
@@ -20,9 +26,17 @@ function RenderDateFilter({
 
     // States to store the labels of the start and end date filters.
     // Used just to delete this filters if we selected exactly date.
-    const [exactlyDate, setExactlyDate] = useState<string>('')
-    const [endDate, setEndDate] = useState<string>(''); // Selected end date
-    const [startDate, setStartDate] = useState<string>(''); // Selected start date
+    const [datesFiltersActive, setDatesFiltersActive] = useState<DatesValuesInterface>({
+        exactlyDate: undefined,
+        endDate: undefined,
+        startDate: undefined
+    });
+
+    const [datesLocalValues, setDatesLocalValues] = useState<DatesValuesInterface>({
+        exactlyDate: filtersActive?.find((item) => item.filter === 'Date')?.value as string,
+        endDate: filtersActive?.find((item) => item.filter === 'DateEnd')?.value as string,
+        startDate: filtersActive?.find((item) => item.filter === 'DateStart')?.value as string
+    })
 
     const handelSelectExactlyDate = (date: Date) => {
 
@@ -37,15 +51,24 @@ function RenderDateFilter({
         };
 
         // Remove any active range filters (start and end dates)
-        onDeleteFilter(endDate);
-        onDeleteFilter(startDate);
-        setExactlyDate(labelDate)
+        onDeleteFilter(datesFiltersActive.endDate as string);
+        onDeleteFilter(datesFiltersActive.startDate as string);
+        setDatesFiltersActive((prev) => ({
+            ...prev,
+            exactlyDate: labelDate
+        }))
+
+        setDatesLocalValues({
+            exactlyDate: valueDate,
+            endDate: undefined,
+            startDate: undefined
+        })
 
         // Notify the selection of the new exact date filter
         onSelectFilterValue({ filterObject: filterSelected, filterType: 'Date' });
     };
 
-    const handelSelectStartDate = (date: Date) => {
+    const handelSelectStartDate =  async (date: Date) => {
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
@@ -57,14 +80,23 @@ function RenderDateFilter({
         };
 
         // Update the state with the start date label
-        onDeleteFilter(exactlyDate);
-        setStartDate(labelDate);
+        onDeleteFilter(datesFiltersActive.exactlyDate as string);
+        setDatesFiltersActive((prev) => ({
+            ...prev,
+            startDate: labelDate
+        }))
+
+        setDatesLocalValues((prev) => ({
+            startDate: valueDate,
+            endDate: prev.endDate,
+            exactlyDate: undefined
+        }))
 
         // Notify the selection of the start date filter
         onSelectFilterValue({ filterObject: filterSelected, filterType: 'DateStart' });
     };
 
-    const handelSelectEndDate = (date: Date) => {
+    const handelSelectEndDate = async (date: Date) => {
 
         // Convert the date to the desired format
         const valueDate = transformDate(date);
@@ -76,9 +108,19 @@ function RenderDateFilter({
         };
 
         // Update the state with the end date label
-        onDeleteFilter(exactlyDate);
-        setEndDate(labelDate);
+        await onDeleteFilter(datesFiltersActive.exactlyDate as string);
 
+        setDatesFiltersActive((prev) => ({
+            ...prev,
+            endDate: labelDate
+        }));
+
+        setDatesLocalValues((prev) => ({
+            endDate: valueDate,
+            startDate: prev.startDate,
+            exactlyDate: undefined
+        }));
+    
         // Notify the selection of the end date filter
         onSelectFilterValue({ filterObject: filterSelected, filterType: 'DateEnd' });
     };
@@ -90,14 +132,17 @@ function RenderDateFilter({
                 <InputDatePicker
                     onChange={(value) => handelSelectExactlyDate(value ?? new Date())}
                     label='Fecha exacta'
-                    value={filtersActive?.find((item) => item.filter === 'Date')?.value as string}
+                    value={datesLocalValues.exactlyDate}
                 />
             </div>
             <div className={styles.range}>
                 <p>Filtra por rango de fecha</p>
                 <InputRangeDate
                     labels={{ label1: "Mayor que", label2: "Menor que" }}
-                    values={{ value1: filtersActive?.find((item) => item.filter === 'DateStart')?.value as string, value2: filtersActive?.find((item) => item.filter === 'DateEnd')?.value as string }}
+                    values={{ 
+                        value1: datesLocalValues?.startDate, 
+                        value2: datesLocalValues?.endDate
+                    }}
                     onChanges={{
                         onChange1: (value) => handelSelectStartDate(value ?? new Date()),
                         onChange2: (value) => handelSelectEndDate(value ?? new Date())
