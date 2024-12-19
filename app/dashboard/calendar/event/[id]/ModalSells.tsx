@@ -41,8 +41,8 @@ export default function ModalSells({
             render: (Folio) => <div><span style={{ fontWeight: 'bold' }}>Folio: </span>{Folio?.toString()}</div>
         },
         {
-            key: 'Title',
-            label: 'Title',
+            key: 'Titulo',
+            label: 'Titulo',
             render: (Title) => <div>{Title?.toString()}</div>
         },
         {

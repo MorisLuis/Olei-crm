@@ -22,7 +22,7 @@ const MyTimeline = ({
         id: meeting.Id_Bitacora?.toString() || "", // Asegúrate de usar un string para `id`
         start: `${meeting.Fecha.toISOString().split('T')[0]}T${meeting.Hour}`, // Fecha y hora de inicio
         end: `${meeting.Fecha.toISOString().split('T')[0]}T${meeting.HourEnd}`, // Fecha y hora de fin
-        title: meeting.Title, // Título
+        title: meeting.Titulo, // Título
         extendedProps: { Id_Bitacora: meeting.Id_Bitacora } // Agrega todas las propiedades adicionales
     }));
 
