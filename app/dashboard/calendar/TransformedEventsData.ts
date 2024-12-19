@@ -30,6 +30,7 @@ export const DataCalendarConverted = ( calendarData: CalendarInterface[] ) => {
             title: event.Titulo,
             start: fechaNormalizada, // Usamos la fecha normalizada
             extendedProps: {
+                Id_Cliente: event.Id_Cliente,
                 TableType: event.TableType,
                 Id: event.TableType === "Bitacora" ? event.Id_Bitacora : event.Id_Sell,
                 eventCount: eventsByDay[eventDate], // Agregar el conteo de eventos

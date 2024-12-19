@@ -13,10 +13,10 @@ import { DateClickArg } from '@fullcalendar/interaction/index.js';
 
 export default function Calendar() {
 
-    const { push, back } = useRouter()
+    const { push, back } = useRouter();
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
-    const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING)
-    const [openModalSell, setOpenModalSell] = useState(false)
+    const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING);
+    const [openModalSell, setOpenModalSell] = useState(false);
 
     const handelOnClickEvent = (info: EventClickArg) => {
         const dataEvent = info.event.extendedProps;
@@ -32,7 +32,7 @@ export default function Calendar() {
             // Get sell and folio from API.
             setOpenModalSell(true)
             // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-            push(`calendar/?sellId=${dataEvent.Id}`)
+            push(`calendar/?sellId=${dataEvent.Id}&Id_Cliente=${dataEvent.Id_Cliente}`)
             return;
         }
 

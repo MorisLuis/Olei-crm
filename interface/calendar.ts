@@ -1,4 +1,5 @@
 export interface CalendarInterface {
+    Id_Cliente: number;
     Id_Bitacora?: number;
     Folio?: number,
     Id_Sell?: string;

@@ -56,9 +56,16 @@ export const getSellById = async ({
     TipoDoc
 }: getSellByIdInterface) => {
 
+    console.log({
+        Folio,
+        Serie,
+        Id_Almacen,
+        Id_Cliente,
+        TipoDoc
+    })
 
     try {
-        const data = await api.get(`/api/sells/${Folio}?Serie=${Serie}&Id_Almacen=${Id_Almacen}&Id_Cliente=${Id_Cliente}&TipoDoc=${TipoDoc}`);
+        const data = await api.get(`/api/sells/${Folio}?Id_Almacen=${Id_Almacen}&Id_Cliente=${Id_Cliente}&TipoDoc=${TipoDoc}&Serie=${Serie}`);
         return data.data;
     } catch (error) {
         return { error: error };
@@ -67,6 +74,8 @@ export const getSellById = async ({
 }
 
 export const getSellDetails = async ({ Folio, PageNumber }: { Folio: string, PageNumber: Number }) => {
+
+    console.log({Folio})
     try {
         const data = await api.get(`/api/order/details?folio=${Folio}&PageNumber=${PageNumber}`);
         return data.data;

@@ -13,51 +13,46 @@ import styles from '../../../../../styles/pages/SellDetails.module.scss'
 import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 
+interface sellQueryInterface {
+    Id_Cliente: number;
+    Id_Almacen: number;
+    TipoDocProp: SellsInterface['TipoDoc'];
+    Serie: string;
+    Folio: string;
+}
+
 export default function SellDetails() {
 
     const params = useParams();
     const searchParams = useSearchParams();
     const [sellInformation, setSellInformation] = useState<SellsInterface>()
-    const { changeColor } = useTagColor()
+    const { changeColor } = useTagColor();
+    const Sellid = searchParams.get('sellId');
+    const [Folio, setFolio] = useState<string>('')
 
-    const Id_Cliente = Number(params.id);
-    const Id_Almacen = Number(searchParams.get('Id_Almacen'));
-    const TipoDocProp = Number(searchParams.get('TipoDoc'));
-    const Serie = searchParams.get('Serie') ?? '';
-    const Folio = searchParams.get('Folio');
-
-    const getSellInformation = async () => {
-
-        if (!Id_Cliente || !Id_Almacen || !TipoDocProp || !Serie || !Folio) {
-            console.error("Error: Todos los parámetros son obligatorios.");
-            return;
-        }
-
-        const isValidTipoDoc = (value: number): value is typeTipoDoc => {
-            const validTipoDoc: typeTipoDoc[] = TipoDoc;
-            return validTipoDoc.includes(value as typeTipoDoc);
-        };
-
-        if (!isValidTipoDoc(TipoDocProp)) {
-            console.error("Error: TipoDoc inválido.");
-            return;
-        }
+    const getSellInformation = async ({
+        Id_Cliente,
+        Id_Almacen,
+        TipoDocProp,
+        Serie,
+        Folio
+    }: sellQueryInterface) => {
 
         const sellInformation = await getSellById({
             Id_Cliente,
             Id_Almacen,
             TipoDoc: TipoDocProp,
             Serie,
-            Folio: Folio
+            Folio
         });
 
         setSellInformation(sellInformation)
     };
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
-        fetchInitialData: () => getSellDetails({Folio: Folio as string, PageNumber: 1}),
-        fetchPaginatedData: (_, nextPage) => getSellDetails({Folio: Folio as string, PageNumber: nextPage as number}),
-        fetchTotalCount: () => getTotalSellDetails(Folio as string)
+        fetchInitialData: () => getSellDetails({ Folio: Folio, PageNumber: 1 }),
+        fetchPaginatedData: (_, nextPage) => getSellDetails({ Folio: Folio, PageNumber: nextPage as number }),
+        fetchTotalCount: () => getTotalSellDetails(Folio)
     })
 
     const columns: ColumnTertiaryConfig<SellsInterface>[] = [
@@ -113,13 +108,49 @@ export default function SellDetails() {
         }
     ];
 
-    useEffect(() => {
-        if (!Id_Cliente || !Id_Almacen || !TipoDocProp || !Serie || !Folio) return;
-        getSellInformation()
-    }, [Id_Cliente, Id_Almacen, TipoDocProp, Serie, Folio]);
+    const handleValidateQuery = async () => {
+        const sellIdSplited = Sellid?.split("-");
+
+        const Id_Cliente = params.id ? Number(params.id) : Number(searchParams.get('Id_Cliente'));
+        const Id_Almacen = Number(sellIdSplited?.[0]);
+        const TipoDocProp = Number(sellIdSplited?.[1]);
+        const Serie = sellIdSplited?.[2] ?? '';
+        const Folio = sellIdSplited?.[3];
+
+        if (!Id_Almacen || !TipoDocProp || !Folio) {
+            console.error("Error: Todos los parámetros son obligatorios.");
+            return;
+        }
+
+        const isValidTipoDoc = (value: number): value is typeTipoDoc => {
+            const validTipoDoc: typeTipoDoc[] = TipoDoc;
+            return validTipoDoc.includes(value as typeTipoDoc);
+        };
+
+        if (!isValidTipoDoc(TipoDocProp)) {
+            console.error("Error: TipoDoc inválido.");
+            return;
+        };
+
+        setFolio(Folio)
+
+        getSellInformation({
+            Id_Cliente: Id_Cliente,
+            Id_Almacen: Id_Almacen,
+            TipoDocProp: TipoDocProp,
+            Serie: Serie,
+            Folio: Folio
+        });
+    }
 
     useEffect(() => {
-        if (!Folio) return;
+        if (!Sellid) return;
+        console.log({ Sellid })
+        handleValidateQuery()
+    }, [Sellid]);
+
+    useEffect(() => {
+        if (Folio === '' || Folio === undefined) return;
         handleResetData()
     }, [Folio]);
 
@@ -145,8 +176,6 @@ export default function SellDetails() {
                 loadingData={isLoading}
                 handleSelectItem={(item) => console.log({ item })}
             />
-
-            <div className='none'>{Id_Almacen}</div>
         </div>
     )
 }

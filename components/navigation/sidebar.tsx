@@ -19,6 +19,8 @@ export default function Sidebar({
     const pathname = usePathname();
     const basePath = pathname.split('/')[2]
 
+    
+
     return (
         <aside className={`${styles.sidebar} ${visible && `${styles.active}`}`}>
             <div className={styles.logoOlei}>
@@ -34,7 +36,7 @@ export default function Sidebar({
                 <ul>
                     {
                         screenData.slice(1, -2).map((item) =>
-                            <Link href={item.pathname} className={`/dashboard/${basePath}` === item.pathname ? styles.active : ''} key={item.id}>
+                            <Link href={item.pathname} className={`/dashboard/${basePath}` === item.pathname ? styles.active : ''} key={item.id} >
                                 <FontAwesomeIcon icon={item.icon} className={'icon'} />
                                 <p>{item.name}</p>
                             </Link>
