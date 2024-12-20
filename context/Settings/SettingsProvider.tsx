@@ -7,6 +7,7 @@ import { screenData } from "@/database/screens";
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
     const [globalPathname, setGlobalPathname] = useState<string>('');
+    const [firtRenderCalendar, setFirtRenderCalendar] = useState(true)
     const pathname = usePathname();
     const basePath = pathname.split('/').filter(Boolean)[0];
 
@@ -26,10 +27,16 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     }
 
 
+    const handleRenderCalendar = (value: boolean) => {
+        setFirtRenderCalendar(value);
+    }
+
     return (
         <SettingsContext.Provider value={{
             globalPathname,
-            handleUpdatePathname
+            handleUpdatePathname,
+            firtRenderCalendar,
+            handleRenderCalendar
         }}>
             {children}
         </SettingsContext.Provider>

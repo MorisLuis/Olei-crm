@@ -1,12 +1,13 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
-import { DatesSetArg, EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
+import { DatesSetArg, EventClickArg, EventInput, EventSourceInput } from '@fullcalendar/core/index.js';
 import { getCalendarByMonth } from '@/services/calendar';
 import { DataCalendarConverted } from './TransformedEventsData';
 import { renderEventContent } from './RenderEvents';
+import { SettingsContext } from '@/context/Settings/SettingsContext';
 
 interface MyCalendarInterface {
     onClickEvent: (info: EventClickArg) => void;
@@ -20,6 +21,8 @@ const MyCalendar = ({
 
     const processedDaysRef = useRef<{ [key: string]: boolean }>({});
     const [events, setEvents] = useState<EventSourceInput>([]);
+    const { firtRenderCalendar, handleRenderCalendar } = useContext(SettingsContext);
+
 
     const handleEventClick = (info: EventClickArg) => {
         const countEvents = info.event.extendedProps.eventCount;
@@ -38,15 +41,17 @@ const MyCalendar = ({
     };
 
     const handleGetCalendarByMonth = useCallback(async (month: number, year: number) => {
-        if (month === 0 || year === 0) return;
+        if(firtRenderCalendar){
+            handleRenderCalendar(false);
+            return;
+        };
         const dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
         const convertedData = DataCalendarConverted(dataCalendar);
         setEvents(convertedData);
-    }, []);
+    }, [firtRenderCalendar]);
 
     const handleViewChange = useCallback((arg: DatesSetArg) => {
-        processedDaysRef.current = {}; // Resetear el ref
-
+        processedDaysRef.current = {}; 
         // Usamos view.activeStart para obtener el primer día visible del mes
         const activeStartDate = arg.view.activeStart
 
@@ -61,6 +66,18 @@ const MyCalendar = ({
 
     }, [handleGetCalendarByMonth]);
 
+    useEffect(() => {
+        handleGetCalendarByMonth(12, 2024)
+    }, [handleGetCalendarByMonth])
+
+
+    if( (events as EventInput[]).length < 0 ) {
+        return(
+            <div>
+                <p>Cargando....</p>
+            </div>
+        )
+    }
 
     return (
         <FullCalendar
