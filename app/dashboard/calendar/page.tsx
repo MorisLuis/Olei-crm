@@ -6,24 +6,26 @@ import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useRouter } from 'next/navigation';
 import FormMeeting, { INITIAL_MEETING } from '../bitacora/FormMeeting';
 import { EventClickArg } from '@fullcalendar/core/index.js';
-import { meetingExample } from '@/seed/bitacoraData';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from '../sells/[id]/[sellId]/SellDetails';
 import { DateClickArg } from '@fullcalendar/interaction/index.js';
+import { getMeetingById } from '@/services/meeting';
+import MeetingInterface from '@/interface/meeting';
 
 export default function Calendar() {
 
     const { push, back } = useRouter();
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
-    const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING);
+    const [eventToOpen, setEventToOpen] = useState<MeetingInterface>(INITIAL_MEETING);
     const [openModalSell, setOpenModalSell] = useState(false);
 
-    const handelOnClickEvent = (info: EventClickArg) => {
+    const handelOnClickEvent = async (info: EventClickArg) => {
         const dataEvent = info.event.extendedProps;
 
         if (dataEvent.TableType === "Bitacora") {
             // Get meeting from API
-            setEventToOpen(meetingExample);
+            const meeting = await getMeetingById(dataEvent.Id);
+            setEventToOpen(meeting);
             setOpenModalCreateMeeting(true);
             return;
         }

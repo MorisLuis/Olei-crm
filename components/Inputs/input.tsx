@@ -35,7 +35,7 @@ const Input = ({
                 type="text"
                 placeholder={placeholder}
                 onChange={(event) => handleOnChange(event)}
-                value={value}
+                value={value ?? ""}
             />
 
             {(value !== "" && clearInput) && (

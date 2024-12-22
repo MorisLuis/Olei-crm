@@ -21,12 +21,12 @@ export default function InputRangeDate({
             <InputDatePicker
                 onChange={onChanges.onChange1}
                 label={labels.label1}
-                value={values.value1}
+                value={new Date(values.value1 as string)}
             />
             <InputDatePicker
                 onChange={onChanges.onChange2}
                 label={labels.label2}
-                value={values.value2}
+                value={new Date(values.value2 as string)}
             />
         </div>
     )

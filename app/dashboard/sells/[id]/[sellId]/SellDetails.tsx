@@ -145,7 +145,6 @@ export default function SellDetails() {
 
     useEffect(() => {
         if (!Sellid) return;
-        console.log({ Sellid })
         handleValidateQuery()
     }, [Sellid]);
 

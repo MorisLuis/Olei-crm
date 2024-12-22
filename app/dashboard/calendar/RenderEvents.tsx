@@ -16,7 +16,6 @@ export const renderEventContent = ({
     const eventType = eventInfo.event.extendedProps.TableType;
 
     if (processedDaysRef.current[eventDate] && eventCount >= 3) {
-        console.log("ya se procesó el día");
         return null;
     }
 
@@ -37,7 +36,7 @@ export const renderEventContent = ({
     return (
         <div className={`fc-event-modified ${additionalClass}`}>
             <span className={eventType === "Bitacora" ? "blue" : "red"}></span>
-            <p>{eventInfo.event.title}</p>
+            <p>{eventInfo.event.title === "null" ? "Sin titulo" : eventInfo.event.title}</p>
         </div>
     );
 };

@@ -9,14 +9,14 @@ import InputSelectTag, { OptionInputSelectTag } from "@/components/Inputs/inputS
 import { MultiValue } from "react-select";
 import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
-import styles from '../../../styles/Form.module.scss';
+import styles from "../../../styles/Form.module.scss";
 import FileUploader from "@/components/UI/FileUploader";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { clientsSelectExample } from "@/seed/clientsData";
 
 export const INITIAL_MEETING: MeetingInterface = {
     Fecha: new Date(), // Fecha actual como objeto Date
-    Hour: undefined,
+    Hour: '',
     HourEnd: '',
     Descripcion: "",
     Title: "",
@@ -30,21 +30,24 @@ interface FormMeetingInterface {
     meetingProp?: MeetingInterface;
     visible: boolean;
     onClose: () => void;
-    isEditing?: boolean
+    isEditing?: boolean;
 }
 
 export default function FormMeeting({
     meetingProp,
     visible,
     onClose,
-    isEditing
+    isEditing,
 }: FormMeetingInterface) {
+    const { showSuccess, showInfo } = useToast();
+    const { isMobile } = useWindowSize();
 
-    const { showSuccess, showInfo } = useToast()
+    // Inicialización del formulario
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
-    const { isMobile } = useWindowSize()
     const [emailsResend, setEmailsResend] = useState<string[]>([]);
-    const availableToPost : boolean = (meetingForm.Title && meetingForm.TipoContacto && meetingForm.Id_Cliente) ? true : false
+
+    const availableToPost: boolean =
+        !!meetingForm?.Title && !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
 
     const optionTipoMeeting: OptionType[] = [
         { value: 1, label: "Reunión" },
@@ -54,64 +57,69 @@ export default function FormMeeting({
     ];
 
     const optionsClients: OptionType[] = clientsSelectExample.map((item) => ({
-        label: item.Nombre as string, // Asume que item.Nombre es un string
-        value: item.Id_Cliente as number, // Asume que item.Id_Cliente es string o number
+        label: item.Nombre as string,
+        value: item.Id_Cliente as number,
     }));
-
 
     // Manejo genérico de cambios
     const handleChange = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]) => {
-        setMeetingForm({ ...meetingForm, [key]: value });
+        setMeetingForm((prev) => ({ ...prev, [key]: value }));
     };
 
     const handleResendEmail = (value: MultiValue<OptionInputSelectTag>) => {
-        console.log({ emailsResend })
         setEmailsResend((prevState) => [...prevState, value[value.length - 1].value]);
-    }
+    };
 
     const onPostMeeting = () => {
         if (!availableToPost) {
-            return showInfo("Es necesario agregar titulo")
-        }
-        onClose()
-        const messageShowed = isEditing ? `Reunión ${meetingForm.Title} editada!` : `Reunión ${meetingForm.Title} Creada!`
-        showSuccess(messageShowed)
-    }
+            return showInfo("Es necesario agregar título, tipo de contacto y cliente");
+        };
+
+        onClose();
+        console.log({emailsResend})
+
+        const messageShowed = isEditing
+            ? `Reunión ${meetingForm?.Title} editada!`
+            : `Reunión ${meetingForm?.Title} creada!`;
+        showSuccess(messageShowed);
+    };
 
     useEffect(() => {
-        setMeetingForm(meetingProp ?? INITIAL_MEETING)
-    }, [meetingProp])
+        if (!meetingProp) return;
+        setMeetingForm(meetingProp);
+    }, [meetingProp]);
 
     return (
         <Modal
-            title='Crear Reunion'
+            title="Crear Reunión"
             visible={visible}
             onClose={onClose}
-            modalSize='medium'
+            modalSize="medium"
             actionsBottom={{
                 action1: {
                     action: () => onClose(),
-                    label: "Cancelar"
+                    label: "Cancelar",
                 },
                 action2: {
                     action: () => onPostMeeting(),
                     label: isEditing ? "Editar" : "Crear reunión",
-                    disabled: !availableToPost
-                }
+                    disabled: !availableToPost,
+                },
             }}
             extraStyles={{
-                width: isMobile ? "100%" : "40%"
+                width: isMobile ? "100%" : "40%",
             }}
         >
             <div className={styles.formMetting}>
                 <SelectReact
                     options={optionsClients}
                     name="Cliente"
-                    onChange={(option) => handleChange("Id_Cliente", Number(option?.value ?? null))}
+                    onChange={(option) =>
+                        handleChange("Id_Cliente", Number(option?.value ?? 0))
+                    }
                     value={
-                        optionsClients.find(
-                            (item) => item.value === meetingForm.Id_Cliente
-                        ) ?? null
+                        optionsClients.find((item) => item.value === meetingForm.Id_Cliente) ??
+                        null
                     }
                     label="Selecciona el cliente"
                 />
@@ -119,11 +127,12 @@ export default function FormMeeting({
                 <SelectReact
                     options={optionTipoMeeting}
                     name="Tipo de contacto"
-                    onChange={(option) => handleChange("TipoContacto", Number(option?.value ?? null) as 0 | 1 | 2 | 3 | 4)}
+                    onChange={(option) =>
+                        handleChange("TipoContacto", Number(option?.value ?? 0) as 0 | 1 | 2 | 3 | 4)
+                    }
                     value={
-                        optionTipoMeeting.find(
-                            (item) => item.value === meetingForm.TipoContacto
-                        ) ?? null
+                        optionTipoMeeting.find((item) => item.value === meetingForm.TipoContacto) ??
+                        null
                     }
                     label="Selecciona el tipo de tarea"
                 />
@@ -132,49 +141,48 @@ export default function FormMeeting({
                     name="Titulo"
                     placeholder="Título de la reunión"
                     onChange={(value) => handleChange("Title", value)}
-                    label="Escribe un titulo de la tarea."
+                    label="Escribe un título para la tarea."
                 />
                 <Input
                     value={meetingForm.Descripcion}
                     name="Descripción"
                     placeholder="Descripción de la reunión"
                     onChange={(value) => handleChange("Descripcion", value)}
-                    label="Escribe un descripción de la tarea."
+                    label="Escribe una descripción de la tarea."
                 />
                 <InputDatePicker
                     onChange={(value) => handleChange("Fecha", value ?? new Date())}
-                    label="Cuando sera tu tarea?"
-                    value={meetingForm.Fecha && new Date(meetingForm.Fecha).toLocaleDateString("es-MX")}
+                    label="¿Cuándo será tu tarea?"
+                    value={meetingForm.Fecha}
                 />
                 <div className={styles.hours}>
                     <TimeInput
                         onChange={(value) => handleChange("Hour", value)}
-                        label="A que hora sera tu tarea?"
-                        value={meetingForm.Hour ? meetingForm.Hour : undefined}
+                        label="¿A qué hora será tu tarea?"
+                        value={meetingForm.Hour || ""}
                         placeholder="Inicio"
                     />
                     <TimeInput
                         onChange={(value) => handleChange("HourEnd", value)}
                         label="."
-                        value={meetingForm.HourEnd ? meetingForm.HourEnd : undefined}
+                        value={meetingForm.HourEnd || ""}
                         placeholder="Fin"
-
                     />
                 </div>
 
                 <InputTextBox
                     placeholder="Comentarios de la reunión"
-                    value={meetingForm.Comentarios ?? ""}
+                    value={meetingForm.Comentarios || ""}
                     onChange={(value) => handleChange("Comentarios", value)}
-                    label="Algun comentario extra? Estos comentarios podran ser editados después"
+                    label="¿Algún comentario extra? Estos comentarios podrán ser editados después."
                 />
 
                 <InputSelectTag
                     onChange={(value) => handleResendEmail(value)}
-                    label="Escribe el correo de aquien lo quieres reenviar esta tarea"
+                    label="Escribe el correo a quien lo quieres reenviar esta tarea"
                 />
 
-                <FileUploader label='Deseas adjuntar algun archivo?' />
+                <FileUploader label="¿Deseas adjuntar algún archivo?" />
             </div>
         </Modal>
     );

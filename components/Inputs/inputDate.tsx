@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from "date-fns/locale"; // Importa el idioma deseado
@@ -8,7 +8,7 @@ import { es } from "date-fns/locale"; // Importa el idioma deseado
 interface InputDatePicker {
     onChange: (date: Date | null) => void;
     label?: string;
-    value?: string; // Esta prop se espera como una fecha en string
+    value?: Date | string; // Esta prop se espera como una fecha en string
 }
 
 const InputDatePicker = ({
@@ -18,21 +18,15 @@ const InputDatePicker = ({
 }: InputDatePicker) => {
 
     // Estado local para la fecha seleccionada
-    const [selectedDate, setSelectedDate] = useState<Date | null>(
-        value ? new Date(value) : null
-    );
-
-    // Efecto para sincronizar selectedDate con la prop value
-    useEffect(() => {
+    const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
         if (value) {
-            const [year, month, day] = value.split("-").map(Number);
-            const utcDate = new Date(year, month - 1, day);
-            setSelectedDate(utcDate);
-        } else {
-            setSelectedDate(null); // Si el valor es undefined, resetea el estado
+            const parsedDate = new Date(value);
+            return isNaN(parsedDate.getTime()) ? null : parsedDate;
         }
-    }, [value]);
+        return null;
+    });
     
+
     const getDayClassName = (date: Date) => {
         const today = new Date();
         if (
@@ -56,7 +50,7 @@ const InputDatePicker = ({
 
             <DatePicker
                 selected={selectedDate} // Usa el estado sincronizado
-                onChange={(date) => handleOnChange(date)} // Actualiza el estado y propaga el cambio
+                onChange={(date) => handleOnChange(date)}
                 dateFormat="dd/MM/yyyy"
                 className="input"
                 placeholderText="Selecciona una fecha"

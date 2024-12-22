@@ -52,8 +52,6 @@ export const getTotalClients = async () => {
 
 export const searchClients = async (term: string) => {
 
-    console.log("searchClients")
-
     try {
         const data = await api.get(`/api/search/client?term=${term}`);
         return data.data.Clients;
