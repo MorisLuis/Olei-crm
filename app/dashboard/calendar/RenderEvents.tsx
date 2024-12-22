@@ -11,6 +11,7 @@ export const renderEventContent = ({
     eventInfo,
     processedDaysRef
 }: RenderEventContentInterface) => {
+
     const eventDate = new Date(eventInfo.event.startStr).toISOString().split("T")[0];
     const eventCount = eventInfo.event.extendedProps.eventCount;
     const eventType = eventInfo.event.extendedProps.TableType;

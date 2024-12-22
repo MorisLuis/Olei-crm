@@ -23,9 +23,9 @@ const MyCalendar = ({
     const [events, setEvents] = useState<EventSourceInput>([]);
     const { firtRenderCalendar, handleRenderCalendar } = useContext(SettingsContext);
 
-
     const handleEventClick = (info: EventClickArg) => {
         const countEvents = info.event.extendedProps.eventCount;
+
         if (countEvents >= 3) {
             const dateClickArg: DateClickArg = {
                 date: info.event.start as Date,
@@ -61,6 +61,7 @@ const MyCalendar = ({
 
         const month = correctedStartDate.getMonth();
         const year = correctedStartDate.getFullYear();
+        setEvents([])
 
         handleGetCalendarByMonth(month + 1, year);
 
@@ -77,7 +78,7 @@ const MyCalendar = ({
                 <p>Cargando....</p>
             </div>
         )
-    }
+    };
 
     return (
         <FullCalendar
