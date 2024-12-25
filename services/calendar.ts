@@ -16,3 +16,14 @@ export const getCalendarByMonth = async ({ Anio, Mes }: getCalendarByMonthInterf
         return { error: error };
     }
 }
+
+export const getCalendarTaskByDay = async (Day: string) => {
+
+    try {
+        const data = await api.get(`/api/calendar/day?Day=${Day}`);
+        return data.data;
+    } catch (error) {
+        return { error: error };
+    }
+
+}

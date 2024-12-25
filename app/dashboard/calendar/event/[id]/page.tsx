@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import MyTimeline from '../../Timeline';
+import React, { useEffect, useState } from 'react';
+import MyTimeline from './Timeline';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTertiaryBitacoraDetails';
 import Modal from '@/components/Modals/Modal';
@@ -11,26 +11,26 @@ import { usePathname } from 'next/navigation';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import { faCalendarXmark, faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import { calendarTimelineExamples } from '@/seed/calendarData';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import styles from "../../../../../styles/pages/Calendar.module.scss";
 import ModalSells from './ModalSells';
+import { getCalendarTaskByDay } from '@/services/calendar';
+import { TimelineInterface } from '@/interface/calendar';
+import TimelineEventsValidation from './TimelineEventsValidation';
 
 export default function EventDetails() {
 
     const pathname = usePathname();
+    const { isMobile } = useWindowSize();
     const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1); // Extract last part that is the date.
     const decodedDate = decodeURIComponent(lastSegment!);
-    const [openModalSells, setOpenModalSells] = useState(false)
-
-    // We will get event by day - API
-    const eventsOfTheDay = calendarTimelineExamples;
-    const sellEvents = eventsOfTheDay.filter((item) => item.TableType === "Ventas");
-
-    const [openModalEvent, setOpenModalEvent] = useState(false);
-    const { isMobile } = useWindowSize()
-    const [eventSelected, setEventSelected] = useState<number>(eventsOfTheDay[0]?.Id_Bitacora ?? 0);
+    const [openModalSells, setOpenModalSells] = useState(false);
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
+    const [openModalEvent, setOpenModalEvent] = useState(false);
+
+    const [eventSelected, setEventSelected] = useState<number>(0);
+    const [eventsOfTheDay, setEventsOfTheDay] = useState<TimelineInterface[] | null>(null);
+    const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
 
     // Abrir modal solo en móviles
     const handleSelectEvent = (Id: MeetingInterface) => {
@@ -38,9 +38,12 @@ export default function EventDetails() {
         setEventSelected(Id.Id_Bitacora)
     };
 
-    const handleCloseMeetingModal = () => {
-        setOpenModalCreateMeeting(false);
+    const handleGetEventsOfTheDay = async () => {
+        const events = await getCalendarTaskByDay('02-14-2024');
+        setEventsOfTheDay(events);
     }
+
+    const handleCloseMeetingModal = () => setOpenModalCreateMeeting(false);
 
     const clientActions: ActionsInterface[] = [
         {
@@ -49,7 +52,57 @@ export default function EventDetails() {
             onclick: () => setOpenModalCreateMeeting(true),
             color: 'yellow'
         }
-    ]
+    ];
+
+    const renderEventSelects = () => {
+
+        if (!eventsOfTheDay) {
+            return (
+                <div>
+                    <p>Cargando...</p>
+                </div>
+            )
+        };
+
+        if (events.length > 0) {
+            return (
+                <div className={styles.brief}>
+                    <p className={styles.brief__instruction}>Selecciona la tarea para ver el detalle de la tarea.</p>
+                    <h4>Reunión</h4>
+                    <TableTertiaryBitacoraDetails Id_Bitacora={eventSelected} />
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                <MessageCard
+                    title='No hay eventos hoy'
+                    icon={faCalendarXmark}
+                >
+                    <p>No tienes algun evento para hoy, puedes crear un evento para el dia de hoy y se agendara.</p>
+                </MessageCard>
+            </div>
+        )
+
+    }
+
+    useEffect(() => {
+        handleGetEventsOfTheDay()
+    }, [])
+
+    useEffect(() => {
+        if (events.length < 1) return;
+        setEventSelected(Number(events[0].id) ?? 0)
+    }, [events]);
+
+    if (!events || !sellEvents) {
+        return (
+            <div>
+                <p>Cargando...</p>
+            </div>
+        )
+    }
 
     return (
         <div className={styles.event}>
@@ -72,26 +125,10 @@ export default function EventDetails() {
                     <MyTimeline
                         onClickEvent={handleSelectEvent}
                         initialDateProp={decodedDate}
-                        eventsOfTheDay={eventsOfTheDay}
+                        eventsOfTheDay={events}
                     />
                 </div>
-                {
-                    eventsOfTheDay.length > 0 ?
-                        <div className={styles.brief}>
-                            <p className={styles.brief__instruction}>Selecciona la tarea para ver el detalle de la tarea.</p>
-                            <h4>Reunión</h4>
-                            <TableTertiaryBitacoraDetails Id_Bitacora={eventSelected} />
-                        </div>
-                        :
-                        <div>
-                            <MessageCard
-                                title='No hay eventos hoy'
-                                icon={faCalendarXmark}
-                            >
-                                <p>No tienes algun evento para hoy, puedes crear un evento para el dia de hoy y se agendara.</p>
-                            </MessageCard>
-                        </div>
-                }
+                {renderEventSelects()}
             </div>
 
             <Modal

@@ -18,3 +18,14 @@ export interface TimelineInterface {
     Hour?: string;
     HourEnd?: string; 
 }
+
+
+export interface TimelineMeetingInterface {
+    id: string;
+    start: string;
+    end: string;
+    title: string;
+    extendedProps: {
+        Id_Bitacora: number | undefined;
+    }
+}

@@ -3,7 +3,7 @@
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
 import { SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
 import React, { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { formatDate } from '@/utils/formatDate';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
@@ -14,7 +14,6 @@ import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sel
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 
 interface sellQueryInterface {
-    Id_Cliente: number;
     Id_Almacen: number;
     TipoDocProp: SellsInterface['TipoDoc'];
     Serie: string;
@@ -23,23 +22,21 @@ interface sellQueryInterface {
 
 export default function SellDetails() {
 
-    const params = useParams();
     const searchParams = useSearchParams();
     const [sellInformation, setSellInformation] = useState<SellsInterface>()
     const { changeColor } = useTagColor();
     const Sellid = searchParams.get('sellId');
-    const [Folio, setFolio] = useState<string>('')
+    const [Folio, setFolio] = useState<string>('');
 
     const getSellInformation = async ({
-        Id_Cliente,
         Id_Almacen,
         TipoDocProp,
         Serie,
         Folio
     }: sellQueryInterface) => {
 
+
         const sellInformation = await getSellById({
-            Id_Cliente,
             Id_Almacen,
             TipoDoc: TipoDocProp,
             Serie,
@@ -109,19 +106,18 @@ export default function SellDetails() {
     ];
 
     const handleValidateQuery = async () => {
+        if(!Sellid) return;
         const sellIdSplited = Sellid?.split("-");
-
-        const Id_Cliente = params.id ? Number(params.id) : Number(searchParams.get('Id_Cliente'));
         const Id_Almacen = Number(sellIdSplited?.[0]);
         const TipoDocProp = Number(sellIdSplited?.[1]);
         const Serie = sellIdSplited?.[2] ?? '';
         const Folio = sellIdSplited?.[3];
 
-        if (!Id_Almacen || !TipoDocProp || !Folio) {
+        if (Id_Almacen == null || TipoDocProp == null || Folio == null) {
             console.error("Error: Todos los parámetros son obligatorios.");
             return;
         }
-
+        
         const isValidTipoDoc = (value: number): value is typeTipoDoc => {
             const validTipoDoc: typeTipoDoc[] = TipoDoc;
             return validTipoDoc.includes(value as typeTipoDoc);
@@ -135,7 +131,6 @@ export default function SellDetails() {
         setFolio(Folio)
 
         getSellInformation({
-            Id_Cliente: Id_Cliente,
             Id_Almacen: Id_Almacen,
             TipoDocProp: TipoDocProp,
             Serie: Serie,

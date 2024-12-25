@@ -24,14 +24,12 @@ export default function ModalSells({
     const { push } = useRouter()
 
     const handleSelectItem = (item: TimelineInterface) => {
-        push(`?sellId=${item.Id_Sell}`) 
+        push(`?sellId=${item.Id_Sell}`)
         setOpenSecondModal(true)
     }
 
     const renderChildrenSecondModal = () => {
-        return (
-            <SellDetails />
-        )
+        return <SellDetails />
     }
 
     const columnsTimelineSells: ColumnSecondaryConfig<TimelineInterface>[] = [
@@ -50,7 +48,7 @@ export default function ModalSells({
             label: 'Fecha',
             render: (Fecha) => <div><span style={{ fontWeight: 'bold' }}>Fecha: </span>{formatDate(Fecha as Date)}</div>
         }
-    ]
+    ];
 
     return (
         <ModalDouble
@@ -61,16 +59,14 @@ export default function ModalSells({
             onCloseSecondModal={() => setOpenSecondModal(false)}
             childrenSecondModal={renderChildrenSecondModal()}
         >
-            <div>
-                <p className='instruction'>Selecciona uno para ver detalles.</p>
-                <TableSecondary
-                    data={sellEvents}
-                    columns={columnsTimelineSells}
-                    loadingMoreData={true}
-                    noMoreData={true}
-                    onClick={handleSelectItem}
-                />
-            </div>
+            <p className='instruction'>Selecciona uno para ver detalles.</p>
+            <TableSecondary
+                data={sellEvents}
+                columns={columnsTimelineSells}
+                loadingMoreData={true}
+                noMoreData={true}
+                onClick={handleSelectItem}
+            />
         </ModalDouble>
     )
 }

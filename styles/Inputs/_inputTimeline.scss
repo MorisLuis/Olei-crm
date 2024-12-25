@@ -3,24 +3,18 @@
 @use "../Abstracts/variables";
 
 .fc {
-    .fc-view-harness{
+    .fc-view-harness {
         border: 1px solid variables.$color-border;
         border-radius: variables.$border-radius;
         overflow: hidden;
     }
 
-    .fc-header-toolbar{
-        justify-content: start;
-        padding: 0px;
-        align-items: start;
-
-
-        .fc-toolbar-title{
-            font-size: variables.$font-big;
-            width: 100%;
-            text-transform: lowercase;
-        }
+    .fc-header-toolbar {
+        display: flex;
+        justify-content: space-between;
+        /* Para alinear los elementos */
     }
+
 
     // Estilos de las horas (columna izquierda)
     .fc-timegrid-slot-label {
@@ -45,6 +39,7 @@
         padding: variables.$padding;
         box-shadow: variables.$box-shadow-input;
         border: 1px solid variables.$color-border-secondary;
+        height: fit-content;
     }
 
     // Hover en eventos
@@ -53,8 +48,18 @@
     }
 
 
-    .fc-event-title{
+    .fc-event-title {
         color: variables.$text-color;
     }
 
+}
+
+/* Estilos personalizados para el header */
+.custom-timeline .fc-header-toolbar .fc-toolbar-chunk {
+    flex: 0; /* Los hijos por defecto no ocupan espacio */
+}
+
+.custom-timeline .fc-header-toolbar .fc-toolbar-chunk:nth-child(2) {
+    flex: 1; /* El segundo hijo ocupa todo el espacio disponible */
+    /* text-align: center; Opcional: centra el contenido */
 }

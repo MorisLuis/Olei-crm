@@ -44,7 +44,6 @@ interface getSellByIdInterface {
     Folio: string,
     Serie: string,
     Id_Almacen: number,
-    Id_Cliente: number,
     TipoDoc: typeTipoDoc
 }
 
@@ -52,12 +51,11 @@ export const getSellById = async ({
     Folio,
     Serie,
     Id_Almacen,
-    Id_Cliente,
     TipoDoc
 }: getSellByIdInterface) => {
 
     try {
-        const data = await api.get(`/api/sells/${Folio}?Id_Almacen=${Id_Almacen}&Id_Cliente=${Id_Cliente}&TipoDoc=${TipoDoc}&Serie=${Serie}`);
+        const data = await api.get(`/api/sells/${Folio}?Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}`);
         return data.data;
     } catch (error) {
         return { error: error };
