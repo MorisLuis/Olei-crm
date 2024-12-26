@@ -2,13 +2,17 @@ import Button from '@/components/Buttons/Button'
 import React, { useEffect, useState } from 'react';
 import styles from '../../../../styles/pages/Sells.module.scss'
 import InputTextBox from '@/components/Inputs/inputTextBox';
+import { updateMeeting } from '@/services/meeting';
+import MeetingInterface from '@/interface/meeting';
 
 interface CommentsModalInterface {
+    Id_Bitacora: number;
     value: string;
     onClose: () => void;
 }
 
 export default function CommentsModal({
+    Id_Bitacora,
     value : valueProp,
     onClose
 } : CommentsModalInterface) {
@@ -19,8 +23,12 @@ export default function CommentsModal({
         setNewComments(value)
     }
 
-    const onSubmitNewComment = () => {
-        alert(newComments)
+    const onSubmitNewComment = async () => {
+        if(!newComments || !Id_Bitacora) return;
+        const bodyMeeting : Partial<MeetingInterface> = {
+            Comentarios: newComments
+        }
+        await updateMeeting(bodyMeeting, Id_Bitacora)
         onClose()
     }
 

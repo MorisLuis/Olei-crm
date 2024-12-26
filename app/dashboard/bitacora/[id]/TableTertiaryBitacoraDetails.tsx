@@ -7,6 +7,7 @@ import CommentsModal from './ModalComments';
 import styles from '../../../../styles/pages/SellDetails.module.scss'
 import { getMeetingById } from '@/services/meeting';
 import { ColumnsBitacoraDetails } from './ColumnsBitacoraDetails';
+import MeetingInterface from '@/interface/meeting';
 
 interface TableTertiaryBitacoraDetailsInterface {
     Id_Bitacora: number;
@@ -17,21 +18,21 @@ export default function TableTertiaryBitacoraDetails({
 }: TableTertiaryBitacoraDetailsInterface) {
 
     const [openCommentsModal, setOpenCommentsModal] = useState(false);
-    const [sellsData, setSellsData] = useState();
+    const [meetingData, setMeetingData] = useState<MeetingInterface>();
     const onOpenComments = () => setOpenCommentsModal(true)
     const { columns } = ColumnsBitacoraDetails({ onOpenComments })
 
     const handleGetMeeting = async () => {
-        if(!Id_Bitacora) return;
+        if (!Id_Bitacora) return;
         const meeting = await getMeetingById(Id_Bitacora.toString());
-        setSellsData(meeting)
+        setMeetingData(meeting)
     }
 
     useEffect(() => {
         handleGetMeeting()
     }, [Id_Bitacora])
 
-    if (!sellsData) {
+    if (!meetingData) {
         return <div>Cargando...</div>;
     }
 
@@ -40,7 +41,7 @@ export default function TableTertiaryBitacoraDetails({
             <div className={styles.sellDetails}>
                 <TableTertiary
                     columns={columns}
-                    data={sellsData}
+                    data={meetingData}
                 />
             </div>
             <Modal
@@ -49,7 +50,11 @@ export default function TableTertiaryBitacoraDetails({
                 onClose={() => setOpenCommentsModal(false)}
                 modalSize='small'
             >
-                <CommentsModal onClose={() => setOpenCommentsModal(false)} value='' />
+                <CommentsModal
+                    onClose={() => setOpenCommentsModal(false)}
+                    value={meetingData.Comentarios || ""}
+                    Id_Bitacora={Id_Bitacora}
+                />
             </Modal>
         </>
     )
