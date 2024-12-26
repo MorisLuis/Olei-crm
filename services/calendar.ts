@@ -21,6 +21,7 @@ export const getCalendarTaskByDay = async (Day: string) => {
 
     try {
         const data = await api.get(`/api/calendar/day?Day=${Day}`);
+        console.log({data})
         return data.data;
     } catch (error) {
         return { error: error };

@@ -8,40 +8,34 @@ import Modal from '@/components/Modals/Modal';
 import MeetingInterface from '@/interface/meeting';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import { usePathname } from 'next/navigation';
-import { MessageCard } from '@/components/Cards/MessageCard';
-import { faCalendarXmark, faFileExcel } from '@fortawesome/free-solid-svg-icons';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import styles from "../../../../../styles/pages/Calendar.module.scss";
 import ModalSells from './ModalSells';
-import { getCalendarTaskByDay } from '@/services/calendar';
-import { TimelineInterface } from '@/interface/calendar';
 import TimelineEventsValidation from './TimelineEventsValidation';
+import { useEventsOfTheDay } from './useEventsOfTheDay';
+import { RenderEventSelects } from './RenderEventSelects';
 
 export default function EventDetails() {
 
     const pathname = usePathname();
     const { isMobile } = useWindowSize();
-    const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1); // Extract last part that is the date.
+    const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
     const decodedDate = decodeURIComponent(lastSegment!);
     const [openModalSells, setOpenModalSells] = useState(false);
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
     const [openModalEvent, setOpenModalEvent] = useState(false);
 
     const [eventSelected, setEventSelected] = useState<number>(0);
-    const [eventsOfTheDay, setEventsOfTheDay] = useState<TimelineInterface[] | null>(null);
+    const eventsOfTheDay = useEventsOfTheDay(decodedDate);
     const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
 
     // Abrir modal solo en móviles
-    const handleSelectEvent = (Id: MeetingInterface) => {
+    const handleSelectEventFromTimeline = (Id: MeetingInterface) => {
         if (isMobile) setOpenModalEvent(true);
         setEventSelected(Id.Id_Bitacora)
     };
-
-    const handleGetEventsOfTheDay = async () => {
-        const events = await getCalendarTaskByDay('02-14-2024');
-        setEventsOfTheDay(events);
-    }
 
     const handleCloseMeetingModal = () => setOpenModalCreateMeeting(false);
 
@@ -54,47 +48,12 @@ export default function EventDetails() {
         }
     ];
 
-    const renderEventSelects = () => {
-
-        if (!eventsOfTheDay) {
-            return (
-                <div>
-                    <p>Cargando...</p>
-                </div>
-            )
-        };
-
+    useEffect(() => {
         if (events.length > 0) {
-            return (
-                <div className={styles.brief}>
-                    <p className={styles.brief__instruction}>Selecciona la tarea para ver el detalle de la tarea.</p>
-                    <h4>Reunión</h4>
-                    <TableTertiaryBitacoraDetails Id_Bitacora={eventSelected} />
-                </div>
-            )
+            setEventSelected(Number(events[0].id));
         }
-
-        return (
-            <div>
-                <MessageCard
-                    title='No hay eventos hoy'
-                    icon={faCalendarXmark}
-                >
-                    <p>No tienes algun evento para hoy, puedes crear un evento para el dia de hoy y se agendara.</p>
-                </MessageCard>
-            </div>
-        )
-
-    }
-
-    useEffect(() => {
-        handleGetEventsOfTheDay()
-    }, [])
-
-    useEffect(() => {
-        if (events.length < 1) return;
-        setEventSelected(Number(events[0].id) ?? 0)
     }, [events]);
+
 
     if (!events || !sellEvents) {
         return (
@@ -106,7 +65,10 @@ export default function EventDetails() {
 
     return (
         <div className={styles.event}>
-            <Header title='Calendario' actions={clientActions} />
+            <Header
+                title='Calendario'
+                actions={clientActions}
+            />
 
             <div className={styles.content}>
                 <div className={styles.timeline}>
@@ -122,13 +84,15 @@ export default function EventDetails() {
                             }}
                         />
                     }
+
                     <MyTimeline
-                        onClickEvent={handleSelectEvent}
+                        onClickEvent={handleSelectEventFromTimeline}
                         initialDateProp={decodedDate}
                         eventsOfTheDay={events}
                     />
                 </div>
-                {renderEventSelects()}
+
+                {RenderEventSelects({ events, eventsOfTheDay, eventSelected })}
             </div>
 
             <Modal
