@@ -3,7 +3,7 @@
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
 import { SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import {  useSearchParams } from 'next/navigation'
 import { formatDate } from '@/utils/formatDate';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';

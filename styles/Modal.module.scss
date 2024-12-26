@@ -223,7 +223,6 @@
 
     .modalInDouble {
         display: none;
-
         @include mixins.respond(tab-port) {
             display: block;
         }
@@ -236,9 +235,9 @@
         border: 1px solid variables.$color-border;
         box-shadow: variables.$box-shadow-modal;
         height: 100%;
-        width: 100%;
         display: flex;
         flex-direction: column;
+        overflow-y: scroll;
 
         @include mixins.respond(tab-port) {
             width: 100%;
@@ -290,8 +289,12 @@
         }
     }
 
+    .primary{
+        width: 100%;
+    }
+
     .secondary {
-        //width: 60%;
+        min-width: 60%;
 
         @include mixins.respond(tab-port) {
             position: fixed;
