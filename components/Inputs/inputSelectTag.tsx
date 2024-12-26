@@ -1,3 +1,4 @@
+import { emailValidation } from '@/validations/FormMeetingValidation';
 import React, { KeyboardEventHandler } from 'react';
 import { MultiValue } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
@@ -23,28 +24,42 @@ const InputSelectTag = (label: string) => ({
 
 const InputSelectTagComponent = ({
     onChange,
-    label
+    label,
 }: InputSelectTagInterface) => {
-
     const [inputValue, setInputValue] = React.useState('');
     const [value, setValue] = React.useState<readonly OptionInputSelectTag[]>([]);
+    const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
     const handleKeyDown: KeyboardEventHandler = (event) => {
         if (!inputValue) return;
+
         switch (event.key) {
             case 'Enter':
-            case 'Tab':
+            case 'Tab': {
+                event.preventDefault();
+                
+                if (!emailValidation(inputValue)) {
+                    setErrorMessage('Tiene que ser un correo válido');
+                    setInputValue('');
+                    return;
+                }
+
                 setValue((prev) => [...prev, InputSelectTag(inputValue)]);
                 setInputValue('');
-                event.preventDefault();
+                setErrorMessage(null); // Limpiar mensaje de error si es válido
                 onChange([...value, { label: inputValue, value: inputValue }]);
+                break;
+            }
+            default:
+                break;
         }
     };
 
     return (
         <div>
-            <label htmlFor={label} className='label'>{label}</label>
-
+            <label htmlFor={label} className="label">
+                {label}
+            </label>
             <CreatableSelect
                 components={components}
                 inputValue={inputValue}
@@ -53,10 +68,11 @@ const InputSelectTagComponent = ({
                 menuIsOpen={false}
                 onChange={(newValue) => {
                     setValue(newValue as OptionInputSelectTag[]);
+                    setErrorMessage(null); // Limpiar error al cambiar valor
                 }}
                 onInputChange={(newValue) => setInputValue(newValue)}
                 onKeyDown={handleKeyDown}
-                placeholder="Escribe y presiona enter"
+                placeholder="Escribe un correo y presiona Enter"
                 value={value}
                 styles={{
                     control: (base) => ({
@@ -95,10 +111,10 @@ const InputSelectTagComponent = ({
                     input: (base) => ({
                         ...base,
                         color: '#1D2A36',
-                        //padding: '10px',
                     }),
                 }}
             />
+            {errorMessage && <p style={{ color: 'red', fontSize: '12px' }}>{errorMessage}</p>}
         </div>
     );
 };

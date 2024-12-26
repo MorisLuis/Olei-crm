@@ -46,6 +46,7 @@ const useToast = () => {
     const showError = (message: string) => {
         toast.error(message,
             {
+                duration: 3000,
                 style: {
                     border: '1px solid #ff0000',
                     padding: '10px 20px',

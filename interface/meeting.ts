@@ -4,8 +4,8 @@ export default interface MeetingInterface {
     Id_Cliente?: number;
     Fecha: Date;
     Hour: string | undefined;
-    HourEnd: string;
-    Title: string;
+    HourEnd: string | undefined;
+    Titulo: string;
     Descripcion: string;
     TipoContacto: 0 | 1 | 2 | 3 | 4;
     Comentarios?: string;

@@ -21,11 +21,11 @@ export const ColumnsBitacoraDetails = ({
 
     const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
         {
-            key: 'Title',
+            key: 'Titulo',
             label: 'Titulo',
             render: (_, item: MeetingInterface) => (
-                item.Title ?
-                <span>{item.Title}</span>
+                item.Titulo ?
+                <span>{item.Titulo}</span>
                 :
                 <Tag color='gray'>No tiene titulo</Tag>
         ),

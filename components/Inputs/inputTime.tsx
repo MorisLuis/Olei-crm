@@ -1,4 +1,5 @@
 import useToast from '@/hooks/useToast';
+import { hourValidation } from '@/validations/FormMeetingValidation';
 import React, { useEffect, useState } from 'react';
 
 interface TimeInputInterface {
@@ -36,13 +37,14 @@ const TimeInput = ({
             setTime(value);
         }
 
-
         return onChange(value)
     };
 
     const handleBlur = () => {
+        if(time === '') return
+
         // Validar formato completo hh:mm al perder el foco
-        if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time)) {
+        if (!hourValidation(time)) {
             setTime(''); // Limpiar si no es válido
             showError("Horario invalido")
         }
@@ -51,14 +53,19 @@ const TimeInput = ({
     useEffect(() => {
         if (!value) return;
         const formattedValue = value.slice(0, 5);
-
-        if (/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(formattedValue)) {
+    
+        // Solo validar si el valor tiene 5 caracteres (formato completo hh:mm).
+        if (formattedValue.length === 5 && hourValidation(value)) {
             setTime(formattedValue);
-        } else {
-            setTime('');
+        } else if (formattedValue.length === 5) {
+            setTime(''); // Limpiar si es inválido y tiene longitud completa.
             showError("Valor inicial inválido");
+        } else {
+            setTime(formattedValue); // Permitir valores parciales como "1" o "12".
         }
     }, [value, showError]);
+    
+    
 
 
     return (

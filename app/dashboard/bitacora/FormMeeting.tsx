@@ -9,17 +9,18 @@ import InputSelectTag, { OptionInputSelectTag } from "@/components/Inputs/inputS
 import { MultiValue } from "react-select";
 import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
-import styles from "../../../styles/Form.module.scss";
 import FileUploader from "@/components/UI/FileUploader";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { clientsSelectExample } from "@/seed/clientsData";
+import styles from "../../../styles/Form.module.scss";
+import { postMeeting } from "@/services/meeting";
 
 export const INITIAL_MEETING: MeetingInterface = {
     Fecha: new Date(), // Fecha actual como objeto Date
     Hour: '',
     HourEnd: '',
     Descripcion: "",
-    Title: "",
+    Titulo: "",
     TipoContacto: 0,
     Comentarios: "",
     Id_Bitacora: 0,
@@ -47,7 +48,7 @@ export default function FormMeeting({
     const [emailsResend, setEmailsResend] = useState<string[]>([]);
 
     const availableToPost: boolean =
-        !!meetingForm?.Title && !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
+        !!meetingForm?.Titulo && !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
 
     const optionTipoMeeting: OptionType[] = [
         { value: 1, label: "Reunión" },
@@ -70,17 +71,18 @@ export default function FormMeeting({
         setEmailsResend((prevState) => [...prevState, value[value.length - 1].value]);
     };
 
-    const onPostMeeting = () => {
+    const onPostMeeting = async () => {
         if (!availableToPost) {
             return showInfo("Es necesario agregar título, tipo de contacto y cliente");
         };
 
         onClose();
+        await postMeeting(meetingForm);
         console.log({emailsResend})
 
         const messageShowed = isEditing
-            ? `Reunión ${meetingForm?.Title} editada!`
-            : `Reunión ${meetingForm?.Title} creada!`;
+            ? `Reunión ${meetingForm?.Titulo} editada!`
+            : `Reunión ${meetingForm?.Titulo} creada!`;
         showSuccess(messageShowed);
     };
 
@@ -137,10 +139,10 @@ export default function FormMeeting({
                     label="Selecciona el tipo de tarea"
                 />
                 <Input
-                    value={meetingForm.Title}
+                    value={meetingForm.Titulo}
                     name="Titulo"
                     placeholder="Título de la reunión"
-                    onChange={(value) => handleChange("Title", value)}
+                    onChange={(value) => handleChange("Titulo", value)}
                     label="Escribe un título para la tarea."
                 />
                 <Input
