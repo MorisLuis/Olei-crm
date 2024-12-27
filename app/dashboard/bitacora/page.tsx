@@ -38,14 +38,14 @@ export default function Bitacora() {
             PageNumber: 1,
             filters: filters
         });
-    }, [orderActive, filtersActive]);
+    }, [filters]);
 
     const fetchPaginatedData = useCallback((_: unknown, nextPage: number) => {
         return getMeetings({
             PageNumber: nextPage ?? 1,
             filters: filters
         })
-    }, [orderActive, filtersActive]);
+    }, [filters]);
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData,

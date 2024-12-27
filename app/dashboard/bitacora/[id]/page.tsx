@@ -1,7 +1,7 @@
 "use client";
 
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
 import FileUploader from '@/components/UI/FileUploader';
@@ -28,15 +28,15 @@ export default function ClientDetailsPage() {
         { id: 4, label: 'Correo', value: `${clientData?.CorreoVtas ?? 'N/A'}` }
     ];
 
-    const handelGetClientData = async () => {
+    const handelGetClientData = useCallback(async () => {
         if (!idAlmacen || !idClient) return;
         const clientData = await getClientById({ Id_Almacen: idAlmacen, Id_Cliente: idClient });
         setClientData(clientData);
-    }
+    }, [idAlmacen, idClient])
 
     useEffect(() => {
         handelGetClientData()
-    }, []);
+    }, [handelGetClientData]);
 
     return (
         <>

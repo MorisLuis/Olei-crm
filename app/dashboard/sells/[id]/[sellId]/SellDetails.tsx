@@ -2,7 +2,7 @@
 
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary'
 import { SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {  useSearchParams } from 'next/navigation'
 import { formatDate } from '@/utils/formatDate';
 import { Tag } from '@/components/UI/Tag';
@@ -105,7 +105,7 @@ export default function SellDetails() {
         }
     ];
 
-    const handleValidateQuery = async () => {
+    const handleValidateQuery = useCallback(async () => {
         if(!Sellid) return;
         const sellIdSplited = Sellid?.split("-");
         const Id_Almacen = Number(sellIdSplited?.[0]);
@@ -136,12 +136,12 @@ export default function SellDetails() {
             Serie: Serie,
             Folio: Folio
         });
-    }
+    }, [Sellid])
 
     useEffect(() => {
         if (!Sellid) return;
         handleValidateQuery()
-    }, [Sellid]);
+    }, [Sellid, handleValidateQuery]);
 
     useEffect(() => {
         if (Folio === '' || Folio === undefined) return;

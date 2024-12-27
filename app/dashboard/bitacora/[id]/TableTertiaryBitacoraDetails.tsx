@@ -1,7 +1,7 @@
 "use client"
 
 import TableTertiary from '@/components/UI/Tables/TableTertiary'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Modal from '@/components/Modals/Modal';
 import CommentsModal from './ModalComments';
 import styles from '../../../../styles/pages/SellDetails.module.scss'
@@ -22,15 +22,15 @@ export default function TableTertiaryBitacoraDetails({
     const onOpenComments = () => setOpenCommentsModal(true)
     const { columns } = ColumnsBitacoraDetails({ onOpenComments })
 
-    const handleGetMeeting = async () => {
+    const handleGetMeeting = useCallback(async () => {
         if (!Id_Bitacora) return;
         const meeting = await getMeetingById(Id_Bitacora.toString());
         setMeetingData(meeting)
-    }
+    }, [Id_Bitacora])
 
     useEffect(() => {
         handleGetMeeting()
-    }, [Id_Bitacora])
+    }, [Id_Bitacora, handleGetMeeting])
 
     if (!meetingData) {
         return <div>Cargando...</div>;
