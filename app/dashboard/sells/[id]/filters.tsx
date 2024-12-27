@@ -2,6 +2,11 @@ import { OrderObject } from "@/components/UI/OrderComponent";
 import { FilterObject } from "@/hooks/Filters/useFilters";
 import { FilterSellsByClient, SellsInterface, SellsOrderByClientCondition, SellsOrderConditionByClientType } from "@/interface/sells";
 
+/* 
+This are filters with the purpose of been used in query.
+This values are different from the tags showed in the Header.
+*/
+
 interface executeFiltersSellsByClientInterface {
     orderActive: OrderObject;
     filtersActive: FilterObject[]

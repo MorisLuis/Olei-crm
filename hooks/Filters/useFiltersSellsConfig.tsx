@@ -1,15 +1,8 @@
 import { FilterData, useFilters } from "@/hooks/Filters/useFilters";
-import { typeTipoDoc } from "@/interface/sells";
+import { tipoDocMap, typeTipoDoc } from "@/interface/sells";
 import { faClock, faFile, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-export const tipoDocMap = {
-    0: "Otro",
-    1: "Facturas",
-    2: "Remisión",
-    3: "Pedidos",
-    4: "Cotización"
-} as const;
 
 export type typeLabelTipoDoc = typeof tipoDocMap[keyof typeof tipoDocMap];
 
@@ -21,6 +14,8 @@ export interface FilterDataSells extends Omit<FilterData, 'data'> {
 }
 
 export type FilterSectionType = { value: string; label: string; icon?: IconDefinition };
+
+
 
 export const useFiltersSellsConfig = () => {
     const { filtersActive } = useFilters();

@@ -1,5 +1,12 @@
 import { useState } from 'react';
 
+/* 
+    HOW FILTERS WORKS
+    1. useFiltersMeetingConfig are the filters showed in frontend.
+    2. useFilters is a hook which handle the values of filtersActive ( select and delete ).
+    3. ExecuteFiltersMeeting is how filters are sended in query.
+*/
+
 export type FilterObject = {
     filter: string;
     value: string | number;
@@ -54,3 +61,5 @@ export const useFilters = () => {
         onDeleteFilter
     };
 };
+
+

@@ -21,16 +21,15 @@ import { CustumRendersSellsByClient } from './RenderDateFilter';
 export default function SellsClientPage() {
 
     const { id } = useParams();
+    const { push, back } = useRouter();
     const searchParams = useSearchParams();
     const clientName = searchParams.get('client');
-
-    const { push, back } = useRouter();
-    const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
-
-    const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
     const { orderSellsClient } = useOrderSellsClientConfig();
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const [openModalSell, setOpenModalSell] = useState(false);
+
+    const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
+    const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
     const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive })
 

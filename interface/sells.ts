@@ -19,8 +19,15 @@ export interface SellsInterface {
 
 
 export type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
-//export type typeLabelTipoDoc = ["Otro", "Facturas", "Remisión", "Pedidos", "Cotización"]
 export const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
+
+export const tipoDocMap = {
+    0: "Otro",
+    1: "Facturas",
+    2: "Remisión",
+    3: "Pedidos",
+    4: "Cotización"
+} as const;
 
 export type SellsOrderConditionType = 'Nombre' | 'Saldo' | 'Total';
 export const SellsOrderCondition: SellsOrderConditionType[] = ['Nombre', 'Saldo', 'Total']

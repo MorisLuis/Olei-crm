@@ -1,28 +1,33 @@
 import { FilterData, useFilters } from "@/hooks/Filters/useFilters";
-import { fa0, faClock, faFile, faWalkieTalkie } from "@fortawesome/free-solid-svg-icons";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FilterSectionType } from "./useFiltersSellsConfig";
+import MeetingInterface from "@/interface/meeting";
+
+export type FilterTipoContacto = {
+    filter: 'TipoContacto';
+    value: MeetingInterface['TipoContacto'];
+    label: string
+};
+
+export interface FilterDataMeeting extends Omit<FilterData, 'data'> {
+    data: FilterTipoContacto[];
+}
 
 export const useFiltersMeetingConfig = () => {
     const { filtersActive } = useFilters();
 
-    const filtersMeeting : FilterSectionType[] = [
-        { value: 'Cliente', label: 'Cliente', icon: faClock },
+    const filtersMeeting: FilterSectionType[] = [
         { value: 'TipoContacto', label: 'Tipo de contacto', icon: faFile }
     ];
 
-    const filterOfMeetings: FilterData[] = [
-        {
-            type: 'Cliente',
-            data: [],
-            value: filtersActive.find((item) => item.filter === 'Cliente')?.value ?? ''
-        },
+    const filterOfMeetings: FilterDataMeeting[] = [
         {
             type: 'TipoContacto',
             data: [
-                { filter: 'TipoContacto', value: "1", label: 'Cita' },
-                { filter: 'TipoContacto', value: '2', label: 'Llamada' },
-                { filter: 'TipoContacto', value: '3', label: 'Archivo Enviado' },
-                { filter: 'TipoContacto', value: '4', label: 'Videollamada' },
+                { filter: 'TipoContacto', value: 1, label: 'Cita' },
+                { filter: 'TipoContacto', value: 2, label: 'Llamada' },
+                { filter: 'TipoContacto', value: 3, label: 'Archivo Enviado' },
+                { filter: 'TipoContacto', value: 4, label: 'Videollamada' },
             ],
             value: filtersActive.find((item) => item.filter === 'TipoContacto')?.value ?? ''
         }

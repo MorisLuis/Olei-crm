@@ -10,8 +10,8 @@ import { FilterSectionType } from '@/hooks/Filters/useFiltersSellsConfig';
 
 interface FiltersComponentInterface {
     open: boolean;
-    filterSections: FilterSectionType[];
-    filtersOfSection: FilterData[];
+    filterSections: FilterSectionType[]; // This are the main filters.
+    filtersOfSection: FilterData[]; // This are the sub-filters.
     onOpenFilters: () => void;
     onSelectFilter: ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => void;
     filtersActive: FilterObject[];
@@ -32,15 +32,15 @@ export default function FiltersComponent({
     onSelectFilter
 }: FiltersComponentInterface) {
 
-    const [selectedFilterCategory, setSelectedFilterCategory] = useState<FilterSectionType | null>(); // First menu
-    const filterOptionSelected = filtersOfSection.find(filterOption => filterOption.type === selectedFilterCategory?.value);
+    const [subFilterSelected, setSubFilterSelected] = useState<FilterSectionType | null>(); // First menu
+    const filterOptionSelected = filtersOfSection.find(filterOption => filterOption.type === subFilterSelected?.value);
 
     const handleSelectFilterCategory = (filter: FilterSectionType) => {
-        setSelectedFilterCategory(filter);
+        setSubFilterSelected(filter);
     };
 
     const handleBackToFiltersCategories = () => {
-        setSelectedFilterCategory(null);
+        setSubFilterSelected(null);
     };
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +62,7 @@ export default function FiltersComponent({
 
 
     // First menu
-    const renderMenuFilters = () => {
+    const renderMainMenuFilters = () => {
         return (
             <div className={styles.filterList}>
                 {filterSections.map((option, index) => (
@@ -80,8 +80,8 @@ export default function FiltersComponent({
     };
 
     // Second menu
-    const renderFilterSelectedOptions = () => {
-        if (!selectedFilterCategory) return;
+    const renderSubFiltersMenu = () => {
+        if (!subFilterSelected) return;
         return (
             <div className={styles.filterOptions}>
 
@@ -89,14 +89,15 @@ export default function FiltersComponent({
                     <button className={styles.backButton}>
                         <FontAwesomeIcon icon={faArrowLeft} className={`icon display-flex align`} />
                     </button>
-                    <p>{selectedFilterCategory.label}</p>
+                    <p>{subFilterSelected.label}</p>
                 </div>
 
 
                 {/*  FILTERS OF SECTION */}
+                {/*  If we had customFilters these are showed, in other case showed simple filters filterOptionSelected ( filtersOfSection ). */}
                 {
-                    customFilters?.includes(selectedFilterCategory.value) ? (
-                        renderCustomFilters(selectedFilterCategory)
+                    customFilters?.includes(subFilterSelected.value) ? (
+                        renderCustomFilters(subFilterSelected)
                     ) : (
                         filterOptionSelected?.data.map((item, index) => (
                             <div key={index} className={styles.inputCheck}>
@@ -105,7 +106,7 @@ export default function FiltersComponent({
                                         type="checkbox"
                                         id={filterOptionSelected.type}
                                         value={item.value}
-                                        checked={filtersActive.find((item) => item.filter === selectedFilterCategory.value)?.value == item.value}
+                                        checked={filtersActive.find((item) => item.filter === subFilterSelected.value)?.value == item.value}
                                         className={styles.filterItemDetail}
                                         onChange={handleCheckboxChange}
                                     />
@@ -132,10 +133,10 @@ export default function FiltersComponent({
             {open && (
                 <div className={styles.modalFilter}>
                     {
-                        !selectedFilterCategory ? (
-                            renderMenuFilters()
+                        !subFilterSelected ? (
+                            renderMainMenuFilters()
                         ) : (
-                            renderFilterSelectedOptions()
+                            renderSubFiltersMenu()
                         )}
                 </div>
             )}

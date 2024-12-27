@@ -77,8 +77,8 @@ export default function HeaderTable({
             <FiltersComponent
                 open={openFilterModal}
                 onOpenFilters={handleOpenModalFilters}
-                filterSections={filters!}
                 onSelectFilter={onSelectFilter!}
+                filterSections={filters!}
                 filtersOfSection={filtersOfSection!}
                 filtersActive={filtersActive!}
 

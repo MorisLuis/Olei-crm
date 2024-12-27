@@ -40,7 +40,7 @@ export default function TableBitacora({
     const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
         {
             key: 'Id_Bitacora',
-            label: 'Id_Bitacora',
+            label: 'Id Bitacora',
             render: (Id_Bitacora) => <span>{Id_Bitacora?.toString()}</span>
         },
         {
@@ -62,7 +62,12 @@ export default function TableBitacora({
         {
             key: 'Hour',
             label: 'Inicio / Fin',
-            render: (_, item: MeetingInterface) => <span>{formatTime(item.Hour as string)} / {formatTime(item.HourEnd as string)}</span>
+            render: (_, item: MeetingInterface) => (
+                (item.Hour || item.HourEnd) ?
+                    <span>{item.Hour ? formatTime(item.Hour as string) : ''} / {item.HourEnd ? formatTime(item.HourEnd as string) : ''}</span>
+                    :
+                    <Tag color='gray'>No tiene hora</Tag>
+            ),
         },
     ]
 
