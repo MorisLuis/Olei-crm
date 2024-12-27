@@ -54,6 +54,7 @@ export default function TableTertiaryBitacoraDetails({
                     onClose={() => setOpenCommentsModal(false)}
                     value={meetingData.Comentarios || ""}
                     Id_Bitacora={Id_Bitacora}
+                    setMeetingData={setMeetingData}
                 />
             </Modal>
         </>

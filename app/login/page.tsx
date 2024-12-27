@@ -43,7 +43,7 @@ export default function Login() {
 
     try {
       await loginUser(formData.email, formData.password);
-      push("/dashboard");
+      push("/dashboard/clients");
 
     } catch (error) {
       console.error("Error en el inicio de sesión:", error);

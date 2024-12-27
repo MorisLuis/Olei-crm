@@ -47,8 +47,7 @@ export default function SellsClientPage() {
     }, [orderSellsClient])
 
     const handleSelectItem = useCallback((item: SellsInterface) => {
-        const { Id_Almacen, TipoDoc, Serie, Folio } = item;
-        push(`/dashboard/sells/${id}/?Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`);
+        push(`/dashboard/sells/${id}/?sellId=${item.UniqueKey}`);
         setOpenModalSell(true)
     }, [id, push])
 

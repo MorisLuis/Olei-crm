@@ -125,14 +125,6 @@ export const updateMeeting = async (bodyMeeting: Partial<MeetingInterface>, Id_B
         // Validaciones
         const errors: string[] = [];
 
-        if(!bodyMeeting.Id_Cliente){
-            errors.push("Es necesario el cliente")
-        };
-
-        if(!bodyMeeting.Id_Almacen){
-            errors.push("Es necesario el almacen")
-        };
-
         if (bodyMeeting.Fecha && !dateValidation(bodyMeeting.Fecha)) {
             errors.push('Fecha inválida.');
         }
@@ -149,9 +141,10 @@ export const updateMeeting = async (bodyMeeting: Partial<MeetingInterface>, Id_B
             return { error: true, message: 'Errores de validación', details: errors };
         }
 
+
         // Petición a la API
         const response = await api.put(`/api/meetings/${Id_Bitacora}`, { body: bodyMeeting });
-        return response.data;
+        return response.data.result;
 
     } catch (error) {
         return { error: error };

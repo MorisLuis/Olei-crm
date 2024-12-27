@@ -32,7 +32,7 @@ export default function ClientDetailsPage() {
         if (!idAlmacen || !idClient) return;
         const clientData = await getClientById({ Id_Almacen: idAlmacen, Id_Cliente: idClient });
         setClientData(clientData);
-    }, [idAlmacen, idClient])
+    }, [idAlmacen, idClient]);
 
     useEffect(() => {
         handelGetClientData()

@@ -9,32 +9,40 @@ interface CommentsModalInterface {
     Id_Bitacora: number;
     value: string;
     onClose: () => void;
+    setMeetingData: React.Dispatch<React.SetStateAction<MeetingInterface | undefined>>
 }
 
 export default function CommentsModal({
     Id_Bitacora,
-    value : valueProp,
-    onClose
-} : CommentsModalInterface) {
+    value: valueProp,
+    onClose,
+    setMeetingData
+}: CommentsModalInterface) {
 
     const [newComments, setNewComments] = useState<string>('');
-    
+
     const handleOnChangeComments = (value: string) => {
         setNewComments(value)
     }
 
     const onSubmitNewComment = async () => {
-        if(!newComments || !Id_Bitacora) return;
-        const bodyMeeting : Partial<MeetingInterface> = {
+        if (!newComments || !Id_Bitacora) return;
+        const bodyMeeting: Partial<MeetingInterface> = {
             Comentarios: newComments
         }
-        await updateMeeting(bodyMeeting, Id_Bitacora)
+        const comments = await updateMeeting(bodyMeeting, Id_Bitacora);
+        if (comments.Comentarios){
+            setMeetingData((prev) => {
+                if (!prev) return prev;
+                return { ...prev, Comentarios: comments.Comentarios };
+            });
+        };
         onClose()
     }
 
     useEffect(() => {
         setNewComments(valueProp)
-    },[valueProp])
+    }, [valueProp])
 
     return (
         <div className={styles.SellActions}>
@@ -51,7 +59,7 @@ export default function CommentsModal({
                 </div>
 
                 <div className={styles.message_decision}>
-                    <Button text='Guardar' disabled={false} onClick={onSubmitNewComment}/>
+                    <Button text='Guardar' disabled={false} onClick={onSubmitNewComment} />
                 </div>
             </div>
         </div>
