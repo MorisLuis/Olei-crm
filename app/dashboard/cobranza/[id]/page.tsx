@@ -47,19 +47,17 @@ export default function Cobranza() {
         return getCobranza({
             client: Number(id),
             PageNumber: 1,
-            SellsOrderCondition: orderActive.order,
             filters: memoizedFilters,
         });
-    }, [id, orderActive.order, memoizedFilters]);
+    }, [id, memoizedFilters]);
     
     const fetchPaginatedData = useCallback((_: unknown, nextPage: number) => {
         return getCobranza({
             client: Number(id),
             PageNumber: nextPage ?? 1,
-            SellsOrderCondition: orderActive.order,
             filters: memoizedFilters,
         });
-    }, [id, orderActive.order, memoizedFilters]);
+    }, [id,, memoizedFilters]);
     
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({

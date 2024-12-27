@@ -48,7 +48,7 @@ const MyCalendar = ({
         const dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
         const convertedData = DataCalendarConverted(dataCalendar);
         setEvents(convertedData);
-    }, [firtRenderCalendar]);
+    }, [firtRenderCalendar, handleRenderCalendar]);
 
     const handleViewChange = useCallback((arg: DatesSetArg) => {
         processedDaysRef.current = {}; 

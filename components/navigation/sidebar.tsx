@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import logoOlei from '../../public/HORIZONTAL_COLOR PRINCIPAL.svg';
+import logoOlei from '../../public/HORIZONTAL_COLOR_PRINCIPAL.svg';
 import Image from 'next/image';
 import { screenData } from '@/database/screens';
 import { usePathname } from 'next/navigation';

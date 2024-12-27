@@ -106,14 +106,12 @@ export const getTotalSellDetails = async (folio: string) => {
 interface getCobranzaInterface {
     client: number;
     PageNumber: number,
-    SellsOrderCondition: SellsOrderConditionByClientType,
     filters: FilterSellsByClient;
 }
 
 export const getCobranza = async ({
     client,
     PageNumber,
-    SellsOrderCondition,
     filters
 }: getCobranzaInterface) => {
 
