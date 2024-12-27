@@ -1,38 +1,46 @@
 "use client";
 
 import BriefCard, { briefDataInterface } from '@/components/Cards/BriefCard'
-import { clientDetailsExample } from '@/seed/clientsData';
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '@/components/navigation/header';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
 import FileUploader from '@/components/UI/FileUploader';
 import styles from "../../../../styles/pages/Bitacora.module.scss";
-import { SettingsContext } from '@/context/Settings/SettingsContext';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { getClientById } from '@/services/clients';
+import { ClientInterface } from '@/interface/client';
+import { MessageCard } from '@/components/Cards/MessageCard';
+import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 
 export default function ClientDetailsPage() {
 
-    const { handleUpdatePathname } = useContext(SettingsContext);
-
     const pathname = usePathname();
     const Id_Bitacora = pathname.split('/').filter(Boolean)[2];
+    const searchParams = useSearchParams();
+    const idAlmacen = searchParams.get("Id_Almacen");
+    const idClient = searchParams.get("Id_Cliente");
+    const [clientData, setClientData] = useState<ClientInterface | null>()
 
     const briefData: briefDataInterface[] = [
-        { id: 1, label: 'Nombre', value: `${clientDetailsExample?.Nombre ?? ''}` },
-        { id: 2, label: 'RazonSocial', value: `${clientDetailsExample?.RazonSocial ?? 'N/A'}` },
-        { id: 3, label: 'Telefono', value: `${clientDetailsExample?.Telefono1 ?? 'N/A'}` },
-        { id: 4, label: 'Correo', value: `${clientDetailsExample?.CorreoVtas ?? 'N/A'}` }
+        { id: 1, label: 'Nombre', value: `${clientData?.Nombre ?? ''}` },
+        { id: 2, label: 'RazonSocial', value: `${clientData?.RazonSocial ?? 'N/A'}` },
+        { id: 3, label: 'Telefono', value: `${clientData?.Telefono1 ?? 'N/A'}` },
+        { id: 4, label: 'Correo', value: `${clientData?.CorreoVtas ?? 'N/A'}` }
     ];
 
+    const handelGetClientData = async () => {
+        if (!idAlmacen || !idClient) return;
+        const clientData = await getClientById({ Id_Almacen: idAlmacen, Id_Cliente: idClient });
+        setClientData(clientData);
+    }
 
     useEffect(() => {
-        if (!clientDetailsExample) return;
-        handleUpdatePathname(clientDetailsExample.Nombre ?? undefined)
-    }, [handleUpdatePathname])
+        handelGetClientData()
+    }, []);
 
     return (
         <>
-            <Header title={`${clientDetailsExample.Nombre}`} />
+            <Header title={clientData?.Nombre ?? "Regresar"} />
             <div className={styles.bitacoraDetails}>
                 <div className={styles.bitacoraDetails__data}>
                     <div className={styles.details}>
@@ -42,11 +50,21 @@ export default function ClientDetailsPage() {
                     <FileUploader />
                 </div>
                 <div className={styles.bitacoraDetails__brief}>
-                    <BriefCard
-                        data={briefData}
-                        header="Detalle de cliente"
-                        isLoading={false}
-                    />
+                    {
+                        clientData ?
+                            <BriefCard
+                                data={briefData}
+                                header="Detalle de cliente"
+                                isLoading={false}
+                            />
+                            :
+                            <MessageCard
+                                title='No hay infomacion del cliente'
+                                icon={faFaceFrown}
+                            >
+                                <p></p>
+                            </MessageCard>
+                    }
                 </div>
             </div>
         </>

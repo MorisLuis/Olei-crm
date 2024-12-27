@@ -7,6 +7,7 @@ import { format } from '@/utils/currency';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import Table from '@/components/UI/Tables/Table';
+import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 
 interface TableSellsDetailsClientInterface {
     sells: SellsDetailsInterface[];
@@ -73,7 +74,10 @@ export default function TableSellsDetailsClient({
 
     if (sells?.length === 0) {
         return (
-            <MessageCard title='No hay coincidencias exactas'>
+            <MessageCard 
+            title='No hay coincidencias exactas'
+            icon={faFaceFrown}
+            >
                 <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
             </MessageCard>
         )

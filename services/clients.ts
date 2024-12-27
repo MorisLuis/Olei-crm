@@ -31,7 +31,7 @@ export const getClientById = async ({
 }: getClientByIdInterface) => {
 
     try {
-        const data = await api.get(`/api/client/clientId?Id_Cliente=${Id_Cliente}&Id_Almacen=${Id_Almacen}`);
+        const { data } = await api.get(`/api/client/clientId?Id_Cliente=${Id_Cliente}&Id_Almacen=${Id_Almacen}`);
         return data.data;
     } catch (error) {
         return { error: error };

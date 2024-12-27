@@ -10,6 +10,7 @@ import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { docType } from '@/utils/docType';
 import { useTagColor } from '@/hooks/useTagColor';
 import { formatDate } from '@/utils/formatDate';
+import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 
 interface TableCobranzaInterface {
     sells: SellsInterface[];
@@ -98,7 +99,10 @@ export default function TableCobranza({
 
     if (sells?.length === 0) {
         return (
-            <MessageCard title='No hay coincidencias exactas'>
+            <MessageCard
+                title='No hay coincidencias exactas'
+                icon={faFaceFrown}
+            >
                 <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
             </MessageCard>
         )

@@ -11,9 +11,10 @@ import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
 import FileUploader from "@/components/UI/FileUploader";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { clientsSelectExample } from "@/seed/clientsData";
 import styles from "../../../styles/Form.module.scss";
 import { postMeeting } from "@/services/meeting";
+import { searchClients } from "@/services/clients";
+import { ClientInterface } from "@/interface/client";
 
 export const INITIAL_MEETING: MeetingInterface = {
     Fecha: new Date(), // Fecha actual como objeto Date
@@ -40,12 +41,14 @@ export default function FormMeeting({
     onClose,
     isEditing,
 }: FormMeetingInterface) {
+
     const { showSuccess, showInfo } = useToast();
     const { isMobile } = useWindowSize();
 
     // Inicialización del formulario
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
     const [emailsResend, setEmailsResend] = useState<string[]>([]);
+    const [clients, setClients] = useState<ClientInterface[]>()
 
     const availableToPost: boolean =
         !!meetingForm?.Titulo && !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
@@ -57,10 +60,12 @@ export default function FormMeeting({
         { value: 4, label: "Tarea" },
     ];
 
-    const optionsClients: OptionType[] = clientsSelectExample.map((item) => ({
-        label: item.Nombre as string,
-        value: item.Id_Cliente as number,
-    }));
+
+    const onSearchClient = async (value: string) => {
+        const clients = await searchClients(value);
+        setClients(clients);
+    };
+
 
     // Manejo genérico de cambios
     const handleChange = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]) => {
@@ -76,9 +81,15 @@ export default function FormMeeting({
             return showInfo("Es necesario agregar título, tipo de contacto y cliente");
         };
 
+        const post = await postMeeting(meetingForm);
         onClose();
-        await postMeeting(meetingForm);
-        console.log({emailsResend})
+
+        if (post.error) {
+            console.error(post.details);
+            showInfo("Hubo un error, intentalo de nuevo");
+            return;
+        }
+        console.log({ emailsResend })
 
         const messageShowed = isEditing
             ? `Reunión ${meetingForm?.Titulo} editada!`
@@ -90,6 +101,23 @@ export default function FormMeeting({
         if (!meetingProp) return;
         setMeetingForm(meetingProp);
     }, [meetingProp]);
+
+    useEffect(() => {
+        onSearchClient('')
+    },[])
+
+    if (!visible) return null;
+
+    if (!clients) {
+        return (
+            <div>Cargando clientes...</div>
+        )
+    };
+
+    const optionsClients: OptionType[] = clients?.map((item) => ({
+        label: item.Nombre as string,
+        value: `${item.Id_Cliente}-${item.Id_Almacen}` as string,
+    }));
 
     return (
         <Modal
@@ -116,11 +144,14 @@ export default function FormMeeting({
                 <SelectReact
                     options={optionsClients}
                     name="Cliente"
-                    onChange={(option) =>
-                        handleChange("Id_Cliente", Number(option?.value ?? 0))
-                    }
+                    onChange={(option) =>{
+                        const splitValue = option.value.toString().split('-')
+                        handleChange("Id_Cliente", Number(splitValue[0] ?? 0))
+                        handleChange("Id_Almacen", Number(splitValue[1] ?? 0))
+
+                    }}
                     value={
-                        optionsClients.find((item) => item.value === meetingForm.Id_Cliente) ??
+                        optionsClients.find((item) => item.value === `${meetingForm.Id_Cliente}-${meetingForm.Id_Almacen}`) ??
                         null
                     }
                     label="Selecciona el cliente"

@@ -11,6 +11,7 @@ import { useTagColor } from '@/hooks/useTagColor';
 import { Tag } from '@/components/UI/Tag';
 import { formatDate } from '@/utils/formatDate';
 import { formatTime } from '@/utils/formatTime';
+import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 
 interface TableBitacoraInterface {
     sells: MeetingInterface[];
@@ -34,7 +35,7 @@ export default function TableBitacora({
     const { changeColor } = useTagColor()
 
     const handleSelectMeeting = (item: MeetingInterface) => {
-        push(`/dashboard/bitacora/${item.Id_Bitacora}`);
+        push(`/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`);
     };
 
     const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
@@ -82,7 +83,10 @@ export default function TableBitacora({
 
     if (sells?.length === 0) {
         return (
-            <MessageCard title='No hay coincidencias exactas'>
+            <MessageCard
+                title='No hay coincidencias exactas'
+                icon={faFaceFrown}
+            >
                 <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
             </MessageCard>
         )

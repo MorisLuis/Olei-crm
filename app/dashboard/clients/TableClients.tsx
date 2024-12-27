@@ -7,6 +7,7 @@ import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import { useRouter } from 'next/navigation';
 import { columnClients } from './TableClientsData';
 import { ClientInterface } from '@/interface/client';
+import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 
 interface TableSellsInterface {
     clients: ClientInterface[];
@@ -47,7 +48,7 @@ export default function TableClients({
 
     if (clients?.length === 0) {
         return (
-            <MessageCard title='No hay coincidencias exactas'>
+            <MessageCard title='No hay coincidencias exactas' icon={faFaceFrown}>
                 <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
             </MessageCard>
         )

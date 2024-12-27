@@ -31,7 +31,7 @@ export default function ClientDetailsPage() {
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
     const { id: Id_Cliente } = useParams();
     const searchParams = useSearchParams();
-    const idAlmacen = searchParams.get("Id_Almacen"); // Acceder al parámetro de consulta
+    const idAlmacen = searchParams.get("Id_Almacen");
     const titleName = clientData ? clientData?.Nombre : null
 
     const handleGetClientData = useCallback((async () => {
