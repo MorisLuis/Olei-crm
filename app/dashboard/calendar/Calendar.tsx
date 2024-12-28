@@ -41,7 +41,7 @@ const MyCalendar = ({
     };
 
     const handleGetCalendarByMonth = useCallback(async (month: number, year: number) => {
-        if(firtRenderCalendar){
+        if (firtRenderCalendar) {
             handleRenderCalendar(false);
             return;
         };
@@ -51,7 +51,7 @@ const MyCalendar = ({
     }, [firtRenderCalendar, handleRenderCalendar]);
 
     const handleViewChange = useCallback((arg: DatesSetArg) => {
-        processedDaysRef.current = {}; 
+        processedDaysRef.current = {};
         // Usamos view.activeStart para obtener el primer día visible del mes
         const activeStartDate = arg.view.activeStart
 
@@ -71,14 +71,22 @@ const MyCalendar = ({
         handleGetCalendarByMonth(12, 2024)
     }, [handleGetCalendarByMonth])
 
+    useEffect(() => {
+        return () => {
+            handleRenderCalendar(true);
+        }
+    }, [])
 
-    if( (events as EventInput[]).length < 0 ) {
-        return(
+
+    if ((events as EventInput[]).length < 0) {
+        return (
             <div>
                 <p>Cargando....</p>
             </div>
         )
     };
+
+    //console.log({events})
 
     return (
         <FullCalendar

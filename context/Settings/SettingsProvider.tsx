@@ -29,7 +29,9 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
     const handleRenderCalendar = (value: boolean) => {
         setFirtRenderCalendar(value);
-    }
+    };
+
+    console.log({firtRenderCalendar})
 
     return (
         <SettingsContext.Provider value={{
