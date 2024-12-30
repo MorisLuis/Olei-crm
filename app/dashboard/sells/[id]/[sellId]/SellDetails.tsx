@@ -22,9 +22,9 @@ interface sellQueryInterface {
 
 export default function SellDetails() {
 
-    const searchParams = useSearchParams();
     const [sellInformation, setSellInformation] = useState<SellsInterface>()
     const { changeColor } = useTagColor();
+    const searchParams = useSearchParams();
     const Sellid = searchParams.get('sellId');
     const [Folio, setFolio] = useState<string>('');
 
@@ -34,7 +34,6 @@ export default function SellDetails() {
         Serie,
         Folio
     }: sellQueryInterface) => {
-
 
         const sellInformation = await getSellById({
             Id_Almacen,

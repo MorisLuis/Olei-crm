@@ -26,7 +26,7 @@ export default function SellsClientPage() {
     const clientName = searchParams.get('client');
     const { orderSellsClient } = useOrderSellsClientConfig();
     const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
-    const [openModalSell, setOpenModalSell] = useState(false);
+    const Sellid = searchParams.get('sellId');
 
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
@@ -49,13 +49,7 @@ export default function SellsClientPage() {
     const handleSelectItem = useCallback((item: SellsInterface) => {
         if (!item.UniqueKey || !id) return;
         push(`/dashboard/sells/${id}/?sellId=${item.UniqueKey}`);
-        setOpenModalSell(true);
     }, [id, push]);
-
-    const handleCloseModalSell = useCallback(() => {
-        setOpenModalSell(false)
-        back()
-    }, [back]);
 
     useEffect(() => {
         handleResetData()
@@ -96,9 +90,9 @@ export default function SellsClientPage() {
             </div>
 
             <Modal
-                visible={openModalSell}
+                visible={Sellid ? true : false}
                 title='Detalle de venta'
-                onClose={handleCloseModalSell}
+                onClose={() => back()}
             >
                 <SellDetails />
             </Modal>

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useCallback, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import MyCalendar from './Calendar';
 import Header, { ActionsInterface } from '@/components/navigation/header';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import FormMeeting, { INITIAL_MEETING } from '../bitacora/FormMeeting';
 import { EventClickArg } from '@fullcalendar/core/index.js';
 import Modal from '@/components/Modals/Modal';
@@ -12,12 +12,13 @@ import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { getMeetingById } from '@/services/meeting';
 import MeetingInterface from '@/interface/meeting';
 
-export default function Calendar() {
+function CalendarContent() {
 
     const { push, back } = useRouter();
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
     const [eventToOpen, setEventToOpen] = useState<MeetingInterface>(INITIAL_MEETING);
-    const [openModalSell, setOpenModalSell] = useState(false);
+    const searchParams = useSearchParams();
+    const Sellid = searchParams.get('sellId');
 
     const handelOnClickEvent = async (info: EventClickArg) => {
         const dataEvent = info.event.extendedProps;
@@ -32,7 +33,6 @@ export default function Calendar() {
 
         if (dataEvent.TableType === "Ventas") {
             // Get sell and folio from API.
-            setOpenModalSell(true)
             // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
             push(`calendar/?sellId=${dataEvent.Id}&Id_Cliente=${dataEvent.Id_Cliente}`)
             return;
@@ -48,11 +48,6 @@ export default function Calendar() {
         setOpenModalCreateMeeting(false);
         setEventToOpen(INITIAL_MEETING)
     }
-
-    const handleCloseModalSell = useCallback(() => {
-        setOpenModalSell(false)
-        back()
-    }, [back])
 
     const clientActions: ActionsInterface[] = [
         {
@@ -80,9 +75,9 @@ export default function Calendar() {
             />
 
             <Modal
-                visible={openModalSell}
+                visible={Sellid ? true : false}
                 title='Detalle de venta'
-                onClose={handleCloseModalSell}
+                onClose={() => back()}
                 modalSize='medium'
             >
                 <SellDetails />
@@ -90,4 +85,13 @@ export default function Calendar() {
 
         </div>
     )
+}
+
+
+export default function Calendar() {
+    return (
+        <Suspense fallback={<p>Cargando...</p>}>
+            <CalendarContent />
+        </Suspense>
+    );
 }

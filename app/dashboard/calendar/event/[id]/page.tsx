@@ -7,7 +7,7 @@ import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTer
 import Modal from '@/components/Modals/Modal';
 import MeetingInterface from '@/interface/meeting';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
@@ -21,12 +21,15 @@ export default function EventDetails() {
 
     const pathname = usePathname();
     const { isMobile } = useWindowSize();
+    const { back } = useRouter()
+    const searchParams = useSearchParams();
+    const Sellid = searchParams.get('sellId');
+
     const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
     const decodedDate = decodeURIComponent(lastSegment!);
-    const [openModalSells, setOpenModalSells] = useState(false);
+
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
     const [openModalEvent, setOpenModalEvent] = useState(false);
-
     const [eventSelected, setEventSelected] = useState<number>(0);
     const eventsOfTheDay = useEventsOfTheDay(decodedDate);
     const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
@@ -78,7 +81,7 @@ export default function EventDetails() {
                             title={"Hay docuentos que expiran hoy."}
                             icon={faFileExcel}
                             action={{
-                                onClick: () => setOpenModalSells(true),
+                                onClick: () => back(),
                                 color: 'blue',
                                 text: "Ver documentos"
                             }}
@@ -113,8 +116,8 @@ export default function EventDetails() {
             />
 
             <ModalSells
-                visible={openModalSells}
-                onClose={() => setOpenModalSells(false)}
+                visible={Sellid ? true : false}
+                onClose={() => back()}
                 sellEvents={sellEvents}
             />
         </div>
