@@ -123,12 +123,18 @@ export const getCobranza = async ({
     }
 };
 
+interface getTotalCobranzaInterface {
+    client: number;
+    filters: FilterSellsByClient
+}
 
-
-export const getTotalCobranza = async (client: number) => {
+export const getTotalCobranza = async ({
+    client,
+    filters
+} : getTotalCobranzaInterface ) => {
 
     try {
-        const data = await api.get(`/api/sells/cobranza/total/${client}`);
+        const data = await api.get(`/api/sells/cobranza/total/${client}?FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`);
         return data.data;
     } catch (error) {
         return { error: error };

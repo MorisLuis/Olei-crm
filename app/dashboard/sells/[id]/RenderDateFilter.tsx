@@ -50,20 +50,22 @@ function RenderDateFilter({
             label: labelDate
         };
 
+
         // Remove any active range filters (start and end dates)
         onDeleteFilter(datesFiltersActive.endDate as string);
         onDeleteFilter(datesFiltersActive.startDate as string);
-        setDatesFiltersActive((prev) => ({
-            ...prev,
-            exactlyDate: labelDate
-        }))
+        setDatesFiltersActive({
+            exactlyDate: labelDate,
+            endDate: undefined,
+            startDate: undefined
+        });
 
         setDatesLocalValues({
             exactlyDate: valueDate,
             endDate: undefined,
             startDate: undefined
-        })
-
+        });
+    
         // Notify the selection of the new exact date filter
         onSelectFilterValue({ filterObject: filterSelected, filterType: 'Date' });
     };
@@ -83,6 +85,7 @@ function RenderDateFilter({
         onDeleteFilter(datesFiltersActive.exactlyDate as string);
         setDatesFiltersActive((prev) => ({
             ...prev,
+            exactlyDate: undefined,
             startDate: labelDate
         }))
 
@@ -112,6 +115,7 @@ function RenderDateFilter({
 
         setDatesFiltersActive((prev) => ({
             ...prev,
+            exactlyDate: undefined,
             endDate: labelDate
         }));
 

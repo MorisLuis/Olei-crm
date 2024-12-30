@@ -20,8 +20,8 @@ import { CustumRendersSellsByClient } from './RenderDateFilter';
 
 export default function SellsClientPage() {
 
-    const { id } = useParams();
     const { push, back } = useRouter();
+    const { id } = useParams();
     const searchParams = useSearchParams();
     const clientName = searchParams.get('client');
     const { orderSellsClient } = useOrderSellsClientConfig();
@@ -44,17 +44,18 @@ export default function SellsClientPage() {
         const orderActive = orderSellsClient.find((item) => item.value == value);
         if (!orderActive) return;
         setOrderActive(orderActive)
-    }, [orderSellsClient])
+    }, [orderSellsClient]);
 
     const handleSelectItem = useCallback((item: SellsInterface) => {
+        if (!item.UniqueKey || !id) return;
         push(`/dashboard/sells/${id}/?sellId=${item.UniqueKey}`);
-        setOpenModalSell(true)
-    }, [id, push])
+        setOpenModalSell(true);
+    }, [id, push]);
 
     const handleCloseModalSell = useCallback(() => {
         setOpenModalSell(false)
         back()
-    }, [back])
+    }, [back]);
 
     useEffect(() => {
         handleResetData()

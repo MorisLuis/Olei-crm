@@ -86,8 +86,6 @@ const MyCalendar = ({
         )
     };
 
-    //console.log({events})
-
     return (
         <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}

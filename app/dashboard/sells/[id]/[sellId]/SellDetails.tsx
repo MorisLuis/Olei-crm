@@ -112,9 +112,7 @@ export default function SellDetails() {
         const TipoDocProp = Number(sellIdSplited?.[1]);
         const Serie = sellIdSplited?.[2] ?? '';
         const Folio = sellIdSplited?.[3];
-
-        console.log({sellIdSplited})
-
+    
         if (Id_Almacen == null || TipoDocProp == null || Folio == null) {
             console.error("Error: Todos los parámetros son obligatorios.");
             return;

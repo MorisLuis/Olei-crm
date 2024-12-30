@@ -18,7 +18,7 @@ export const useLoadMoreData = ({
     const { handleError } = useErrorHandler();
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isButtonLoading, setButtonIsLoading] = useState(false);
     const [total, setTotal] = useState<number | null>(null);
 

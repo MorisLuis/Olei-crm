@@ -98,6 +98,7 @@ export default function Bitacora() {
             <FormMeeting
                 visible={openModalCreateMeeting}
                 onClose={() => setOpenModalCreateMeeting(false)}
+                newPost={handleResetData}
             />
         </div>
     )

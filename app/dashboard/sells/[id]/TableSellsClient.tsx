@@ -55,22 +55,26 @@ export default function TableSellsClient({
         },
         {
             key: 'FechaEntrega',
-            label: 'Fecha Vencimiento',
+            label: 'Fecha Entrega',
             render: (FechaEntrega) => (
                 <div>
                     {
                         FechaEntrega ? <p>{formatDate(FechaEntrega as Date)}</p>
-                        : <Tag color='gray'>Sin datos</Tag>}
+                            : <Tag color='gray'>Sin datos</Tag>}
                 </div>
             )
         },
         {
             key: 'ExpiredDays',
-            label: 'Dias vencidos',
+            label: 'Dias para vecimiento',
             render: (ExpiredDays) => (
                 <div>
-                    {ExpiredDays ? <p>{formatDate(ExpiredDays as Date)}</p>
-                        : <Tag color='gray'>Sin datos</Tag>}
+                    {
+                        (ExpiredDays && (ExpiredDays as number) < 0) ?
+                            <Tag color='red'>{ExpiredDays as number}</Tag> :
+                            ExpiredDays ? <p>{ExpiredDays as number}</p>
+                                : <Tag color='gray'>Sin datos</Tag>
+                    }
                 </div>
             )
         },
@@ -97,9 +101,9 @@ export default function TableSellsClient({
 
     if (sells?.length === 0) {
         return (
-            <MessageCard 
-            title='No hay coincidencias exactas'
-            icon={faFaceFrown}
+            <MessageCard
+                title='No hay coincidencias exactas'
+                icon={faFaceFrown}
             >
                 <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
             </MessageCard>

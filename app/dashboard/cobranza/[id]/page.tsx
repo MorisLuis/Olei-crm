@@ -23,25 +23,17 @@ export default function Cobranza() {
     const { push, back } = useRouter()
     const pathname = usePathname();
     const id = pathname.split('/').filter(Boolean)[2];
-
     const { orderSellsClient } = useOrderSellsClientConfig()
-    const [orderActive, setOrderActive] = useState<OrderObjectSellsByClient>(orderSellsClient[0])
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
+
+    const [orderActive, setOrderActive] = useState<OrderObjectSellsByClient>(orderSellsClient[0])
     const [openModalSell, setOpenModalSell] = useState(false);
-    const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
+    const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
+
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
     const filters = useMemo(() => ExecuteFiltersSellsByClient({ orderActive, filtersActive }), [orderActive, filtersActive]);
     const memoizedFilters = useMemo(() => filters, [filters]);
-
-    const clientActions: ActionsInterface[] = [
-        {
-            id: 1,
-            text: 'Compartir Relación',
-            onclick: () => setOpenModalShareCobranza(true),
-            color: 'yellow'
-        }
-    ];
 
     const fetchInitialData = useCallback(() => {
         return getCobranza({
@@ -58,26 +50,25 @@ export default function Cobranza() {
             filters: memoizedFilters,
         });
     }, [id,, memoizedFilters]);
-    
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData,
         fetchPaginatedData: (_, nextPage) => fetchPaginatedData(_, nextPage as number),
-        fetchTotalCount: () => getTotalCobranza(Number(id)),
+        fetchTotalCount: () => getTotalCobranza({client: Number(id), filters: memoizedFilters}),
         filters: memoizedFilters
     });
-    
+
+    const handleSelectCobranzaItem = (item: SellsInterface) => {
+        setOpenModalSell(true);
+        const { Id_Almacen, TipoDoc, Serie, Folio } = item;
+        if(!Id_Almacen || !TipoDoc || !Serie || !Folio ) return;
+        push(`/dashboard/cobranza/${id}?sellId=${item.UniqueKey}&Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`)
+    };
 
     const onSelectOrder = (value: string | number) => {
         const orderActive = orderSellsClient.find((item) => item.value == value)
         if (!orderActive) return;
         setOrderActive(orderActive)
-    };
-
-    const handleSelectItem = (item: SellsInterface) => {
-        setOpenModalSell(true);
-        const { Id_Almacen, TipoDoc, Serie, Folio } = item;
-        push(`/dashboard/cobranza/${id}?sellId=${item.UniqueKey}&Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`)
     };
 
     const handleCloseModalSell = () => {
@@ -88,6 +79,15 @@ export default function Cobranza() {
     const handleCloseModalShareCobranza = () => {
         setOpenModalShareCobranza(false)
     }
+
+    const clientActions: ActionsInterface[] = [
+        {
+            id: 1,
+            text: 'Compartir Relación',
+            onclick: () => setOpenModalShareCobranza(true),
+            color: 'yellow'
+        }
+    ];
 
     useEffect(() => {
         handleResetData()
@@ -118,7 +118,7 @@ export default function Cobranza() {
                 loadMoreProducts={handleLoadMore}
                 buttonIsLoading={isButtonLoading}
                 loadingData={isLoading}
-                handleSelectItem={handleSelectItem}
+                handleSelectItem={handleSelectCobranzaItem}
             />
 
             <Modal

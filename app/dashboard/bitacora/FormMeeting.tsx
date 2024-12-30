@@ -33,6 +33,8 @@ interface FormMeetingInterface {
     visible: boolean;
     onClose: () => void;
     isEditing?: boolean;
+
+    newPost?: () => void;
 }
 
 export default function FormMeeting({
@@ -40,6 +42,7 @@ export default function FormMeeting({
     visible,
     onClose,
     isEditing,
+    newPost
 }: FormMeetingInterface) {
 
     const { showSuccess, showInfo } = useToast();
@@ -60,12 +63,10 @@ export default function FormMeeting({
         { value: 4, label: "Tarea" },
     ];
 
-
     const onSearchClient = async (value: string) => {
         const clients = await searchClients(value);
         setClients(clients);
     };
-
 
     // Manejo genérico de cambios
     const handleChange = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]) => {
@@ -83,6 +84,7 @@ export default function FormMeeting({
 
         const post = await postMeeting(meetingForm);
         onClose();
+        newPost?.()
 
         if (post.error) {
             console.error(post.details);

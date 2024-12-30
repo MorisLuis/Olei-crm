@@ -22,7 +22,7 @@ const InputDatePicker = ({
         if (value) {
             const parsedDate = new Date(value);
             return isNaN(parsedDate.getTime()) ? null : parsedDate;
-        }
+        } 
         return null;
     });
     
@@ -43,6 +43,7 @@ const InputDatePicker = ({
         setSelectedDate(date); // Actualiza el estado local
         onChange(date); // Notifica al componente padre
     };
+
 
     return (
         <div>
