@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from 'react'
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import TableSellsClient from './TableSellsClient';
 import Header from '@/components/navigation/header';
 import HeaderTable from '@/components/navigation/headerTable';
@@ -9,7 +9,6 @@ import { useFilters } from '@/hooks/Filters/useFilters';
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
 import { useOrderSellsClientConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import { OrderObject } from '@/components/UI/OrderComponent';
-import { SellsInterface } from '@/interface/sells';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from './[sellId]/SellDetails';
 import styles from "../../../../styles/pages/Sells.module.scss";
@@ -17,21 +16,22 @@ import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 import { getSellsByClient, getTotalSellsByClient } from '@/services/sells';
 import { ExecuteFiltersSellsByClient } from './filters';
 import { CustumRendersSellsByClient } from './RenderDateFilter';
+import { ExecuteNavigationSellsByClient } from './navigation';
 
 export default function SellsClientPage() {
 
-    const { push, back } = useRouter();
     const { id } = useParams();
     const searchParams = useSearchParams();
-    const clientName = searchParams.get('client');
-    const { orderSellsClient } = useOrderSellsClientConfig();
-    const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const Sellid = searchParams.get('sellId');
+    const clientName = searchParams.get('client') ?? "Regresar";
+    const { orderSellsClient } = useOrderSellsClientConfig();
 
+    const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
     const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive })
+    const { navigateToBack, navigateToSellDetails } = ExecuteNavigationSellsByClient({ Id_Cliente: id as string, clientName })
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData: () => getSellsByClient({ PageNumber: 1, client: Number(id), filters: filters }),
@@ -46,10 +46,6 @@ export default function SellsClientPage() {
         setOrderActive(orderActive)
     }, [orderSellsClient]);
 
-    const handleSelectItem = useCallback((item: SellsInterface) => {
-        if (!item.UniqueKey || !id) return;
-        push(`/dashboard/sells/${id}/?sellId=${item.UniqueKey}`);
-    }, [id, push]);
 
     useEffect(() => {
         handleResetData()
@@ -83,7 +79,7 @@ export default function SellsClientPage() {
                             loadMoreProducts={handleLoadMore}
                             buttonIsLoading={isButtonLoading}
                             loadingData={isLoading}
-                            handleSelectItem={handleSelectItem}
+                            handleSelectItem={navigateToSellDetails}
                         />
                     </div>
                 </div>
@@ -92,7 +88,7 @@ export default function SellsClientPage() {
             <Modal
                 visible={Sellid ? true : false}
                 title='Detalle de venta'
-                onClose={() => back()}
+                onClose={navigateToBack}
             >
                 <SellDetails />
             </Modal>

@@ -20,19 +20,19 @@ import { briefClientData } from './BriefClientData';
 
 export default function ClientDetailsPage() {
 
-    const { push, back } = useRouter();
+    const { push } = useRouter();
     const [clientData, setClientData] = useState<ClientInterface>();
     const [loadingClientData, setLoadingClientData] = useState(false)
 
     const [openModalWhatsApp, setOpenModalWhatsApp] = useState(false);
     const [openModalEmail, setOpenModalEmail] = useState(false);
     const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING)
-    const [openModalSell, setOpenModalSell] = useState(false)
     const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
     const { id: Id_Cliente } = useParams();
     const searchParams = useSearchParams();
     const idAlmacen = searchParams.get("Id_Almacen");
     const titleName = clientData ? clientData?.Nombre : null
+    const Sellid = searchParams.get('sellId');
 
     const handleGetClientData = useCallback((async () => {
         if (!Id_Cliente || !idAlmacen) return;
@@ -49,11 +49,6 @@ export default function ClientDetailsPage() {
         setEventToOpen(INITIAL_MEETING)
     }
 
-    const handleCloseModalSell = useCallback(() => {
-        setOpenModalSell(false)
-        back()
-    }, [back])
-
     const handelOnClickEvent = (info: EventClickArg) => {
         const dataEvent = info.event.extendedProps;
 
@@ -65,10 +60,8 @@ export default function ClientDetailsPage() {
         }
 
         if (dataEvent.TableType === "Ventas") {
-            // Get sell and folio from API.
-            setOpenModalSell(true)
             // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-            push(`?sellId=${dataEvent.Id}`)
+            push(`?Id_Almacen=${idAlmacen}&sellId=${dataEvent.Id}`)
             return;
         }
 
@@ -150,9 +143,9 @@ export default function ClientDetailsPage() {
             />
 
             <Modal
-                visible={openModalSell}
+                visible={Sellid ? true : false}
                 title='Detalle de venta'
-                onClose={handleCloseModalSell}
+                onClose={() => push(`?Id_Almacen=${idAlmacen}`)}
                 modalSize='medium'
             >
                 <SellDetails />

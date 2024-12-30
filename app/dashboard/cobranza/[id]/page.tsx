@@ -5,10 +5,9 @@ import HeaderTable from '@/components/navigation/headerTable';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useFilters } from '@/hooks/Filters/useFilters';
 import TableCobranza from './TableCobranza';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Modal from '@/components/Modals/Modal';
 import SellDetails from '@/app/dashboard/sells/[id]/[sellId]/SellDetails';
-import { SellsInterface } from '@/interface/sells';
 import ShareCobranzaModal from './ShareCobranzaModal';
 import styles from "../../../../styles/pages/Cobranza.module.scss";
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
@@ -17,18 +16,20 @@ import { OrderObjectSellsByClient, useOrderSellsClientConfig } from '@/hooks/Ord
 import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
 import { CustumRendersSellsByClient } from '../../sells/[id]/RenderDateFilter';
 import { ExecuteFiltersSellsByClient } from '../../sells/[id]/filters';
+import { ExecuteNavigationCobranza } from './navigation';
 
 export default function Cobranza() {
 
-    const { push, back } = useRouter()
     const pathname = usePathname();
     const id = pathname.split('/').filter(Boolean)[2];
     const { orderSellsClient } = useOrderSellsClientConfig()
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
+    const { navigateToCobranza, navigateToBack } = ExecuteNavigationCobranza({ Id_Cliente: id })
+    const searchParams = useSearchParams();
+    const Sellid = searchParams.get('sellId');
 
     const [orderActive, setOrderActive] = useState<OrderObjectSellsByClient>(orderSellsClient[0])
-    const [openModalSell, setOpenModalSell] = useState(false);
     const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
 
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
@@ -42,28 +43,22 @@ export default function Cobranza() {
             filters: memoizedFilters,
         });
     }, [id, memoizedFilters]);
-    
+
     const fetchPaginatedData = useCallback((_: unknown, nextPage: number) => {
         return getCobranza({
             client: Number(id),
             PageNumber: nextPage ?? 1,
             filters: memoizedFilters,
         });
-    }, [id,, memoizedFilters]);
+    }, [id, , memoizedFilters]);
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData,
         fetchPaginatedData: (_, nextPage) => fetchPaginatedData(_, nextPage as number),
-        fetchTotalCount: () => getTotalCobranza({client: Number(id), filters: memoizedFilters}),
+        fetchTotalCount: () => getTotalCobranza({ client: Number(id), filters: memoizedFilters }),
         filters: memoizedFilters
     });
 
-    const handleSelectCobranzaItem = (item: SellsInterface) => {
-        setOpenModalSell(true);
-        const { Id_Almacen, TipoDoc, Serie, Folio } = item;
-        if(!Id_Almacen || !TipoDoc || !Serie || !Folio ) return;
-        push(`/dashboard/cobranza/${id}?sellId=${item.UniqueKey}&Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`)
-    };
 
     const onSelectOrder = (value: string | number) => {
         const orderActive = orderSellsClient.find((item) => item.value == value)
@@ -71,10 +66,6 @@ export default function Cobranza() {
         setOrderActive(orderActive)
     };
 
-    const handleCloseModalSell = () => {
-        back()
-        setOpenModalSell(false)
-    };
 
     const handleCloseModalShareCobranza = () => {
         setOpenModalShareCobranza(false)
@@ -118,13 +109,13 @@ export default function Cobranza() {
                 loadMoreProducts={handleLoadMore}
                 buttonIsLoading={isButtonLoading}
                 loadingData={isLoading}
-                handleSelectItem={handleSelectCobranzaItem}
+                handleSelectItem={navigateToCobranza}
             />
 
             <Modal
-                visible={openModalSell}
+                visible={Sellid ? true : false}
                 title='Detalle de venta'
-                onClose={handleCloseModalSell}
+                onClose={navigateToBack}
                 modalSize='medium'
             >
                 <SellDetails />
