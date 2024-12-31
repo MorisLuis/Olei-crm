@@ -55,7 +55,7 @@ const TimeInput = ({
         const formattedValue = value.slice(0, 5);
     
         // Solo validar si el valor tiene 5 caracteres (formato completo hh:mm).
-        if (formattedValue.length === 5 && hourValidation(value)) {
+        if (formattedValue.length === 5 && hourValidation(formattedValue)) {
             setTime(formattedValue);
         } else if (formattedValue.length === 5) {
             setTime(''); // Limpiar si es inválido y tiene longitud completa.

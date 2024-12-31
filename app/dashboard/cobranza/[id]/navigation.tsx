@@ -21,12 +21,11 @@ export const ExecuteNavigationCobranza = ({
 
     const navigateToBack = useCallback(() => {
         push(`${Id_Cliente}`)
-    }, [])
+    }, [Id_Cliente, push])
 
 
     return {
         navigateToCobranza,
         navigateToBack
-    
     }
 }

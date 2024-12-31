@@ -150,7 +150,6 @@ export default function FormMeeting({
                         const splitValue = option.value.toString().split('-')
                         handleChange("Id_Cliente", Number(splitValue[0] ?? 0))
                         handleChange("Id_Almacen", Number(splitValue[1] ?? 0))
-
                     }}
                     value={
                         optionsClients.find((item) => item.value === `${meetingForm.Id_Cliente}-${meetingForm.Id_Almacen}`) ??

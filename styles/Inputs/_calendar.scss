@@ -179,7 +179,7 @@
     }
 
     .blue{
-        //background-color: variables.$color-blue;
+        background-color: variables.$color-blue;
         width: 8px;
         height: 8px;
         border-radius: 100%
@@ -187,15 +187,15 @@
 
     .red{
         background-color: variables.$color-red;
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-radius: 100%
     }
 
     .white{
         background-color: variables.$background-color;
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-radius: 100%;
         border: 1px solid variables.$color-border-tertiary
     }
