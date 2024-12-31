@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
 import { DatesSetArg, EventClickArg, EventInput, EventSourceInput } from '@fullcalendar/core/index.js';
-import { getCalendarByMonth } from '@/services/calendar';
+import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/calendar';
 import { DataCalendarConverted } from './TransformedEventsData';
 import { renderEventContent } from './RenderEvents';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
@@ -12,11 +12,16 @@ import { SettingsContext } from '@/context/Settings/SettingsContext';
 interface MyCalendarInterface {
     onClickEvent: (info: EventClickArg) => void;
     onClickDay: (arg: DateClickArg) => void;
+
+    ClientVersion?: boolean;
+    Id_Cliente?: number;
 }
 
 const MyCalendar = ({
     onClickEvent,
     onClickDay,
+    ClientVersion,
+    Id_Cliente
 }: MyCalendarInterface) => {
 
     const processedDaysRef = useRef<{ [key: string]: boolean }>({});
@@ -45,10 +50,17 @@ const MyCalendar = ({
             handleRenderCalendar(false);
             return;
         };
-        const dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
+
+        let dataCalendar;
+        if(ClientVersion && Id_Cliente) {
+            dataCalendar = await getCalendarByMonthAndClient({ Anio: year, Mes: month, Id_Cliente });
+        } else {
+            dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
+        };
+
         const convertedData = DataCalendarConverted(dataCalendar);
         setEvents(convertedData);
-    }, [firtRenderCalendar, handleRenderCalendar]);
+    }, [firtRenderCalendar, handleRenderCalendar, ClientVersion, Id_Cliente]);
 
     const handleViewChange = useCallback((arg: DatesSetArg) => {
         processedDaysRef.current = {};

@@ -112,6 +112,8 @@ export default function ClientDetailsPage() {
                     <MyCalendar
                         onClickEvent={handelOnClickEvent}
                         onClickDay={handleOnClickDay}
+                        Id_Cliente={Number(Id_Cliente)}
+                        ClientVersion={true}
                     />
                 </div>
                 <div className={styles.clientDetails__brief}>

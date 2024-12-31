@@ -26,4 +26,21 @@ export const getCalendarTaskByDay = async (Day: string) => {
         return { error: error };
     }
 
+};
+
+interface getCalendarByMonthAndClientInterface {
+    Anio: number;
+    Mes: number;
+    Id_Cliente: number
+}
+
+export const getCalendarByMonthAndClient = async ({ Anio, Mes, Id_Cliente }: getCalendarByMonthAndClientInterface) => {
+
+    try {
+        const data = await api.get(`/api/calendar/monthAndClient?Anio=${Anio}&Mes=${Mes}&Id_Cliente=${Id_Cliente}`);
+        return data.data;
+    } catch (error) {
+        return { error: error };
+    };
+
 }
