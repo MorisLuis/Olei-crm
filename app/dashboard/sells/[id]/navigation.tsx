@@ -1,5 +1,5 @@
 import { SellsInterface } from "@/interface/sells"
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 interface ExecuteNavigationSellsByClientInterface {
@@ -13,6 +13,7 @@ export const ExecuteNavigationSellsByClient = ({
 } : ExecuteNavigationSellsByClientInterface ) => {
 
     const { push, back } = useRouter();
+    console.log({clientName})
 
     const navigateToSellDetails  = useCallback((item: SellsInterface) => {
         if (!item.UniqueKey || !Id_Cliente) return;
@@ -22,9 +23,12 @@ export const ExecuteNavigationSellsByClient = ({
 
 
     const navigateToBack = () => {
+
         if(clientName === "Regresar") {
+            console.log("push!")
             push('/dashboard/sells')
         } else {
+            console.log("back!")
             back()
         }
     }

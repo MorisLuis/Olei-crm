@@ -54,7 +54,7 @@ export default function SellsClientPage() {
     return (
         <>
             <div className={styles.SellsClient}>
-                <Header title={clientName} />
+                <Header title={clientName} custumBack={navigateToBack} />
                 <HeaderTable
                     filters={filtersSells}
                     filterActive={filtersTag}

@@ -19,18 +19,20 @@ export interface ActionsInterface {
 
 interface HeaderInterface {
     title?: string | null;
-    actions?: ActionsInterface[]
+    actions?: ActionsInterface[];
+    custumBack?: () => void;
 }
 
 export default function Header({
     title,
-    actions
+    actions,
+    custumBack
 }: HeaderInterface) {
 
     const router = useRouter()
     const pathname = usePathname();
     const [basePath, id] = pathname.split('/').filter(Boolean);
-    const goBack = () => router.back();
+    const goBack = custumBack ? custumBack : () => router.back();
     const Title = title === null ? '' : title ? title : 'Regresar'
 
     return (
