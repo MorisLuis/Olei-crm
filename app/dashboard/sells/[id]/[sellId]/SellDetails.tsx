@@ -12,6 +12,7 @@ import TableSellsDetailsClient from './TableSellsDetails';
 import styles from '../../../../../styles/pages/SellDetails.module.scss'
 import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
+import { ErrorCard } from '@/components/Cards/ErrorCard';
 
 interface sellQueryInterface {
     Id_Almacen: number;
@@ -27,6 +28,7 @@ export default function SellDetails() {
     const searchParams = useSearchParams();
     const Sellid = searchParams.get('sellId');
     const [Folio, setFolio] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
 
     const getSellInformation = async ({
         Id_Almacen,
@@ -105,6 +107,7 @@ export default function SellDetails() {
     ];
 
     const handleValidateQuery = useCallback(async () => {
+
         if(!Sellid) return;
         const sellIdSplited = Sellid?.split("-");
         const Id_Almacen = Number(sellIdSplited?.[0]);
@@ -113,7 +116,7 @@ export default function SellDetails() {
         const Folio = sellIdSplited?.[3];
     
         if (Id_Almacen == null || TipoDocProp == null || Folio == null) {
-            console.error("Error: Todos los parámetros son obligatorios.");
+            setError("Error: Todos los parámetros son obligatorios.");
             return;
         }
         
@@ -123,7 +126,8 @@ export default function SellDetails() {
         };
 
         if (!isValidTipoDoc(TipoDocProp)) {
-            console.error("Error: TipoDoc inválido.");
+            setSellInformation(undefined);
+            setError("Error: TipoDoc inválido.");
             return;
         };
 
@@ -146,6 +150,18 @@ export default function SellDetails() {
         if (Folio === '' || Folio === undefined) return;
         handleResetData()
     }, [Folio]);
+
+
+    if (error) {
+        return (
+            <ErrorCard 
+            title='Hubo un error inesperado!'
+            onClick={() => setError(null)}
+            >
+                <p>{error}</p>
+            </ErrorCard>
+        );
+    }
 
 
     if (!sellInformation) {

@@ -28,6 +28,7 @@ export default function Cobranza() {
     const { navigateToCobranza, navigateToBack } = ExecuteNavigationCobranza({ Id_Cliente: id })
     const searchParams = useSearchParams();
     const Sellid = searchParams.get('sellId');
+    const clientName = searchParams.get('client') ?? "Regresar";
 
     const [orderActive, setOrderActive] = useState<OrderObjectSellsByClient>(orderSellsClient[0])
     const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
@@ -86,7 +87,7 @@ export default function Cobranza() {
 
     return (
         <div className={styles.page}>
-            <Header title='Cobranza' actions={clientActions} />
+            <Header title={clientName} actions={clientActions} />
             <HeaderTable
                 filters={filtersSells}
                 filterActive={filtersTag}

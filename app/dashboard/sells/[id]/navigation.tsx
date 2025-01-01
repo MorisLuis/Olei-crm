@@ -4,16 +4,13 @@ import { useCallback } from "react";
 
 interface ExecuteNavigationSellsByClientInterface {
     Id_Cliente: string;
-    clientName: string;
 }
 
 export const ExecuteNavigationSellsByClient = ({
     Id_Cliente,
-    clientName
 } : ExecuteNavigationSellsByClientInterface ) => {
 
     const { push, back } = useRouter();
-    console.log({clientName})
 
     const navigateToSellDetails  = useCallback((item: SellsInterface) => {
         if (!item.UniqueKey || !Id_Cliente) return;
@@ -23,18 +20,16 @@ export const ExecuteNavigationSellsByClient = ({
 
 
     const navigateToBack = () => {
+        push('/dashboard/sells')
+    };
 
-        if(clientName === "Regresar") {
-            console.log("push!")
-            push('/dashboard/sells')
-        } else {
-            console.log("back!")
-            back()
-        }
+    const navigateToBackModal = () => {
+        back()
     }
 
     return {
         navigateToSellDetails,
-        navigateToBack
+        navigateToBack,
+        navigateToBackModal
     }
 }

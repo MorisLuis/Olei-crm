@@ -212,6 +212,40 @@
     }
 }
 
+.ErrorCard {
+    width: 100%;
+    padding: variables.$padding * 4;
+    background-color: variables.$background-color;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
+
+    @include mixins.respond(phone) {
+        padding: 4em 3em;
+    }
+
+    .icon {
+        background-color: variables.$background-color-secondary;
+        width: 40px;
+        height: 40px;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
+        margin-bottom: variables.$margin-horizontal;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .paragraph {
+        font-size: variables.$font-medium;
+        margin-bottom: variables.$margin-horizontal;
+    }
+
+    h2 {
+        margin-bottom: calc(variables.$margin-vertical / 2);
+    }
+}
+
 .MessageSecondaryCard{
     background-color: variables.$background-color-secondary;
     padding: calc(variables.$padding*1.5) variables.$padding;

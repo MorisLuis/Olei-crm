@@ -31,7 +31,7 @@ export default function SellsClientPage() {
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
     const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({ filtersActive, onDeleteFilter, onSelectFilterValue });
     const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive })
-    const { navigateToBack, navigateToSellDetails } = ExecuteNavigationSellsByClient({ Id_Cliente: id as string, clientName })
+    const { navigateToBack, navigateToSellDetails, navigateToBackModal } = ExecuteNavigationSellsByClient({ Id_Cliente: id as string })
 
     const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } = useLoadMoreData({
         fetchInitialData: () => getSellsByClient({ PageNumber: 1, client: Number(id), filters: filters }),
@@ -88,7 +88,7 @@ export default function SellsClientPage() {
             <Modal
                 visible={Sellid ? true : false}
                 title='Detalle de venta'
-                onClose={navigateToBack}
+                onClose={navigateToBackModal}
             >
                 <SellDetails />
             </Modal>

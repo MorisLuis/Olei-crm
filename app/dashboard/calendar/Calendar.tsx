@@ -80,7 +80,11 @@ const MyCalendar = ({
     }, [handleGetCalendarByMonth]);
 
     useEffect(() => {
-        handleGetCalendarByMonth(12, 2024)
+        const currentDate = new Date(); // Obtiene la fecha actual
+        const currentMonth = currentDate.getMonth() + 1; // getMonth() devuelve 0-11, por eso sumamos 1
+        const currentYear = currentDate.getFullYear(); // Obtiene el año actual
+        
+        handleGetCalendarByMonth(currentMonth, currentYear)
     }, [handleGetCalendarByMonth])
 
     useEffect(() => {

@@ -87,13 +87,13 @@ export default function ClientDetailsPage() {
         {
             id: 3,
             text: 'Ventas',
-            onclick: () => push(`/dashboard/sells/${clientData?.Id_Cliente}`),
+            onclick: () => push(`/dashboard/sells/${clientData?.Id_Cliente}?client=${clientData?.Nombre}`),
             notVsible: !clientData?.Id_Cliente
         },
         {
             id: 4,
             text: 'Cobranza',
-            onclick: () => push(`/dashboard/cobranza/${clientData?.Id_Cliente}`),
+            onclick: () => push(`/dashboard/cobranza/${clientData?.Id_Cliente}?client=${clientData?.Nombre}`),
             notVsible: !clientData?.Id_Cliente
         }
     ]
