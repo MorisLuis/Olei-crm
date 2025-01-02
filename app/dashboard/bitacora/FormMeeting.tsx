@@ -92,6 +92,8 @@ export default function FormMeeting({
             return;
         };
 
+        console.log({emailsResend})
+
         showSuccess(
             isEditing
                 ? `Reunión ${meetingForm.Titulo} editada!`
