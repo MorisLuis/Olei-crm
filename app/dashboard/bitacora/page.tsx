@@ -72,6 +72,7 @@ export default function Bitacora() {
             <Header
                 title='Bitacora'
                 actions={clientActions}
+                dontShowBack
             />
             <HeaderTable
                 filters={filtersMeeting}

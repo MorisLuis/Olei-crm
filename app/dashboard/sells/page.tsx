@@ -34,7 +34,7 @@ export default function Sells() {
 
     return (
         <div className={styles.page}>
-            <Header title='Ventas' />
+            <Header title='Ventas' dontShowBack/>
             <HeaderTable
                 orderSells={orderSells}
                 onSelectOrder={onSelectOrder}

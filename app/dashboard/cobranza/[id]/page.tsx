@@ -87,7 +87,7 @@ export default function Cobranza() {
 
     return (
         <div className={styles.page}>
-            <Header title={clientName} actions={clientActions} />
+            <Header title={clientName} actions={clientActions} dontShowBack/>
             <HeaderTable
                 filters={filtersSells}
                 filterActive={filtersTag}

@@ -21,12 +21,14 @@ interface HeaderInterface {
     title?: string | null;
     actions?: ActionsInterface[];
     custumBack?: () => void;
+    dontShowBack?: boolean;
 }
 
 export default function Header({
     title,
     actions,
-    custumBack
+    custumBack,
+    dontShowBack 
 }: HeaderInterface) {
 
     const router = useRouter()
@@ -40,7 +42,7 @@ export default function Header({
         <div className={styles.header}>
             <div className={styles.header__title}>
                 {
-                    id &&
+                    (id && !dontShowBack) &&
                     <FontAwesomeIcon
                         onClick={goBack}
                         icon={faArrowLeft}

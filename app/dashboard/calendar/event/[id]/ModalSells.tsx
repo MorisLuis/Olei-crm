@@ -23,7 +23,7 @@ export default function ModalSells({
 }: ModalSellsInterface) {
 
     const [openSecondModal, setOpenSecondModal] = useState(false);
-    const { push, back } = useRouter();
+    const { push } = useRouter();
 
     const handleSelectItem = (item: TimelineInterface) => {
         push(`?sellId=${item.Id_Sell}`);

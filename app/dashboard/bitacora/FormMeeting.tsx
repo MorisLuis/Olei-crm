@@ -90,13 +90,13 @@ export default function FormMeeting({
             console.error(post.details);
             showInfo("Hubo un error, intentalo de nuevo");
             return;
-        }
-        console.log({ emailsResend })
+        };
 
-        const messageShowed = isEditing
-            ? `Reunión ${meetingForm?.Titulo} editada!`
-            : `Reunión ${meetingForm?.Titulo} creada!`;
-        showSuccess(messageShowed);
+        showSuccess(
+            isEditing
+                ? `Reunión ${meetingForm.Titulo} editada!`
+                : `Reunión ${meetingForm.Titulo} creada!`
+        );
     };
 
     useEffect(() => {
@@ -106,7 +106,7 @@ export default function FormMeeting({
 
     useEffect(() => {
         onSearchClient('')
-    },[])
+    }, [])
 
     if (!visible) return null;
 
@@ -146,7 +146,7 @@ export default function FormMeeting({
                 <SelectReact
                     options={optionsClients}
                     name="Cliente"
-                    onChange={(option) =>{
+                    onChange={(option) => {
                         const splitValue = option.value.toString().split('-')
                         handleChange("Id_Cliente", Number(splitValue[0] ?? 0))
                         handleChange("Id_Almacen", Number(splitValue[1] ?? 0))

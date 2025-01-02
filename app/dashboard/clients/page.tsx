@@ -58,7 +58,7 @@ export default function Clients() {
 
     return (
         <div className={styles.page}>
-            <Header title='Clientes' />
+            <Header title='Clientes' dontShowBack />
             <HeaderTable
                 orderSells={orderClients}
                 onSelectOrder={onSelectOrder}

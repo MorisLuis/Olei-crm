@@ -60,7 +60,7 @@ function CalendarContent() {
 
     return (
         <div>
-            <Header title='Calendario' actions={clientActions} />
+            <Header title='Calendario' actions={clientActions} dontShowBack/>
 
             <MyCalendar
                 onClickEvent={handelOnClickEvent}
