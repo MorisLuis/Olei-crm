@@ -22,7 +22,7 @@ export default function EventDetails() {
 
     const pathname = usePathname();
     const { isMobile } = useWindowSize();
-    const { navigateToBack, navigateBackFromModalSells, navigateToModalSells, openModalSells } = ExecuteNavigationEventClient()
+    const { navigateToBack, navigateBackFromModalSells, navigateToModalSells, openModalSells, navigateCloseModalSecondary } = ExecuteNavigationEventClient()
 
     const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
     const decodedDate = decodeURIComponent(lastSegment!);
@@ -118,6 +118,7 @@ export default function EventDetails() {
             <ModalSells
                 visible={openModalSells}
                 onClose={navigateBackFromModalSells}
+                onCloseModalSecondary={navigateCloseModalSecondary}
                 sellEvents={sellEvents}
             />
         </div>

@@ -12,16 +12,18 @@ interface ModalSellsInterface {
     visible: boolean;
     onClose: () => void;
     sellEvents: TimelineInterface[];
+    onCloseModalSecondary: () => void;
 }
 
 export default function ModalSells({
     visible,
     onClose,
-    sellEvents
+    sellEvents,
+    onCloseModalSecondary
 }: ModalSellsInterface) {
 
     const [openSecondModal, setOpenSecondModal] = useState(false);
-    const { push } = useRouter();
+    const { push, back } = useRouter();
 
     const handleSelectItem = (item: TimelineInterface) => {
         push(`?sellId=${item.Id_Sell}`);
@@ -31,6 +33,11 @@ export default function ModalSells({
     const handleCloseModalDouble = () => {
         setOpenSecondModal(false);
         onClose();
+    }
+
+    const handleCloseModalSecondary = ( ) => {
+        onCloseModalSecondary()
+        setOpenSecondModal(false)
     }
 
     const renderChildrenSecondModal = () => {
@@ -61,7 +68,7 @@ export default function ModalSells({
             visible={visible}
             visibleSecondModal={openSecondModal}
             onClose={handleCloseModalDouble}
-            onCloseSecondModal={() => setOpenSecondModal(false)}
+            onCloseSecondModal={handleCloseModalSecondary}
             childrenSecondModal={renderChildrenSecondModal()}
         >
             <p className='instruction'>Selecciona uno para ver detalles.</p>

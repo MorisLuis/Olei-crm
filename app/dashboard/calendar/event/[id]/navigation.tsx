@@ -22,10 +22,17 @@ export const ExecuteNavigationEventClient = ( ) => {
         push('/dashboard/calendar')
     };
 
+    const navigateCloseModalSecondary = ( ) => {
+        const fullPath = window.location.pathname;
+        push(fullPath);
+    }
+
+
     return {
         navigateToBack,
         navigateBackFromModalSells,
         navigateToModalSells,
-        openModalSells
+        openModalSells,
+        navigateCloseModalSecondary
     }
 }
