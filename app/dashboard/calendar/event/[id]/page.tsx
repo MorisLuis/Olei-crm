@@ -7,7 +7,7 @@ import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTer
 import Modal from '@/components/Modals/Modal';
 import MeetingInterface from '@/interface/meeting';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
@@ -16,14 +16,13 @@ import ModalSells from './ModalSells';
 import TimelineEventsValidation from './TimelineEventsValidation';
 import { useEventsOfTheDay } from './useEventsOfTheDay';
 import { RenderEventSelects } from './RenderEventSelects';
+import { ExecuteNavigationEventClient } from './navigation';
 
 export default function EventDetails() {
 
     const pathname = usePathname();
     const { isMobile } = useWindowSize();
-    const { back } = useRouter()
-    const searchParams = useSearchParams();
-    const Sellid = searchParams.get('sellId');
+    const { navigateToBack, navigateBackFromModalSells, navigateToModalSells, openModalSells } = ExecuteNavigationEventClient()
 
     const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
     const decodedDate = decodeURIComponent(lastSegment!);
@@ -71,6 +70,7 @@ export default function EventDetails() {
             <Header
                 title='Calendario'
                 actions={clientActions}
+                custumBack={navigateToBack}
             />
 
             <div className={styles.content}>
@@ -81,7 +81,7 @@ export default function EventDetails() {
                             title={"Hay docuentos que expiran hoy."}
                             icon={faFileExcel}
                             action={{
-                                onClick: () => back(),
+                                onClick: () => navigateToModalSells(),
                                 color: 'blue',
                                 text: "Ver documentos"
                             }}
@@ -116,8 +116,8 @@ export default function EventDetails() {
             />
 
             <ModalSells
-                visible={Sellid ? true : false}
-                onClose={() => back()}
+                visible={openModalSells}
+                onClose={navigateBackFromModalSells}
                 sellEvents={sellEvents}
             />
         </div>

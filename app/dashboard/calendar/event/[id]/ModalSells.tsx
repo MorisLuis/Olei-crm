@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import SellDetails from '@/app/dashboard/sells/[id]/[sellId]/SellDetails';
-import ModalDouble from '@/components/Modals/ModalDouble'
+import ModalDouble from '@/components/Modals/ModalDouble';
 import TableSecondary, { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { TimelineInterface } from '@/interface/calendar';
 import { formatDate } from '@/utils/formatDate';
-import { useRouter } from 'next/navigation';
 
 interface ModalSellsInterface {
     visible: boolean;
     onClose: () => void;
-    sellEvents: TimelineInterface[]
+    sellEvents: TimelineInterface[];
 }
 
 export default function ModalSells({
@@ -21,11 +21,16 @@ export default function ModalSells({
 }: ModalSellsInterface) {
 
     const [openSecondModal, setOpenSecondModal] = useState(false);
-    const { push } = useRouter()
+    const { push } = useRouter();
 
     const handleSelectItem = (item: TimelineInterface) => {
-        push(`?sellId=${item.Id_Sell}`)
-        setOpenSecondModal(true)
+        push(`?sellId=${item.Id_Sell}`);
+        setOpenSecondModal(true);
+    }
+
+    const handleCloseModalDouble = () => {
+        setOpenSecondModal(false);
+        onClose();
     }
 
     const renderChildrenSecondModal = () => {
@@ -55,7 +60,7 @@ export default function ModalSells({
             title='Documentos del dia.'
             visible={visible}
             visibleSecondModal={openSecondModal}
-            onClose={onClose}
+            onClose={handleCloseModalDouble}
             onCloseSecondModal={() => setOpenSecondModal(false)}
             childrenSecondModal={renderChildrenSecondModal()}
         >

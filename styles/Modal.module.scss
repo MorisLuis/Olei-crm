@@ -189,7 +189,6 @@
 
 .ModalDouble {
     background-color: transparent;
-    //width: 40%;
     height: 100%;
     max-width: 1200px;
     position: fixed;
@@ -238,6 +237,17 @@
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
+
+                /* Ocultar el scrollbar */
+        /* Firefox */
+        scrollbar-width: none;
+        /* IE y Edge */
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            /* Chrome, Safari y Opera */
+            display: none;
+        }
 
         @include mixins.respond(tab-port) {
             width: 100%;
