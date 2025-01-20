@@ -22,11 +22,11 @@ export const getMeetings = async ({
     
         if(filters.FilterTipoContacto === 1 && !filters.TipoContacto){
             errors.push('Es necesario un TipoContacto');
-        }
+        };
 
         if (errors.length > 0) {
             return { error: true, message: 'Errores de validación', details: errors };
-        }
+        };
 
         const data = await api.get(`/api/meetings?PageNumber=${PageNumber}&FilterTipoContacto=${filters.FilterTipoContacto}&FilterCliente=${filters.FilterCliente}&TipoContacto=${filters.TipoContacto}&Id_Cliente=${filters.Id_Cliente}&meetginOrderCondition=${filters.meetingOrderCondition}`);
         return data.data

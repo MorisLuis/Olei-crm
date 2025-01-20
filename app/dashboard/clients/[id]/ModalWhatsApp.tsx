@@ -33,8 +33,13 @@ export default function WhatsAppModal({
     const onSendWhatsapp = () => {
         if (messageSended === '') return;
         onClose()
-        showSuccess('Whatsapp enviado exitosamente!')
+        showSuccess('Whatsapp enviado exitosamente!');
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageSended)}`;
+
+        // Abre la URL en una nueva pestaña
+        window.open(url, "_blank");
     }
+
 
     if (!phoneNumber) return;
 

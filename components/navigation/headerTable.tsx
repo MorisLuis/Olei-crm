@@ -85,6 +85,7 @@ export default function HeaderTable({
                 customFilters={customFilters}
                 customRenders={customRenders}
             />
+
             {filterActive?.map((item, index) => (
                 <Tag
                     key={index}
