@@ -46,7 +46,7 @@ export default function Clients() {
         const clients = await searchClients(value);
         setDataFromSearch(clients);
     };
-    
+
     const onCleanSearchClient = useCallback(() => {
         setDataFromSearch(null);
     }, []);

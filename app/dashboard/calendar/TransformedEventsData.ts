@@ -4,12 +4,14 @@ import { EventSourceInput } from "@fullcalendar/core/index.js";
 
 export const DataCalendarConverted = ( calendarData: CalendarInterface[] ) => {
 
+    console.log({calendarData})
+
     const normalizeDate = (date: string | Date): string => {
         const fecha = date instanceof Date ? date : new Date(date);
         return fecha.toISOString().split("T")[0]; // Retorna solo la fecha en formato UTC
     };
 
-    const eventsByDay: { [key: string]: number } = calendarData.reduce(
+    const eventsByDay: { [key: string]: number } = calendarData?.reduce(
         (acc: { [key: string]: number }, event: Partial<CalendarInterface>) => {
             const eventDate = new Date(event.Fecha as Date).toISOString().split("T")[0];
             acc[eventDate] = (acc[eventDate] || 0) + 1;

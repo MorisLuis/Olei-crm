@@ -53,7 +53,7 @@ export const getTotalClients = async () => {
 export const searchClients = async (term: string) => {
 
     try {
-        const data = await api.get(`/api/search/client?term=${term}`);
+        const data = await api.get(`/api/client/search?term=${term}`);
         return data.data.Clients;
     } catch (error) {
         return { error: error };

@@ -5,8 +5,6 @@ import Input from "@/components/Inputs/input";
 import SelectReact, { OptionType } from "@/components/Inputs/select";
 import MeetingInterface from "@/interface/meeting";
 import InputTextBox from "@/components/Inputs/inputTextBox";
-import InputSelectTag, { OptionInputSelectTag } from "@/components/Inputs/inputSelectTag";
-import { MultiValue } from "react-select";
 import Modal from "@/components/Modals/Modal";
 import useToast from "@/hooks/useToast";
 import FileUploader from "@/components/UI/FileUploader";
@@ -50,7 +48,6 @@ export default function FormMeeting({
 
     // Inicialización del formulario
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
-    const [emailsResend, setEmailsResend] = useState<string[]>([]);
     const [clients, setClients] = useState<ClientInterface[]>()
 
     const availableToPost: boolean =
@@ -73,10 +70,10 @@ export default function FormMeeting({
         setMeetingForm((prev) => ({ ...prev, [key]: value }));
     };
 
-    const handleResendEmail = (value: MultiValue<OptionInputSelectTag>) => {
+/*     const handleResendEmail = (value: MultiValue<OptionInputSelectTag>) => {
         setEmailsResend((prevState) => [...prevState, value[value.length - 1].value]);
     };
-
+ */
     const onPostMeeting = async () => {
         if (!availableToPost) {
             return showInfo("Es necesario agregar título, tipo de contacto y cliente");
@@ -91,8 +88,6 @@ export default function FormMeeting({
             showInfo("Hubo un error, intentalo de nuevo");
             return;
         };
-
-        console.log({emailsResend})
 
         showSuccess(
             isEditing
@@ -117,6 +112,8 @@ export default function FormMeeting({
             <div>Cargando clientes...</div>
         )
     };
+
+    console.log({clients})
 
     const optionsClients: OptionType[] = clients?.map((item) => ({
         label: item.Nombre as string,
@@ -213,10 +210,10 @@ export default function FormMeeting({
                     label="¿Algún comentario extra? Estos comentarios podrán ser editados después."
                 />
 
-                <InputSelectTag
+                {/* <InputSelectTag
                     onChange={(value) => handleResendEmail(value)}
                     label="Escribe el correo a quien lo quieres reenviar esta tarea"
-                />
+                /> */}
 
                 <FileUploader label="¿Deseas adjuntar algún archivo?" />
             </div>

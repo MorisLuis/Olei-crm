@@ -7,6 +7,7 @@ export interface UserCRMInterface {
     TipoUsuario: string,
     Id_Almacen: number,
     Id_Usuario: string,
+    CorreoVtas: string,
     from: 'web' | 'mobil' | 'crm',
 }
 

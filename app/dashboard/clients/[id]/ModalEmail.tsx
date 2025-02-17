@@ -1,10 +1,12 @@
 import Button from '@/components/Buttons/Button'
 import Input from '@/components/Inputs/input'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from '../../../../styles/pages/Sells.module.scss'
 import InputTextBox from '@/components/Inputs/inputTextBox';
 import useToast from '@/hooks/useToast';
 import Modal from '@/components/Modals/Modal';
+import { postEmail, postEmailInterface } from '@/services/email';
+import { AuthContext } from '@/context/auth/AuthContext';
 
 interface EmailModalInterface {
     onClose: () => void;
@@ -18,7 +20,8 @@ export default function EmailModal({
     email
 }: EmailModalInterface) {
 
-    const { showSuccess } = useToast()
+    const { showSuccess } = useToast();
+    const { user: { Id: remitente } } = useContext(AuthContext);
 
     const [messageSended, setMessageSended] = useState<string>('');
     const [subject, setSubject] = useState<string>('');
@@ -32,16 +35,31 @@ export default function EmailModal({
         setMessageSended(value)
     }
 
-    const onSendEmailPredetermined = () => {
+/*     const onSendEmailPredetermined = () => {
         onClose()
         showSuccess('Correo enviado exitosamente!')
-    }
+    } */
 
-    const onSendEmail = () => {
+    const onSendEmail = async () => {
         if (subject === '') return;
         if (messageSended === '') return;
-        onClose()
-        showSuccess('Correo enviado exitosamente!')
+        if (!email) return;
+
+        try {            
+            const emailBody: postEmailInterface = {
+                destinatario: email,
+                remitente: remitente,
+                text: messageSended,
+                subject: subject
+            };
+    
+            await postEmail(emailBody)
+            onClose()
+            showSuccess('Correo enviado exitosamente!')
+        } catch (error) {
+            console.log({error})
+        }
+
     }
 
     if (!email) return;
@@ -73,7 +91,6 @@ export default function EmailModal({
                     </div>
 
                     <div className={styles.message_decision}>
-                        <Button text='Mensaje Predeterminado' disabled={false} className="white" onClick={onSendEmailPredetermined} />
                         <Button text='Enviar' disabled={sendDisabled} onClick={onSendEmail} />
                     </div>
                 </div>

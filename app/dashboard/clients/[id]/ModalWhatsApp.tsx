@@ -25,10 +25,10 @@ export default function WhatsAppModal({
         setMessageSended(value)
     }
 
-    const onSendWhatsappPredetermined = () => {
+/*     const onSendWhatsappPredetermined = () => {
         onClose()
         showSuccess('Whatsapp enviado exitosamente!')
-    }
+    } */
 
     const onSendWhatsapp = () => {
         if (messageSended === '') return;
@@ -65,7 +65,6 @@ export default function WhatsAppModal({
                     </div>
 
                     <div className={styles.message_decision}>
-                        <Button text='Mensaje Predeterminado' disabled={false} className="white" onClick={onSendWhatsappPredetermined} />
                         <Button text='Enviar' disabled={sendDisabled} onClick={onSendWhatsapp} />
                     </div>
                 </div>

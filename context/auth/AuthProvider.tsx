@@ -25,6 +25,7 @@ export const AUTH_INITIAL_STATE: AuthState = {
         Id_Almacen: 0,
         Id_Usuario: '',
         from: 'crm',
+        CorreoVtas: ''
     }
 }
 
