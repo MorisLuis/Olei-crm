@@ -93,10 +93,12 @@ export default function ClientDetailsPage() {
         {
             id: 4,
             text: 'Cobranza',
-            onclick: () => push(`/dashboard/cobranza/${clientData?.Id_Cliente}?client=${clientData?.Nombre}`),
+            onclick: () => push(`/dashboard/cobranza/${clientData?.Id_Cliente}?client=${clientData?.Nombre?.trim()}&email=${clientData?.CorreoVtas?.trim()}`),
             notVsible: !clientData?.Id_Cliente
         }
     ]
+
+    console.log({clientData})
 
     useEffect(() => {
         if (!Id_Cliente || !idAlmacen) return;

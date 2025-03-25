@@ -9,6 +9,7 @@ export interface UserCRMInterface {
     Id_Usuario: string,
     CorreoVtas: string,
     from: 'web' | 'mobil' | 'crm',
+    Id_Cliente: number;
 }
 
 export type ValidationResult = {

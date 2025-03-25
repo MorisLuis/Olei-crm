@@ -37,5 +37,8 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*", "/login"], // Aplicar middleware a estas rutas
+    matcher: [
+        /* "/dashboard/:path*", 
+        "/login" */
+    ], // Aplicar middleware a estas rutas
 };

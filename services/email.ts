@@ -1,4 +1,5 @@
 import { api } from "@/api/api";
+import { FilterSellsByClient } from "@/interface/sells";
 
 export interface postEmailInterface {
     destinatario: string;
@@ -24,6 +25,48 @@ export const postEmail = async ({
 
         const data = await api.post(`/api/email`, emailBody);
         return data;
+    } catch (error) {
+        return { error: error };
+    };
+
+}
+
+export interface postEmailCobranzaInterface {
+    destinatario: string;
+    remitente: string;
+    text: string;
+    subject: string;
+    nombreRemitente: string;
+    Id_Cliente: number;
+
+    client: number;
+    PageNumber: number,
+    filters: FilterSellsByClient;
+}
+
+export const postEmailCobranza = async ({
+    destinatario, 
+    remitente, 
+    text, 
+    subject,
+    nombreRemitente,
+    Id_Cliente,
+    client,
+    PageNumber,
+    filters
+} : postEmailCobranzaInterface ) => {
+
+    try {
+        const emailBody : Partial<postEmailCobranzaInterface> = {
+            destinatario, 
+            remitente, 
+            text, 
+            subject,
+            nombreRemitente
+        };
+
+        const data = await api.post(`/api/email/cobranza/pdf/${Id_Cliente}?PageNumber=${PageNumber}&FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`, emailBody);
+        return data.data;
     } catch (error) {
         return { error: error };
     };

@@ -17,7 +17,6 @@ export default function ActionsComponent({
 
     const [modalOpen, setModalOpen] = useState(false);
 
-
     return (
         <div className={styles.actions}>
             <div className={styles.buttons}>

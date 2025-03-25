@@ -22,6 +22,7 @@ export default function Cobranza() {
 
     const pathname = usePathname();
     const id = pathname.split('/').filter(Boolean)[2];
+
     const { orderSellsClient } = useOrderSellsClientConfig()
     const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
     const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
@@ -29,6 +30,7 @@ export default function Cobranza() {
     const searchParams = useSearchParams();
     const Sellid = searchParams.get('sellId');
     const clientName = searchParams.get('client') ?? "Regresar";
+    const email = searchParams.get('email') ?? "";
 
     const [orderActive, setOrderActive] = useState<OrderObjectSellsByClient>(orderSellsClient[0])
     const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
@@ -77,7 +79,8 @@ export default function Cobranza() {
             id: 1,
             text: 'Compartir Relación',
             onclick: () => setOpenModalShareCobranza(true),
-            color: 'yellow'
+            color: 'yellow',
+            notVsible: email === undefined  || email === 'undefined' || email === null
         }
     ];
 
@@ -125,8 +128,12 @@ export default function Cobranza() {
             <ShareCobranzaModal
                 visible={openModalShareCobranza}
                 onClose={handleCloseModalShareCobranza}
-            />
+                email={email}
+                clientName={clientName}
 
+                filters={memoizedFilters}
+                client={Number(id)}
+            />
         </div>
     )
 }
