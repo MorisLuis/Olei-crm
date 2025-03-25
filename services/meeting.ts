@@ -28,7 +28,7 @@ export const getMeetings = async ({
             return { error: true, message: 'Errores de validación', details: errors };
         };
 
-        const data = await api.get(`/api/meetings?PageNumber=${PageNumber}&FilterTipoContacto=${filters.FilterTipoContacto}&FilterCliente=${filters.FilterCliente}&TipoContacto=${filters.TipoContacto}&Id_Cliente=${filters.Id_Cliente}&meetginOrderCondition=${filters.meetingOrderCondition}`);
+        const data = await api.get(`/api/meetings?PageNumber=${PageNumber}&FilterTipoContacto=${filters.FilterTipoContacto}&FilterCliente=${filters.FilterCliente}&TipoContacto=${filters.TipoContacto}&Id_Cliente=${filters.Id_Cliente}&meetingOrderCondition=${filters.meetingOrderCondition}`);
         return data.data
     } catch (error) {
         return { error: error };
