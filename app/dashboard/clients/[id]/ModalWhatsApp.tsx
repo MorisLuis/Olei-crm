@@ -1,74 +1,57 @@
-import Button from '@/components/Buttons/Button'
 import React, { useState } from 'react';
-import useToast from '@/hooks/useToast';
+import Button from '@/components/Buttons/Button';
 import InputTextBox from '@/components/Inputs/inputTextBox';
 import Modal from '@/components/Modals/Modal';
-import styles from '../../../../styles/pages/Sells.module.scss'
+import useToast from '@/hooks/useToast';
+import styles from '../../../../styles/pages/Sells.module.scss';
 
 interface WhatsAppModalInterface {
-    onClose: () => void;
-    visible: boolean;
-    phoneNumber?: string;
+  onClose: () => void;
+  visible: boolean;
+  phoneNumber?: string;
 }
 
-export default function WhatsAppModal({
-    onClose,
-    visible,
-    phoneNumber
-}: WhatsAppModalInterface) {
+export default function WhatsAppModal({ onClose, visible, phoneNumber }: WhatsAppModalInterface) : JSX.Element | null {
+  const { showSuccess } = useToast();
+  const [messageSended, setMessageSended] = useState<string>('');
+  const sendDisabled = messageSended === '';
 
-    const { showSuccess } = useToast()
-    const [messageSended, setMessageSended] = useState<string>('');
-    const sendDisabled = messageSended === ""
+  const onChangeWhatsappMessage = (value: string) : void => {
+    setMessageSended(value);
+  };
 
-    const onChangeWhatsappMessage = (value: string) => {
-        setMessageSended(value)
-    }
+  const onSendWhatsapp = () : void => {
+    if (messageSended === '') return;
+    onClose();
+    showSuccess('Whatsapp enviado exitosamente!');
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageSended)}`;
 
-/*     const onSendWhatsappPredetermined = () => {
-        onClose()
-        showSuccess('Whatsapp enviado exitosamente!')
-    } */
+    // Abre la URL en una nueva pestaña
+    window.open(url, '_blank');
+  };
 
-    const onSendWhatsapp = () => {
-        if (messageSended === '') return;
-        onClose()
-        showSuccess('Whatsapp enviado exitosamente!');
-        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageSended)}`;
+  if (!phoneNumber) return null;
 
-        // Abre la URL en una nueva pestaña
-        window.open(url, "_blank");
-    }
+  return (
+    <Modal title="Whatsapp" visible={visible} onClose={onClose} modalSize="small">
+      <div className={styles.SellActions}>
+        <div className={styles.send_message}>
+          <div className={styles.send_header}>
+            <p>Se enviara whatsapp a este numero: {phoneNumber}</p>
+          </div>
+          <div className={styles.send_input}>
+            <InputTextBox
+              value={messageSended}
+              placeholder="Escribe el mensaje de whatsapp"
+              onChange={onChangeWhatsappMessage}
+            />
+          </div>
 
-
-    if (!phoneNumber) return;
-
-    return (
-        <Modal
-            title='Whatsapp'
-            visible={visible}
-            onClose={onClose}
-            modalSize='small'
-        >
-
-            <div className={styles.SellActions}>
-                <div className={styles.send_message}>
-                    <div className={styles.send_header}>
-                        <p>Se enviara whatsapp a este numero: {phoneNumber}</p>
-                    </div>
-                    <div className={styles.send_input}>
-                        <InputTextBox
-                            value={messageSended}
-                            placeholder='Escribe el mensaje de whatsapp'
-                            onChange={onChangeWhatsappMessage}
-                        />
-                    </div>
-
-                    <div className={styles.message_decision}>
-                        <Button text='Enviar' disabled={sendDisabled} onClick={onSendWhatsapp} />
-                    </div>
-                </div>
-            </div>
-        </Modal>
-    )
+          <div className={styles.message_decision}>
+            <Button text="Enviar" disabled={sendDisabled} onClick={onSendWhatsapp} />
+          </div>
+        </div>
+      </div>
+    </Modal>
+  );
 }

@@ -1,38 +1,40 @@
-import { useRouter } from "next/navigation";
-import {  useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-export const ExecuteNavigationEventClient = ( ) => {
+export const ExecuteNavigationEventClient = (): {
+  navigateToBack: () => void,
+  navigateBackFromModalSells: () => void,
+  navigateToModalSells: () => void,
+  openModalSells: boolean,
+  navigateCloseModalSecondary: () => void
+} => {
+  const { push } = useRouter();
+  const [openModalSells, setOpenModalSells] = useState(false);
 
-    const { push } = useRouter();
-    const [openModalSells, setOpenModalSells] = useState(false)
+  const navigateBackFromModalSells = (): void => {
+    const fullPath = window.location.pathname;
+    push(fullPath);
+    setOpenModalSells(false);
+  };
 
+  const navigateToModalSells = (): void => {
+    setOpenModalSells(true);
+  };
 
-    const navigateBackFromModalSells = () => {
-        const fullPath = window.location.pathname;
-        push(fullPath);
-        setOpenModalSells(false)
-    };
+  const navigateToBack = (): void => {
+    push('/dashboard/calendar');
+  };
 
-    const navigateToModalSells = () => {
-        setOpenModalSells(true)
-    };
+  const navigateCloseModalSecondary = (): void => {
+    const fullPath = window.location.pathname;
+    push(fullPath);
+  };
 
-
-    const navigateToBack = () => {
-        push('/dashboard/calendar')
-    };
-
-    const navigateCloseModalSecondary = ( ) => {
-        const fullPath = window.location.pathname;
-        push(fullPath);
-    }
-
-
-    return {
-        navigateToBack,
-        navigateBackFromModalSells,
-        navigateToModalSells,
-        openModalSells,
-        navigateCloseModalSecondary
-    }
-}
+  return {
+    navigateToBack,
+    navigateBackFromModalSells,
+    navigateToModalSells,
+    openModalSells,
+    navigateCloseModalSecondary,
+  };
+};

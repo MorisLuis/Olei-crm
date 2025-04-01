@@ -1,34 +1,34 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React, { useState, useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import styles from "../../styles/Login.module.scss";
-import Button from "@/components/Buttons/Button";
-import { useRouter } from "next/navigation";
-import { AuthContext } from "@/context/auth/AuthContext";
+import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useState, useContext } from 'react';
+import Button from '@/components/Buttons/Button';
+import { AuthContext } from '@/context/auth/AuthContext';
+import styles from '../../styles/Login.module.scss';
 
 type FormData = {
   email: string;
   password: string;
 };
 
-export default function Login() {
+export default function Login() : JSX.Element {
   const { push } = useRouter();
   const { loginUser } = useContext(AuthContext);
 
   // Estado del formulario
   const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   // Estado para desactivar el botón mientras se envía el formulario
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Manejar cambios en los campos del formulario
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -37,16 +37,15 @@ export default function Login() {
   };
 
   // Manejar el envío del formulario
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) : Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
       await loginUser(formData.email, formData.password);
-      push("/dashboard/clients");
-
+      push('/dashboard/clients');
     } catch (error) {
-      console.error("Error en el inicio de sesión:", error);
+      console.error('Error en el inicio de sesión:', error);
     } finally {
       setIsSubmitting(false);
     }

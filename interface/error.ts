@@ -1,8 +1,7 @@
 export interface ApiError {
-    response: {
-        data: {
-            errors: { message: string }[]
-        }
+  response: {
+    data: {
+      errors: { message: string }[];
     };
+  };
 }
-

@@ -1,26 +1,22 @@
-import { screenData } from '@/database/screens';
 import React from 'react';
-import styles from "../../../styles/pages/Bitacora.module.scss";
+import { screenData } from '@/database/screens';
+import styles from '../../../styles/pages/Bitacora.module.scss';
 
-export async function generateMetadata() {
-    const title = screenData.find((item) => item.name === 'Bitacora')?.name || 'Default Title';
-    const description = screenData.find((item) => item.name === 'Bitacora')?.description || 'Default Description';
+export async function generateMetadata(): Promise<{ title: string, description: string }> {
+  const title = screenData.find((item) => item.name === 'Bitacora')?.name || 'Default Title';
+  const description =
+    screenData.find((item) => item.name === 'Bitacora')?.description || 'Default Description';
 
-    return {
-        title,
-        description,
-    };
+  return {
+    title,
+    description,
+  };
 }
 
 export default function layoutBitacora({
-    children
+  children,
 }: Readonly<{
-    children: React.ReactNode;
-}>) {
-
-    return (
-        <div className={styles.layoutBitacora}>
-            {children}
-        </div>
-    )
+  children: React.ReactNode;
+}>): JSX.Element {
+  return <div className={styles.layoutBitacora}>{children}</div>;
 }

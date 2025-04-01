@@ -1,91 +1,92 @@
-"use client"
-import React, { forwardRef, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+'use client';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import styles from "../../styles/UI.module.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { forwardRef, useRef } from 'react';
+import styles from '../../styles/UI.module.scss';
 
 interface CounterInterface {
-    counter: number;
-    setCounter: React.Dispatch<React.SetStateAction<number>> | ((value: number) => void);
-    unit?: string
+  counter: number;
+  setCounter: React.Dispatch<React.SetStateAction<number>> | ((value: number) => void);
+  unit?: string;
 }
 
-const Counter = forwardRef<HTMLInputElement, CounterInterface>(({
-    counter,
-    setCounter,
-    unit
-}, ref) => {
-
+const Counter = forwardRef<HTMLInputElement, CounterInterface>(
+  ({ counter, setCounter, unit }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const addProduct = () => {
-        setCounter(Number(counter) + 1);
+    const addProduct = () : void=> {
+      setCounter(Number(counter) + 1);
     };
 
-    const handleInputChange = (value: string) => {
-        let numericValue;
-        const normalizedValue = value.replace(',', '.');
-        const decimalCount = (normalizedValue.match(/\./g) || []).length;
+    const handleInputChange = (value: string)  : void => {
+      let numericValue;
+      const normalizedValue = value.replace(',', '.');
+      const decimalCount = (normalizedValue.match(/\./g) || []).length;
 
-        if (decimalCount > 1) return;
+      if (decimalCount > 1) return;
 
-        if (value.endsWith('.')) {
-            numericValue = Number(value.concat("1"));
-        } else {
-            numericValue = Number(value);
-        }
+      if (value.endsWith('.')) {
+        numericValue = Number(value.concat('1'));
+      } else {
+        numericValue = Number(value);
+      }
 
-        setCounter(numericValue);
+      setCounter(numericValue);
     };
 
-    const subtractProduct = () => {
-        if (counter <= 0) return;
-        setCounter(Number(counter) - 1);
+    const subtractProduct = () : void => {
+      if (counter <= 0) return;
+      setCounter(Number(counter) - 1);
     };
 
-    const modifyUnit = () => {
-        let unitModified = unit?.trim();
-        if (unitModified === "PIEZA") {
-            unitModified = "PZA";
-        }
-        return unitModified;
+    const modifyUnit = () : string | undefined => {
+      let unitModified = unit?.trim();
+      if (unitModified === 'PIEZA') {
+        unitModified = 'PZA';
+      }
+      return unitModified;
     };
 
     return (
-        <div className={styles.counter} id="counter" >
-            <div
-                className={
-                    counter < 1 ? `${styles.action} disabled` :
-                        counter >= 1 ? `${styles.action} ${styles.active}` :
-                            `${styles.action} cursor`
-                }
-                onClick={subtractProduct}>
-                <FontAwesomeIcon icon={faMinus} className={`icon__small`} />
-            </div>
-
-            <div onClick={() => inputRef.current?.focus()}>
-                <input
-                    ref={ref}
-                    value={counter.toString()}
-                    onChange={(e) => handleInputChange(e.target.value)}
-                    type="text"
-                    className={styles.number}
-                />
-                {unit && <span>{modifyUnit()}</span>}
-            </div>
-
-
-            <div
-                className={
-                    counter >= 1 ? `${styles.action} ${styles.active} cursor display-flex allCenter` :
-                        `${styles.action} cursor display-flex allCenter`
-                }
-                onClick={addProduct}>
-                <FontAwesomeIcon icon={faPlus} className={`icon__small`} />
-            </div>
+      <div className={styles.counter} id="counter">
+        <div
+          className={
+            counter < 1
+              ? `${styles.action} disabled`
+              : counter >= 1
+                ? `${styles.action} ${styles.active}`
+                : `${styles.action} cursor`
+          }
+          onClick={subtractProduct}
+        >
+          <FontAwesomeIcon icon={faMinus} className={`icon__small`} />
         </div>
-    );
-});
 
-Counter.displayName = 'Counter'
+        <div onClick={() => inputRef.current?.focus()}>
+          <input
+            ref={ref}
+            value={counter.toString()}
+            onChange={(e) => handleInputChange(e.target.value)}
+            type="text"
+            className={styles.number}
+          />
+          {unit && <span>{modifyUnit()}</span>}
+        </div>
+
+        <div
+          className={
+            counter >= 1
+              ? `${styles.action} ${styles.active} cursor display-flex allCenter`
+              : `${styles.action} cursor display-flex allCenter`
+          }
+          onClick={addProduct}
+        >
+          <FontAwesomeIcon icon={faPlus} className={`icon__small`} />
+        </div>
+      </div>
+    );
+  }
+);
+
+Counter.displayName = 'Counter';
 export default Counter;

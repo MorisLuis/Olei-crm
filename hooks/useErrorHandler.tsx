@@ -1,45 +1,45 @@
-"use client";
+'use client';
 
 import { useRouter } from 'next/navigation';
-import useToast from './useToast';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { AuthContext } from '@/context/auth/AuthContext';
+import useToast from './useToast';
 
 export interface ErrorResponse {
-    response?: {
-        status?: number;
-        config?: {
-            method?: string;
-        };
-        data?: {
-            error?: string;
-            message?: string;
-        };
+  response?: {
+    status?: number;
+    config?: {
+      method?: string;
     };
-    message?: string;
+    data?: {
+      error?: string;
+      message?: string;
+    };
+  };
+  message?: string;
 }
 
-
 export const useErrorHandler = () => {
-    const router = useRouter();
-    const {logoutUser} = useContext(AuthContext)
-    const { showError } = useToast()
+  const router = useRouter();
+  const { logoutUser } = useContext(AuthContext);
+  const { showError } = useToast();
 
-    const handleError = async (error: ErrorResponse) => {
-        // Accede de forma segura a las propiedades de error
-        const status = error.response?.status;
-        const method = error.response?.config?.method;
+  const handleError = useCallback((async (error: ErrorResponse) => {
+    // Accede de forma segura a las propiedades de error
+    const status = error.response?.status;
+    const method = error.response?.config?.method;
 
-        const message = error.response?.data?.error
-            ?? error.response?.data?.message
-            ?? error.message
-            ?? "Unknown error";
+    const message =
+      error.response?.data?.error ??
+      error.response?.data?.message ??
+      error.message ??
+      'Unknown error';
 
-        if (status === 401) {
-            return await logoutUser?.();
-        }
+    if (status === 401) {
+      return await logoutUser?.();
+    }
 
-        /* await sendError({
+    /* await sendError({
             From: `web/${user?.Id_UsuarioOOL?.trim()}`,
             Message: message,
             Id_Usuario: user?.Id_UsuarioOOL?.trim(),
@@ -47,8 +47,8 @@ export const useErrorHandler = () => {
             code: (status as string)?.toString()
         }); */
 
-        if (status) {
-            /* switch (status) {
+    if (status) {
+      /* switch (status) {
                 case 404:
                     router.push('/404');
                     break;
@@ -62,13 +62,12 @@ export const useErrorHandler = () => {
                     router.push('/404');
                     break;
             } */
-        } else {
-            showError("Algo salió mal!");
-        }
-    };
+    } else {
+      showError('Algo salió mal!');
+    }
+  }), [])
 
-    return { handleError };
-}
-
+  return { handleError };
+};
 
 export default useErrorHandler;

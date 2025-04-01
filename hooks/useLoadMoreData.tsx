@@ -1,65 +1,69 @@
-import useErrorHandler, { ErrorResponse } from "./useErrorHandler";
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react';
+import useErrorHandler, { ErrorResponse } from './useErrorHandler';
 
-interface UseLoadMoreDataInterface<TFilters = unknown> {
-    fetchInitialData: (filters?: TFilters) => Promise<[]>;
-    fetchPaginatedData: (filters?: TFilters, page?: number) => Promise<[]>;
-    fetchTotalCount?: (filters?: TFilters) => Promise<number>;
-    filters?: TFilters;
+interface UseLoadMoreDataInterface<TData = unknown, TFilters = unknown> {
+  fetchInitialData: (filters?: TFilters) => Promise<TData[]>;
+  fetchPaginatedData: (filters?: TFilters, page?: number) => Promise<TData[]>;
+  fetchTotalCount?: (filters?: TFilters) => Promise<number>;
+  filters?: TFilters;
 }
 
-export const useLoadMoreData = ({
-    fetchInitialData,
-    fetchPaginatedData,
-    fetchTotalCount,
-    filters
-}: UseLoadMoreDataInterface) => {
+export const useLoadMoreData = <TData, TFilters = unknown>({
+  fetchInitialData,
+  fetchPaginatedData,
+  fetchTotalCount,
+  filters,
+}: UseLoadMoreDataInterface<TData, TFilters>) => {
 
-    const { handleError } = useErrorHandler();
-    const [data, setData] = useState([]);
-    const [page, setPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isButtonLoading, setButtonIsLoading] = useState(false);
-    const [total, setTotal] = useState<number | null>(null);
+  const { handleError } = useErrorHandler();
+  const [data, setData] = useState<TData[]>([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isButtonLoading, setButtonIsLoading] = useState(false);
+  const [total, setTotal] = useState<number | null>(null);
 
-    const handleResetData = useCallback(async () => {
-        setIsLoading(true);
-        try {
-            const initialData = await fetchInitialData(filters);
-            setData(initialData);
-            setPage(1);
+  const handleResetData = useCallback(async () => {
+    console.log("handleResetData")
+    setIsLoading(true);
+    try {
+      const initialData = await fetchInitialData(filters);
+      setData(initialData);
+      setPage(1);
 
-            if (fetchTotalCount) {
-                const total = await fetchTotalCount(filters);
-                setTotal(total);
-            }
-        } catch (error) {
-            handleError(error as ErrorResponse)
-        } finally {
-            setIsLoading(false);
-        }
-    }, [fetchInitialData, filters]);
+      if (fetchTotalCount) {
+        const totalCount = await fetchTotalCount(filters);
+        setTotal(totalCount);
+      }
+    } catch (error) {
+      handleError(error as ErrorResponse);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [fetchInitialData, fetchTotalCount, filters, handleError]);
 
-    const handleLoadMore = useCallback(async () => {
-        setButtonIsLoading(true);
-        try {
-            const nextPage = page + 1;
-            const moreData = await fetchPaginatedData(filters, nextPage);
-            setData(prevData => [...prevData, ...moreData]);
-            setPage(nextPage);
-        } catch (error) {
-            handleError(error as ErrorResponse)
-        } finally {
-            setButtonIsLoading(false);
-        }
-    }, [fetchPaginatedData, filters, page]);
+  /*   }, [fetchInitialData, fetchTotalCount, filters, handleError]);
+ */
 
-    return {
-        data,
-        isLoading,
-        isButtonLoading,
-        total,
-        handleResetData,
-        handleLoadMore,
-    };
-}
+  const handleLoadMore = useCallback(async () => {
+    setButtonIsLoading(true);
+    try {
+      const nextPage = page + 1;
+      const moreData = await fetchPaginatedData(filters, nextPage);
+      setData((prevData) => [...prevData, ...moreData]);
+      setPage(nextPage);
+    } catch (error) {
+      handleError(error as ErrorResponse);
+    } finally {
+      setButtonIsLoading(false);
+    }
+  }, [fetchPaginatedData, filters, page, handleError]);
+
+  return {
+    data,
+    isLoading,
+    isButtonLoading,
+    total,
+    handleResetData,
+    handleLoadMore,
+  };
+};

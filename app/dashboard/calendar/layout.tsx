@@ -1,28 +1,22 @@
-import { screenData } from '@/database/screens';
 import React from 'react';
-import styles from "../../../styles/pages/Calendar.module.scss";
+import { screenData } from '@/database/screens';
+import styles from '../../../styles/pages/Calendar.module.scss';
 
-export async function generateMetadata() {
-    const title = screenData.find((item) => item.name === 'Calendario')?.name || 'Default Title';
-    const description = screenData.find((item) => item.name === 'Calendario')?.description || 'Default Description';
+export async function generateMetadata(): Promise<{ title: string, description: string }> {
+  const title = screenData.find((item) => item.name === 'Calendario')?.name || 'Default Title';
+  const description =
+    screenData.find((item) => item.name === 'Calendario')?.description || 'Default Description';
 
-    return {
-        title,
-        description,
-    };
+  return {
+    title,
+    description,
+  };
 }
 
-export default function layoutCalendar({
-    children
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-
-    return (
-        <div className={styles.page}>
-            <main className={styles.main}>
-                {children}
-            </main>
-        </div>
-    )
+export default function layoutCalendar({ children }: Readonly<{ children: React.ReactNode }>): JSX.Element {
+  return (
+    <div className={styles.page}>
+      <main className={styles.main}>{children}</main>
+    </div>
+  );
 }

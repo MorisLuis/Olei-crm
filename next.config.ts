@@ -1,8 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   sassOptions: {
-    silenceDeprecations: ["legacy-js-api"],
+    silenceDeprecations: ['legacy-js-api'],
     // Opciones específicas para Sass
     // Si "silenceDeprecations" es algo personalizado, retíralo si no está documentado.
   },
@@ -47,9 +47,8 @@ const nextConfig: NextConfig = {
     { source: '/clients', destination: '/dashboard/clients', permanent: true },
     { source: '/cobranza', destination: '/dashboard/cobranza', permanent: true },
     { source: '/sells', destination: '/dashboard/sells', permanent: true },
-    { source: '/settings', destination: '/dashboard/settings', permanent: true }
+    { source: '/settings', destination: '/dashboard/settings', permanent: true },
   ],
-
 };
 
 export default nextConfig;

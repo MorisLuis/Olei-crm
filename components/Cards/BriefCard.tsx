@@ -1,65 +1,57 @@
-import React from 'react'
-import styles from "../../styles/Components/Cards.module.scss";
-import { MessageCard } from './MessageCard';
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import { MessageCard } from './MessageCard';
+import styles from '../../styles/Components/Cards.module.scss';
 import { Tag } from '../UI/Tag';
 
 export interface briefDataInterface {
-    id: number;
-    label: string;
-    value: string;
+  id: number;
+  label: string;
+  value: string;
 }
 
 interface BriefCardInterface {
-    data: briefDataInterface[] | null;
-    header?: string;
-    isLoading: boolean;
-
+  data: briefDataInterface[] | null;
+  header?: string;
+  isLoading: boolean;
 }
 
-export default function BriefCard({
-    data,
-    header = "Resumen",
-    isLoading
-}: BriefCardInterface ) {
-
-    if(isLoading) {
-        return (
-            <div>
-                <p>Cargando...</p>
-            </div>
-        )
-    };
-
-    if(!data) {
-        return (
-            <MessageCard title='No hay información.' icon={faAddressCard}>
-                <p>No se encontro información de este usuario</p>
-            </MessageCard>
-        )
-    }
-
+export default function BriefCard({ data, header = 'Resumen', isLoading }: BriefCardInterface) : JSX.Element {
+  if (isLoading) {
     return (
-        <div className={styles.BriefCard}>
-            <h3>{header}</h3>
+      <div>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
 
-            <div className='divider small'></div>
+  if (!data) {
+    return (
+      <MessageCard title="No hay información." icon={faAddressCard}>
+        <p>No se encontro información de este usuario</p>
+      </MessageCard>
+    );
+  }
 
-            {
-                data.map((item) => (
-                    <div key={item.id} className={styles.data}>
-                        <div>
-                            <label>{item.label}</label>
-                            {
-                                item.value && item.value !== 'null' ? <p>{item.value}</p>
-                                :
-                                <Tag color='gray'>Sin datos</Tag>
-                            }
-                        </div>
-                        <div className={`${styles.dividerLocal} divider small`}></div>
-                    </div>
-                ))
-            }
+  return (
+    <div className={styles.BriefCard}>
+      <h3>{header}</h3>
+
+      <div className="divider small"></div>
+
+      {data.map((item) => (
+        <div key={item.id} className={styles.data}>
+          <div>
+            <label>{item.label}</label>
+            {item.value && item.value !== 'null' ? (
+              <p>{item.value}</p>
+            ) : (
+              <Tag color="gray">Sin datos</Tag>
+            )}
+          </div>
+          <div className={`${styles.dividerLocal} divider small`}></div>
         </div>
-    )
+      ))}
+    </div>
+  );
 }

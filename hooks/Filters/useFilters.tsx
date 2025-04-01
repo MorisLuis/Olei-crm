@@ -8,58 +8,58 @@ import { useState } from 'react';
 */
 
 export type FilterObject = {
-    filter: string;
-    value: string | number;
-    label: string
+  filter: string;
+  value: string | number;
+  label: string;
 };
 
 export type FilterData = {
-    type: string;
-    data: FilterObject[];
-    value?: string | number;
+  type: string;
+  data: FilterObject[];
+  value?: string | number;
 };
-
 
 // Hook personalizado
 export const useFilters = () => {
+  const [filtersActive, setFiltersActive] = useState<FilterObject[]>([]);
 
-    const [filtersActive, setFiltersActive] = useState<FilterObject[]>([]);
+  // Función para seleccionar un valor de filtro
+  const onSelectFilterValue = ({
+    filterObject,
+    filterType,
+  }: {
+    filterObject?: FilterObject;
+    filterType: string;
+  }) => {
+    if (!filterObject) {
+      setFiltersActive((prevFilters) =>
+        prevFilters.filter((filter) => filter.filter !== filterType)
+      );
+      return;
+    }
 
-    // Función para seleccionar un valor de filtro
-    const onSelectFilterValue = ({ filterObject, filterType }: { filterObject?: FilterObject, filterType: string }) => {
+    setFiltersActive((prevFilters) => {
+      // Filtrar el arreglo para eliminar cualquier objeto con el mismo `filterType`
+      const updatedFilters = prevFilters.filter((filter) => filter.filter !== filterType);
 
-        if (!filterObject) {
-            setFiltersActive((prevFilters) =>
-                prevFilters.filter((filter) => filter.filter !== filterType)
-            );
-            return
-        };
+      // Agregar el nuevo objeto al arreglo actualizado
+      return [
+        ...updatedFilters,
+        { label: filterObject.label, filter: filterType, value: filterObject.value },
+      ];
+    });
+  };
 
-        setFiltersActive((prevFilters) => {
-            // Filtrar el arreglo para eliminar cualquier objeto con el mismo `filterType`
-            const updatedFilters = prevFilters.filter(
-                (filter) => filter.filter !== filterType
-            );
+  const onDeleteFilter = (filterValue: string | number) => {
+    setFiltersActive((prevFilters) => prevFilters.filter((filter) => filter.label !== filterValue));
+  };
 
-            // Agregar el nuevo objeto al arreglo actualizado
-            return [...updatedFilters, { label: filterObject.label, filter: filterType, value: filterObject.value }];
-        });
-    };
+  const filtersTag = filtersActive.map((item) => item.label);
 
-    const onDeleteFilter = (filterValue: string | number) => {
-        setFiltersActive((prevFilters) =>
-            prevFilters.filter((filter) => filter.label !== filterValue)
-        );
-    };
-
-    const filtersTag = filtersActive.map((item) => item.label)
-
-    return {
-        filtersActive,
-        filtersTag,
-        onSelectFilterValue,
-        onDeleteFilter
-    };
+  return {
+    filtersActive,
+    filtersTag,
+    onSelectFilterValue,
+    onDeleteFilter,
+  };
 };
-
-
