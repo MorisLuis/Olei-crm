@@ -3,6 +3,7 @@ import Button from '@/components/Buttons/Button';
 import InputTextBox from '@/components/Inputs/inputTextBox';
 import Modal from '@/components/Modals/Modal';
 import useToast from '@/hooks/useToast';
+import { cleanPhoneNumber } from '@/utils/cleanPhoneNumber';
 import styles from '../../../../styles/pages/Sells.module.scss';
 
 interface WhatsAppModalInterface {
@@ -24,7 +25,9 @@ export default function WhatsAppModal({ onClose, visible, phoneNumber }: WhatsAp
     if (messageSended === '') return;
     onClose();
     showSuccess('Whatsapp enviado exitosamente!');
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(messageSended)}`;
+    if(!phoneNumber) return;
+    const phoneNumberProccess = cleanPhoneNumber(phoneNumber);
+    const url = `https://wa.me/${phoneNumberProccess}?text=${encodeURIComponent(messageSended)}`;
 
     // Abre la URL en una nueva pestaña
     window.open(url, '_blank');

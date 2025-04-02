@@ -14,31 +14,32 @@ interface EmailModalInterface {
   email?: string;
 }
 
-export default function EmailModal({ onClose, visible, email }: EmailModalInterface) : JSX.Element | null {
+export default function EmailModal({ onClose, visible, email }: EmailModalInterface): JSX.Element | null {
   const { showSuccess } = useToast();
-  const { user: { Id: remitente } } = useContext(AuthContext);
+  const { user: { Id_UsuarioOOL } } = useContext(AuthContext);
 
   const [messageSended, setMessageSended] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
 
   const sendDisabled = subject === '' || messageSended === '';
 
-  const onChangeEmaiSubjectlMessage = (value: string) : void => {
+  const onChangeEmaiSubjectlMessage = (value: string): void => {
     setSubject(value);
   };
-  const onChangeEmailMessage = (value: string) : void => {
+  const onChangeEmailMessage = (value: string): void => {
     setMessageSended(value);
   };
 
-  const onSendEmail = async () : Promise<void> => {
+  const onSendEmail = async (): Promise<void> => {
     if (subject === '') return;
     if (messageSended === '') return;
     if (!email) return;
+    //if (!remitente) return;
 
     try {
       const emailBody: postEmailInterface = {
         destinatario: email,
-        remitente: remitente,
+        remitente: Id_UsuarioOOL.trim(),
         text: messageSended,
         subject: subject,
       };
@@ -58,7 +59,7 @@ export default function EmailModal({ onClose, visible, email }: EmailModalInterf
       <div className={styles.SellActions}>
         <div className={styles.send_message}>
           <div className={styles.send_header}>
-            <p>Se enviara este correo al correo: {email}</p>
+            <p>Se enviara este correo a: {email}</p>
           </div>
           <div className={styles.send_input}>
             <Input
