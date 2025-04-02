@@ -13,8 +13,8 @@ import { ClientInterface } from '@/interface/client';
 import MeetingInterface from '@/interface/meeting';
 import { getClientById, searchClients } from '@/services/clients';
 import { postMeeting, updateMeeting } from '@/services/meeting';
-import styles from '../../../styles/Form.module.scss';
 import { getActualHour } from "@/utils/formatTime";
+import styles from '../../../styles/Form.module.scss';
 
 export const INITIAL_MEETING: MeetingInterface = {
   Fecha: '',
