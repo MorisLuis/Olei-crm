@@ -121,11 +121,10 @@ export default function FormMeeting({
       return;
     }
 
+    handleMeetingCreated?.();
     showSuccess(
       isEditing ? `Reunión ${meetingForm.Titulo} editada!` : `Reunión ${meetingForm.Titulo} creada!`
     );
-
-    handleMeetingCreated?.();
   };
 
   const onUpdatetMeeting = async (): Promise<void> => {
@@ -178,14 +177,18 @@ export default function FormMeeting({
     if(meetingProp?.Titulo) {
       handleResetMeeting(meetingProp);
     } else {
-      const meetingData = {
+      setMeetingForm(prevMeeting => ({
+        ...prevMeeting,
+        Fecha: new Date()
+      }));
+      /* const meetingData = {
         ...meetingForm,
         Fecha: new Date()
       };
   
-      setMeetingForm(meetingData);
+      setMeetingForm(meetingData); */
     }
-  }, [visible, meetingProp, meetingForm]);
+  }, [visible, meetingProp]);
 
   useEffect(() => {
     if (!visible) return;
