@@ -19,6 +19,7 @@ const FileUploader = ({ label }: FileUploaderInterface) : JSX.Element => {
       setFilePreview(fileURL);
     }
   };
+  
 
   return (
     <div className="input_uploader">

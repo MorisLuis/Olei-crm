@@ -6,7 +6,6 @@ import InputTextBox from '@/components/Inputs/inputTextBox';
 import TimeInput from '@/components/Inputs/inputTime';
 import SelectReact, { OptionType } from '@/components/Inputs/select';
 import Modal from '@/components/Modals/Modal';
-import FileUploader from '@/components/UI/FileUploader';
 import useToast from '@/hooks/useToast';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { ClientInterface } from '@/interface/client';
@@ -290,7 +289,7 @@ export default function FormMeeting({
           label="¿Algún comentario extra? Estos comentarios podrán ser editados después."
         />
 
-        <FileUploader label="¿Deseas adjuntar algún archivo?" />
+        {/* <FileUploader label="¿Deseas adjuntar algún archivo?" /> */}
       </div>
     </Modal>
   );
