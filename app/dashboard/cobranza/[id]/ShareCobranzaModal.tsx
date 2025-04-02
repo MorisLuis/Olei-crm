@@ -26,26 +26,26 @@ export default function ShareCobranzaModal({
     user: { Id: remitente, Id_Cliente, Nombre },
   } = useContext(AuthContext);
 
-  const [downloadingCSV, setDownloadingCSV] = useState(false);
+  //const [downloadingCSV, setDownloadingCSV] = useState(false);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
 
   const { showPromise } = useToast();
 
-  const onDownloadCSV = async (): Promise<void> => {
+  /* const onDownloadCSV = async (): Promise<void> => {
     await new Promise((resolve) => {
       setTimeout((): void | null => {
-        setDownloadingCSV(false);
+        //setDownloadingCSV(false);
         onClose();
         resolve(null); // Resolviendo la promesa después de que se completa el timeout
       }, 2000);
     });
-  };
+  }; */
 
-  const handleDownloadCSV = async (): Promise<void> => {
+  /* const handleDownloadCSV = async (): Promise<void> => {
     setDownloadingCSV(true);
     const myCsvPromise = onDownloadCSV();
     showPromise('Descargando', 'Se ha descargado tu CSV!', myCsvPromise);
-  };
+  }; */
 
   const handleDownloadPDF = async (): Promise<void | null> => {
     setDownloadingPDF(true);

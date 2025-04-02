@@ -25,7 +25,7 @@ export const ExecuteNavigationCobranza = ({
 
   const navigateToBack = useCallback(() => {
     back();
-  }, [Id_Cliente, push]);
+  }, [back]);
 
   return {
     navigateToCobranza,
