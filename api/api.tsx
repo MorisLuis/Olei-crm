@@ -30,16 +30,20 @@ api.interceptors.response.use(
     console.error("Error en API:", error);
 
     // 📝 Enviar error a la base de datos
+
+    const errorBody = {
+      From: error.config?.url,
+      Message: error.response?.data.error ? error.response?.data.error : error.response?.data,
+      Metodo: error.config?.method,
+      code: error.response?.status
+    }
+    console.log({errorBody})
     try {
-      /* await axios.post("/api/log-error", {
-        error: {
-          message: error.message,
-          url: error.config?.url,
-          method: error.config?.method,
-          status: error.response?.status,
-          response: error.response?.data,
-        },
-      }); */
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/errors`,
+        errorBody
+      );
     } catch (logError) {
       console.error("Error al registrar en la BD:", logError);
     }
