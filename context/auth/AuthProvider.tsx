@@ -27,6 +27,7 @@ export const AUTH_INITIAL_STATE: AuthState = {
     from: 'crm',
     CorreoVtas: '',
     Id_Cliente: 0,
+    Id_UsuarioOOL: ""
   },
 };
 
