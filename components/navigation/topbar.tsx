@@ -16,8 +16,9 @@ export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
   const { globalPathname } = useContext(SettingsContext);
   const [openMenuProfile, setOpenMenuProfile] = useState(false);
   const { push } = useRouter();
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, user } = useContext(AuthContext);
 
+  console.log({user})
   const onLogOut = async () : Promise<void> => {
     await logoutUser();
     push('/login');
@@ -27,10 +28,10 @@ export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
     return (
       <div className={styles.profile} onClick={() => setOpenMenuProfile(!openMenuProfile)}>
         <div className={styles.info}>
-          <p>Luce</p>
+          <p>{user?.Nombre?.trim()}</p>
         </div>
         <div className={styles.circle}>
-          <p>L</p>
+          <p>{user?.Nombre?.slice(0,1)}</p>
         </div>
       </div>
     );
