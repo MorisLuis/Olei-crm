@@ -8,6 +8,7 @@ interface TimelineEventsValidationInterface {
 const TimelineEventsValidation = ({
   eventsOfTheDay
 }: TimelineEventsValidationInterface): { events: TimelineMeetingInterface[], sellEvents: TimelineInterface[] } => {
+
   const events = useMemo(() => {
     return eventsOfTheDay
       .filter((meeting: TimelineInterface) => meeting.Hour && meeting.HourEnd) // Solo eventos con hora

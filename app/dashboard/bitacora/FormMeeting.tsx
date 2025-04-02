@@ -36,6 +36,7 @@ interface FormMeetingInterface {
 
   newPost?: () => void;
   onMeetingUpdated?: () => void;
+  handleMeetingCreated?: () => void;
 }
 
 export default function FormMeeting({
@@ -44,7 +45,8 @@ export default function FormMeeting({
   onClose,
   isEditing,
   newPost,
-  onMeetingUpdated
+  onMeetingUpdated,
+  handleMeetingCreated
 }: FormMeetingInterface): JSX.Element | null {
 
   const { showSuccess, showInfo } = useToast();
@@ -122,6 +124,8 @@ export default function FormMeeting({
     showSuccess(
       isEditing ? `Reunión ${meetingForm.Titulo} editada!` : `Reunión ${meetingForm.Titulo} creada!`
     );
+
+    handleMeetingCreated?.();
   };
 
   const onUpdatetMeeting = async (): Promise<void> => {
@@ -170,14 +174,23 @@ export default function FormMeeting({
   };
 
   useEffect(() => {
-    if (!meetingProp?.Titulo || !visible) return;
-    handleResetMeeting(meetingProp);
-  }, [visible, meetingProp]);
+    if (!visible) return;
+    if(meetingProp?.Titulo) {
+      handleResetMeeting(meetingProp);
+    } else {
+      const meetingData = {
+        ...meetingForm,
+        Fecha: new Date()
+      };
+  
+      setMeetingForm(meetingData);
+    }
+  }, [visible, meetingProp, meetingForm]);
 
   useEffect(() => {
-    if (!meetingProp?.Titulo) return;
+    if (!visible) return;
     onSearchClient('');
-  }, [meetingProp, onSearchClient]);
+  }, [meetingProp, onSearchClient, visible]);
 
   if (!visible || meetingForm.Fecha === '') return null;
 

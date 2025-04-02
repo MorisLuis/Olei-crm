@@ -18,7 +18,7 @@ import { ExecuteNavigationEventClient } from './navigation';
 import { useEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
-export default function EventDetails() : JSX.Element {
+export default function EventDetails(): JSX.Element {
   const pathname = usePathname();
   const { isMobile } = useWindowSize();
   const {
@@ -35,16 +35,21 @@ export default function EventDetails() : JSX.Element {
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const [openModalEvent, setOpenModalEvent] = useState(false);
   const [eventSelected, setEventSelected] = useState<number>(0);
-  const eventsOfTheDay = useEventsOfTheDay(decodedDate);
+  const [refreshTimeline, setRefreshTimeline] = useState(false)
+  const eventsOfTheDay = useEventsOfTheDay(decodedDate, refreshTimeline);
   const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
 
+  const handleMeetingCreated = (): void => {
+    setRefreshTimeline(prev => !prev);
+  };
+
   // Abrir modal solo en móviles
-  const handleSelectEventFromTimeline = (Id: MeetingInterface) : void => {
+  const handleSelectEventFromTimeline = (Id: MeetingInterface): void => {
     if (isMobile) setOpenModalEvent(true);
     setEventSelected(Id.Id_Bitacora);
   };
 
-  const handleCloseMeetingModal = () : void => setOpenModalCreateMeeting(false);
+  const handleCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
 
   const clientActions: ActionsInterface[] = [
     {
@@ -59,7 +64,7 @@ export default function EventDetails() : JSX.Element {
     if (events.length > 0) {
       setEventSelected(Number(events[0].id));
     }
-  }, [events]);
+  }, [events, refreshTimeline]);
 
   if (!events || !sellEvents) {
     return (
@@ -109,7 +114,11 @@ export default function EventDetails() : JSX.Element {
         </div>
       </Modal>
 
-      <FormMeeting visible={openModalCreateMeeting} onClose={handleCloseMeetingModal} />
+      <FormMeeting
+        visible={openModalCreateMeeting}
+        onClose={handleCloseMeetingModal}
+        handleMeetingCreated={handleMeetingCreated}
+      />
 
       <ModalSells
         visible={openModalSells}

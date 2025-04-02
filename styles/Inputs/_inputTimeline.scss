@@ -3,6 +3,7 @@
 @use "../Abstracts/variables";
 
 .fc {
+
     .fc-view-harness {
         border: 1px solid variables.$color-border;
         border-radius: variables.$border-radius;
@@ -39,7 +40,8 @@
         padding: variables.$padding;
         box-shadow: variables.$box-shadow-input;
         border: 1px solid variables.$color-border-secondary;
-        height: fit-content;
+        //height: fit-content;
+        min-height: 60px;
     }
 
     // Hover en eventos

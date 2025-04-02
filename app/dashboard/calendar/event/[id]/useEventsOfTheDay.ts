@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { TimelineInterface } from '@/interface/calendar';
 import { getCalendarTaskByDay } from '@/services/calendar';
 
-export const useEventsOfTheDay = (decodedDate: string): TimelineInterface[] | null => {
+export const useEventsOfTheDay = (decodedDate: string, refreshTimeline?: boolean): TimelineInterface[] | null => {
   const [eventsOfTheDay, setEventsOfTheDay] = useState<TimelineInterface[] | null>(null);
 
   const fetchEvents = useCallback(async (): Promise<void> => {
@@ -14,7 +14,7 @@ export const useEventsOfTheDay = (decodedDate: string): TimelineInterface[] | nu
 
   useEffect(() => {
     fetchEvents();
-  }, [decodedDate, fetchEvents]);
+  }, [decodedDate, fetchEvents, refreshTimeline]);
 
   return eventsOfTheDay;
 };

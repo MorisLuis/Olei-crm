@@ -59,8 +59,7 @@ function CalendarContent(): JSX.Element {
   ];
 
   const handleMeetingUpdated = () : void => {
-    // Aquí puedes ejecutar lógica adicional si es necesario
-    setRefreshCalendar(prev => !prev); // Cambiar el estado para forzar la actualización
+    setRefreshCalendar(prev => !prev);
   };
   
 

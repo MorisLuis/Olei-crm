@@ -19,7 +19,7 @@ export default function ModalSells({
   visible,
   onClose,
   sellEvents,
-  onCloseModalSecondary,
+  onCloseModalSecondary
 }: ModalSellsInterface) : JSX.Element {
   const [openSecondModal, setOpenSecondModal] = useState(false);
   const { push } = useRouter();
