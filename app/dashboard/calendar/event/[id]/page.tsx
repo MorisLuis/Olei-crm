@@ -19,6 +19,7 @@ import { useEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 export default function EventDetails(): JSX.Element {
+
   const pathname = usePathname();
   const { isMobile } = useWindowSize();
   const {

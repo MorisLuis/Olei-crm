@@ -12,7 +12,7 @@ import { ClientInterface } from '@/interface/client';
 import MeetingInterface from '@/interface/meeting';
 import { getClientById, searchClients } from '@/services/clients';
 import { postMeeting, updateMeeting } from '@/services/meeting';
-import { getActualHour } from "@/utils/formatTime";
+import { getActualHour, getCorrectDate } from "@/utils/formatTime";
 import styles from '../../../styles/Form.module.scss';
 
 export const INITIAL_MEETING: MeetingInterface = {
@@ -163,10 +163,10 @@ export default function FormMeeting({
     } else {
       setClienteLocal(null)
     }
-
+    const adjustedDate = getCorrectDate(Fecha)
     const meetingData = {
       ...meetingProp,
-      Fecha: new Date(Fecha)
+      Fecha: adjustedDate
     };
 
     setMeetingForm(meetingData);
@@ -174,7 +174,7 @@ export default function FormMeeting({
 
   useEffect(() => {
     if (!visible) return;
-  
+
     if (meetingProp?.Titulo) {
       handleResetMeeting(meetingProp);
     } else {
@@ -187,7 +187,7 @@ export default function FormMeeting({
       }));
     }
   }, [visible, meetingProp]);
-  
+
   useEffect(() => {
     if (!visible) return;
     onSearchClient('');

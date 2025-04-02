@@ -30,11 +30,12 @@ const MyCalendar = ({
   Id_Cliente,
   refreshCalendar
 }: MyCalendarInterface): JSX.Element => {
+
   const processedDaysRef = useRef<{ [key: string]: boolean }>({});
   const [events, setEvents] = useState<EventSourceInput>([]);
   const { firtRenderCalendar, handleRenderCalendar } = useContext(SettingsContext);
 
-  const handleEventClick = (info: EventClickArg) : void => {
+  const handleEventClick = (info: EventClickArg): void => {
     const countEvents = info.event.extendedProps.eventCount;
 
     if (countEvents >= 3) {
@@ -48,6 +49,7 @@ const MyCalendar = ({
       };
       return onClickDay(dateClickArg);
     }
+
     onClickEvent(info);
   };
 
@@ -98,7 +100,7 @@ const MyCalendar = ({
   }, [handleGetCalendarByMonth, refreshCalendar]);
 
   useEffect(() => {
-    return () : void => {
+    return (): void => {
       handleRenderCalendar(true);
     };
   }, [handleRenderCalendar]);

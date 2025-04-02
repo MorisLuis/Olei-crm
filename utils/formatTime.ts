@@ -34,9 +34,19 @@ const getActualHour = (): { hour: string, hourEnd: string } => {
     hour: now,
     hourEnd
   }
+};
+
+
+const getCorrectDate = (Fecha: Date | string) : Date => {
+      // Crear la fecha a partir del string ISO
+      const utcDate = new Date(Fecha);
+      // Ajustar la fecha sumándole el offset en milisegundos para "neutralizar" la conversión a local
+      const adjustedDate = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000);
+      return adjustedDate
 }
 
 export {
   formatTime,
-  getActualHour
+  getActualHour,
+  getCorrectDate
 }
