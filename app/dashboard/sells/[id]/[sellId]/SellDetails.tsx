@@ -7,8 +7,7 @@ import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/Tabl
 import { Tag } from '@/components/UI/Tag';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 import { useTagColor } from '@/hooks/useTagColor';
-import OrderInterface from '@/interface/order';
-import { SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
+import { SellsDetailsInterface, SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
 import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells';
 import { docType } from '@/utils/docType';
 import { formatDate } from '@/utils/formatDate';
@@ -46,12 +45,12 @@ export default function SellDetails() : JSX.Element {
     setSellInformation(sell);
   };
 
-  const fetchInitialData = useCallback(async (): Promise<OrderInterface[]> => {
+  const fetchInitialData = useCallback(async (): Promise<SellsDetailsInterface[]> => {
     const { orderDetails } = await getSellDetails({ Folio: Folio, PageNumber: 1 })
     return orderDetails;
   }, [Folio]);
 
-  const fetchPaginatedData = useCallback(async (_: unknown, page?: number): Promise<OrderInterface[]> => {
+  const fetchPaginatedData = useCallback(async (_: unknown, page?: number): Promise<SellsDetailsInterface[]> => {
     const { orderDetails } = await getSellDetails({ Folio: Folio, PageNumber: page ?? 1 });
     return orderDetails;
   }, [Folio]);

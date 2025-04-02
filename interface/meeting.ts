@@ -2,7 +2,7 @@ export default interface MeetingInterface {
   Id_Bitacora: number;
   Id_Almacen?: number;
   Id_Cliente?: number;
-  Fecha: Date;
+  Fecha: string | Date;
   Hour: string | undefined;
   HourEnd: string | undefined;
   Titulo: string;

@@ -17,6 +17,8 @@ export interface SellsInterface {
   Piezas?: number;
 }
 
+
+
 export type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
 export const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
 
@@ -53,14 +55,28 @@ export const SellsFilterCondition: SellsFilterConditionByClientType[] = [
 ];
 
 export interface SellsDetailsInterface {
-  Cantidad: number;
+  Impuesto?: number | null;
+  Id_Almacen: number;
+  Id_ListaPrecios?: number | null;
+  Folio: number;
   
+  Id_Marca: number;
+  Precio?: number | null;
+  Cantidad?: number | null;
+  Importe?: number | null;
+  Descripcion?: string | null;
   Codigo: string;
-  Unidad: string;
-  Descripcion: string;
-  Precio: number;
-  Impuesto: number;
-  Importe: number;
+
+  Marca?: string;
+  Unidad?: string;
+
+  TipoDoc: number;
+  Serie: string;
+  Partida: number;
+  Costo?: number | null;
+  Id_Unidad?: number | null;
+  SwNs?: boolean | null;
+  SKU?: string | null;
 }
 
 export interface FilterSellsByClient {

@@ -6,16 +6,16 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import Table from '@/components/UI/Tables/Table';
 import { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
-import OrderInterface from '@/interface/order';
+import { SellsDetailsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
 
 interface TableSellsDetailsClientInterface {
-  sells: OrderInterface[];
+  sells: SellsDetailsInterface[];
   totalSells: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
   loadMoreProducts: () => Promise<void>;
-  handleSelectItem?: (item: OrderInterface) => void;
+  handleSelectItem?: (item: SellsDetailsInterface) => void;
 }
 
 export default function TableSellsDetailsClient({
@@ -26,40 +26,41 @@ export default function TableSellsDetailsClient({
   loadMoreProducts,
   handleSelectItem,
 }: TableSellsDetailsClientInterface) : JSX.Element {
+
   const NoMoreProductToShow = sells.length === totalSells;
 
-  const columns: ColumnSecondaryConfig<OrderInterface>[] = [
-/*     {
+  const columns: ColumnSecondaryConfig<SellsDetailsInterface>[] = [
+    {
       key: 'Codigo',
       label: 'Codigo',
-    }, */
+    },
     {
       key: 'Cantidad',
       label: 'Cantidad',
     },
-/*     {
+    {
       key: 'Unidad',
       label: 'Unidad',
     },
     {
       key: 'Descripcion',
       label: 'Descripcion',
-    }, */
-/*     {
+    },
+    {
       key: 'Precio',
       label: 'Precio',
-      render: (_, item) => <p>{format(item.Precio)}</p>,
-    }, */
+      render: (_, item) => <p>{format(item.Precio ?? 0)}</p>,
+    },
     {
       key: 'Impuesto',
       label: 'Impuesto',
-      render: (_, item) => <p>{format(item.Impuesto)}</p>,
+      render: (_, item) => <p>{format(item.Impuesto ?? 0)}</p>,
     },
-/*     {
+    {
       key: 'Importe',
       label: 'Importe',
-      render: (_, item) => <p>{format(item.Importe)}</p>,
-    }, */
+      render: (_, item) => <p>{format(item.Importe ?? 0)}</p>,
+    },
   ];
 
   if (loadingData) {

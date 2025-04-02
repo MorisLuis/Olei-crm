@@ -8,7 +8,10 @@ export type OptionType = {
 
 interface Props {
   options: OptionType[];
-  onChange: (arg: OptionType) => void;
+  onSelect: (arg: OptionType) => void;
+  onChange?: (arg: string) => void;
+  onClear?: () => void;
+
   value: OptionType | null;
   name: string;
   placeholder?: string;
@@ -19,11 +22,27 @@ const SelectReact = ({
   options,
   placeholder = 'Buscar...',
   label,
+  onSelect,
   onChange,
+  onClear,
   value,
   name,
-}: Props) :  JSX.Element => {
+}: Props): JSX.Element => {
   const optionsWithNull = [{ value: null, label: 'Sin valor' }, ...options];
+
+  const handleOnSelect = (selectedOption: unknown) : void => {
+    if(!selectedOption){
+      onClear?.()
+    }
+
+    if (typeof onSelect === 'function'){
+      onSelect(selectedOption as OptionType);
+    }
+  };
+
+  const handleOnChange = (inputValue: string)  : void => {
+    onChange?.(inputValue)
+  }
 
   return (
     <div>
@@ -35,11 +54,8 @@ const SelectReact = ({
         options={optionsWithNull}
         isClearable
         className="select"
-        onChange={(value) => {
-          if (typeof onChange === 'function') {
-            onChange(value as OptionType);
-          }
-        }}
+        onInputChange={(inputValue) => handleOnChange(inputValue)}
+        onChange={(selectedOption) => handleOnSelect(selectedOption)}
         value={value}
         styles={customStyles}
         theme={(theme) => ({

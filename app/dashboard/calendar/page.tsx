@@ -12,20 +12,21 @@ import MyCalendar from './Calendar';
 import FormMeeting, { INITIAL_MEETING } from '../bitacora/FormMeeting';
 import SellDetails from '../sells/[id]/[sellId]/SellDetails';
 
-function CalendarContent() : JSX.Element {
+function CalendarContent(): JSX.Element {
   const { push, back } = useRouter();
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const [eventToOpen, setEventToOpen] = useState<MeetingInterface>(INITIAL_MEETING);
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
+  const [refreshCalendar, setRefreshCalendar] = useState(false)
 
-  const handelOnClickEvent = async (info: EventClickArg) : Promise<void | null> => {
+  const handelOnClickEvent = async (info: EventClickArg): Promise<void | null> => {
     const dataEvent = info.event.extendedProps;
 
     if (dataEvent.TableType === 'Bitacora') {
       // Get meeting from API
       const { meeting } = await getMeetingById(dataEvent.Id);
-      if(!meeting) return null;
+      if (!meeting) return null;
       setEventToOpen(meeting);
       setOpenModalCreateMeeting(true);
       return null;
@@ -39,11 +40,11 @@ function CalendarContent() : JSX.Element {
     }
   };
 
-  const handleOnClickDay = (arg: DateClickArg) : void=> {
+  const handleOnClickDay = (arg: DateClickArg): void => {
     push(`calendar/event/${arg.date}`);
   };
 
-  const handleCloseMeetingModal = () : void => {
+  const handleCloseMeetingModal = (): void => {
     setOpenModalCreateMeeting(false);
     setEventToOpen(INITIAL_MEETING);
   };
@@ -57,16 +58,27 @@ function CalendarContent() : JSX.Element {
     },
   ];
 
+  const handleMeetingUpdated = () : void => {
+    // Aquí puedes ejecutar lógica adicional si es necesario
+    setRefreshCalendar(prev => !prev); // Cambiar el estado para forzar la actualización
+  };
+  
+
   return (
-    <div>
+    <>
       <Header title="Calendario" actions={clientActions} dontShowBack />
 
-      <MyCalendar onClickEvent={handelOnClickEvent} onClickDay={handleOnClickDay} />
+      <MyCalendar
+        onClickEvent={handelOnClickEvent}
+        onClickDay={handleOnClickDay}
+        refreshCalendar={refreshCalendar}
+      />
 
       <FormMeeting
         visible={openModalCreateMeeting}
         onClose={handleCloseMeetingModal}
         meetingProp={eventToOpen}
+        onMeetingUpdated={handleMeetingUpdated} 
         isEditing
       />
 
@@ -78,11 +90,11 @@ function CalendarContent() : JSX.Element {
       >
         <SellDetails />
       </Modal>
-    </div>
+    </>
   );
 }
 
-export default function Calendar() : JSX.Element {
+export default function Calendar(): JSX.Element {
   return (
     <Suspense fallback={<p>Cargando...</p>}>
       <CalendarContent />

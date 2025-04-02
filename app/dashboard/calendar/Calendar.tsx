@@ -20,6 +20,7 @@ interface MyCalendarInterface {
 
   ClientVersion?: boolean;
   Id_Cliente?: number;
+  refreshCalendar?: boolean;
 }
 
 const MyCalendar = ({
@@ -27,6 +28,7 @@ const MyCalendar = ({
   onClickDay,
   ClientVersion,
   Id_Cliente,
+  refreshCalendar
 }: MyCalendarInterface): JSX.Element => {
   const processedDaysRef = useRef<{ [key: string]: boolean }>({});
   const [events, setEvents] = useState<EventSourceInput>([]);
@@ -65,8 +67,7 @@ const MyCalendar = ({
 
       const convertedData = DataCalendarConverted(dataCalendar.tasks);
       setEvents(convertedData);
-    },
-    [firtRenderCalendar, handleRenderCalendar, ClientVersion, Id_Cliente]
+    }, [firtRenderCalendar, handleRenderCalendar, ClientVersion, Id_Cliente]
   );
 
   const handleViewChange = useCallback(
@@ -94,7 +95,7 @@ const MyCalendar = ({
     const currentYear = currentDate.getFullYear(); // Obtiene el año actual
 
     handleGetCalendarByMonth(currentMonth, currentYear);
-  }, [handleGetCalendarByMonth]);
+  }, [handleGetCalendarByMonth, refreshCalendar]);
 
   useEffect(() => {
     return () : void => {
@@ -122,7 +123,7 @@ const MyCalendar = ({
       height="auto"
       locale={esLocale}
       eventContent={(eventInfo) => renderEventContent({ eventInfo, processedDaysRef })}
-      datesSet={handleViewChange} // Cambiar vista
+      datesSet={handleViewChange}
     />
   );
 };

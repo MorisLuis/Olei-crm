@@ -1,8 +1,7 @@
 import { EventInput, EventSourceInput } from '@fullcalendar/core/index.js';
 import { CalendarInterface } from '@/interface/calendar';
-import MeetingInterface from '@/interface/meeting';
 
-export const DataCalendarConverted = (calendarData:  MeetingInterface[]) : EventInput[] => {
+export const DataCalendarConverted = (calendarData:  CalendarInterface[]) : EventInput[] => {
 
   const normalizeDate = (date: string | Date): string => {
     const fecha = date instanceof Date ? date : new Date(date);

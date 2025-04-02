@@ -103,7 +103,7 @@ export default function ClientDetailsPage() : JSX.Element {
   useEffect(() => {
     if (!Id_Cliente || !idAlmacen) return;
     handleGetClientData();
-  }, [Id_Cliente, idAlmacen]);
+  }, [Id_Cliente, idAlmacen, handleGetClientData]);
 
   return (
     <>

@@ -23,7 +23,6 @@ export const useLoadMoreData = <TData, TFilters = unknown>({
   const [total, setTotal] = useState<number | null>(null);
 
   const handleResetData = useCallback(async () => {
-    console.log("handleResetData")
     setIsLoading(true);
     try {
       const initialData = await fetchInitialData(filters);

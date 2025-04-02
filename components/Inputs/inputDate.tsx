@@ -14,7 +14,7 @@ interface InputDatePicker {
 const InputDatePicker = ({ onChange, label, value }: InputDatePicker) : JSX.Element  => {
   // Estado local para la fecha seleccionada
   const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
-    if (value) {
+    if (value && value !== "") {
       const parsedDate = new Date(value);
       return isNaN(parsedDate.getTime()) ? null : parsedDate;
     }

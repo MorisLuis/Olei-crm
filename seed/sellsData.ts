@@ -117,7 +117,7 @@ export const sellsClientExample: SellsInterface[] = [
   },
 ];
 
-export const sellDetailsExample: SellsDetailsInterface[] = [
+/* export const sellDetailsExample: SellsDetailsInterface[] = [
   {
     Codigo: '1234',
     Cantidad: 23,
@@ -155,3 +155,4 @@ export const sellDetailsExample: SellsDetailsInterface[] = [
     Importe: 1890,
   },
 ];
+ */

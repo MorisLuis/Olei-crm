@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useSearchParams } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Modal from '@/components/Modals/Modal';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import Header from '@/components/navigation/header';
@@ -19,7 +19,7 @@ import { ExecuteFiltersSellsByClient } from './filters';
 import { ExecuteNavigationSellsByClient } from './navigation';
 import styles from '../../../../styles/pages/Sells.module.scss';
 
-export default function SellsClientPage() : JSX.Element {
+export default function SellsClientPage(): JSX.Element {
   const { id } = useParams();
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
@@ -29,29 +29,35 @@ export default function SellsClientPage() : JSX.Element {
   const [orderActive, setOrderActive] = useState<OrderObject>(orderSellsClient[0]);
   const { filtersTag, filtersActive, onSelectFilterValue, onDeleteFilter } = useFilters();
   const { filtersOfSectionSells, filtersSells } = useFiltersSellsConfig();
+
   const { CustumFilters, CustumRenders } = CustumRendersSellsByClient({
     filtersActive,
     onDeleteFilter,
     onSelectFilterValue,
   });
 
-  const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive });
+  ///const filters = ExecuteFiltersSellsByClient({ orderActive, filtersActive });
+  const filters = useMemo(() => ExecuteFiltersSellsByClient({ orderActive, filtersActive }),
+    [orderActive, filtersActive]
+  );
+  const memoizedFilters = useMemo(() => filters, [filters]);
+
   const { navigateToBack, navigateToSellDetails, navigateToBackModal } = ExecuteNavigationSellsByClient({ Id_Cliente: id as string });
 
   const fetchInitialData = useCallback(async (): Promise<SellsInterface[]> => {
-    const { sells } = await getSellsByClient({ PageNumber: 1, client: Number(id), filters: filters })
+    const { sells } = await getSellsByClient({ PageNumber: 1, client: Number(id), filters: memoizedFilters })
     return sells;
-  }, [filters, id]);
+  }, [memoizedFilters, id]);
 
   const fetchPaginatedData = useCallback(async (_: unknown, page?: number): Promise<SellsInterface[]> => {
-    const { sells } = await getSellsByClient({ client: Number(id), PageNumber: page, filters: filters })
+    const { sells } = await getSellsByClient({ client: Number(id), PageNumber: page, filters: memoizedFilters })
     return sells;
-  }, [filters, id]);
+  }, [memoizedFilters, id]);
 
   const fetchTotalCount = useCallback(async (): Promise<number> => {
-    const { total } = await getTotalSellsByClient({ client: Number(id), filters: filters })
+    const { total } = await getTotalSellsByClient({ client: Number(id), filters: memoizedFilters })
     return total;
-  }, [filters, id])
+  }, [memoizedFilters, id])
 
 
   const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } =
@@ -59,7 +65,7 @@ export default function SellsClientPage() : JSX.Element {
       fetchInitialData,
       fetchPaginatedData,
       fetchTotalCount,
-      filters: filters,
+      filters: memoizedFilters
     });
 
   const onSelectOrder = useCallback(

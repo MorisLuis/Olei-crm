@@ -25,11 +25,14 @@ export default function CommentsModal({
   };
 
   const onSubmitNewComment = async () : Promise<void> => {
+  
     if (!newComments || !Id_Bitacora) return;
     const bodyMeeting: Partial<MeetingInterface> = {
       Comentarios: newComments,
     };
+
     const comments = await updateMeeting(bodyMeeting, Id_Bitacora);
+
     if (comments.Comentarios) {
       setMeetingData((prev) => {
         if (!prev) return prev;

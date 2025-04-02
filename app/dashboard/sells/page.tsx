@@ -12,9 +12,9 @@ import TableSells from './TableSells';
 import styles from '../../../styles/pages/Sells.module.scss';
 
 export default function Sells() : JSX.Element {
+
   const { orderSells } = useOrderSellsConfig();
   const [orderActive, setOrderActive] = useState<OrderObject>(orderSells[0]);
-
 
   const fetchInitialData = useCallback(async (): Promise<SellsInterface[]> => {
     const { sells } = await  getSells({ PageNumber: 1, SellsOrderCondition: orderActive });

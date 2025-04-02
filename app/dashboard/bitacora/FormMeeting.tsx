@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import debounce from "lodash.debounce";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Input from '@/components/Inputs/input';
 import InputDatePicker from '@/components/Inputs/inputDate';
 import InputTextBox from '@/components/Inputs/inputTextBox';
@@ -10,12 +11,12 @@ import useToast from '@/hooks/useToast';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { ClientInterface } from '@/interface/client';
 import MeetingInterface from '@/interface/meeting';
-import { searchClients } from '@/services/clients';
-import { postMeeting } from '@/services/meeting';
+import { getClientById, searchClients } from '@/services/clients';
+import { postMeeting, updateMeeting } from '@/services/meeting';
 import styles from '../../../styles/Form.module.scss';
 
 export const INITIAL_MEETING: MeetingInterface = {
-  Fecha: new Date(), // Fecha actual como objeto Date
+  Fecha: '',
   Hour: '',
   HourEnd: '',
   Descripcion: '',
@@ -24,6 +25,7 @@ export const INITIAL_MEETING: MeetingInterface = {
   Comentarios: '',
   Id_Bitacora: 0,
   Id_Cliente: 0,
+  Id_Almacen: 0
 };
 
 interface FormMeetingInterface {
@@ -33,6 +35,7 @@ interface FormMeetingInterface {
   isEditing?: boolean;
 
   newPost?: () => void;
+  onMeetingUpdated?: () => void;
 }
 
 export default function FormMeeting({
@@ -41,13 +44,16 @@ export default function FormMeeting({
   onClose,
   isEditing,
   newPost,
+  onMeetingUpdated
 }: FormMeetingInterface): JSX.Element | null {
+
   const { showSuccess, showInfo } = useToast();
   const { isMobile } = useWindowSize();
 
   // Inicialización del formulario
   const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
   const [clients, setClients] = useState<ClientInterface[]>();
+  const [clienteLocal, setClienteLocal] = useState<string | null>(null)
 
   const availableToPost: boolean =
     !!meetingForm?.Titulo && !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
@@ -59,17 +65,46 @@ export default function FormMeeting({
     { value: 4, label: 'Tarea' },
   ];
 
-  const onSearchClient = async (value: string): Promise<void> => {
-    const { clients } = await searchClients(value);
-    setClients(clients);
-  };
-
   // Manejo genérico de cambios
-  const handleChange = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]) : void => {
+  const handleChange = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]): void => {
     setMeetingForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const onPostMeeting = async () : Promise<void> => {
+  // Client.
+  const debouncedSearchClient = useMemo(
+    () =>
+      debounce(async (value: string): Promise<void> => {
+        const { clients } = await searchClients(value);
+        setClients(clients);
+      }, 500), [setClients]
+  );
+
+  const onSearchClient = useCallback((value: string): void => {
+    debouncedSearchClient(value);
+  }, [debouncedSearchClient]);
+
+
+
+  const onSelectClient = async (option: OptionType): Promise<void> => {
+    if (option === null) return
+    const splitValue = option.value.toString().split('-');
+    setClienteLocal(option.label as string)
+    handleChange('Id_Cliente', Number(splitValue[0] ?? 0));
+    handleChange('Id_Almacen', Number(splitValue[1] ?? 0));
+  };
+
+  const onClearClient = (): void => {
+    setClienteLocal(null);
+    handleChange('Id_Cliente', 0);
+    handleChange('Id_Almacen', 0);
+  }
+
+  // Doc type.
+  const onSelectDocType = async (option: OptionType): Promise<void> => {
+    handleChange('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3 | 4)
+  }
+
+  const onPostMeeting = async (): Promise<void> => {
     if (!availableToPost) {
       return showInfo('Es necesario agregar título, tipo de contacto y cliente');
     }
@@ -89,16 +124,62 @@ export default function FormMeeting({
     );
   };
 
-  useEffect(() => {
-    if (!meetingProp) return;
-    setMeetingForm(meetingProp);
-  }, [meetingProp]);
+  const onUpdatetMeeting = async (): Promise<void> => {
+    if (!availableToPost) {
+      return showInfo('Es necesario agregar título, tipo de contacto y cliente');
+    }
+
+    if (!meetingForm.Id_Bitacora) {
+      return showInfo('Es necesario Id_Bitacora');
+    }
+
+    const post = await updateMeeting(meetingForm, meetingForm.Id_Bitacora);
+    onClose();
+    newPost?.();
+
+    if (post.error) {
+      console.error(post.details);
+      showInfo('Hubo un error, intentalo de nuevo');
+      return;
+    }
+
+    onMeetingUpdated?.();
+    showSuccess(
+      isEditing ? `Reunión ${meetingForm.Titulo} editada!` : `Reunión ${meetingForm.Titulo} creada!`
+    );
+  };
+
+  const handleResetMeeting = async (meetingProp: MeetingInterface): Promise<void> => {
+    const { Id_Cliente, Id_Almacen, Fecha } = meetingProp;
+
+    if (Id_Cliente && Id_Almacen) {
+      const { client } = await getClientById({ Id_Almacen, Id_Cliente });
+      if (client?.Nombre) {
+        setClienteLocal(client?.Nombre?.trim())
+      }
+    } else {
+      setClienteLocal(null)
+    }
+
+    const meetingData = {
+      ...meetingProp,
+      Fecha: new Date(Fecha)
+    };
+
+    setMeetingForm(meetingData);
+  };
 
   useEffect(() => {
+    if (!meetingProp?.Titulo || !visible) return;
+    handleResetMeeting(meetingProp);
+  }, [visible, meetingProp]);
+
+  useEffect(() => {
+    if (!meetingProp?.Titulo) return;
     onSearchClient('');
-  }, []);
+  }, [meetingProp, onSearchClient]);
 
-  if (!visible) return null;
+  if (!visible || meetingForm.Fecha === '') return null;
 
   if (!clients) {
     return <div>Cargando clientes...</div>;
@@ -109,11 +190,15 @@ export default function FormMeeting({
     value: `${item.Id_Cliente}-${item.Id_Almacen}` as string,
   }));
 
+
   return (
     <Modal
       title="Crear Reunión"
       visible={visible}
-      onClose={onClose}
+      onClose={() => {
+        setMeetingForm(INITIAL_MEETING)
+        onClose()
+      }}
       modalSize="medium"
       actionsBottom={{
         action1: {
@@ -121,38 +206,31 @@ export default function FormMeeting({
           label: 'Cancelar',
         },
         action2: {
-          action: () => onPostMeeting(),
+          action: isEditing ? (): Promise<void> => onUpdatetMeeting() : (): Promise<void> => onPostMeeting(),
           label: isEditing ? 'Editar' : 'Crear reunión',
           disabled: !availableToPost,
         },
       }}
-      extraStyles={{
-        width: isMobile ? '100%' : '40%',
-      }}
+      extraStyles={{ width: isMobile ? '100%' : '40%' }}
     >
       <div className={styles.formMetting}>
         <SelectReact
           options={optionsClients}
           name="Cliente"
-          onChange={(option) => {
-            const splitValue = option.value.toString().split('-');
-            handleChange('Id_Cliente', Number(splitValue[0] ?? 0));
-            handleChange('Id_Almacen', Number(splitValue[1] ?? 0));
-          }}
-          value={
-            optionsClients.find(
-              (item) => item.value === `${meetingForm.Id_Cliente}-${meetingForm.Id_Almacen}`
-            ) ?? null
-          }
+          onChange={onSearchClient}
+          onSelect={onSelectClient}
+          onClear={onClearClient}
           label="Selecciona el cliente"
+          value={clienteLocal ? {
+            label: clienteLocal,
+            value: `${meetingForm.Id_Cliente}-${meetingForm.Id_Almacen}`
+          } : null}
         />
 
         <SelectReact
           options={optionTipoMeeting}
           name="Tipo de contacto"
-          onChange={(option) =>
-            handleChange('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3 | 4)
-          }
+          onSelect={onSelectDocType}
           value={optionTipoMeeting.find((item) => item.value === meetingForm.TipoContacto) ?? null}
           label="Selecciona el tipo de tarea"
         />
@@ -196,11 +274,6 @@ export default function FormMeeting({
           onChange={(value) => handleChange('Comentarios', value)}
           label="¿Algún comentario extra? Estos comentarios podrán ser editados después."
         />
-
-        {/* <InputSelectTag
-                    onChange={(value) => handleResendEmail(value)}
-                    label="Escribe el correo a quien lo quieres reenviar esta tarea"
-                /> */}
 
         <FileUploader label="¿Deseas adjuntar algún archivo?" />
       </div>
