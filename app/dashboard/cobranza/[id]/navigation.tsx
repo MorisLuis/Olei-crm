@@ -9,7 +9,8 @@ interface ExecuteNavigationCobranzaInterface {
 export const ExecuteNavigationCobranza = ({
   Id_Cliente
 }: ExecuteNavigationCobranzaInterface) : { navigateToCobranza: (item: SellsInterface) => void, navigateToBack: () => void } => {
-  const { push } = useRouter();
+  
+  const { push, back } = useRouter();
 
   const navigateToCobranza = useCallback(
     (item: SellsInterface) => {
@@ -23,7 +24,7 @@ export const ExecuteNavigationCobranza = ({
   );
 
   const navigateToBack = useCallback(() => {
-    push(`${Id_Cliente}`);
+    back();
   }, [Id_Cliente, push]);
 
   return {

@@ -10,7 +10,7 @@ import styles from '../../../../styles/pages/Cobranza.module.scss';
 interface ShareCobranzaModalInterface {
   visible: boolean;
   onClose: () => void;
-  email?: string;
+  email: string;
   clientName: string;
   filters: FilterSellsByClient;
 }
@@ -49,7 +49,6 @@ export default function ShareCobranzaModal({
 
   const handleDownloadPDF = async (): Promise<void | null> => {
     setDownloadingPDF(true);
-
     if (!email) return null;
     if (!Nombre) return null;
 
@@ -61,8 +60,7 @@ export default function ShareCobranzaModal({
       nombreRemitente: clientName,
       Id_Cliente,
       filters,
-      PageNumber: 1,
-      //client,
+      PageNumber: 1
     };
 
     const myCsvPromise = postEmailCobranza(emailBody);
@@ -78,17 +76,19 @@ export default function ShareCobranzaModal({
           Compartir con {remitente} al correo {email}, su relación de cobranza.
         </p>
         <div className={styles.actions}>
-          <ButtonLoad
+          {/* <ButtonLoad
             buttonText="Compartir CSV"
             loading={downloadingCSV}
             color="white"
             onClick={handleDownloadCSV}
-          />
+            disabled={!email}
+          /> */}
           <ButtonLoad
             buttonText="Compartir PDF"
             loading={downloadingPDF}
             color="blue"
             onClick={handleDownloadPDF}
+            disabled={!email}
           />
         </div>
       </div>

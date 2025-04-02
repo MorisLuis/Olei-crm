@@ -14,6 +14,8 @@ interface ActionsComponentInterface {
 export default function ActionsComponent({ actions }: ActionsComponentInterface): JSX.Element{
   const [modalOpen, setModalOpen] = useState(false);
 
+  console.log({actions})
+
   return (
     <div className={styles.actions}>
       <div className={styles.buttons}>

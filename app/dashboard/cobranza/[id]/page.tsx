@@ -42,6 +42,7 @@ export default function Cobranza(): JSX.Element {
     onDeleteFilter,
     onSelectFilterValue,
   });
+
   const filters = useMemo( () => ExecuteFiltersSellsByClient({ orderActive, filtersActive }),
     [orderActive, filtersActive]
   );
@@ -96,7 +97,7 @@ export default function Cobranza(): JSX.Element {
       text: 'Compartir Relación',
       onclick: () => setOpenModalShareCobranza(true),
       color: 'yellow',
-      notVsible: email === undefined || email === 'undefined' || email === null,
+      notVsible: email === undefined || email === 'undefined' || email === null || email === '',
     },
   ];
 
