@@ -14,6 +14,7 @@ import MeetingInterface from '@/interface/meeting';
 import { getClientById, searchClients } from '@/services/clients';
 import { postMeeting, updateMeeting } from '@/services/meeting';
 import styles from '../../../styles/Form.module.scss';
+import { getActualHour } from "@/utils/formatTime";
 
 export const INITIAL_MEETING: MeetingInterface = {
   Fecha: '',
@@ -174,22 +175,20 @@ export default function FormMeeting({
 
   useEffect(() => {
     if (!visible) return;
-    if(meetingProp?.Titulo) {
+  
+    if (meetingProp?.Titulo) {
       handleResetMeeting(meetingProp);
     } else {
+      const { hour, hourEnd } = getActualHour()
       setMeetingForm(prevMeeting => ({
         ...prevMeeting,
-        Fecha: new Date()
+        Fecha: new Date(),
+        Hour: hour,
+        HourEnd: hourEnd,
       }));
-      /* const meetingData = {
-        ...meetingForm,
-        Fecha: new Date()
-      };
-  
-      setMeetingForm(meetingData); */
     }
   }, [visible, meetingProp]);
-
+  
   useEffect(() => {
     if (!visible) return;
     onSearchClient('');

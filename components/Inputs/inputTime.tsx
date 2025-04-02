@@ -10,6 +10,7 @@ interface TimeInputInterface {
 }
 
 const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface) : JSX.Element => {
+
   const [time, setTime] = useState('');
   const { showError } = useToast();
 
