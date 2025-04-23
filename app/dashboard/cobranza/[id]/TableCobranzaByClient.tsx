@@ -1,9 +1,6 @@
 'use client';
 
-import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
-import { MessageCard } from '@/components/Cards/MessageCard';
-import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
@@ -17,14 +14,13 @@ interface TableCobranzaInterface {
   totalSells: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
-  loadMoreProducts: () => Promise<void>;
+  loadMoreProducts: () => void;
   handleSelectItem: (item: SellsInterface) => void;
 }
 
-export default function TableCobranza({
+export default function TableCobranzaByClient({
   sells,
   totalSells,
-  loadingData,
   buttonIsLoading,
   loadMoreProducts,
   handleSelectItem,
@@ -86,23 +82,6 @@ export default function TableCobranza({
       render: (_, item) => <p>{format(item.Saldo)}</p>,
     },
   ];
-
-  if (loadingData) {
-    return (
-      <>
-        {/* Header skeleton */}
-        <TableSkeleton />
-      </>
-    );
-  }
-
-  if (sells?.length === 0) {
-    return (
-      <MessageCard title="No hay coincidencias exactas" icon={faFaceFrown}>
-        <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
-      </MessageCard>
-    );
-  }
 
   return (
     <Table

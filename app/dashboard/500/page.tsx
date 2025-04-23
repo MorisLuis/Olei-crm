@@ -1,14 +1,18 @@
 'use client';
 
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import ButtonSmall from '@/components/Buttons/ButtonSmall';
 import styles from './../../../styles/pages/NotFound.module.scss';
 
-const Custum404 = () : JSX.Element => {
-  const { replace } = useRouter();
+interface Custum500Interface {
+  handleRetry: (options?: RefetchOptions) => Promise<QueryObserverResult<unknown, Error>>;
+}
 
+const Custum500 = ({
+  handleRetry
+}: Custum500Interface): JSX.Element => {
   return (
     <div className={styles.NotFound}>
       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
@@ -27,11 +31,11 @@ const Custum404 = () : JSX.Element => {
           className={styles.message}
         >
           Lo sentimos, hubo un error en el servidor intentalo más tarde. 😞
-          <ButtonSmall text="Volver al inicio" onClick={() => replace('/dashboard')} />
+          <ButtonSmall text="Volver al intentarlo" onClick={handleRetry} />
         </motion.p>
       </motion.div>
     </div>
   );
 };
 
-export default Custum404;
+export default Custum500;

@@ -18,7 +18,6 @@ export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
   const { push } = useRouter();
   const { logoutUser, user } = useContext(AuthContext);
 
-  console.log({user})
   const onLogOut = async () : Promise<void> => {
     await logoutUser();
     push('/login');

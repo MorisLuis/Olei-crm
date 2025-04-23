@@ -5,6 +5,7 @@ import {
   faCalendar,
   faUserGroup,
   faGear,
+  faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface screenDataInterface {
@@ -25,44 +26,51 @@ export const screenData: screenDataInterface[] = [
   },
   {
     id: 1,
+    name: 'Inicio',
+    pathname: '/dashboard/home',
+    description: 'Olei CRM by olei software',
+    icon: faHouse,
+  },
+  {
+    id: 2,
     name: 'Clientes',
     pathname: '/dashboard/clients',
     description: 'Clientes Olei CRM by olei software',
     icon: faUserGroup,
   },
   {
-    id: 2,
+    id: 3,
     name: 'Ventas',
     pathname: '/dashboard/sells',
     description: 'Ventas Olei CRM by olei software',
     icon: faMoneyBill1,
   },
+  /* {
+    id: 4,
+    name: 'Cobranza',
+    pathname: '/dashboard/cobranza',
+    description: 'Cobranza Olei CRM by olei software',
+    icon: faSheetPlastic,
+  }, */
   {
-    id: 3,
+    id: 5,
     name: 'Bitacora',
     pathname: '/dashboard/bitacora',
     description: 'Bitacora Olei CRM by olei software',
     icon: faSheetPlastic,
   },
   {
-    id: 4,
+    id: 6,
     name: 'Calendario',
     pathname: '/dashboard/calendar',
     description: 'Calendario Olei CRM by olei software',
     icon: faCalendar,
   },
   {
-    id: 5,
+    id: 7,
     name: 'Configuracion',
     pathname: '/dashboard/settings',
     description: 'Configuración Olei CRM by olei software',
     icon: faGear,
-  },
-  {
-    id: 6,
-    name: 'Cobranza',
-    pathname: '/dashboard/cobranza',
-    description: 'Cobranza Olei CRM by olei software',
-    icon: faGear,
-  },
+  }
 ];

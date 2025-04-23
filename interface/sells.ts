@@ -77,15 +77,4 @@ export interface SellsDetailsInterface {
   Id_Unidad?: number | null;
   SwNs?: boolean | null;
   SKU?: string | null;
-}
-
-export interface FilterSellsByClient {
-  FilterTipoDoc: 0 | 1;
-  FilterExpired: 0 | 1;
-  FilterNotExpired: 0 | 1;
-  TipoDoc: 0 | 1 | 2 | 3 | 4;
-  DateExactly?: string;
-  DateStart?: string;
-  DateEnd?: string;
-  sellsOrderCondition?: string;
-}
+};

@@ -37,7 +37,7 @@ api.interceptors.response.use(
       Metodo: error.config?.method,
       code: error.response?.status
     }
-    console.log({errorBody})
+
     try {
 
       await axios.post(

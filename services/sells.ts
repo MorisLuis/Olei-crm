@@ -78,38 +78,6 @@ export const getTotalSells = async (): Promise<{ total: number }> => {
   return { total: data.total };
 };
 
-interface getCobranzaInterface {
-  client: number;
-  PageNumber: number;
-  filters: FilterSellsByClient;
-}
-
-export const getCobranza = async ({
-  client,
-  PageNumber,
-  filters }
-  : getCobranzaInterface): Promise<{ sells: SellsInterface[] }> => {
-  const { data } = await api.get<{ sells: SellsInterface[] }>(
-    `/api/sells/cobranza/${client}?PageNumber=${PageNumber}&FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`
-  );
-  return { sells: data.sells };
-};
-
-interface getTotalCobranzaInterface {
-  client: number;
-  filters: FilterSellsByClient;
-}
-
-export const getTotalCobranza = async ({
-  client,
-  filters
-}: getTotalCobranzaInterface): Promise<{ total: number }> => {
-  const { data } = await api.get<{ total: number }>(
-    `/api/sells/cobranza/total/${client}?FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`
-  );
-  return { total: data.total };
-};
-
 
 export const getSellDetails = async (
   { Folio, PageNumber, }

@@ -1,5 +1,5 @@
 import { api } from '@/api/api';
-import { FilterSellsByClient } from '@/interface/sells';
+import { FilterSellsByClient } from './cobranza/cobranza.interface';
 
 export interface postEmailInterface {
   destinatario: string;
