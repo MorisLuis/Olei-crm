@@ -6,16 +6,17 @@ import styles from './../../styles/Components/CobranzaByClientFilters.module.scs
 export interface FilterItemConfig {
     key: string;
     label: string;
-    type: 'select' | 'input' | 'date' | 'radio';
+    type: 'select' | 'input' | 'date' | 'radio' | 'date-range';
     inputType?: string;
     options?: { label: string; value: string | number }[];
+    children?: FilterItemConfig[];  // Añadir children aquí para filtros tipo 'date-range'
 }
 
 interface FilterBarProps<T extends string = string> {
     filters: Record<T, string | number | undefined>;
     updateFilter: (key: T, value: string | number) => void;
     config: FilterItemConfig[];
-    updateFilters: (updates: Partial<Record<T, string | number>>) => void; // <-- cambiar aquí
+    updateFilters: (updates: Partial<Record<T, string | number>>) => void;
 }
 
 const FilterBar = <T extends string = string>({
@@ -60,12 +61,15 @@ const FilterBar = <T extends string = string>({
                 );
             case 'date':
                 return (
-                    <input
-                        type="date"
-                        className={styles.filterButton}
-                        value={value ?? ''}
-                        onChange={(e) => updateFilter(filter.key as T, e.target.value)}
-                    />
+                    <>
+                        <label className={styles.radioOption}>{filter.label}</label>
+                        <input
+                            type="date"
+                            className={styles.filterButton}
+                            value={value ?? ''}
+                            onChange={(e) => updateFilter(filter.key as T, e.target.value)}
+                        />
+                    </>
                 );
             case 'radio':
                 return (
@@ -96,6 +100,16 @@ const FilterBar = <T extends string = string>({
                     </div>
                 );
 
+            case 'date-range': // Este es el caso para manejar el 'date-range'
+                return (
+                    <div className={styles.dateRangeWrapper}>
+                        {filter.children?.map((childFilter) => (
+                            <div key={childFilter.key} className={styles.dateRangeItem}>
+                                {renderInput(childFilter)} {/* Renderiza cada filtro de fecha */}
+                            </div>
+                        ))}
+                    </div>
+                );
 
             default:
                 return null;

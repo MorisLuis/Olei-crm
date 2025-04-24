@@ -24,27 +24,25 @@ export const cobranzaFiltersConfig: FilterItemConfig[] = [
         ],
     },
     {
-        key: 'DateStart',
-        label: 'Fecha Inicio',
-        type: 'date',
-    },
-    {
-        key: 'DateEnd',
-        label: 'Fecha Fin',
-        type: 'date',
-    },
-    {
-        key: 'DateExactly',
-        label: 'Fecha Exacta',
-        type: 'date',
-    },
-    {
-        key: 'FilterTipoDoc',
-        label: 'Filtrar Tipo Doc',
-        type: 'select',
-        options: [
-            { label: 'Todos', value: 0 },
-            { label: 'Sí', value: 1 },
-        ],
+        key: 'DateRange',  // Nuevo grupo para los tres filtros de fecha
+        label: 'Fecha',
+        type: 'date-range',  // Personalizado para indicar que este es un grupo de fechas
+        children: [  // Aquí metemos los tres filtros como "hijos"
+            {
+                key: 'DateStart',
+                label: 'Fecha Inicio',
+                type: 'date',
+            },
+            {
+                key: 'DateEnd',
+                label: 'Fecha Fin',
+                type: 'date',
+            },
+            {
+                key: 'DateExactly',
+                label: 'Fecha Exacta',
+                type: 'date',
+            }
+        ]
     }
 ];
