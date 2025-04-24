@@ -34,7 +34,7 @@ export const getSellsByClient = async ({
   filters,
 }: getSellsByClientInterface): Promise<{ sells: SellsInterface[] }> => {
   const { data } = await api.get<{ sells: SellsInterface[] }>(
-    `/api/sells/client/${client}?PageNumber=${PageNumber}&FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`
+    `/api/sells/client/${client}?PageNumber=${PageNumber}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`
   );
   return { sells: data.sells };
 };
@@ -67,7 +67,7 @@ export const getTotalSellsByClient = async ({
   filters: FilterSellsByClient;
 }): Promise<{ total: number }> => {
   const { data } = await api.get<{ total: number }>(
-    `/api/sells/client/total/${client}?FilterTipoDoc=${filters.FilterTipoDoc}&FilterExpired${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`
+    `/api/sells/client/total/${client}&FilterExpired${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`
   );
   return { total: data.total };
 };

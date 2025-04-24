@@ -21,9 +21,7 @@ export const ExecuteFiltersSellsByClient = ({
   orderActive,
   filtersActive,
 }: executeFiltersSellsByClientInterface) : FilterSellsByClient => {
-  const FilterTipoDoc = filtersActive.some((item) => item.value !== 0 && item.filter === 'TipoDoc')
-    ? 1
-    : 0;
+
   const FilterExpired = filtersActive.some((item) => item.value === 'Expired') ? 1 : 0;
   const FilterNotExpired = filtersActive.some((item) => item.value === 'Not Expired') ? 1 : 0;
   const TipoDoc =
@@ -51,7 +49,6 @@ export const ExecuteFiltersSellsByClient = ({
   const DateEnd = getDateValue('DateEnd');
 
   const filters: FilterSellsByClient = {
-    FilterTipoDoc,
     FilterExpired,
     FilterNotExpired,
     TipoDoc,

@@ -28,7 +28,6 @@ interface getTotalCobranzaInterface {
 
 // UTILS
 interface FilterSellsByClient {
-    FilterTipoDoc: 0 | 1;
     FilterExpired: 0 | 1;
     FilterNotExpired: 0 | 1;
     TipoDoc: 0 | 1 | 2 | 3 | 4;

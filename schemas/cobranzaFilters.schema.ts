@@ -8,9 +8,6 @@ export const CobranzaFilterSchema = z.object({
 
 export const CobranzaByClientFilterSchema = z.object({
     cobranzaOrderCondition: z.enum(CobranzaByClientCondition).default('ExpiredDays'),
-    FilterTipoDoc: z.coerce.number().refine((val) => [0, 1].includes(val), {
-        message: 'Invalid value for FilterTipoDoc, expected 0 or 1',
-    }).default(0),
     FilterExpired: z.coerce.number().refine((val) => [0, 1].includes(val), {
         message: 'Invalid value for FilterExpired, expected 0 or 1',
     }).default(0),
