@@ -1,10 +1,10 @@
 import { api } from "@/api/api";
 import { SellsInterface } from "@/interface/sells";
-import { CobranzaInterfaceByClient, CobranzaResponse, getCobranzaByClientInterface, getCobranzaInterface, getTotalCobranzaInterface } from "./cobranza.interface";
+import { CobranzaInterface, CobranzaResponse, getCobranzaByClientInterface, getCobranzaInterface, getTotalCobranzaInterface } from "./cobranza.interface";
 
 const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaResponse> => {
 
-    const { data } = await api.get<{ cobranza: CobranzaInterfaceByClient[]; currentPage: number; totalPages: number }>('/api/sells/cobranza/clients', {
+    const { data } = await api.get<{ cobranza: CobranzaInterface[]; currentPage: number; totalPages: number }>('/api/sells/cobranza/clients', {
         params: {
             PageNumber: params.PageNumber,
             ...params.filters,
@@ -24,8 +24,6 @@ const getCobranzaByClient = async ({
     filters
 }: getCobranzaByClientInterface): Promise<{ cobranza: SellsInterface[] }> => {
 
-    console.log({filters})
-
     const params = new URLSearchParams({
         PageNumber: String(PageNumber),
         FilterTipoDoc: String(filters.FilterTipoDoc ?? ''),
@@ -37,8 +35,6 @@ const getCobranzaByClient = async ({
         DateExactly: filters.DateExactly || '',
         cobranzaOrderCondition: filters.cobranzaOrderCondition || '',
     });
-
-    console.log({params: params.toString()})
 
     const { data: { cobranza } } = await api.get<{ cobranza: SellsInterface[] }>(`/api/sells/cobranza/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`);
     return { cobranza: cobranza };

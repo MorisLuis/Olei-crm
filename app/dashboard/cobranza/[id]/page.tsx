@@ -2,27 +2,30 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import Custum500 from '@/components/500';
+import Header from '@/components/navigation/header';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { CobranzaByClientFilterSchema } from '@/schemas/cobranzaFilters.schema';
-import { FilterSellsByClient } from '@/services/cobranza/cobranza.interface';
+import { FilterCobranzaByClient } from '@/services/cobranza/cobranza.interface';
 import { getCobranzaByClient } from '@/services/cobranza/cobranza.service';
-import CobranzaByClientFilters from './CobranzaByClientFilters';
 import TableCobranzaByClient from './TableCobranzaByClient';
-import Custum500 from '../../500/page';
+import { cobranzaFiltersConfig } from './filters';
+import FilterBar from '../../../../components/navigation/FilterBar';
+
 
 export default function CobranzaByClient(): JSX.Element {
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { filters, updateFilter, updateFilters } = useUrlFilters(CobranzaByClientFilterSchema);
 
   const Id_Cliente = pathname.split('/').filter(Boolean)[2];
   const Id_Almacen = searchParams.get('Id_Almacen');
 
   const [cobranzaItems, setCobranzaItems] = useState<SellsInterface[]>([]);
   const [page, setPage] = useState(1);
-
-  const { filters } = useUrlFilters(CobranzaByClientFilterSchema);
 
   const { data, error, isLoading, refetch } =
     useQueryPaginationWithFilters<{ cobranza: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
@@ -32,30 +35,31 @@ export default function CobranzaByClient(): JSX.Element {
           client: Number(Id_Cliente),
           Id_Almacen: Number(Id_Almacen),
           PageNumber,
-          filters: filters as FilterSellsByClient,
+          filters: filters as FilterCobranzaByClient,
         }),
       { PageNumber: page, filters }
     );
 
   const cobranza = data?.cobranza;
 
-  const handleLoadMore = () : void => {
+  const handleLoadMore = (): void => {
     setPage((prev) => prev + 1);
   };
 
-  const handleSelectItem = () : void => {
+  const handleSelectItem = (): void => {
     return
-  }
+  };
+
+  useEffect(() => {
+    setCobranzaItems([]);
+    setPage(1);
+  }, [filters]);
 
   useEffect(() => {
     if (!cobranza) return;
     setCobranzaItems((prev) => [...prev, ...data.cobranza]);
   }, [cobranza, data]);
 
-  useEffect(() => {
-    setCobranzaItems([]);
-    setPage(1);
-  }, [filters]);
 
   if (error) {
     return <Custum500 handleRetry={refetch} />;
@@ -66,10 +70,15 @@ export default function CobranzaByClient(): JSX.Element {
   }
 
   return (
-    <div className="p-6 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">Cobranza por Cliente</h1>
+    <>
+      <Header title="Cobranza" dontShowBack />
 
-      <CobranzaByClientFilters />
+      <FilterBar
+        filters={filters}
+        updateFilter={updateFilter}
+        updateFilters={updateFilters}
+        config={cobranzaFiltersConfig}
+      />
 
       <TableCobranzaByClient
         sells={cobranzaItems}
@@ -79,6 +88,6 @@ export default function CobranzaByClient(): JSX.Element {
         buttonIsLoading={false}
         loadingData={isLoading}
       />
-    </div>
+    </>
   );
 }

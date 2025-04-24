@@ -11,7 +11,6 @@ export function useUrlFilters<S extends ZodType<any, any>>(
     
     const filters = useMemo<zInfer<S>>(() => {
         const rawObj = Object.fromEntries(searchParams.entries())
-        console.log('parsedFilters:', schema.parse(rawObj)) // Verifica cómo se parsean
         
         try {
             return schema.parse(rawObj)
@@ -27,11 +26,26 @@ export function useUrlFilters<S extends ZodType<any, any>>(
         (key: keyof zInfer<S>, value: zInfer<S>[typeof key]) => {
             const params = new URLSearchParams(searchParams.toString())
             params.set(String(key), String(value))
-            //router.push(`?${params.toString()}`, { shallow: true })
+            router.push(`?${params.toString()}`)
+        },
+        [router, searchParams]
+    );
+
+    const updateFilters = useCallback(
+        (updates: Partial<Record<keyof zInfer<S>, string | number>>) => {
+            const params = new URLSearchParams(searchParams.toString())
+
+            Object.entries(updates).forEach(([key, value]) => {
+                if (value !== undefined && value !== null) {
+                    params.set(key, String(value))
+                }
+            })
+
             router.push(`?${params.toString()}`)
         },
         [router, searchParams]
     )
 
-    return { filters, updateFilter }
+
+    return { filters, updateFilter, updateFilters }
 }

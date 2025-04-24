@@ -8,11 +8,6 @@ interface CobranzaInterface {
     Id_Almacen: number;
 };
 
-/* interface CobranzaInterfaceByClient extends CobranzaInterface {
-    Id_Cliente: number;
-    Id_Almacen: number;
-}
- */
 // PARAMS
 interface getCobranzaInterface {
     PageNumber: number;
@@ -23,12 +18,12 @@ interface getCobranzaByClientInterface {
     Id_Almacen: number,
     client: number;
     PageNumber: number;
-    filters: FilterSellsByClient;
+    filters: FilterCobranzaByClient;
 };
 
 interface getTotalCobranzaInterface {
     client: number;
-    filters: FilterSellsByClient;
+    filters: FilterCobranzaByClient;
 };
 
 // UTILS
@@ -40,8 +35,12 @@ interface FilterSellsByClient {
     DateExactly?: string;
     DateStart?: string;
     DateEnd?: string;
-    cobranzaOrderCondition?: string;
+    sellsOrderCondition?: string;
 };
+
+interface FilterCobranzaByClient extends Omit<FilterSellsByClient, 'sellsOrderCondition'>  {
+    cobranzaOrderCondition?: string;
+}
 
 interface CobranzaResponse {
     cobranza: CobranzaInterface[];
@@ -53,7 +52,64 @@ type CobranzaOrderConditionType = 'Nombre' | 'ExpiredDays' | 'SaldoVencido' | 'S
 export const CobranzaOrderCondition = ['Nombre', 'ExpiredDays', 'SaldoVencido', 'SaldoNoVencido', 'TotalSaldo'] as const
 
 export type CobranzaByClientOrderConditionByClientType = 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
-export const CobranzaByClientCondition = ['TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const
+
+export const CobranzaByClientCondition = ['TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
+
+export const CobranzaByClientConditionObject: ReadonlyArray<{
+    value: CobranzaByClientOrderConditionByClientType;
+    label: string;
+}> = [
+    {
+        value: 'TipoDoc',
+        label: 'Tipo documento',
+    },
+    {
+        value: 'Folio',
+        label: 'Folio',
+    },
+    {
+        value: 'Fecha',
+        label: 'Fecha',
+    },
+    {
+        value: 'FechaEntrega',
+        label: 'Fecha de Entrega',
+    },
+    {
+        value: 'ExpiredDays',
+        label: 'Días expirados',
+    },
+] as const;
+
+
+export type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
+export const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
+
+export const TipoDocObject: ReadonlyArray<{
+    value: typeTipoDoc;
+    label: string;
+}> = [
+    {
+        value: 0,
+        label: 'Todos',
+    },
+    {
+        value: 1,
+        label: 'Facturas',
+    },
+    {
+        value: 2,
+        label: 'Remisión',
+    },
+    {
+        value: 3,
+        label: 'Pedidos',
+    },
+    {
+        value: 4,
+        label: 'Cotización',
+    },
+] as const;
 
 
 
@@ -78,5 +134,6 @@ export type {
     FilterCobranza,
     CobranzaOrderConditionType,
     FilterSellsByClient,
+    FilterCobranzaByClient,
     CobranzaResponse
 }

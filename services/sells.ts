@@ -1,12 +1,11 @@
 import { api } from '@/api/api';
 import { OrderObject } from '@/components/UI/OrderComponent';
-import OrderInterface from '@/interface/order';
 import {
-  FilterSellsByClient,
   SellsDetailsInterface,
   SellsInterface,
   typeTipoDoc,
 } from '@/interface/sells';
+import { FilterSellsByClient } from './cobranza/cobranza.interface';
 
 interface getSellsInterface {
   PageNumber: number;

@@ -1,0 +1,64 @@
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+.filtersComponent {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    margin-bottom: variables.$margin-vertical;
+
+    .filtersWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: variables.$gap;
+        justify-content: flex-start;
+
+        .filterItem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+
+            .filterButton {
+                background-color: variables.$background-color;
+                padding: calc(variables.$padding / 2);
+                border-radius: variables.$border-radius;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                border-width: 1px;
+                border-style: dashed;
+                font-size: variables.$font-small;
+                width: 100%;
+
+                &:hover {
+                    background-color: variables.$background-color-tertiary;
+                }
+            }
+
+            .filterModal {
+                position: absolute;
+                left: 0px;
+                top: 100%;
+                z-index: 99;
+                min-width: 150px;
+
+
+                margin-top: calc(variables.$margin-vertical / 2);
+                padding: calc(variables.$padding / 2);
+                background-color: variables.$background-color;
+                border: 1px solid variables.$color-border;
+                border-radius: variables.$border-radius;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                width: auto;
+
+                .label{ 
+                    font-size: variables.$font-small;
+                    font-weight: bold
+                }
+            }
+
+        }
+    }
+};

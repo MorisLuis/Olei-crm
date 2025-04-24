@@ -6,6 +6,7 @@ import {
   faUserGroup,
   faGear,
   faHouse,
+  faHandHoldingDollar,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface screenDataInterface {
@@ -45,13 +46,13 @@ export const screenData: screenDataInterface[] = [
     description: 'Ventas Olei CRM by olei software',
     icon: faMoneyBill1,
   },
-  /* {
+  {
     id: 4,
     name: 'Cobranza',
     pathname: '/dashboard/cobranza',
     description: 'Cobranza Olei CRM by olei software',
-    icon: faSheetPlastic,
-  }, */
+    icon: faHandHoldingDollar,
+  },
   {
     id: 5,
     name: 'Bitacora',

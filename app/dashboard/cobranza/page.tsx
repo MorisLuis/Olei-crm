@@ -2,16 +2,16 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import Custum500 from '@/components/500';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { CobranzaFilterSchema } from '@/schemas/cobranzaFilters.schema';
 import { CobranzaInterface } from '@/services/cobranza/cobranza.interface';
 import { getCobranza } from '@/services/cobranza/cobranza.service';
 import TableCobranza from './TableCobranzaByClient';
-import Custum500 from '../500/page';
 
-export default function Cobranza() : JSX.Element {
+function CobranzaContent() : JSX.Element {
 
     const [page, setPage] = useState(1);
     const router = useRouter()
@@ -68,3 +68,13 @@ export default function Cobranza() : JSX.Element {
         </div>
     );
 }
+
+
+export default function Cobranza(): JSX.Element {
+    return (
+      <Suspense fallback={<p>Cargando...</p>}>
+        <CobranzaContent />
+      </Suspense>
+    );
+  }
+  

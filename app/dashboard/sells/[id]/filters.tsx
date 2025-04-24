@@ -1,11 +1,11 @@
 import { OrderObject } from '@/components/UI/OrderComponent';
 import { FilterObject } from '@/hooks/Filters/useFilters';
 import {
-  FilterSellsByClient,
   SellsInterface,
   SellsOrderByClientCondition,
   SellsOrderConditionByClientType,
 } from '@/interface/sells';
+import { FilterSellsByClient } from '@/services/cobranza/cobranza.interface';
 
 /* 
 This are filters with the purpose of been used in query.

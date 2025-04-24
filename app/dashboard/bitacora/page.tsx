@@ -69,8 +69,6 @@ export default function Bitacora(): JSX.Element {
     handleResetData();
   }, [handleResetData]);
 
-  /*   }, [orderActive, filtersActive, handleResetData]);
- */
   return (
     <div className={styles.page}>
       <Header title="Bitacora" actions={clientActions} dontShowBack />

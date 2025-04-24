@@ -65,7 +65,7 @@ export default function TableCobranzaByClient({
       render: (ExpiredDays) =>
         ExpiredDays ? (
           <div>
-            <p>{formatDate(ExpiredDays as Date)}</p>
+            <p>{ExpiredDays as number}</p>
           </div>
         ) : (
           <Tag color="gray">Sin datos</Tag>

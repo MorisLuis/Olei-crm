@@ -3,7 +3,7 @@ import ButtonLoad from '@/components/Buttons/ButtonLoad';
 import Modal from '@/components/Modals/Modal';
 import { AuthContext } from '@/context/auth/AuthContext';
 import useToast from '@/hooks/useToast';
-import { FilterSellsByClient } from '@/interface/sells';
+import { FilterSellsByClient } from '@/services/cobranza/cobranza.interface';
 import { postEmailCobranza, postEmailCobranzaInterface } from '@/services/email';
 import styles from '../../../../styles/pages/Cobranza.module.scss';
 

@@ -2,7 +2,7 @@ import Header from '@/components/navigation/header';
 import { getBriefCRM } from '@/services/server/statistics';
 import styles from '@/styles/pages/Clients.module.scss';
 
-export default async function Home()  {
+export default async function Home(): Promise<JSX.Element> {
   const statistics = await getBriefCRM();
 
   return (
