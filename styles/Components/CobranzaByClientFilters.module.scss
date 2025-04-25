@@ -14,6 +14,7 @@
         flex-wrap: wrap;
         gap: variables.$gap;
         justify-content: flex-start;
+        align-items: center;
 
         .filterItem {
             display: flex;
@@ -33,6 +34,7 @@
                 font-size: variables.$font-small;
                 display: flex;
                 gap: calc(variables.$gap/ 2);
+                width: 100%;
 
                 .value{
                     font-weight: bold; 
@@ -58,6 +60,12 @@
                 }
             }
 
+            .radioGroup{
+                display: flex;
+                flex-direction: column;
+                gap: variables.$gap;
+            }
+
             .filterModal {
                 position: absolute;
                 left: 0px;
@@ -78,10 +86,30 @@
                     font-size: variables.$font-small;
                     font-weight: bold
                 }
+
+                .option {
+                    font-size: variables.$font-small;
+                    display: flex;
+                    gap: calc(variables.$gap / 2);
+                }
+
+                .optionVertical {
+                    font-size: variables.$font-small;
+                    display: flex;
+                    margin: variables.$margin-vertical 0px calc(variables.$margin-vertical / 2) 0px;
+                }
             }
 
+            .filterClear{
+                font-size: variables.$font-small;
+                font-weight: bold;
+                color: variables.$color-tertiary;
+                cursor: pointer;
+
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
         }
     }
 }
-
-;

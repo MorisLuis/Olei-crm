@@ -47,7 +47,6 @@ export function useUrlFilters<S extends ZodType<any, any>>(
 
     const removeFilter = useCallback(
         (key: keyof zInfer<S>) => {
-            console.log({key})
             const params = new URLSearchParams(searchParams.toString());
             params.delete(String(key));
             router.push(`?${params.toString()}`);

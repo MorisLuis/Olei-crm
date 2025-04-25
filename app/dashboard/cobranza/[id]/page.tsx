@@ -12,14 +12,14 @@ import { FilterCobranzaByClient } from '@/services/cobranza/cobranza.interface';
 import { getCobranzaByClient } from '@/services/cobranza/cobranza.service';
 import TableCobranzaByClient from './TableCobranzaByClient';
 import { cobranzaFiltersConfig } from './filters';
-import FilterBar from '../../../../components/navigation/FilterBar';
+import FilterBar from '../../../../components/Filter/FilterBar';
 
 
 export default function CobranzaByClient(): JSX.Element {
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { filters, updateFilter, updateFilters, removeFilter } = useUrlFilters(CobranzaByClientFilterSchema);
+  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaByClientFilterSchema);
 
   const Id_Cliente = pathname.split('/').filter(Boolean)[2];
   const Id_Almacen = searchParams.get('Id_Almacen');
@@ -79,6 +79,7 @@ export default function CobranzaByClient(): JSX.Element {
         updateFilter={updateFilter}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
+        removeFilters={removeFilters}
       />
 
       <TableCobranzaByClient

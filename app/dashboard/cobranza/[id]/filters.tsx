@@ -1,4 +1,4 @@
-import { FilterItemConfig } from "@/components/navigation/FilterBar";
+import { FilterItemConfig } from "@/components/Filter/FilterBar";
 import { CobranzaByClientConditionObject, TipoDocObject } from "@/services/cobranza/cobranza.interface";
 
 export const cobranzaFiltersConfig: FilterItemConfig[] = [
