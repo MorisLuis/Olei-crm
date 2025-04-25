@@ -19,15 +19,15 @@ export const cobranzaFiltersConfig: FilterItemConfig[] = [
         label: 'Estado de vencimiento',
         type: 'radio',
         options: [
-            { label: 'Filtrar Vencido', value: 'FilterExpired' },
-            { label: 'Filtrar No Vencido', value: 'FilterNotExpired' },
+            { label: 'Filtrar Vencido', value: 'FilterExpired', activeValue: "Vencido" },
+            { label: 'Filtrar No Vencido', value: 'FilterNotExpired', activeValue: "No vencido" },
         ],
     },
     {
-        key: 'DateRange',  // Nuevo grupo para los tres filtros de fecha
+        key: 'DateRange',
         label: 'Fecha',
-        type: 'date-range',  // Personalizado para indicar que este es un grupo de fechas
-        children: [  // Aquí metemos los tres filtros como "hijos"
+        type: 'date-range',
+        children: [
             {
                 key: 'DateStart',
                 label: 'Fecha Inicio',

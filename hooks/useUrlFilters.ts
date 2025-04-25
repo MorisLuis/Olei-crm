@@ -7,11 +7,10 @@ export function useUrlFilters<S extends ZodType<any, any>>(
 ) {
     const searchParams = useSearchParams()
     const router = useRouter()
-    
-    
+
     const filters = useMemo<zInfer<S>>(() => {
         const rawObj = Object.fromEntries(searchParams.entries())
-        
+
         try {
             return schema.parse(rawObj)
         } catch (err) {
@@ -44,8 +43,28 @@ export function useUrlFilters<S extends ZodType<any, any>>(
             router.push(`?${params.toString()}`)
         },
         [router, searchParams]
-    )
+    );
+
+    const removeFilter = useCallback(
+        (key: keyof zInfer<S>) => {
+            console.log({key})
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete(String(key));
+            router.push(`?${params.toString()}`);
+        },
+        [router, searchParams]
+    );
+
+    const removeFilters = useCallback(
+        (keys: (keyof zInfer<S>)[]) => {
+            const params = new URLSearchParams(searchParams.toString());
+            keys.forEach(key => params.delete(String(key)));
+            router.push(`?${params.toString()}`);
+        },
+        [router, searchParams]
+    );
 
 
-    return { filters, updateFilter, updateFilters }
+
+    return { filters, updateFilter, updateFilters, removeFilter, removeFilters }
 }

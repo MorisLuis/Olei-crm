@@ -29,8 +29,29 @@
                 transition: background-color 0.3s;
                 border-width: 1px;
                 border-style: dashed;
+                border-color: variables.$color-gray;
                 font-size: variables.$font-small;
-                width: 100%;
+                display: flex;
+                gap: calc(variables.$gap/ 2);
+
+                .value{
+                    font-weight: bold; 
+                    color: variables.$color-tertiary;
+                }
+
+                &.filterButtonActive{
+                    border-width: 1px 1px 1px 0px;
+                    border-radius: 0px variables.$border-radius variables.$border-radius 0px;
+                    padding-left: calc(variables.$padding / 4);
+                }
+
+                &.icon{
+                    border-width: 1px 0px 1px 1px;
+                    border-radius: variables.$border-radius 0px 0px variables.$border-radius;
+                    height: auto;
+                    width: auto;
+                    padding-right: calc(variables.$padding / 4);
+                }
 
                 &:hover {
                     background-color: variables.$background-color-tertiary;
@@ -53,7 +74,7 @@
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 width: auto;
 
-                .label{ 
+                .label {
                     font-size: variables.$font-small;
                     font-weight: bold
                 }
@@ -61,4 +82,6 @@
 
         }
     }
-};
+}
+
+;

@@ -1,5 +1,7 @@
 'use client';
 
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 
@@ -8,22 +10,24 @@ export interface FilterItemConfig {
     label: string;
     type: 'select' | 'input' | 'date' | 'radio' | 'date-range';
     inputType?: string;
-    options?: { label: string; value: string | number }[];
+    options?: { label: string; value: string | number, activeValue?: string }[];
     children?: FilterItemConfig[];  // Añadir children aquí para filtros tipo 'date-range'
 }
 
 interface FilterBarProps<T extends string = string> {
     filters: Record<T, string | number | undefined>;
-    updateFilter: (key: T, value: string | number) => void;
     config: FilterItemConfig[];
+    updateFilter: (key: T, value: string | number) => void;
     updateFilters: (updates: Partial<Record<T, string | number>>) => void;
+    removeFilter: (key: T) => void;
 }
 
 const FilterBar = <T extends string = string>({
     filters,
+    config,
     updateFilter,
     updateFilters,
-    config,
+    removeFilter
 }: FilterBarProps<T>): JSX.Element => {
 
     const [openModalKey, setOpenModalKey] = useState<string | null>(null);
@@ -34,7 +38,6 @@ const FilterBar = <T extends string = string>({
 
     const renderInput = (filter: FilterItemConfig): JSX.Element | null => {
         const value = filters[filter.key as T];
-
         switch (filter.type) {
             case 'select':
                 return (
@@ -116,25 +119,86 @@ const FilterBar = <T extends string = string>({
         }
     };
 
+    const getValues = (config: FilterItemConfig): { keyValue: string | number | null, value: string | null, active: boolean } => {
+        const key = config.key as keyof typeof filters;
+
+        let value;
+        let active = false;
+        let keyValue = null;
+
+        if (config.type === 'select') {
+            const currentValue = filters[key];
+            const option = config.options?.find(opt => opt.value === currentValue);
+
+            if (option?.value) {
+                value = `${option.label}`;
+                active = true;
+                keyValue = config.key
+            }
+        }
+
+        if (config.type === 'radio') {
+            const selected = config.options?.find((opt) => {
+                const radioKey = opt.value as keyof typeof filters;
+                return filters[radioKey] === 1;
+            });
+
+            if (selected) {
+                value = `${selected.activeValue}`;
+                active = true;
+                keyValue = selected.value
+            }
+        }
+
+        return {
+            value: value ?? null,
+            active,
+            keyValue
+        }
+    };
+
     return (
         <div className={styles.filtersComponent}>
             <div className={styles.filtersWrapper}>
-                {config.map((filter) => (
-                    <div key={filter.key} className={styles.filterItem}>
-                        <button className={styles.filterButton} onClick={() => toggleModal(filter.key)}>
-                            {filter.label}
-                        </button>
+                {config.map((filter) => {
+                    const values = getValues(filter);
+                    const isActive = values.active;
 
-                        {openModalKey === filter.key && (
-                            <div className={styles.filterModal}>
-                                <div className={styles.label}>Filtrar por {filter.label}</div>
-                                {renderInput(filter)}
+                    return (
+                        <div key={filter.key} className={styles.filterItem}>
+                            <div style={{ display: 'flex' }}>
+                                {isActive && (
+                                    <button
+                                        className={`${styles.filterButton} ${styles.icon}`}
+                                        onClick={() => removeFilter(values.keyValue as T)}
+                                    >
+                                        <FontAwesomeIcon icon={faCircleXmark} className={styles.icon} />
+                                    </button>
+                                )}
+
+                                <button
+                                    className={`${styles.filterButton} ${isActive ? styles.filterButtonActive : ''}`}
+                                    onClick={() => toggleModal(filter.key)}
+                                >
+                                    {filter.label}
+                                    {values.value && (
+                                        <span className={styles.value}> | {values.value}</span>
+                                    )}
+                                </button>
                             </div>
-                        )}
-                    </div>
-                ))}
+
+                            {openModalKey === filter.key && (
+                                <div className={styles.filterModal}>
+                                    <div className={styles.label}>Filtrar por {filter.label}</div>
+                                    {renderInput(filter)}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
         </div>
+
     );
 };
 
