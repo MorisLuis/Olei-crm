@@ -1,24 +1,19 @@
 import { api } from '@/api/api';
 import { OrderObject } from '@/components/UI/OrderComponent';
 import { ClientInterface } from '@/interface/client';
+import { getClientByIdInterface, getSellsInterface } from './clients.interface';
 
-interface getSellsInterface {
-  PageNumber: number;
-  ClientsOrderCondition: OrderObject;
-}
 
-export const getClients = async ({
-  PageNumber,
-  ClientsOrderCondition
-}: getSellsInterface): Promise<{ clients: ClientInterface[] }> => {
-  const { data } = await api.get<{ clients: ClientInterface[] }>(`/api/client?PageNumber=${PageNumber}&clientOrderCondition=${ClientsOrderCondition?.order}`);
+export const getClients = async (params: getSellsInterface): Promise<{ clients: ClientInterface[] }> => {
+  const { data } = await api.get<{ clients: ClientInterface[] }>(`/api/client`, {
+    params: {
+      PageNumber: params.PageNumber,
+      ...params.filters,
+    }
+  });
   return { clients: data.clients };
 };
 
-interface getClientByIdInterface {
-  Id_Almacen: string | number;
-  Id_Cliente: string | number;
-}
 
 export const getClientById = async ({
   Id_Almacen,

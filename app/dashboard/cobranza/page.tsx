@@ -16,8 +16,8 @@ import { cobranzaFiltersConfig } from './filters';
 
 function CobranzaContent(): JSX.Element {
 
-    const [page, setPage] = useState(1);
     const router = useRouter()
+    const [page, setPage] = useState(1);
     const [items, setItems] = useState<CobranzaInterface[]>([]);
     const { filters, updateFilter,  updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
 
@@ -53,7 +53,6 @@ function CobranzaContent(): JSX.Element {
             <FilterBar
                 filters={filters}
                 config={cobranzaFiltersConfig}
-                //updateFilter={updateFilter as unknown}
                 updateFilter={updateFilter as unknown as (key: 'cobranzaOrderCondition' | 'termSearch', value: string | number) => void}
                 updateFilters={updateFilters}
                 removeFilter={removeFilter}
@@ -71,7 +70,6 @@ function CobranzaContent(): JSX.Element {
         </div>
     );
 }
-
 
 export default function Cobranza(): JSX.Element {
     return (

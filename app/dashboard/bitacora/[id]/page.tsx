@@ -8,7 +8,7 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import FileUploader from '@/components/UI/FileUploader';
 import Header from '@/components/navigation/header';
 import { ClientInterface } from '@/interface/client';
-import { getClientById } from '@/services/clients';
+import { getClientById } from '@/services/clients/clients.service';
 import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
 import styles from '../../../../styles/pages/Bitacora.module.scss';
 

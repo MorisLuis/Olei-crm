@@ -14,7 +14,7 @@ interface TableSellsInterface {
   totalClients: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
-  loadMoreProducts: () => Promise<void>;
+  loadMoreProducts: () => void;
 }
 
 export default function TableClients({

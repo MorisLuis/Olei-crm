@@ -15,6 +15,7 @@ const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaRespon
         cobranza: data.cobranza,
         hasMore: data.currentPage < data.totalPages,
     };
+
 };
 
 const getCobranzaByClient = async ({

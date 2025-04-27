@@ -12,7 +12,7 @@ import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { ClientInterface } from '@/interface/client';
 import { meetingExample } from '@/seed/bitacoraData';
-import { getClientById } from '@/services/clients';
+import { getClientById } from '@/services/clients/clients.service';
 import { briefClientData } from './BriefClientData';
 import EmailModal from './ModalEmail';
 import WhatsAppModal from './ModalWhatsApp';

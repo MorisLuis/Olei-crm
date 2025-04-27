@@ -10,7 +10,7 @@ import useToast from '@/hooks/useToast';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import { ClientInterface } from '@/interface/client';
 import MeetingInterface from '@/interface/meeting';
-import { getClientById, searchClients } from '@/services/clients';
+import { getClientById, searchClients } from '@/services/clients/clients.service';
 import { postMeeting, updateMeeting } from '@/services/meeting';
 import { getActualHour, getCorrectDate } from "@/utils/formatTime";
 import styles from '../../../styles/Form.module.scss';
