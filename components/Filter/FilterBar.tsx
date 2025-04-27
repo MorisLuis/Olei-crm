@@ -13,14 +13,14 @@ export interface FilterItemConfig {
     type: 'select' | 'input' | 'date' | 'radio' | 'date-range';
     inputType?: string;
     options?: { label: string; value: string | number, activeValue?: string }[];
-    children?: FilterItemConfig[];  // Añadir children aquí para filtros tipo 'date-range'
+    children?: FilterItemConfig[];
 }
 
-interface FilterBarProps<T extends string = string> {
+interface FilterBarProps<T extends string, V = string | number> {
     filters: Record<T, string | number | undefined>;
     config: FilterItemConfig[];
-    updateFilter: (key: T, value: string | number) => void;
-    updateFilters: (updates: Partial<Record<T, string | number>>) => void;
+    updateFilter: (key: T, value: V ) => void;
+    updateFilters: (updates: Partial<Record<T, V>>) => void;
     removeFilter: (key: T) => void;
     removeFilters: (key: T[]) => void;
 }
@@ -46,7 +46,7 @@ const FilterBar = <T extends string = string>({
         } else {
             removeFilter(values as T)
         }
-    }
+    };
 
     function hasAtLeastTwoValidFilters(): boolean {
         const count = Object.values(filters).filter(
@@ -93,6 +93,8 @@ const FilterBar = <T extends string = string>({
                                         filters={filters}
                                         updateFilter={updateFilter}
                                         updateFilters={updateFilters}
+
+                                        toggleModal={toggleModal}
                                     />
                                 </div>
                             )}
@@ -103,7 +105,7 @@ const FilterBar = <T extends string = string>({
                 {
                     hasAtLeastTwoValidFilters() &&
                     <div className={styles.filterItem} onClick={() => removeFilters(Object.keys(filters) as T[])}>
-                        <p className={styles.filterClear}>Clear options</p>
+                        <p className={styles.filterClear}>Limpiar filtros</p>
                     </div>
                 }
             </div>

@@ -54,6 +54,16 @@ export const filterBarValues = <T extends string>({
     }
 
 
+    if(config.type === 'input' ){
+        value = `${filters[key]}`;
+        keyValue = key
+
+        if(value){
+            active = true;
+        }
+    }
+
+
     return {
         value: value ?? null,
         active,

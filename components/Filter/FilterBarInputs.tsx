@@ -1,6 +1,5 @@
 
-import debounce from 'lodash.debounce';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 import { FilterItemConfig } from './FilterBar';
 
@@ -9,6 +8,7 @@ interface FilterInputRendererProps<T extends string = string> {
     filters: Record<T, string | number | undefined>;
     updateFilter: (key: T, value: string | number) => void;
     updateFilters: (updates: Partial<Record<T, string | number>>) => void;
+    toggleModal: (key: string) => void
 }
 
 
@@ -16,23 +16,14 @@ export const FilterBarInputs = <T extends string = string>({
     filter,
     filters,
     updateFilter,
-    updateFilters
+    updateFilters,
+    toggleModal
 }: FilterInputRendererProps<T>): JSX.Element | null => {
 
     const value = filters[filter.key as T];
     const [inputValue, setInputValue] = useState('');
+    const [hasTyped, setHasTyped] = useState(false); // <- Bandera del buscador ( input )
 
-    const debouncedSearchClient = useMemo(
-        () =>
-            debounce(async (filter, e): Promise<void> => {
-                updateFilter(filter, e)
-            }, 100), [updateFilter]
-    );
-
-    const onSearchItem = useCallback((filter: T, e: string): void => {
-        setInputValue(e)
-        debouncedSearchClient(filter, e);
-    }, [debouncedSearchClient]);
 
     switch (filter.type) {
         case 'select':
@@ -40,7 +31,10 @@ export const FilterBarInputs = <T extends string = string>({
                 <select
                     className={styles.filterButton}
                     value={value ?? ''}
-                    onChange={(e) => updateFilter(filter.key as T, e.target.value)}
+                    onChange={(e) => {
+                        updateFilter(filter.key as T, e.target.value);
+                        toggleModal(filter.key);
+                    }}
                 >
                     {filter.options?.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -51,12 +45,27 @@ export const FilterBarInputs = <T extends string = string>({
             );
         case 'input':
             return (
-                <input
-                    type={filter.inputType || 'text'}
-                    className={styles.filterButton}
-                    value={value}
-                    onChange={(e) => onSearchItem(filter.key as T, e.target.value)}
-                />
+                <>
+                    <input
+                        type={filter.inputType || 'text'}
+                        className={styles.filterButton}
+                        value={hasTyped ? inputValue : value ?? ''}
+                        onChange={(e) => {
+                            setInputValue(e.target.value);
+                            setHasTyped(true);
+                        }}
+                    />
+
+                    <button
+                        className={`button-small blue ${styles.inputButton}`}
+                        onClick={() => {
+                            updateFilter(filter.key as T, inputValue)
+                            toggleModal(filter.key)
+                        }}
+                    >
+                        Buscar
+                    </button>
+                </>
             );
         case 'date':
             return (
@@ -108,6 +117,7 @@ export const FilterBarInputs = <T extends string = string>({
                                 filters={filters}
                                 updateFilter={updateFilter}
                                 updateFilters={updateFilters}
+                                toggleModal={toggleModal}
                             />
                         </div>
                     ))}

@@ -1,7 +1,7 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
 import { CobranzaByClientConditionObject, TipoDocObject } from "@/services/cobranza/cobranza.interface";
 
-export const cobranzaFiltersConfig: FilterItemConfig[] = [
+export const cobranzaByClientFiltersConfig: FilterItemConfig[] = [
     {
         key: 'cobranzaOrderCondition',
         label: 'Ordenar',

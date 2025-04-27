@@ -50,9 +50,35 @@ interface CobranzaResponse {
 type CobranzaOrderConditionType = 'Nombre' | 'ExpiredDays' | 'SaldoVencido' | 'SaldoNoVencido' | 'TotalSaldo';
 export const CobranzaOrderCondition = ['Nombre', 'ExpiredDays', 'SaldoVencido', 'SaldoNoVencido', 'TotalSaldo'] as const
 
-export type CobranzaByClientOrderConditionByClientType = 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
+export const CobranzaConditionObject: ReadonlyArray<{
+    value: CobranzaOrderConditionType;
+    label: string;
+}> = [
+    {
+        value: 'Nombre',
+        label: 'Nombre',
+    },
+    {
+        value: 'ExpiredDays',
+        label: 'Días expirados',
+    },
+    {
+        value: 'SaldoVencido',
+        label: 'Saldo Vencido',
+    },
+    {
+        value: 'SaldoNoVencido',
+        label: 'Saldo no vencido',
+    },
+    {
+        value: 'TotalSaldo',
+        label: 'Total de saldo',
+    }
+] as const;
 
+export type CobranzaByClientOrderConditionByClientType = 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
 export const CobranzaByClientCondition = ['TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
+
 
 export const CobranzaByClientConditionObject: ReadonlyArray<{
     value: CobranzaByClientOrderConditionByClientType;
@@ -114,6 +140,7 @@ export const TipoDocObject: ReadonlyArray<{
 
 interface FilterCobranza {
     cobranzaOrderCondition?: CobranzaOrderConditionType;
+    termSearch: string;
 };
 
 

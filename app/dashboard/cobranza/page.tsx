@@ -4,19 +4,22 @@
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect, Suspense } from 'react';
 import Custum500 from '@/components/500';
+import FilterBar from '@/components/Filter/FilterBar';
+import Header from '@/components/navigation/header';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { CobranzaFilterSchema } from '@/schemas/cobranzaFilters.schema';
 import { CobranzaInterface } from '@/services/cobranza/cobranza.interface';
 import { getCobranza } from '@/services/cobranza/cobranza.service';
 import TableCobranza from './TableCobranzaByClient';
+import { cobranzaFiltersConfig } from './filters';
 
-function CobranzaContent() : JSX.Element {
+function CobranzaContent(): JSX.Element {
 
     const [page, setPage] = useState(1);
     const router = useRouter()
     const [items, setItems] = useState<CobranzaInterface[]>([]);
-    const { filters, updateFilter } = useUrlFilters(CobranzaFilterSchema)
+    const { filters, updateFilter,  updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
 
     const { data, error, isLoading, refetch } =
         useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[] }, { PageNumber: number; filters: typeof filters }>(
@@ -25,7 +28,7 @@ function CobranzaContent() : JSX.Element {
             { PageNumber: page, filters }
         );
 
-    const handleSelectItem = (item: CobranzaInterface) : void => {
+    const handleSelectItem = (item: CobranzaInterface): void => {
         router.push(`/dashboard/cobranza/${item.Id_Cliente}?Id_Almacen=${item.Id_Almacen}`)
     }
 
@@ -45,17 +48,17 @@ function CobranzaContent() : JSX.Element {
 
     return (
         <div>
-            <select
-                value={filters.cobranzaOrderCondition}
-                onChange={e =>
-                    updateFilter('cobranzaOrderCondition', e.target.value as 'ExpiredDays' | 'SaldoVencido')
-                }>
-                <option value="Nombre">Nombre</option>
-                <option value="ExpiredDays">Días expirados</option>
-                <option value="SaldoVencido">Saldo vencido</option>
-                <option value="SaldoNoVencido">Saldo no vencido</option>
-                <option value="TotalSaldo">Total saldo</option>
-            </select>
+            <Header title="Cobranza" dontShowBack />
+
+            <FilterBar
+                filters={filters}
+                config={cobranzaFiltersConfig}
+                //updateFilter={updateFilter as unknown}
+                updateFilter={updateFilter as unknown as (key: 'cobranzaOrderCondition' | 'termSearch', value: string | number) => void}
+                updateFilters={updateFilters}
+                removeFilter={removeFilter}
+                removeFilters={removeFilters}
+            />
 
             <TableCobranza
                 sells={items}
@@ -72,9 +75,8 @@ function CobranzaContent() : JSX.Element {
 
 export default function Cobranza(): JSX.Element {
     return (
-      <Suspense fallback={<p>Cargando...</p>}>
-        <CobranzaContent />
-      </Suspense>
+        <Suspense fallback={<p>Cargando...</p>}>
+            <CobranzaContent />
+        </Suspense>
     );
-  }
-  
+}

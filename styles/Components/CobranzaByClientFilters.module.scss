@@ -22,44 +22,6 @@
             align-items: center;
             position: relative;
 
-            .filterButton {
-                background-color: variables.$background-color;
-                padding: calc(variables.$padding / 2);
-                border-radius: variables.$border-radius;
-                cursor: pointer;
-                transition: background-color 0.3s;
-                border-width: 1px;
-                border-style: dashed;
-                border-color: variables.$color-gray;
-                font-size: variables.$font-small;
-                display: flex;
-                gap: calc(variables.$gap/ 2);
-                width: 100%;
-
-                .value{
-                    font-weight: bold; 
-                    color: variables.$color-tertiary;
-                }
-
-                &.filterButtonActive{
-                    border-width: 1px 1px 1px 0px;
-                    border-radius: 0px variables.$border-radius variables.$border-radius 0px;
-                    padding-left: calc(variables.$padding / 4);
-                }
-
-                &.icon{
-                    border-width: 1px 0px 1px 1px;
-                    border-radius: variables.$border-radius 0px 0px variables.$border-radius;
-                    height: auto;
-                    width: auto;
-                    padding-right: calc(variables.$padding / 4);
-                }
-
-                &:hover {
-                    background-color: variables.$background-color-tertiary;
-                }
-            }
-
             .radioGroup{
                 display: flex;
                 flex-direction: column;
@@ -109,6 +71,49 @@
                 &:hover{
                     text-decoration: underline;
                 }
+            };
+    
+            .filterButton {
+                background-color: variables.$background-color;
+                padding: calc(variables.$padding / 2);
+                border-radius: variables.$border-radius;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                border-width: 1px;
+                border-style: dashed;
+                border-color: variables.$color-gray;
+                font-size: variables.$font-small;
+                display: flex;
+                gap: calc(variables.$gap/ 2);
+                width: 100%;
+
+                .value{
+                    font-weight: bold; 
+                    color: variables.$color-tertiary;
+                }
+
+                &.filterButtonActive{
+                    border-width: 1px 1px 1px 0px;
+                    border-radius: 0px variables.$border-radius variables.$border-radius 0px;
+                    padding-left: calc(variables.$padding / 4);
+                }
+
+                &.icon{
+                    border-width: 1px 0px 1px 1px;
+                    border-radius: variables.$border-radius 0px 0px variables.$border-radius;
+                    height: auto;
+                    width: auto;
+                    padding-right: calc(variables.$padding / 4);
+                }
+
+                &:hover {
+                    background-color: variables.$background-color-tertiary;
+                }
+            };
+        
+            .inputButton{
+                width: 100%;
+                margin-top: variables.$margin-vertical;
             }
         }
     }

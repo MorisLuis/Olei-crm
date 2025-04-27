@@ -11,7 +11,7 @@ import { CobranzaByClientFilterSchema } from '@/schemas/cobranzaFilters.schema';
 import { FilterCobranzaByClient } from '@/services/cobranza/cobranza.interface';
 import { getCobranzaByClient } from '@/services/cobranza/cobranza.service';
 import TableCobranzaByClient from './TableCobranzaByClient';
-import { cobranzaFiltersConfig } from './filters';
+import { cobranzaByClientFiltersConfig } from './filters';
 import FilterBar from '../../../../components/Filter/FilterBar';
 
 
@@ -75,7 +75,7 @@ export default function CobranzaByClient(): JSX.Element {
 
       <FilterBar
         filters={filters}
-        config={cobranzaFiltersConfig}
+        config={cobranzaByClientFiltersConfig}
         updateFilter={updateFilter}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
