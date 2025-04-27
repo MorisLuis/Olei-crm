@@ -7,7 +7,7 @@ import HeaderTable from '@/components/navigation/headerTable';
 import { useOrderSellsConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 import { SellsInterface } from '@/interface/sells';
-import { getSells, getTotalSells } from '@/services/sells';
+import { getSells, getTotalSells } from '@/services/sells/sells.service';
 import TableSells from './TableSells';
 import styles from '../../../styles/pages/Sells.module.scss';
 

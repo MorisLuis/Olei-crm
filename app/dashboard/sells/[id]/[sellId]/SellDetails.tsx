@@ -8,7 +8,7 @@ import { Tag } from '@/components/UI/Tag';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 import { useTagColor } from '@/hooks/useTagColor';
 import { SellsDetailsInterface, SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
-import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells';
+import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells/sells.service';
 import { docType } from '@/utils/docType';
 import { formatDate } from '@/utils/formatDate';
 import TableSellsDetailsClient from './TableSellsDetails';

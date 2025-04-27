@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Modal from '@/components/Modals/Modal';
 import TableTertiary from '@/components/UI/Tables/TableTertiary';
 import MeetingInterface from '@/interface/meeting';
-import { getMeetingById } from '@/services/meeting';
+import { getMeetingById } from '@/services/bitacora/meeting.service';
 import { ColumnsBitacoraDetails } from './ColumnsBitacoraDetails';
 import CommentsModal from './ModalComments';
 import styles from '../../../../styles/pages/SellDetails.module.scss';

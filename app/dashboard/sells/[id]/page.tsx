@@ -11,7 +11,7 @@ import { useFiltersSellsConfig } from '@/hooks/Filters/useFiltersSellsConfig';
 import { useOrderSellsClientConfig } from '@/hooks/Orders/useOrderSellsConfig';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 import { SellsInterface } from '@/interface/sells';
-import { getSellsByClient, getTotalSellsByClient } from '@/services/sells';
+import { getSellsByClient, getTotalSellsByClient } from '@/services/sells/sells.service';
 import { CustumRendersSellsByClient } from './RenderDateFilter';
 import TableSellsClient from './TableSellsClient';
 import SellDetails from './[sellId]/SellDetails';

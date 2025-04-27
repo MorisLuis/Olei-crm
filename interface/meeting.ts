@@ -22,11 +22,11 @@ export const tipoContactoMap = {
 } as const;
 
 export type MeetingOrderConditionType = 'Cliente' | 'Fecha' | 'TipoContacto';
-export const MeetingOrderCondition: MeetingOrderConditionType[] = [
+export const MeetingOrderCondition = [
   'Cliente',
   'Fecha',
   'TipoContacto',
-];
+] as const;
 
 export type MeetingFilterConditionType = 'Cliente' | 'TipoContacto';
 export const MeetingFilterCondition: MeetingFilterConditionType[] = ['Cliente', 'TipoContacto'];
@@ -36,5 +36,6 @@ export interface FiltersMeetings {
   FilterTipoContacto: 0 | 1;
   TipoContacto: 0 | 1 | 2 | 3 | 4;
   Id_Cliente?: number;
-  meetingOrderCondition?: string;
+  meetingOrderCondition: string;
+  termSearch: string
 }

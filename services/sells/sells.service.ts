@@ -5,12 +5,10 @@ import {
   SellsInterface,
   typeTipoDoc,
 } from '@/interface/sells';
-import { FilterSellsByClient } from './cobranza/cobranza.interface';
+import { FilterSellsByClient } from '../cobranza/cobranza.interface';
+import { getSellByIdInterface, getSellsByClientInterface, getSellsInterface } from './sells.interface';
 
-interface getSellsInterface {
-  PageNumber: number;
-  SellsOrderCondition: OrderObject;
-}
+
 
 export const getSells = async ({
   PageNumber,
@@ -21,12 +19,6 @@ export const getSells = async ({
   );
   return { sells: data.sells };
 };
-
-interface getSellsByClientInterface {
-  client: number;
-  PageNumber?: number;
-  filters: FilterSellsByClient;
-}
 
 export const getSellsByClient = async ({
   client,
@@ -39,12 +31,6 @@ export const getSellsByClient = async ({
   return { sells: data.sells };
 };
 
-interface getSellByIdInterface {
-  Folio: string;
-  Serie: string;
-  Id_Almacen: number;
-  TipoDoc: typeTipoDoc;
-}
 
 export const getSellById = async ({
   Folio,

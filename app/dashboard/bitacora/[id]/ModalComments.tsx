@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '@/components/Buttons/Button';
 import InputTextBox from '@/components/Inputs/inputTextBox';
 import MeetingInterface from '@/interface/meeting';
-import { updateMeeting } from '@/services/meeting';
+import { updateMeeting } from '@/services/bitacora/meeting.service';
 import styles from '../../../../styles/pages/Sells.module.scss';
 
 interface CommentsModalInterface {

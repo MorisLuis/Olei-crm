@@ -7,7 +7,7 @@ import React, { Suspense, useState } from 'react';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import MeetingInterface from '@/interface/meeting';
-import { getMeetingById } from '@/services/meeting';
+import { getMeetingById } from '@/services/bitacora/meeting.service';
 import MyCalendar from './Calendar';
 import FormMeeting, { INITIAL_MEETING } from '../bitacora/FormMeeting';
 import SellDetails from '../sells/[id]/[sellId]/SellDetails';

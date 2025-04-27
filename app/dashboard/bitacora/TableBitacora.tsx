@@ -18,7 +18,7 @@ interface TableBitacoraInterface {
   totalSells: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
-  loadMoreProducts: () => Promise<void>;
+  loadMoreProducts: () => void;
 }
 
 export default function TableBitacora({
