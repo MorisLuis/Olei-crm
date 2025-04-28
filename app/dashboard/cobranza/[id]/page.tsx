@@ -1,31 +1,39 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
-import Header from '@/components/navigation/header';
+import Modal from '@/components/Modals/Modal';
+import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { CobranzaByClientFilterSchema } from '@/schemas/cobranzaFilters.schema';
 import { FilterCobranzaByClient } from '@/services/cobranza/cobranza.interface';
 import { getCobranzaByClient } from '@/services/cobranza/cobranza.service';
+import ShareCobranzaModal from './ShareCobranzaModal';
 import TableCobranzaByClient from './TableCobranzaByClient';
 import { cobranzaByClientFiltersConfig } from './filters';
 import FilterBar from '../../../../components/Filter/FilterBar';
+import SellDetails from '../../sells/[id]/[sellId]/SellDetails';
 
 
 export default function CobranzaByClient(): JSX.Element {
 
   const pathname = usePathname();
+  const { push, back } = useRouter()
   const searchParams = useSearchParams();
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaByClientFilterSchema);
 
   const Id_Cliente = pathname.split('/').filter(Boolean)[2];
   const Id_Almacen = searchParams.get('Id_Almacen');
+  const clientName = searchParams.get('client') ?? 'Regresar';
+  const email = searchParams.get('email') ?? '';
 
   const [cobranzaItems, setCobranzaItems] = useState<SellsInterface[]>([]);
   const [page, setPage] = useState(1);
+  const [openModalSell, setOpenModalSell] = useState(false);
+  const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
 
   const { data, error, isLoading, refetch } =
     useQueryPaginationWithFilters<{ cobranza: SellsInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
@@ -46,9 +54,24 @@ export default function CobranzaByClient(): JSX.Element {
     setPage((prev) => prev + 1);
   };
 
-  const handleSelectItem = (): void => {
-    return
+  const handleSelectItem = (item: SellsInterface) : void => {
+    setOpenModalSell(true)
+    push(`/dashboard/cobranza/${Id_Cliente}?sellId=${item.UniqueKey}`)
+  }
+
+  const handleCloseModalSell = () : void => {
+    back()
+    setOpenModalSell(false)
   };
+
+  const clientActions: ActionsInterface[] = [
+    {
+        id: 1,
+        text: 'Compartir Relación',
+        onclick: () => setOpenModalShareCobranza(false),
+        color: 'yellow'
+    }
+]
 
   useEffect(() => {
     setCobranzaItems([]);
@@ -67,7 +90,7 @@ export default function CobranzaByClient(): JSX.Element {
 
   return (
     <>
-      <Header title="Cobranza" dontShowBack />
+      <Header title="Cobranza" actions={clientActions} dontShowBack />
 
       <FilterBar
         filters={filters}
@@ -85,6 +108,23 @@ export default function CobranzaByClient(): JSX.Element {
         handleSelectItem={handleSelectItem}
         buttonIsLoading={false}
         loadingData={cobranzaItems.length <= 0 && isLoading}
+      />
+
+      <Modal
+        visible={openModalSell}
+        title='Detalle de venta'
+        onClose={handleCloseModalSell}
+        modalSize='medium'
+      >
+        <SellDetails />
+      </Modal>
+
+      <ShareCobranzaModal
+        visible={openModalShareCobranza}
+        onClose={() => setOpenModalShareCobranza(false)}
+        email={email}
+        clientName={clientName}
+        filters={filters as FilterCobranzaByClient}
       />
     </>
   );

@@ -43,11 +43,13 @@ function CobranzaContent(): JSX.Element {
         }
     }, [data]);
 
+
+
     if (error) return <Custum500 handleRetry={refetch} />;
 
     return (
         <>
-            <Header title="Cobranza" dontShowBack />
+            <Header title="Cobranza"  dontShowBack />
 
             <FilterBar
                 filters={filters}

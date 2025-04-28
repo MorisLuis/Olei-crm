@@ -3,12 +3,13 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
-import Header from '@/components/navigation/header';
+import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import MeetingInterface from '@/interface/meeting';
 import { BitacoraFilterSchema } from '@/schemas/bitacoraFilters.schema';
 import { getMeetings } from '@/services/bitacora/meeting.service';
+import FormMeeting from './FormMeeting';
 import TableBitacora from './TableBitacora';
 import { bitacoraFiltersConfig } from './filters';
 import styles from '../../../styles/pages/Sells.module.scss';
@@ -17,6 +18,7 @@ function BitacoraContent(): JSX.Element {
 
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<MeetingInterface[]>([]);
+  const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(BitacoraFilterSchema);
 
   const { data, error, isLoading, refetch } =
@@ -37,11 +39,21 @@ function BitacoraContent(): JSX.Element {
     }
   }, [data]);
 
+
+  const clientActions: ActionsInterface[] = [
+    {
+        id: 1,
+        text: 'Nueva Reunión',
+        onclick: () => setOpenModalCreateMeeting(true),
+        color: 'yellow'
+    }
+]
+
   if (error) return <Custum500 handleRetry={refetch} />;
 
   return (
     <div className={styles.page}>
-      <Header title="Bitacora" /* actions={clientActions} */ dontShowBack />
+      <Header title="Bitacora" actions={clientActions} dontShowBack />
 
       <FilterBar
         filters={filters}
@@ -60,11 +72,11 @@ function BitacoraContent(): JSX.Element {
         loadingData={items.length <= 0 && isLoading}
       />
 
-      {/*       <FormMeeting
+      <FormMeeting
         visible={openModalCreateMeeting}
         onClose={() => setOpenModalCreateMeeting(false)}
-        newPost={handleResetData}
-      /> */}
+        newPost={refetch}
+      />
     </div>
   );
 }
