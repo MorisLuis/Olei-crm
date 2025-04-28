@@ -37,9 +37,38 @@ const tipoContactoMap = {
     0: 'Otro',
     1: 'Cita',
     2: 'Llamada',
-    3: 'Archivo Enviado',
+    3: 'Achivo Enviado',
     4: 'Videollamada',
 } as const;
+
+type TipoContactoLabel = typeof tipoContactoMap[keyof typeof tipoContactoMap];
+
+const TipoContactoObject: ReadonlyArray<{
+    value: MeetingInterface['TipoContacto'];
+    label: TipoContactoLabel;
+}> = [
+    {
+        value: 0,
+        label: 'Otro',
+    },
+    {
+        value: 1,
+        label: 'Cita'
+    },
+    {
+        value: 2,
+        label: 'Llamada'
+    },
+    {
+        value: 3,
+        label: 'Achivo Enviado'
+    },
+    {
+        value: 4,
+        label: 'Videollamada'
+    }
+] as const;
+
 
 const MeetingOrderConditionObject: ReadonlyArray<{
     value: MeetingOrderConditionType;
@@ -63,6 +92,7 @@ export {
     MeetingFilterCondition,
     MeetingOrderCondition,
     validTipoContacto,
+    TipoContactoObject,
     tipoContactoMap,
     MeetingOrderConditionObject
 };

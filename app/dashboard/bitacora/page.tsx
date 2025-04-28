@@ -15,13 +15,12 @@ import styles from '../../../styles/pages/Sells.module.scss';
 
 function BitacoraContent(): JSX.Element {
 
-
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<MeetingInterface[]>([]);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(BitacoraFilterSchema);
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ meetings: MeetingInterface[] }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ meetings: MeetingInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
       ['bitacora', page],
       ({ PageNumber, filters }) => getMeetings({ PageNumber, filters }),
       { PageNumber: page, filters }
@@ -39,13 +38,10 @@ function BitacoraContent(): JSX.Element {
   }, [data]);
 
   if (error) return <Custum500 handleRetry={refetch} />;
-  if (isLoading && items.length === 0) return <div>cargando...</div>;
-
 
   return (
     <div className={styles.page}>
       <Header title="Bitacora" /* actions={clientActions} */ dontShowBack />
-
 
       <FilterBar
         filters={filters}
@@ -58,13 +54,13 @@ function BitacoraContent(): JSX.Element {
 
       <TableBitacora
         sells={items}
-        totalSells={0}
+        totalSells={data?.total ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         buttonIsLoading={false}
-        loadingData={isLoading}
+        loadingData={items.length <= 0 && isLoading}
       />
 
-{/*       <FormMeeting
+      {/*       <FormMeeting
         visible={openModalCreateMeeting}
         onClose={() => setOpenModalCreateMeeting(false)}
         newPost={handleResetData}
@@ -75,8 +71,8 @@ function BitacoraContent(): JSX.Element {
 
 export default function Bitacora(): JSX.Element {
   return (
-      <Suspense fallback={<p>Cargando...</p>}>
-          <BitacoraContent />
-      </Suspense>
+    <Suspense fallback={<p>Cargando...</p>}>
+      <BitacoraContent />
+    </Suspense>
   );
 }

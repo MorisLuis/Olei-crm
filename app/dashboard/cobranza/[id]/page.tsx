@@ -28,7 +28,7 @@ export default function CobranzaByClient(): JSX.Element {
   const [page, setPage] = useState(1);
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ cobranza: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ cobranza: SellsInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
       ['cobranzaByClient', page, filters],
       ({ PageNumber, filters }) =>
         getCobranzaByClient({
@@ -65,10 +65,6 @@ export default function CobranzaByClient(): JSX.Element {
     return <Custum500 handleRetry={refetch} />;
   }
 
-  if (isLoading && cobranzaItems.length === 0) {
-    return <div>Cargando...</div>;
-  }
-
   return (
     <>
       <Header title="Cobranza" dontShowBack />
@@ -84,11 +80,11 @@ export default function CobranzaByClient(): JSX.Element {
 
       <TableCobranzaByClient
         sells={cobranzaItems}
-        totalSells={0}
+        totalSells={data?.total ?? 0}
         loadMoreProducts={handleLoadMore}
         handleSelectItem={handleSelectItem}
         buttonIsLoading={false}
-        loadingData={isLoading}
+        loadingData={cobranzaItems.length <= 0 && isLoading}
       />
     </>
   );

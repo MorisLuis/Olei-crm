@@ -38,7 +38,6 @@ function SellsContent(): JSX.Element {
   }, [data]);
 
   if (error) return <Custum500 handleRetry={refetch} />;
-  if (isLoading && items.length === 0) return <div>cargando...</div>;
 
   return (
     <div className={styles.page}>

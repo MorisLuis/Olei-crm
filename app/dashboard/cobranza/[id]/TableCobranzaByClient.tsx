@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
@@ -24,6 +25,7 @@ export default function TableCobranzaByClient({
   buttonIsLoading,
   loadMoreProducts,
   handleSelectItem,
+  loadingData
 }: TableCobranzaInterface) : JSX.Element {
   const NoMoreProductToShow = sells.length === totalSells;
   const { changeColor } = useTagColor();
@@ -82,6 +84,11 @@ export default function TableCobranzaByClient({
       render: (_, item) => <p>{format(item.Saldo)}</p>,
     },
   ];
+
+  if (loadingData) {
+    return <TableSkeleton />
+  }
+
 
   return (
     <Table

@@ -81,12 +81,7 @@ export default function TableBitacora({
   ];
 
   if (loadingData) {
-    return (
-      <>
-        {/* Header skeleton */}
-        <TableSkeleton />
-      </>
-    );
+    return <TableSkeleton />
   }
 
   if (sells?.length === 0) {

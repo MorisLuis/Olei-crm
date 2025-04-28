@@ -1,5 +1,5 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
-import { MeetingOrderConditionObject } from "@/services/bitacora/meeting.interface";
+import { MeetingOrderConditionObject, TipoContactoObject } from "@/services/bitacora/meeting.interface";
 
 export const bitacoraFiltersConfig: FilterItemConfig[] = [
     {
@@ -9,23 +9,9 @@ export const bitacoraFiltersConfig: FilterItemConfig[] = [
         options: MeetingOrderConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
-        key: 'termSearch',
-        label: 'Nombre',
-        type: 'input'
-    },
-    {
-        key: 'FilterCliente',
-        label: 'Client',
-        type: 'select'
-    },
-    {
-        key: 'FilterTipoContacto',
+        key: 'TipoContacto',
         label: 'Tipo de contacto',
-        type: 'select'
-    },
-    {
-        key: 'Id_Cliente',
-        label: 'Id Cliente',
-        type: 'select'
+        type: 'select',
+        options: TipoContactoObject.map((val) => ({ label: val.label, value: val.value })),
     }
 ];

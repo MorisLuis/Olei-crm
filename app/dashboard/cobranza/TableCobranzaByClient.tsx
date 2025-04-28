@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
+import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { CobranzaInterface } from '@/services/cobranza/cobranza.interface';
 import { format } from '@/utils/currency';
-import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 
 interface TableCobranzaInterface {
   sells: CobranzaInterface[];

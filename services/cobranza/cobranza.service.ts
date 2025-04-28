@@ -25,7 +25,7 @@ const getCobranzaByClient = async ({
     client,
     PageNumber,
     filters
-}: getCobranzaByClientInterface): Promise<{ cobranza: SellsInterface[] }> => {
+}: getCobranzaByClientInterface): Promise<{ cobranza: SellsInterface[], total: number }> => {
 
     const params = new URLSearchParams({
         PageNumber: String(PageNumber),
@@ -38,8 +38,8 @@ const getCobranzaByClient = async ({
         cobranzaOrderCondition: filters.cobranzaOrderCondition || '',
     });
 
-    const { data: { cobranza } } = await api.get<{ cobranza: SellsInterface[] }>(`/api/sells/cobranza/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`);
-    return { cobranza: cobranza };
+    const { data: { cobranza, total } } = await api.get<{ cobranza: SellsInterface[], total: number }>(`/api/sells/cobranza/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`);
+    return { cobranza: cobranza, total };
 };
 
 

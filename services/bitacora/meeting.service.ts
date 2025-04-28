@@ -1,12 +1,12 @@
 import { api } from '@/api/api';
 import MeetingInterface from '@/interface/meeting';
 import { dateValidation, hourValidation } from '@/validations/FormMeetingValidation';
-import { getMeetingsInterface, getTotalMeetingsInterface } from './meeting.interface';
+import { getMeetingsInterface } from './meeting.interface';
 
 
 export const getMeetings = async (
   params: getMeetingsInterface
-): Promise<{ meetings: MeetingInterface[], error?: true; message?: string; details?: string[] }> => {
+): Promise<{ meetings: MeetingInterface[], error?: true; message?: string; details?: string[], total: number }> => {
 
   const errors: string[] = [];
   const { filters } = params;
@@ -20,44 +20,19 @@ export const getMeetings = async (
   }
 
   if (errors.length > 0) {
-    return { meetings: [], error: true, message: 'Errores de validación', details: errors };
+    return { meetings: [], error: true, message: 'Errores de validación', details: errors, total: 0 };
   }
 
-  const { data } = await api.get<{ meetings: MeetingInterface[] }>(`/api/meetings`, {
+  const { data } = await api.get<{ meetings: MeetingInterface[], total: number }>(`/api/meetings`, {
     params: {
       PageNumber: params.PageNumber,
       ...params.filters,
     }
   });
 
-  return { meetings: data.meetings };
+  return { meetings: data.meetings, total: data.total };
 };
 
-export const getTotalMeetings = async ({
-  filters
-}: getTotalMeetingsInterface): Promise<{ total: number, error?: true; message?: string; details?: string[] }> => {
-
-  const errors: string[] = [];
-
-  if (filters.FilterCliente === 1 && !filters.Id_Cliente) {
-    errors.push('Es necesario un Id_Cliente');
-  }
-
-  if (filters.FilterTipoContacto === 1 && !filters.TipoContacto) {
-    errors.push('Es necesario un TipoContacto');
-  }
-
-  if (errors.length > 0) {
-    return { total: 0, error: true, message: 'Errores de validación', details: errors };
-  }
-
-  const { data } = await api.get<{ total: number }>(
-    `/api/meetings/total?FilterTipoContacto=${filters.FilterTipoContacto}&FilterCliente=${filters.FilterCliente}&TipoContacto=${filters.TipoContacto}&Id_Cliente=${filters.Id_Cliente}`
-  );
-
-  return { total: data.total };
-
-};
 
 export const getMeetingById = async (id: string): Promise<{ meeting?: MeetingInterface }> => {
   const { data } = await api.get<{ meeting: MeetingInterface }>(`/api/meetings/${id}`);

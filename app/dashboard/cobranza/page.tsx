@@ -46,7 +46,7 @@ function CobranzaContent(): JSX.Element {
     if (error) return <Custum500 handleRetry={refetch} />;
 
     return (
-        <div>
+        <>
             <Header title="Cobranza" dontShowBack />
 
             <FilterBar
@@ -64,9 +64,9 @@ function CobranzaContent(): JSX.Element {
                 loadMoreProducts={() => setPage(p => p + 1)}
                 handleSelectItem={handleSelectItem}
                 buttonIsLoading={false}
-                loadingData={isLoading}
+                loadingData={items.length <= 0 && isLoading}
             />
-        </div>
+        </>
     );
 }
 
