@@ -10,12 +10,10 @@ import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFil
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { SellsByClientFilterSchema } from '@/schemas/sellsFilters.schema';
-import { FilterSellsByClient } from '@/services/cobranza/cobranza.interface';
 import { getSellsByClient } from '@/services/sells/sells.service';
 import TableSellsClient from './TableSellsClient';
 import SellDetails from './[sellId]/SellDetails';
 import { sellsByClientFiltersConfig } from './filters';
-import styles from '../../../../styles/pages/Sells.module.scss';
 
 export default function SellsClientPage(): JSX.Element {
 
@@ -29,8 +27,9 @@ export default function SellsClientPage(): JSX.Element {
   const [items, setItems] = useState<SellsInterface[]>([]);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsByClientFilterSchema)
 
+
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
       ['sells-client', page],
       ({ PageNumber, filters }) => getSellsByClient({ client: Number(id), PageNumber, filters }),
       { PageNumber: page, filters }
@@ -53,36 +52,31 @@ export default function SellsClientPage(): JSX.Element {
   }, [data]);
 
   if (error) return <Custum500 handleRetry={refetch} />;
-  if (isLoading && items.length === 0) return <div>cargando...</div>;
-
 
   return (
     <>
-      <div className={styles.SellsClient}>
-        <Header title={clientName} custumBack={() => alert('back')} />
+      <Header
+        title={clientName}
+        custumBack={() => alert('back')}
+      />
 
-        <FilterBar
-          filters={filters}
-          config={sellsByClientFiltersConfig}
-          updateFilter={updateFilter as (key: keyof FilterSellsByClient, value: number | string | 0 | 1 | 2 | 3 | 4) => void}
-          updateFilters={updateFilters}
-          removeFilter={removeFilter}
-          removeFilters={removeFilters}
-        />
+      <FilterBar
+        filters={filters}
+        config={sellsByClientFiltersConfig}
+        updateFilter={updateFilter}
+        updateFilters={updateFilters}
+        removeFilter={removeFilter}
+        removeFilters={removeFilters}
+      />
 
-        <div className={styles.content}>
-          <div className={styles.table}>
-            <TableSellsClient
-              sells={items}
-              totalSells={0}
-              loadMoreProducts={() => setPage(p => p + 1)}
-              handleSelectItem={handleSelectClient}
-              buttonIsLoading={false}
-              loadingData={isLoading}
-            />
-          </div>
-        </div>
-      </div>
+      <TableSellsClient
+        sells={items}
+        totalSells={data?.total ?? 0}
+        loadMoreProducts={() => setPage(p => p + 1)}
+        handleSelectItem={handleSelectClient}
+        buttonIsLoading={false}
+        loadingData={items.length <= 0 && isLoading}
+      />
 
       <Modal
         visible={Sellid ? true : false}

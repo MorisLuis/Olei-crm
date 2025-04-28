@@ -30,6 +30,7 @@ export default function TableSellsClient({
   loadMoreProducts,
   handleSelectItem,
 }: TableSellsClientInterface): JSX.Element {
+
   const NoMoreProductToShow = sells.length === totalSells;
   const { changeColor } = useTagColor();
 
@@ -93,12 +94,7 @@ export default function TableSellsClient({
   ];
 
   if (loadingData) {
-    return (
-      <>
-        {/* Header skeleton */}
-        <TableSkeleton />
-      </>
-    );
+    return <TableSkeleton />
   }
 
   if (sells?.length === 0) {

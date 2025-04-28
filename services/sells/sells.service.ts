@@ -19,15 +19,23 @@ export const getSells = async (params: getSellsInterface): Promise<{ sells: Sell
   return { sells: data.sells, total: data.total };
 };
 
-export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[] }> => {
-  const { data } = await api.get<{ sells: SellsInterface[] }>(`/api/sells/client/${params.client}`, {
-    params: {
-      PageNumber: params.PageNumber,
-      ...params.filters,
-    },
-  });
+export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[], total: number }> => {
 
-  return { sells: data.sells };
+  const { filters, PageNumber} = params;
+  const parametros = new URLSearchParams({
+    PageNumber: String(PageNumber),
+    FilterExpired: String(filters.FilterExpired ?? ''),
+    FilterNotExpired: String(filters.FilterNotExpired ?? ''),
+    TipoDoc: String(filters.TipoDoc ?? ''),
+    DateEnd: filters.DateEnd || '',
+    DateStart: filters.DateStart || '',
+    DateExactly: filters.DateExactly || '',
+    sellsOrderCondition: filters.sellsOrderCondition || '',
+});
+
+  const { data } = await api.get<{ sells: SellsInterface[], total: number }>(`/api/sells/client/${params.client}?${parametros.toString()}`);
+
+  return { sells: data.sells, total: data.total };
 };
 
 

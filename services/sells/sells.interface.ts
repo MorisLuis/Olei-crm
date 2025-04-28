@@ -1,4 +1,3 @@
-import { FilterSellsByClient } from "../cobranza/cobranza.interface";
 
 /* PARAMS */
 interface getSellsInterface {
@@ -25,6 +24,16 @@ interface FilterSells {
     searchTerm: string;
 };
 
+interface FilterSellsByClient {
+    FilterExpired: 0 | 1 | number;
+    FilterNotExpired: 0 | 1 | number;
+    TipoDoc: 0 | 1 | 2 | 3 | 4 | number;
+    DateExactly?: string;
+    DateStart?: string;
+    DateEnd?: string;
+    sellsOrderCondition?: string;
+};
+
 type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
 const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
 
@@ -40,13 +49,7 @@ type SellsOrderConditionType = 'Nombre' | 'Saldo' | 'Total';
 const SellsOrderCondition = ['Nombre', 'Saldo', 'Total'] as const;
 
 type SellsOrderByClientConditionType = | 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
-const SellsOrderByClientCondition: SellsOrderByClientConditionType[] = [
-    'TipoDoc',
-    'Folio',
-    'Fecha',
-    'FechaEntrega',
-    'ExpiredDays',
-];
+const SellsOrderByClientCondition = [ 'TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
 
 type SellsFilterConditionByClientType = 'TipoDoc' | 'Expired' | 'Not Expired';
 const SellsFilterCondition: SellsFilterConditionByClientType[] = [

@@ -7,6 +7,7 @@ export function useUrlFilters<S extends ZodType<any, any>>(
 ) {
     const searchParams = useSearchParams()
     const router = useRouter()
+    
 
     const filters = useMemo<zInfer<S>>(() => {
         const rawObj = Object.fromEntries(searchParams.entries())
@@ -62,8 +63,6 @@ export function useUrlFilters<S extends ZodType<any, any>>(
         },
         [router, searchParams]
     );
-
-
 
     return { filters, updateFilter, updateFilters, removeFilter, removeFilters }
 }
