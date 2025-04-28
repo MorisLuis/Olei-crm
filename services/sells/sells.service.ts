@@ -1,33 +1,32 @@
 import { api } from '@/api/api';
-import { OrderObject } from '@/components/UI/OrderComponent';
 import {
   SellsDetailsInterface,
-  SellsInterface,
-  typeTipoDoc,
+  SellsInterface
 } from '@/interface/sells';
 import { FilterSellsByClient } from '../cobranza/cobranza.interface';
 import { getSellByIdInterface, getSellsByClientInterface, getSellsInterface } from './sells.interface';
 
 
 
-export const getSells = async ({
-  PageNumber,
-  SellsOrderCondition
-}: getSellsInterface): Promise<{ sells: SellsInterface[] }> => {
-  const { data } = await api.get<{ sells: SellsInterface[] }>(
-    `/api/sells?PageNumber=${PageNumber}&sellsOrderCondition=${SellsOrderCondition?.order}`
+export const getSells = async (params: getSellsInterface): Promise<{ sells: SellsInterface[] }> => {
+  const { data } = await api.get<{ sells: SellsInterface[] }>(`/api/sells`, {
+    params: {
+      PageNumber: params.PageNumber,
+      ...params.filters,
+    },
+  }
   );
   return { sells: data.sells };
 };
 
-export const getSellsByClient = async ({
-  client,
-  PageNumber,
-  filters,
-}: getSellsByClientInterface): Promise<{ sells: SellsInterface[] }> => {
-  const { data } = await api.get<{ sells: SellsInterface[] }>(
-    `/api/sells/client/${client}?PageNumber=${PageNumber}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`
-  );
+export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[] }> => {
+  const { data } = await api.get<{ sells: SellsInterface[] }>(`/api/sells/client/${params.client}`, {
+    params: {
+      PageNumber: params.PageNumber,
+      ...params.filters,
+    },
+  });
+
   return { sells: data.sells };
 };
 

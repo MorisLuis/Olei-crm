@@ -1,5 +1,5 @@
-import { ClientOrderConditionType } from "@/interface/client";
 
+/* PARMS */
 interface getSellsInterface {
     PageNumber: number;
     filters: FilterClients;
@@ -10,7 +10,16 @@ interface getClientByIdInterface {
     Id_Cliente: string | number;
 }
 
-export const ClientConditionObject: ReadonlyArray<{
+/* FILTERS */
+interface FilterClients {
+    clientOrderCondition: ClientOrderConditionType;
+    searchTerm: string;
+}
+
+type ClientOrderConditionType = 'Id_Cliente' | 'Nombre';
+const ClientOrderCondition = ['Id_Cliente', 'Nombre'] as const;
+
+const ClientConditionObject: ReadonlyArray<{
     value: ClientOrderConditionType;
     label: string;
 }> = [
@@ -24,12 +33,15 @@ export const ClientConditionObject: ReadonlyArray<{
     }
 ] as const;
 
-interface FilterClients {
-    clientOrderCondition: string;
-    termSearch: string;
+
+export {
+    ClientOrderCondition,
+    ClientConditionObject
 }
 
+
 export type {
+    ClientOrderConditionType,
     getSellsInterface,
     getClientByIdInterface
 }

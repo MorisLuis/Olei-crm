@@ -14,7 +14,7 @@ interface TableSellsInterface {
   totalSells: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
-  loadMoreProducts: () => Promise<void>;
+  loadMoreProducts: () => void;
 }
 
 export default function TableSells({
@@ -24,6 +24,7 @@ export default function TableSells({
   buttonIsLoading,
   loadMoreProducts,
 }: TableSellsInterface) : JSX.Element {
+
   const { push } = useRouter();
   const NoMoreProductToShow = sells.length === totalSells;
 
@@ -32,12 +33,7 @@ export default function TableSells({
   };
 
   if (loadingData) {
-    return (
-      <>
-        {/* Header skeleton */}
-        <TableSkeleton />
-      </>
-    );
+    return <TableSkeleton />
   }
 
   if (sells?.length === 0) {

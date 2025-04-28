@@ -9,7 +9,7 @@ export const clientsFiltersConfig: FilterItemConfig[] = [
         options: ClientConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
-        key: 'termSearch',
+        key: 'searchTerm',
         label: 'Nombre',
         type: 'input'
     }

@@ -1,4 +1,4 @@
-import { MeetingOrderCondition } from '@/interface/meeting'
+import { MeetingOrderCondition } from '@/services/bitacora/meeting.interface'
 import { z } from 'zod'
 
 export const BitacoraFilterSchema = z.object({

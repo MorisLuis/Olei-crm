@@ -1,4 +1,4 @@
-import { typeTipoDoc } from '@/interface/sells';
+import { typeTipoDoc } from "@/services/sells/sells.interface";
 
 export type typeLabelTipoDocColor = ['gray', 'red', 'blue', 'green', 'yellow'];
 const tipoDocMap: { [key in typeTipoDoc]: typeLabelTipoDocColor[key] } = {

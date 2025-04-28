@@ -20,6 +20,3 @@ export interface ClientInterface {
   Id_AlmDest?: number;
   IsEmploye: boolean;
 }
-
-export type ClientOrderConditionType = 'Id_Cliente' | 'Nombre';
-export const ClientOrderCondition = ['Id_Cliente', 'Nombre'] as const;

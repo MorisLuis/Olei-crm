@@ -36,12 +36,7 @@ export default function TableClients({
   };
 
   if (loadingData) {
-    return (
-      <>
-        {/* Header skeleton */}
-        <TableSkeleton />
-      </>
-    );
+    return <TableSkeleton />
   }
 
   if (clients?.length === 0) {

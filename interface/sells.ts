@@ -1,3 +1,5 @@
+import { typeTipoDoc } from "@/services/sells/sells.interface";
+
 export interface SellsInterface {
   UniqueKey?: string;
   Id_Cliente: number;
@@ -15,44 +17,8 @@ export interface SellsInterface {
   Impuesto?: number;
   FechaLiq?: Date;
   Piezas?: number;
-}
+};
 
-
-
-export type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
-export const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
-
-export const tipoDocMap = {
-  0: 'Otro',
-  1: 'Facturas',
-  2: 'Remisión',
-  3: 'Pedidos',
-  4: 'Cotización',
-} as const;
-
-export type SellsOrderConditionType = 'Nombre' | 'Saldo' | 'Total';
-export const SellsOrderCondition: SellsOrderConditionType[] = ['Nombre', 'Saldo', 'Total'];
-
-export type SellsOrderConditionByClientType =
-  | 'TipoDoc'
-  | 'Folio'
-  | 'Fecha'
-  | 'FechaEntrega'
-  | 'ExpiredDays';
-export const SellsOrderByClientCondition: SellsOrderConditionByClientType[] = [
-  'TipoDoc',
-  'Folio',
-  'Fecha',
-  'FechaEntrega',
-  'ExpiredDays',
-];
-
-export type SellsFilterConditionByClientType = 'TipoDoc' | 'Expired' | 'Not Expired';
-export const SellsFilterCondition: SellsFilterConditionByClientType[] = [
-  'TipoDoc',
-  'Expired',
-  'Not Expired',
-];
 
 export interface SellsDetailsInterface {
   Impuesto?: number | null;

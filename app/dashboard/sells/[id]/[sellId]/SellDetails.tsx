@@ -7,7 +7,9 @@ import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/Tabl
 import { Tag } from '@/components/UI/Tag';
 import { useLoadMoreData } from '@/hooks/useLoadMoreData';
 import { useTagColor } from '@/hooks/useTagColor';
-import { SellsDetailsInterface, SellsInterface, TipoDoc, typeTipoDoc } from '@/interface/sells';
+import { SellsDetailsInterface, SellsInterface } from '@/interface/sells';
+import { TipoDoc } from '@/services/cobranza/cobranza.interface';
+import { typeTipoDoc } from '@/services/sells/sells.interface';
 import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells/sells.service';
 import { docType } from '@/utils/docType';
 import { formatDate } from '@/utils/formatDate';

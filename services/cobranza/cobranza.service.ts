@@ -8,12 +8,11 @@ const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaRespon
         params: {
             PageNumber: params.PageNumber,
             ...params.filters,
-        },
+        }
     });
 
     return {
-        cobranza: data.cobranza,
-        hasMore: data.currentPage < data.totalPages,
+        cobranza: data.cobranza
     };
 
 };

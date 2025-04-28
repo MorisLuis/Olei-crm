@@ -19,7 +19,7 @@ function CobranzaContent(): JSX.Element {
     const router = useRouter()
     const [page, setPage] = useState(1);
     const [items, setItems] = useState<CobranzaInterface[]>([]);
-    const { filters, updateFilter,  updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
+    const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
 
     const { data, error, isLoading, refetch } =
         useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[] }, { PageNumber: number; filters: typeof filters }>(

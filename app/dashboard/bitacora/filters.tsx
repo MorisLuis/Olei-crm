@@ -1,12 +1,12 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
-import { MeetingConditionObject } from "@/services/bitacora/meeting.interface";
+import { MeetingOrderConditionObject } from "@/services/bitacora/meeting.interface";
 
 export const bitacoraFiltersConfig: FilterItemConfig[] = [
     {
         key: 'meetingOrderCondition',
         label: 'Ordenar',
         type: 'select',
-        options: MeetingConditionObject.map((val) => ({ label: val.label, value: val.value })),
+        options: MeetingOrderConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
         key: 'termSearch',

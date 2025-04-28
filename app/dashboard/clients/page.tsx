@@ -16,11 +16,11 @@ import styles from '../../../styles/pages/Clients.module.scss';
 function ClientsContent(): JSX.Element {
 
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<ClientInterface[]>([]);  
+  const [items, setItems] = useState<ClientInterface[]>([]);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(ClientsFilterSchema)
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ clients: ClientInterface[] }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ clients: ClientInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
       ['cobranza', page],
       ({ PageNumber, filters }) => getClients({ PageNumber, filters }),
       { PageNumber: page, filters }
@@ -38,7 +38,6 @@ function ClientsContent(): JSX.Element {
   }, [data]);
 
   if (error) return <Custum500 handleRetry={refetch} />;
-  if (isLoading && items.length === 0) return <div>cargando...</div>;
 
   return (
     <div className={styles.page}>
@@ -47,7 +46,7 @@ function ClientsContent(): JSX.Element {
       <FilterBar
         filters={filters}
         config={clientsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: 'clientOrderCondition' | 'termSearch', value: string | number) => void}
+        updateFilter={updateFilter as unknown as (key: 'clientOrderCondition' | 'searchTerm', value: string | number) => void}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
@@ -55,10 +54,10 @@ function ClientsContent(): JSX.Element {
 
       <TableClients
         clients={items}
-        totalClients={0}
+        totalClients={data?.total ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         buttonIsLoading={false}
-        loadingData={isLoading}
+        loadingData={items.length <= 0 && isLoading}
       />
     </div>
   );
@@ -66,8 +65,8 @@ function ClientsContent(): JSX.Element {
 
 export default function Clietns(): JSX.Element {
   return (
-      <Suspense fallback={<p>Cargando...</p>}>
-          <ClientsContent />
-      </Suspense>
+    <Suspense fallback={<p>Cargando...</p>}>
+      <ClientsContent />
+    </Suspense>
   );
 }

@@ -35,6 +35,7 @@ interface FilterSellsByClient {
     DateStart?: string;
     DateEnd?: string;
     sellsOrderCondition?: string;
+    termSearch: string;
 };
 
 interface FilterCobranzaByClient extends Omit<FilterSellsByClient, 'sellsOrderCondition'>  {
@@ -43,7 +44,6 @@ interface FilterCobranzaByClient extends Omit<FilterSellsByClient, 'sellsOrderCo
 
 interface CobranzaResponse {
     cobranza: CobranzaInterface[];
-    hasMore: boolean; // <- importante para saber si hay más páginas
 }
 
 // FILTERS

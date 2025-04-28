@@ -18,7 +18,7 @@ interface TableSellsClientInterface {
   totalSells: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
-  loadMoreProducts: () => Promise<void>;
+  loadMoreProducts: () => void;
   handleSelectItem: (item: SellsInterface) => void;
 }
 

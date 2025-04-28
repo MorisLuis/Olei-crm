@@ -1,17 +1,20 @@
 import { api } from '@/api/api';
-import { OrderObject } from '@/components/UI/OrderComponent';
 import { ClientInterface } from '@/interface/client';
 import { getClientByIdInterface, getSellsInterface } from './clients.interface';
 
 
-export const getClients = async (params: getSellsInterface): Promise<{ clients: ClientInterface[] }> => {
-  const { data } = await api.get<{ clients: ClientInterface[] }>(`/api/client`, {
+export const getClients = async (params: getSellsInterface): Promise<{ clients: ClientInterface[], total: number }> => {
+  const { data } = await api.get<{ clients: ClientInterface[], total: number }>(`/api/client`, {
     params: {
       PageNumber: params.PageNumber,
       ...params.filters,
     }
   });
-  return { clients: data.clients };
+
+  return { 
+    clients: data.clients, 
+    total: data.total 
+  };
 };
 
 
