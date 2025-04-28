@@ -22,7 +22,7 @@ function CobranzaContent(): JSX.Element {
     const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
 
     const { data, error, isLoading, refetch } =
-        useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[] }, { PageNumber: number; filters: typeof filters }>(
+        useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
             ['cobranza', page],
             ({ PageNumber, filters }) => getCobranza({ PageNumber, filters }),
             { PageNumber: page, filters }
@@ -60,7 +60,7 @@ function CobranzaContent(): JSX.Element {
 
             <TableCobranza
                 sells={items}
-                totalSells={0}
+                totalSells={data?.total ?? 0}
                 loadMoreProducts={() => setPage(p => p + 1)}
                 handleSelectItem={handleSelectItem}
                 buttonIsLoading={false}

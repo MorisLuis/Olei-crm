@@ -44,6 +44,7 @@ interface FilterCobranzaByClient extends Omit<FilterSellsByClient, 'sellsOrderCo
 
 interface CobranzaResponse {
     cobranza: CobranzaInterface[];
+    total: number
 }
 
 // FILTERS
