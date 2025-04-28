@@ -2,8 +2,8 @@ import { SellsOrderCondition } from '@/services/sells/sells.interface'
 import { z } from 'zod'
 
 export const SellsFilterSchema = z.object({
-    SellsOrderCondition: z.enum(SellsOrderCondition).default('Nombre'),
-    termSearch: z.string().optional().transform(val => val ?? '')
+    sellsOrderCondition: z.enum(SellsOrderCondition).default('Nombre'),
+    searchTerm: z.string().optional().transform(val => val ?? '')
 })
 
 

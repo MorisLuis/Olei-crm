@@ -8,15 +8,15 @@ import { getSellByIdInterface, getSellsByClientInterface, getSellsInterface } fr
 
 
 
-export const getSells = async (params: getSellsInterface): Promise<{ sells: SellsInterface[] }> => {
-  const { data } = await api.get<{ sells: SellsInterface[] }>(`/api/sells`, {
+export const getSells = async (params: getSellsInterface): Promise<{ sells: SellsInterface[], total: number }> => {
+  const { data } = await api.get<{ sells: SellsInterface[], total: number }>(`/api/sells`, {
     params: {
       PageNumber: params.PageNumber,
       ...params.filters,
     },
-  }
-  );
-  return { sells: data.sells };
+  });
+
+  return { sells: data.sells, total: data.total };
 };
 
 export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[] }> => {

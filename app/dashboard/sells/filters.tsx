@@ -3,13 +3,13 @@ import { SellsConditionObject } from "@/services/sells/sells.interface";
 
 export const sellsFiltersConfig: FilterItemConfig[] = [
     {
-        key: 'SellsOrderCondition',
+        key: 'sellsOrderCondition',
         label: 'Ordenar',
         type: 'select',
         options: SellsConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
-        key: 'termSearch',
+        key: 'searchTerm',
         label: 'Nombre',
         type: 'input'
     }

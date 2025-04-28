@@ -20,7 +20,7 @@ function SellsContent(): JSX.Element {
   const { filters, updateFilter,  updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema)
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
       ['sells', page],
       ({ PageNumber, filters }) => getSells({ PageNumber, filters }),
       { PageNumber: page, filters }
@@ -46,18 +46,18 @@ function SellsContent(): JSX.Element {
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: 'SellsOrderCondition' | 'termSearch', value: string | number) => void}
+        updateFilter={updateFilter as unknown as (key: 'sellsOrderCondition' | 'searchTerm', value: string | number) => void}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
       />
       <TableSells
         sells={items}
-        totalSells={0}
+        totalSells={data?.total ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         //handleSelectItem={handleSelectItem}
         buttonIsLoading={false}
-        loadingData={isLoading}
+        loadingData={items.length <= 0 && isLoading}
       />
     </div>
   );

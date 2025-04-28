@@ -21,8 +21,8 @@ interface getSellByIdInterface {
 
 // FILTERS
 interface FilterSells {
-    SellsOrderCondition?: SellsOrderConditionType;
-    termSearch: string;
+    sellsOrderCondition?: SellsOrderConditionType;
+    searchTerm: string;
 };
 
 type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
