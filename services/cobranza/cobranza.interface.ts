@@ -6,6 +6,7 @@ interface CobranzaInterface {
     TotalSaldo: number;
     Id_Cliente: number;
     Id_Almacen: number;
+    CorreoVtas: string;
 };
 
 // PARAMS

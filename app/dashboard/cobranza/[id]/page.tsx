@@ -54,24 +54,25 @@ export default function CobranzaByClient(): JSX.Element {
     setPage((prev) => prev + 1);
   };
 
-  const handleSelectItem = (item: SellsInterface) : void => {
+  const handleSelectItem = (item: SellsInterface): void => {
     setOpenModalSell(true)
     push(`/dashboard/cobranza/${Id_Cliente}?sellId=${item.UniqueKey}`)
   }
 
-  const handleCloseModalSell = () : void => {
+  const handleCloseModalSell = (): void => {
     back()
     setOpenModalSell(false)
   };
 
   const clientActions: ActionsInterface[] = [
     {
-        id: 1,
-        text: 'Compartir Relación',
-        onclick: () => setOpenModalShareCobranza(false),
-        color: 'yellow'
+      id: 1,
+      text: 'Compartir Relación',
+      onclick: () => setOpenModalShareCobranza(true),
+      color: 'yellow',
+      notVsible: !email
     }
-]
+  ]
 
   useEffect(() => {
     setCobranzaItems([]);
@@ -90,7 +91,7 @@ export default function CobranzaByClient(): JSX.Element {
 
   return (
     <>
-      <Header title={`${clientName}` ?? 'Cobranza'} actions={clientActions} />
+      <Header title={clientName ?? 'Cobranza'} actions={clientActions} />
 
       <FilterBar
         filters={filters}

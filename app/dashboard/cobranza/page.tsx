@@ -28,9 +28,15 @@ function CobranzaContent(): JSX.Element {
             { PageNumber: page, filters }
         );
 
-    const handleSelectItem = (item: CobranzaInterface): void => {
-        router.push(`/dashboard/cobranza/${item.Id_Cliente}?Id_Almacen=${item.Id_Almacen}&client=${encodeURIComponent(item.Nombre.trim())}`)
-    }
+        const handleSelectItem = (item: CobranzaInterface): void => {
+            const params = new URLSearchParams({
+                Id_Almacen: item.Id_Almacen.toString(),
+                client: item.Nombre.trim(),
+                email: item.CorreoVtas.trim() ?? '',
+            });
+            router.push(`/dashboard/cobranza/${item.Id_Cliente}?${params.toString()}`);
+        };
+        
 
     useEffect(() => {
         setPage(1);
