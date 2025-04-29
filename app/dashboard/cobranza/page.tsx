@@ -29,7 +29,7 @@ function CobranzaContent(): JSX.Element {
         );
 
     const handleSelectItem = (item: CobranzaInterface): void => {
-        router.push(`/dashboard/cobranza/${item.Id_Cliente}?Id_Almacen=${item.Id_Almacen}`)
+        router.push(`/dashboard/cobranza/${item.Id_Cliente}?Id_Almacen=${item.Id_Almacen}&client=${encodeURIComponent(item.Nombre.trim())}`)
     }
 
     useEffect(() => {

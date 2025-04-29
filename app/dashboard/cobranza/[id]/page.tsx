@@ -90,7 +90,7 @@ export default function CobranzaByClient(): JSX.Element {
 
   return (
     <>
-      <Header title="Cobranza" actions={clientActions} dontShowBack />
+      <Header title={`${clientName}` ?? 'Cobranza'} actions={clientActions} />
 
       <FilterBar
         filters={filters}

@@ -316,17 +316,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 30px;
 
     &__title {
         display: flex;
         gap: calc(variables.$gap/2);
         height: 100%;
         align-items: center;
-
+    
         .icon {
-            padding: calc(variables.$padding/2);
             border: 1px solid transparent;
+            border-radius: variables.$border-radius;
             cursor: pointer;
+            height: 30px;
+            width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &:hover {
                 background-color: variables.$background-color-tertiary;

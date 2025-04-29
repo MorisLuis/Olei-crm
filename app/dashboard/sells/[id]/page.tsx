@@ -57,7 +57,7 @@ export default function SellsClientPage(): JSX.Element {
     <>
       <Header
         title={clientName}
-        custumBack={() => alert('back')}
+        custumBack={() => push('/dashboard/sells')}
       />
 
       <FilterBar

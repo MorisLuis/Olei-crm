@@ -11,7 +11,6 @@ import { SellsFilterSchema } from '@/schemas/sellsFilters.schema';
 import { getSells } from '@/services/sells/sells.service';
 import TableSells from './TableSells';
 import { sellsFiltersConfig } from './filters';
-import styles from '../../../styles/pages/Sells.module.scss';
 
 function SellsContent(): JSX.Element {
 
@@ -40,7 +39,7 @@ function SellsContent(): JSX.Element {
   if (error) return <Custum500 handleRetry={refetch} />;
 
   return (
-    <div className={styles.page}>
+    <>
       <Header title="Ventas" dontShowBack />
       <FilterBar
         filters={filters}
@@ -54,11 +53,10 @@ function SellsContent(): JSX.Element {
         sells={items}
         totalSells={data?.total ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
-        //handleSelectItem={handleSelectItem}
         buttonIsLoading={false}
         loadingData={items.length <= 0 && isLoading}
       />
-    </div>
+    </>
   );
 }
 

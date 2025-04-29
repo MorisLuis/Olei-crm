@@ -34,11 +34,13 @@ export default function Header({ title, actions, custumBack, dontShowBack }: Hea
     <div className={styles.header}>
       <div className={styles.header__title}>
         {id && !dontShowBack && (
-          <FontAwesomeIcon
-            onClick={goBack}
-            icon={faArrowLeft}
-            className={`${styles.icon} icon__small`}
-          />
+          <div className={`${styles.icon}`}>
+            <FontAwesomeIcon
+              onClick={goBack}
+              icon={faArrowLeft}
+              className={`icon__small`}
+            />
+          </div>
         )}
         <h2>{Title}</h2>
         <div className="none">{basePath}</div>
