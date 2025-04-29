@@ -1,6 +1,6 @@
 'use client';
 
-import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
+import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
@@ -32,6 +32,8 @@ export default function TableSellsClient({
 }: TableSellsClientInterface): JSX.Element {
 
   const NoMoreProductToShow = sells.length === totalSells;
+  const noCoincidenceItems = sells.length === 0 && !loadingData
+
   const { changeColor } = useTagColor();
 
   const columns: ColumnSecondaryConfig<SellsInterface>[] = [
@@ -97,12 +99,15 @@ export default function TableSellsClient({
     return <TableSkeleton />
   }
 
-  if (sells?.length === 0) {
+  if (noCoincidenceItems) {
     return (
-      <MessageCard title="No hay coincidencias exactas" icon={faFaceFrown}>
-        <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
+      <MessageCard
+        title='No hay coincidencias exactas'
+        icon={faFaceSadCry}
+      >
+        <p>Cambia o elimina algunos de los filtros.</p>
       </MessageCard>
-    );
+    )
   }
 
   return (

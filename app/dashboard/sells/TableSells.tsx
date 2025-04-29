@@ -1,6 +1,6 @@
 'use client';
 
-import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
+import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
@@ -27,6 +27,7 @@ export default function TableSells({
 
   const { push } = useRouter();
   const NoMoreProductToShow = sells.length === totalSells;
+  const noCoincidenceItems = sells.length === 0 && !loadingData
 
   const handleSelectClientSells = (item: SellsInterface) : void => {
     push(`sells/${item.Id_Cliente}?client=${encodeURIComponent(item.Nombre.trim())}`);
@@ -36,13 +37,17 @@ export default function TableSells({
     return <TableSkeleton />
   }
 
-  if (sells?.length === 0) {
+  if (noCoincidenceItems) {
     return (
-      <MessageCard title="No hay coincidencias exactas" icon={faFaceFrown}>
-        <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
+      <MessageCard
+        title='No hay coincidencias exactas'
+        icon={faFaceSadCry}
+      >
+        <p>Cambia o elimina algunos de los filtros.</p>
       </MessageCard>
-    );
+    )
   }
+
 
   return (
     <Table

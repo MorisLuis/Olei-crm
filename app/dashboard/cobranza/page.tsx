@@ -43,8 +43,6 @@ function CobranzaContent(): JSX.Element {
         }
     }, [data]);
 
-
-
     if (error) return <Custum500 handleRetry={refetch} />;
 
     return (

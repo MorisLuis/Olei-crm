@@ -1,6 +1,6 @@
 'use client';
 
-import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
+import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
@@ -14,23 +14,25 @@ import { formatDate } from '@/utils/formatDate';
 import { formatTime } from '@/utils/formatTime';
 
 interface TableBitacoraInterface {
-  sells: MeetingInterface[];
-  totalSells: number;
+  meetings: MeetingInterface[];
+  totalMeetings: number;
   buttonIsLoading: boolean;
   loadingData: boolean;
   loadMoreProducts: () => void;
 }
 
 export default function TableBitacora({
-  sells,
-  totalSells,
+  meetings,
+  totalMeetings,
   loadingData,
   buttonIsLoading,
   loadMoreProducts,
 }: TableBitacoraInterface)  : JSX.Element {
+
   const { push } = useRouter();
-  const NoMoreProductToShow = sells.length === totalSells;
   const { changeColor } = useTagColor();
+  const NoMoreProductToShow = meetings.length === totalMeetings;
+  const noCoincidenceItems = meetings.length === 0 && !loadingData
 
   const handleSelectMeeting = (item: MeetingInterface) : void => {
     push(
@@ -84,18 +86,21 @@ export default function TableBitacora({
     return <TableSkeleton />
   }
 
-  if (sells?.length === 0) {
+  if (noCoincidenceItems) {
     return (
-      <MessageCard title="No hay coincidencias exactas" icon={faFaceFrown}>
-        <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
+      <MessageCard
+        title='No hay coincidencias exactas'
+        icon={faFaceSadCry}
+      >
+        <p>Cambia o elimina algunos de los filtros.</p>
       </MessageCard>
-    );
+    )
   }
 
   return (
     <Table
       columns={columnsBitacora}
-      data={sells}
+      data={meetings}
       noMoreData={NoMoreProductToShow}
       loadingMoreData={buttonIsLoading}
       handleLoadMore={loadMoreProducts}

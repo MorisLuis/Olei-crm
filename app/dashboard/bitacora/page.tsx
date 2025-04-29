@@ -65,8 +65,8 @@ function BitacoraContent(): JSX.Element {
       />
 
       <TableBitacora
-        sells={items}
-        totalSells={data?.total ?? 0}
+        meetings={items}
+        totalMeetings={data?.total ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         buttonIsLoading={false}
         loadingData={items.length <= 0 && isLoading}
