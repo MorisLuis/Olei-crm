@@ -9,6 +9,7 @@ import { ApiError } from '@/interface/error';
 import { UserCRMInterface } from '@/interface/user';
 import { AuthContext } from './AuthContext';
 import { authReducer } from './authReducer';
+import { setUnauthorizedHandler } from '@/api/apiCallbacks';
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -90,9 +91,28 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
   };
 
+  const logOutWithoutToken = async () => {
+    try {
+      push('/login');
+      Cookies.remove('token');
+      dispatch({ type: '[Auth] - Logout', user: AUTH_INITIAL_STATE.user });
+    } catch (error) {
+      push('/login');
+      Cookies.remove('token');
+    } finally {
+      setLoggingIn(false);
+    }
+  };
+
   const openModalBackground = () => {
     setModalBackgroundOpen(!modalBackgroundOpen);
   };
+
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      logOutWithoutToken();
+    });
+  }, [logOutWithoutToken]);
 
   return (
     <AuthContext.Provider
