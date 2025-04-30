@@ -10,15 +10,6 @@ export const sellsByClientFiltersConfig: FilterItemConfig[] = [
         options: SellsByClientConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
-        key: 'ExpiredStatus',
-        label: 'Estado de vencimiento',
-        type: 'radio',
-        options: [
-            { label: 'Filtrar Vencido', value: 'FilterExpired', activeValue: "Vencido" },
-            { label: 'Filtrar No Vencido', value: 'FilterNotExpired', activeValue: "No vencido" },
-        ],
-    },
-    {
         key: 'TipoDoc',
         label: 'Tipo de Documento',
         type: 'select',

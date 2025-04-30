@@ -19,7 +19,7 @@ export const getSells = async (params: getSellsInterface): Promise<{ sells: Sell
   return { sells: data.sells, count: data.count, totalStats: data.total };
 };
 
-export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[], total: number }> => {
+export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }> => {
 
   const { filters, PageNumber } = params;
   const parametros = new URLSearchParams({
@@ -33,9 +33,10 @@ export const getSellsByClient = async (params: getSellsByClientInterface): Promi
     sellsOrderCondition: filters.sellsOrderCondition || '',
   });
 
-  const { data } = await api.get<{ sells: SellsInterface[], total: number }>(`/api/sells/client/${params.client}?${parametros.toString()}`);
+  const { data } = await api.get<{ sells: SellsInterface[], count: number, total: totalSellsResponse }>(`/api/sells/client/${params.client}?${parametros.toString()}`);
 
-  return { sells: data.sells, total: data.total };
+  console.log()
+  return { sells: data.sells, count: data.count, totalStats: data.total };
 };
 
 

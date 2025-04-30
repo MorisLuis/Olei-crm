@@ -6,14 +6,17 @@ import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Modal from '@/components/Modals/Modal';
 import Header from '@/components/navigation/header';
+import HeaderStats from '@/components/navigation/headerStats';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { SellsByClientFilterSchema } from '@/schemas/sellsFilters.schema';
+import { totalSellsResponse } from '@/services/sells/sells.interface';
 import { getSellsByClient } from '@/services/sells/sells.service';
-import TableSellsClient from './TableSellsClient';
 import SellDetails from './[sellId]/SellDetails';
-import { sellsByClientFiltersConfig } from './filters';
+import { sellsByClientFiltersConfig } from './sellsClientFilters';
+import sellsClientStats from './sellsClientStats';
+import TableSellsClient from './sellsClientTable';
 
 export default function SellsClientPage(): JSX.Element {
 
@@ -29,7 +32,7 @@ export default function SellsClientPage(): JSX.Element {
 
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
       ['sells-client', page],
       ({ PageNumber, filters }) => getSellsByClient({ client: Number(id), PageNumber, filters }),
       { PageNumber: page, filters }
@@ -59,6 +62,7 @@ export default function SellsClientPage(): JSX.Element {
         title={clientName}
         custumBack={() => push('/dashboard/sells')}
       />
+      <HeaderStats items={sellsClientStats(data?.totalStats)} isLoading={isLoading}/>
 
       <FilterBar
         filters={filters}
@@ -71,7 +75,7 @@ export default function SellsClientPage(): JSX.Element {
 
       <TableSellsClient
         sells={items}
-        totalSells={data?.total ?? 0}
+        totalSells={data?.count ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         handleSelectItem={handleSelectClient}
         buttonIsLoading={false}
