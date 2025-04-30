@@ -1,0 +1,45 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+.headerStats {
+    width: 100%;
+    min-height: 80px;
+
+    display: flex;
+    align-items: center;
+    margin-bottom: calc(variables.$margin-vertical / 2);
+
+    gap: variables.$gap;
+
+    @include mixins.respond(phone) {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .headerStatsItem {
+        flex: 1;
+        align-items: center;
+
+        min-height: 80px;
+        width: auto;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
+        padding: variables.$padding;
+        background-color: variables.$background-color-secondary;
+
+
+        @include mixins.respond(phone) {
+            width: 100%;
+        }
+
+        label {
+            font-size: variables.$font-medium;
+        }
+
+        .headerStatsItem_value {
+            font-size: variables.$font-big;
+            font-weight: bold;
+        }
+    }
+}

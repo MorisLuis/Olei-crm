@@ -7,7 +7,7 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import TableSkeleton from '@/components/Skeletons/TableSkeleton';
 import Table from '@/components/UI/Tables/Table';
 import { SellsInterface } from '@/interface/sells';
-import { columnsSells } from './TableSellsData';
+import { columnsSells } from './sellsTableData';
 
 interface TableSellsInterface {
   sells: SellsInterface[];

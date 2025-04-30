@@ -17,6 +17,8 @@ export interface SellsInterface {
   Impuesto?: number;
   FechaLiq?: Date;
   Piezas?: number;
+
+  Subtotal?: number;
 };
 
 

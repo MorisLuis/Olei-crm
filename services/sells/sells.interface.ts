@@ -103,6 +103,11 @@ const SellsByClientConditionObject: ReadonlyArray<{
 ] as const;
 
 
+// RESPONSE:
+interface totalSellsResponse {
+    SumaSubtotal: number, 
+    SumaTotal: number
+}
 
 export {
     TipoDoc,
@@ -124,5 +129,8 @@ export type {
 
     getSellsInterface,
     getSellsByClientInterface,
-    getSellByIdInterface
+    getSellByIdInterface,
+
+    // Response
+    totalSellsResponse
 }

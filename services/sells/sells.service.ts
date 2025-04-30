@@ -4,24 +4,24 @@ import {
   SellsInterface
 } from '@/interface/sells';
 import { FilterSellsByClient } from '../cobranza/cobranza.interface';
-import { getSellByIdInterface, getSellsByClientInterface, getSellsInterface } from './sells.interface';
+import { getSellByIdInterface, getSellsByClientInterface, getSellsInterface, totalSellsResponse } from './sells.interface';
 
 
 
-export const getSells = async (params: getSellsInterface): Promise<{ sells: SellsInterface[], total: number }> => {
-  const { data } = await api.get<{ sells: SellsInterface[], total: number }>(`/api/sells`, {
+export const getSells = async (params: getSellsInterface): Promise<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }> => {
+  const { data } = await api.get<{ sells: SellsInterface[], count: number, total: totalSellsResponse }>(`/api/sells`, {
     params: {
       PageNumber: params.PageNumber,
       ...params.filters,
     },
   });
 
-  return { sells: data.sells, total: data.total };
+  return { sells: data.sells, count: data.count, totalStats: data.total };
 };
 
 export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[], total: number }> => {
 
-  const { filters, PageNumber} = params;
+  const { filters, PageNumber } = params;
   const parametros = new URLSearchParams({
     PageNumber: String(PageNumber),
     FilterExpired: String(filters.FilterExpired ?? ''),
@@ -31,7 +31,7 @@ export const getSellsByClient = async (params: getSellsByClientInterface): Promi
     DateStart: filters.DateStart || '',
     DateExactly: filters.DateExactly || '',
     sellsOrderCondition: filters.sellsOrderCondition || '',
-});
+  });
 
   const { data } = await api.get<{ sells: SellsInterface[], total: number }>(`/api/sells/client/${params.client}?${parametros.toString()}`);
 

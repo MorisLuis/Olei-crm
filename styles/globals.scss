@@ -1,6 +1,8 @@
 @use "sass:math";
 @use "main.scss";
 @use "Abstracts/variables";
+@use "Base/animations";
+
 @import 'nprogress/nprogress.css';
 
 #nprogress .bar {
@@ -70,6 +72,10 @@ h2{
   }
 }
 
+
+.skeleton {
+  animation: loadingSkeleton 1s infinite;
+}
 
 
 @font-face {
