@@ -5,15 +5,17 @@ import React, { useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
+import HeaderStats from '@/components/navigation/headerStats';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { CobranzaByClientFilterSchema } from '@/schemas/cobranzaFilters.schema';
-import { FilterCobranzaByClient } from '@/services/cobranza/cobranza.interface';
+import { FilterCobranzaByClient, totalCobranzaByClientResponse } from '@/services/cobranza/cobranza.interface';
 import { getCobranzaByClient } from '@/services/cobranza/cobranza.service';
-import ShareCobranzaModal from './ShareCobranzaModal';
-import TableCobranzaByClient from './TableCobranzaByClient';
-import { cobranzaByClientFiltersConfig } from './filters';
+import { cobranzaByClientFiltersConfig } from './cobranzaClientFilters';
+import ShareCobranzaModal from './cobranzaClientShareModal';
+import cobranzaByClientStats from './cobranzaClientStats';
+import TableCobranzaByClient from './cobranzaClientTable';
 import FilterBar from '../../../../components/Filter/FilterBar';
 import SellDetails from '../../sells/[id]/[sellId]/SellDetails';
 
@@ -36,7 +38,7 @@ export default function CobranzaByClient(): JSX.Element {
   const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ cobranza: SellsInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ cobranza: SellsInterface[], count: number, totalStats: totalCobranzaByClientResponse }, { PageNumber: number; filters: typeof filters }>(
       ['cobranzaByClient', page, filters],
       ({ PageNumber, filters }) =>
         getCobranzaByClient({
@@ -92,6 +94,7 @@ export default function CobranzaByClient(): JSX.Element {
   return (
     <>
       <Header title={clientName ?? 'Cobranza'} actions={clientActions} />
+      <HeaderStats items={cobranzaByClientStats(data?.totalStats)} isLoading={isLoading} />
 
       <FilterBar
         filters={filters}
@@ -104,7 +107,7 @@ export default function CobranzaByClient(): JSX.Element {
 
       <TableCobranzaByClient
         sells={cobranzaItems}
-        totalSells={data?.total ?? 0}
+        totalSells={data?.count ?? 0}
         loadMoreProducts={handleLoadMore}
         handleSelectItem={handleSelectItem}
         buttonIsLoading={false}

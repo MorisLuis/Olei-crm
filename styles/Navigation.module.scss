@@ -310,7 +310,7 @@
 }
 
 .header {
-    //margin-bottom: calc(variables.$margin-vertical / 2);
+    margin-bottom: calc(variables.$margin-vertical / 2);
     color: variables.$color-tertiary;
 
     display: flex;

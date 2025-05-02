@@ -44,7 +44,7 @@ function SellsContent(): JSX.Element {
   return (
     <>
       <Header title="Ventas" dontShowBack />
-      <HeaderStats items={sellsStats(data?.totalStats)} isLoading={isLoading}/>
+      <HeaderStats items={sellsStats(data?.totalStats)} isLoading={isLoading} />
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}

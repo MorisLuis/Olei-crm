@@ -1,10 +1,10 @@
 import { api } from "@/api/api";
 import { SellsInterface } from "@/interface/sells";
-import { CobranzaInterface, CobranzaResponse, getCobranzaByClientInterface, getCobranzaInterface, getTotalCobranzaInterface } from "./cobranza.interface";
+import { CobranzaInterface, CobranzaResponse, getCobranzaByClientInterface, getCobranzaInterface, getTotalCobranzaInterface, totalCobranzaByClientResponse, totalCobranzaResponse } from "./cobranza.interface";
 
 const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaResponse> => {
 
-    const { data } = await api.get<{ cobranza: CobranzaInterface[]; currentPage: number; totalPages: number, total: number }>(
+    const { data } = await api.get<{ cobranza: CobranzaInterface[]; count: number, total: totalCobranzaResponse }>(
         '/api/sells/cobranza/clients',
         {
             params: {
@@ -15,7 +15,8 @@ const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaRespon
 
     return {
         cobranza: data.cobranza,
-        total: data.total
+        count: data.count,
+        totalStats: data.total
     };
 
 };
@@ -25,7 +26,7 @@ const getCobranzaByClient = async ({
     client,
     PageNumber,
     filters
-}: getCobranzaByClientInterface): Promise<{ cobranza: SellsInterface[], total: number }> => {
+}: getCobranzaByClientInterface): Promise<{ cobranza: SellsInterface[], count: number, totalStats: totalCobranzaByClientResponse }> => {
 
     const params = new URLSearchParams({
         PageNumber: String(PageNumber),
@@ -38,8 +39,11 @@ const getCobranzaByClient = async ({
         cobranzaOrderCondition: filters.cobranzaOrderCondition || '',
     });
 
-    const { data: { cobranza, total } } = await api.get<{ cobranza: SellsInterface[], total: number }>(`/api/sells/cobranza/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`);
-    return { cobranza: cobranza, total };
+    const { data: { cobranza, total, count } } = await api.get<{ cobranza: SellsInterface[], count: number, total: totalCobranzaByClientResponse}>(
+        `/api/sells/cobranza/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`
+    );
+
+    return { cobranza, totalStats: total, count };
 };
 
 

@@ -6,13 +6,15 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Header from '@/components/navigation/header';
+import HeaderStats from '@/components/navigation/headerStats';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { CobranzaFilterSchema } from '@/schemas/cobranzaFilters.schema';
-import { CobranzaInterface } from '@/services/cobranza/cobranza.interface';
+import { CobranzaInterface, totalCobranzaResponse } from '@/services/cobranza/cobranza.interface';
 import { getCobranza } from '@/services/cobranza/cobranza.service';
-import TableCobranza from './TableCobranzaByClient';
-import { cobranzaFiltersConfig } from './filters';
+import { cobranzaFiltersConfig } from './cobranzaFilters';
+import cobranzaStats from './cobranzaStats';
+import TableCobranza from './cobranzaTable';
 
 function CobranzaContent(): JSX.Element {
 
@@ -22,7 +24,7 @@ function CobranzaContent(): JSX.Element {
     const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
 
     const { data, error, isLoading, refetch } =
-        useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
+        useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[], count: number, totalStats: totalCobranzaResponse }, { PageNumber: number; filters: typeof filters }>(
             ['cobranza', page],
             ({ PageNumber, filters }) => getCobranza({ PageNumber, filters }),
             { PageNumber: page, filters }
@@ -54,6 +56,7 @@ function CobranzaContent(): JSX.Element {
     return (
         <>
             <Header title="Cobranza"  dontShowBack />
+            <HeaderStats items={cobranzaStats(data?.totalStats)} isLoading={isLoading} />
 
             <FilterBar
                 filters={filters}
@@ -66,7 +69,7 @@ function CobranzaContent(): JSX.Element {
 
             <TableCobranza
                 sells={items}
-                totalSells={data?.total ?? 0}
+                totalSells={data?.count ?? 0}
                 loadMoreProducts={() => setPage(p => p + 1)}
                 handleSelectItem={handleSelectItem}
                 buttonIsLoading={false}

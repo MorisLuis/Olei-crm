@@ -45,7 +45,8 @@ interface FilterCobranzaByClient extends Omit<FilterSellsByClient, 'sellsOrderCo
 
 interface CobranzaResponse {
     cobranza: CobranzaInterface[];
-    total: number
+    count: number;
+    totalStats: totalCobranzaResponse
 }
 
 // FILTERS
@@ -146,6 +147,17 @@ interface FilterCobranza {
 };
 
 
+// RESPONSE:
+interface totalCobranzaResponse {
+    SumaSaldoVencido: number, 
+    SumaSaldoNoVencido: number,
+    SumaTotalSaldo: number
+}
+
+interface totalCobranzaByClientResponse {
+    SumaSaldo: number, 
+    SumaTotal: number
+}
 
 
 
@@ -163,5 +175,9 @@ export type {
     CobranzaOrderConditionType,
     FilterSellsByClient,
     FilterCobranzaByClient,
-    CobranzaResponse
+    CobranzaResponse,
+
+    //RESPONSE
+    totalCobranzaByClientResponse,
+    totalCobranzaResponse
 }
