@@ -95,14 +95,14 @@ export const CobranzaByClientConditionObject: ReadonlyArray<{
         value: 'Folio',
         label: 'Folio',
     },
-    {
+/*     {
         value: 'Fecha',
         label: 'Fecha',
     },
     {
         value: 'FechaEntrega',
         label: 'Fecha de Entrega',
-    },
+    }, */
     {
         value: 'ExpiredDays',
         label: 'Días expirados',

@@ -68,26 +68,29 @@ export default function TableCobranzaByClient({
     },
     {
       key: 'ExpiredDays',
-      label: 'Dias vencidos',
-      render: (ExpiredDays) =>
-        ExpiredDays ? (
-          <div>
+      label: 'Dias para vecimiento',
+      render: (ExpiredDays) => (
+        <div>
+          {ExpiredDays && (ExpiredDays as number) < 0 ? (
+            <Tag color="red">{ExpiredDays as number}</Tag>
+          ) : ExpiredDays ? (
             <p>{ExpiredDays as number}</p>
-          </div>
-        ) : (
-          <Tag color="gray">Sin datos</Tag>
-        ),
-    },
-    {
-      key: 'Total',
-      label: 'Total',
-      render: (_, item) => <p>{format(item.Total)}</p>,
+          ) : (
+            <Tag color="gray">Sin datos</Tag>
+          )}
+        </div>
+      ),
     },
     {
       key: 'Saldo',
       label: 'Saldo',
       render: (_, item) => <p>{format(item.Saldo)}</p>,
     },
+    {
+      key: 'Total',
+      label: 'Total',
+      render: (_, item) => <p>{format(item.Total)}</p>,
+    }
   ];
 
   if (loadingData) {
