@@ -1,7 +1,8 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faClock, faFile, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { FilterData, useFilters } from '@/hooks/Filters/useFilters';
-import { tipoDocMap, typeTipoDoc } from '@/services/sells/sells.interface';
+import { typeTipoDoc } from '@/services/sells/sells.interface';
+import { tipoDocMap } from '@/utils/constants/sells';
 
 export type typeLabelTipoDoc = (typeof tipoDocMap)[keyof typeof tipoDocMap];
 

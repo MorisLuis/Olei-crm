@@ -1,18 +1,19 @@
-import { totalCobranzaByClientResponse } from "@/services/cobranza/cobranza.interface";
+import { TotalCobranzaResponse } from "@/services/cobranza/cobranza.interface";
 
 interface Response {
     label: string;
     value: number;
 }
 
-export default function cobranzaByClientStats(totalStats?: totalCobranzaByClientResponse): Response[] {
-    const labelMap: Record<keyof totalCobranzaByClientResponse, string> = {
-        SumaSaldo: "Suma saldo",
-        SumaTotal: "Suma total"
+export default function cobranzaByClientStats(totalStats?: TotalCobranzaResponse | null): Response[] {
+    const labelMap: Record<keyof TotalCobranzaResponse, string> = {
+        SumaSaldoNoVencido: "Suma saldo no vencido",
+        SumaSaldoVencido: "Suma saldo vencido",
+        SumaTotalSaldo: "Suma saldo"
     };
 
     const headerStatsItems = Object.entries(totalStats || {}).map(([key, value]) => ({
-        label: labelMap[key as keyof totalCobranzaByClientResponse] || key,
+        label: labelMap[key as keyof TotalCobranzaResponse] || key,
         value,
     }));
 

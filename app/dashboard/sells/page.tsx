@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Header from '@/components/navigation/header';
@@ -9,7 +9,7 @@ import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFil
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { SellsFilterSchema } from '@/schemas/sellsFilters.schema';
-import { totalSellsResponse } from '@/services/sells/sells.interface';
+import { TotalSellsResponse } from '@/services/sells/sells.interface';
 import { getSells } from '@/services/sells/sells.service';
 import { sellsFiltersConfig } from './sellsFilters';
 import sellsStats from './sellsStats';
@@ -19,14 +19,30 @@ function SellsContent(): JSX.Element {
 
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<SellsInterface[]>([]);
+  const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
+  const [sellsCount, setSellsCount] = useState<number>()
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema)
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, total: TotalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
       ['sells', page],
       ({ PageNumber, filters }) => getSells({ PageNumber, filters }),
       { PageNumber: page, filters }
     );
+
+  const handleGetTotals = useCallback(async (): Promise<void> => {
+    /* const { total, count } = await getCobranzaCountAndTotal({
+      filters: filters as SellsFilters
+    })
+
+    setSellsTotal(total);
+    setSellsCount(count) */
+  }, [filters])
+
+  useEffect(() => {
+    handleGetTotals()
+  }, [handleGetTotals, filters])
+
 
   useEffect(() => {
     setPage(1);
@@ -44,7 +60,7 @@ function SellsContent(): JSX.Element {
   return (
     <>
       <Header title="Ventas" dontShowBack />
-      <HeaderStats items={sellsStats(data?.totalStats)} isLoading={isLoading} />
+      <HeaderStats items={sellsStats(data?.total)} isLoading={isLoading} />
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}

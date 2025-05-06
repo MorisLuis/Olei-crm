@@ -10,174 +10,82 @@ interface CobranzaInterface {
 };
 
 // PARAMS
-interface getCobranzaInterface {
+interface GetCobranzaParams {
     PageNumber: number;
-    filters: FilterCobranza;
+    filters: CobranzaFilters;
 };
 
-interface getCobranzaByClientInterface {
+interface GetCobranzaByClientParams {
+    PageNumber?: number;
+    filters: CobranzaByClientFilters;
+
     Id_Almacen: number,
     client: number;
-    PageNumber: number;
-    filters: FilterCobranzaByClient;
 };
 
-interface getTotalCobranzaInterface {
+interface GetTotalCobranzaParams {
     client: number;
-    filters: FilterCobranzaByClient;
+    filters: CobranzaByClientFilters;
 };
 
-// UTILS
-interface FilterSellsByClient {
+interface GetCobranzaCountAndTotalParams {
+    filters: CobranzaFilters;
+};
+
+
+// FILTERS
+
+interface CobranzaFilters {
+    cobranzaOrderCondition?: CobranzaOrderConditionType;
+    termSearch: string;
+};
+
+interface CobranzaByClientFilters {
     FilterExpired: 0 | 1;
     FilterNotExpired: 0 | 1;
     TipoDoc: 0 | 1 | 2 | 3 | 4;
     DateExactly?: string;
     DateStart?: string;
     DateEnd?: string;
-    sellsOrderCondition?: string;
-    termSearch: string;
-};
-
-interface FilterCobranzaByClient extends Omit<FilterSellsByClient, 'sellsOrderCondition'>  {
     cobranzaOrderCondition?: string;
-}
-
-interface CobranzaResponse {
-    cobranza: CobranzaInterface[];
-    count: number;
-    totalStats: totalCobranzaResponse
-}
-
-// FILTERS
-type CobranzaOrderConditionType = 'Nombre' | 'ExpiredDays' | 'SaldoVencido' | 'SaldoNoVencido' | 'TotalSaldo';
-export const CobranzaOrderCondition = ['Nombre', 'ExpiredDays', 'SaldoVencido', 'SaldoNoVencido', 'TotalSaldo'] as const
-
-export const CobranzaConditionObject: ReadonlyArray<{
-    value: CobranzaOrderConditionType;
-    label: string;
-}> = [
-    {
-        value: 'Nombre',
-        label: 'Nombre',
-    },
-    {
-        value: 'ExpiredDays',
-        label: 'Días expirados',
-    },
-    {
-        value: 'SaldoVencido',
-        label: 'Saldo Vencido',
-    },
-    {
-        value: 'SaldoNoVencido',
-        label: 'Saldo no vencido',
-    },
-    {
-        value: 'TotalSaldo',
-        label: 'Total de saldo',
-    }
-] as const;
-
-export type CobranzaByClientOrderConditionByClientType = 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
-export const CobranzaByClientCondition = ['TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
-
-
-export const CobranzaByClientConditionObject: ReadonlyArray<{
-    value: CobranzaByClientOrderConditionByClientType;
-    label: string;
-}> = [
-    {
-        value: 'TipoDoc',
-        label: 'Tipo documento',
-    },
-    {
-        value: 'Folio',
-        label: 'Folio',
-    },
-/*     {
-        value: 'Fecha',
-        label: 'Fecha',
-    },
-    {
-        value: 'FechaEntrega',
-        label: 'Fecha de Entrega',
-    }, */
-    {
-        value: 'ExpiredDays',
-        label: 'Días expirados',
-    },
-] as const;
-
-
-export type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
-export const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
-
-export const TipoDocObject: ReadonlyArray<{
-    value: typeTipoDoc;
-    label: string;
-}> = [
-    {
-        value: 0,
-        label: 'Todos',
-    },
-    {
-        value: 1,
-        label: 'Facturas',
-    },
-    {
-        value: 2,
-        label: 'Remisión',
-    },
-    {
-        value: 3,
-        label: 'Pedidos',
-    },
-    {
-        value: 4,
-        label: 'Cotización',
-    },
-] as const;
-
-
-
-interface FilterCobranza {
-    cobranzaOrderCondition?: CobranzaOrderConditionType;
     termSearch: string;
 };
 
+type CobranzaOrderConditionType = 'Nombre' | 'ExpiredDays' | 'SaldoVencido' | 'SaldoNoVencido' | 'TotalSaldo';
 
 // RESPONSE:
-interface totalCobranzaResponse {
-    SumaSaldoVencido: number, 
+interface GetCobranzaResponse {
+    cobranza: CobranzaInterface[]
+}
+
+interface TotalCobranzaResponse {
+    SumaSaldoVencido: number,
     SumaSaldoNoVencido: number,
     SumaTotalSaldo: number
-}
+};
 
-interface totalCobranzaByClientResponse {
-    SumaSaldo: number, 
-    SumaTotal: number
+interface GetTotalResponse {
+    count: number,
+    total: TotalCobranzaResponse
 }
-
 
 
 export type {
     CobranzaInterface,
-    //CobranzaInterfaceByClient,
 
     // PARAMS
-    getCobranzaInterface,
-    getTotalCobranzaInterface,
-    getCobranzaByClientInterface,
+    GetCobranzaParams,
+    GetTotalCobranzaParams,
+    GetCobranzaByClientParams,
+    GetCobranzaCountAndTotalParams,
 
-    //UTILS
-    FilterCobranza,
+    // FILTERS
+    CobranzaFilters,
+    CobranzaByClientFilters,
     CobranzaOrderConditionType,
-    FilterSellsByClient,
-    FilterCobranzaByClient,
-    CobranzaResponse,
 
-    //RESPONSE
-    totalCobranzaByClientResponse,
-    totalCobranzaResponse
+    // RESPONSE
+    GetCobranzaResponse,
+    GetTotalResponse,
+    TotalCobranzaResponse,
 }

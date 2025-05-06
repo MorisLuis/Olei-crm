@@ -1,5 +1,5 @@
 import { api } from '@/api/api';
-import { FilterSellsByClient } from './cobranza/cobranza.interface';
+import { CobranzaByClientFilters } from './cobranza/cobranza.interface';
 
 export interface postEmailInterface {
   destinatario: string;
@@ -33,7 +33,7 @@ export interface postEmailCobranzaInterface {
   Id_Cliente: number;
 
   PageNumber: number;
-  filters: FilterSellsByClient;
+  filters: CobranzaByClientFilters;
 }
 
 export const postEmailCobranza = async ({
@@ -56,7 +56,7 @@ export const postEmailCobranza = async ({
     };
 
     const data = await api.post(
-      `/api/email/cobranza/pdf/${Id_Cliente}?PageNumber=${PageNumber}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}&sellsOrderCondition=${filters.sellsOrderCondition}`,
+      `/api/email/cobranza/pdf/${Id_Cliente}?PageNumber=${PageNumber}&FilterExpired=${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`,
       emailBody
     );
     return data.data;

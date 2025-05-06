@@ -83,7 +83,7 @@ export default function TableCobranzaByClient({
     },
     {
       key: 'Saldo',
-      label: 'Saldo',
+      label: 'Saldo (Sin IVA)',
       render: (_, item) => <p>{format(item.Saldo)}</p>,
     },
     {

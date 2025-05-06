@@ -1,17 +1,18 @@
+import { SellsInterface } from "@/interface/sells";
 
 /* PARAMS */
-interface getSellsInterface {
+interface GetSellsParams {
     PageNumber: number;
-    filters: FilterSells;
+    filters: SellsFilters;
 };
 
-interface getSellsByClientInterface {
-    client: number;
+interface GetSellsByClientParams {
     PageNumber?: number;
-    filters: FilterSellsByClient;
+    client: number;
+    filters: SellsByClientFilters;
 };
 
-interface getSellByIdInterface {
+interface GetSellByIdParams {
     Folio: string;
     Serie: string;
     Id_Almacen: number;
@@ -19,12 +20,12 @@ interface getSellByIdInterface {
 };
 
 // FILTERS
-interface FilterSells {
+interface SellsFilters {
     sellsOrderCondition?: SellsOrderConditionType;
     searchTerm: string;
 };
 
-interface FilterSellsByClient {
+interface SellsByClientFilters {
     FilterExpired: 0 | 1 | number;
     FilterNotExpired: 0 | 1 | number;
     TipoDoc: 0 | 1 | 2 | 3 | 4 | number;
@@ -35,102 +36,39 @@ interface FilterSellsByClient {
 };
 
 type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
-const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
-
-const tipoDocMap = {
-    0: 'Otro',
-    1: 'Facturas',
-    2: 'Remisión',
-    3: 'Pedidos',
-    4: 'Cotización',
-} as const;
-
 type SellsOrderConditionType = 'Nombre' | 'Saldo' | 'Total';
-const SellsOrderCondition = ['Nombre', 'Saldo', 'Total'] as const;
-
 type SellsOrderByClientConditionType = | 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
-const SellsOrderByClientCondition = [ 'TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
-
 type SellsFilterConditionByClientType = 'TipoDoc' | 'Expired' | 'Not Expired';
-const SellsFilterCondition: SellsFilterConditionByClientType[] = [
-    'TipoDoc',
-    'Expired',
-    'Not Expired',
-];
-
-const SellsConditionObject: ReadonlyArray<{
-    value: SellsOrderConditionType;
-    label: string;
-}> = [
-    {
-        value: 'Nombre',
-        label: 'Nombre',
-    },
-    {
-        value: 'Saldo',
-        label: 'Saldo'
-    },
-    {
-        value: 'Total',
-        label: 'Total'
-    }
-] as const;
-
-const SellsByClientConditionObject: ReadonlyArray<{
-    value: SellsOrderByClientConditionType;
-    label: string;
-}> = [
-    {
-        value: 'TipoDoc',
-        label: 'Tipo de documento',
-    },
-    {
-        value: 'Folio',
-        label: 'Folio'
-    },
-    {
-        value: 'Fecha',
-        label: 'Fecha'
-    },
-    {
-        value: 'FechaEntrega',
-        label: 'Fecha de entrega'
-    },
-    {
-        value: 'ExpiredDays',
-        label: 'Dias expirados'
-    }
-] as const;
 
 
 // RESPONSE:
-interface totalSellsResponse {
+interface TotalSellsResponse {
     SumaSubtotal: number, 
     SumaTotal: number
 }
 
-export {
-    TipoDoc,
-    tipoDocMap,
-    SellsOrderCondition,
-    SellsOrderByClientCondition,
-    SellsFilterCondition,
-    SellsConditionObject,
-    SellsByClientConditionObject
+interface GetSellsResponse {
+    sells: SellsInterface[], 
+    count: number, 
+    total: TotalSellsResponse
 }
 
+
 export type {
-    FilterSells,
+    SellsFilters,
+    SellsByClientFilters,
 
     typeTipoDoc,
     SellsOrderConditionType,
     SellsOrderByClientConditionType,
     SellsFilterConditionByClientType,
 
-    getSellsInterface,
-    getSellsByClientInterface,
-    getSellByIdInterface,
+    // PARAMS
+    GetSellsParams,
+    GetSellsByClientParams,
+    GetSellByIdParams,
 
     // Response
-    totalSellsResponse
+    TotalSellsResponse,
+    GetSellsResponse
 }

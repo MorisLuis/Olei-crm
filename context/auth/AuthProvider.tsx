@@ -10,6 +10,7 @@ import { UserCRMInterface } from '@/interface/user';
 import { AuthContext } from './AuthContext';
 import { authReducer } from './authReducer';
 import { setUnauthorizedHandler } from '@/api/apiCallbacks';
+import { queryClient } from '@/app/layout';
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -88,6 +89,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
       Cookies.remove('token');
     } finally {
       setLoggingIn(false);
+      queryClient.clear()
     }
   };
 

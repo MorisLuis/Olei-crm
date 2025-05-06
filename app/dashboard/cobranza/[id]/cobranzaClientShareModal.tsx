@@ -3,7 +3,7 @@ import ButtonLoad from '@/components/Buttons/ButtonLoad';
 import Modal from '@/components/Modals/Modal';
 import { AuthContext } from '@/context/auth/AuthContext';
 import useToast from '@/hooks/useToast';
-import { FilterSellsByClient } from '@/services/cobranza/cobranza.interface';
+import { CobranzaByClientFilters } from '@/services/cobranza/cobranza.interface';
 import { postEmailCobranza, postEmailCobranzaInterface } from '@/services/email';
 import styles from '../../../../styles/pages/Cobranza.module.scss';
 
@@ -12,7 +12,7 @@ interface ShareCobranzaModalInterface {
   onClose: () => void;
   email: string;
   clientName: string;
-  filters: FilterSellsByClient;
+  filters: CobranzaByClientFilters;
 }
 
 export default function ShareCobranzaModal({

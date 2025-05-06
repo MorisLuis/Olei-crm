@@ -1,4 +1,4 @@
-import { CobranzaByClientCondition, CobranzaOrderCondition } from '@/services/cobranza/cobranza.interface'
+import { CobranzaByClientCondition, CobranzaOrderCondition } from '@/utils/constants/cobranza'
 import { z } from 'zod'
 
 // Zod schema para los filtros de la página de cobranza

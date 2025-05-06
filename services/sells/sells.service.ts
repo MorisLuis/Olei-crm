@@ -3,23 +3,21 @@ import {
   SellsDetailsInterface,
   SellsInterface
 } from '@/interface/sells';
-import { FilterSellsByClient } from '../cobranza/cobranza.interface';
-import { getSellByIdInterface, getSellsByClientInterface, getSellsInterface, totalSellsResponse } from './sells.interface';
+import {  GetSellByIdParams, GetSellsByClientParams, GetSellsParams, GetSellsResponse, SellsByClientFilters, TotalSellsResponse } from './sells.interface';
 
 
 
-export const getSells = async (params: getSellsInterface): Promise<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }> => {
-  const { data } = await api.get<{ sells: SellsInterface[], count: number, total: totalSellsResponse }>(`/api/sells`, {
+export const getSells = async (params: GetSellsParams): Promise<GetSellsResponse> => {
+  const { data } = await api.get<GetSellsResponse>(`/api/sells`, {
     params: {
       PageNumber: params.PageNumber,
       ...params.filters,
     },
   });
-
-  return { sells: data.sells, count: data.count, totalStats: data.total };
+  return { sells: data.sells, count: data.count, total: data.total };
 };
 
-export const getSellsByClient = async (params: getSellsByClientInterface): Promise<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }> => {
+export const getSellsByClient = async (params: GetSellsByClientParams): Promise<GetSellsResponse> => {
 
   const { filters, PageNumber } = params;
   const parametros = new URLSearchParams({
@@ -33,10 +31,8 @@ export const getSellsByClient = async (params: getSellsByClientInterface): Promi
     sellsOrderCondition: filters.sellsOrderCondition || '',
   });
 
-  const { data } = await api.get<{ sells: SellsInterface[], count: number, total: totalSellsResponse }>(`/api/sells/client/${params.client}?${parametros.toString()}`);
-
-  console.log()
-  return { sells: data.sells, count: data.count, totalStats: data.total };
+  const { data } = await api.get<GetSellsResponse>(`/api/sells/client/${params.client}?${parametros.toString()}`);
+  return { sells: data.sells, count: data.count, total: data.total };
 };
 
 
@@ -45,7 +41,7 @@ export const getSellById = async ({
   Serie,
   Id_Almacen,
   TipoDoc
-}: getSellByIdInterface): Promise<{ sell?: SellsInterface }> => {
+}: GetSellByIdParams ): Promise<{ sell?: SellsInterface }> => {
   const { data } = await api.get<{ sell: SellsInterface }>(
     `/api/sells/${Folio}?Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}`
   );
@@ -58,7 +54,7 @@ export const getTotalSellsByClient = async ({
   filters,
 }: {
   client: number;
-  filters: FilterSellsByClient;
+  filters: SellsByClientFilters;
 }): Promise<{ total: number }> => {
   const { data } = await api.get<{ total: number }>(
     `/api/sells/client/total/${client}&FilterExpired${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`

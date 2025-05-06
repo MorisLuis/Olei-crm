@@ -1,4 +1,4 @@
-import { totalSellsResponse } from "@/services/sells/sells.interface";
+import { TotalSellsResponse } from "@/services/sells/sells.interface";
 
 interface Response {
     label: string;
@@ -6,7 +6,7 @@ interface Response {
 }
 
 
-export default function sellsClientStats(totalStats?: totalSellsResponse): Response[] {
+export default function sellsClientStats(totalStats?: TotalSellsResponse): Response[] {
 
     const labelMap: Record<string, string> = {
         SumaSubtotal: "Subtotal",

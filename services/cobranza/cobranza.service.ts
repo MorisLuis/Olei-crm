@@ -1,10 +1,10 @@
 import { api } from "@/api/api";
 import { SellsInterface } from "@/interface/sells";
-import { CobranzaInterface, CobranzaResponse, getCobranzaByClientInterface, getCobranzaInterface, getTotalCobranzaInterface, totalCobranzaByClientResponse, totalCobranzaResponse } from "./cobranza.interface";
+import { GetCobranzaByClientParams, GetCobranzaCountAndTotalParams, GetCobranzaParams, GetCobranzaResponse, GetTotalResponse, TotalCobranzaResponse } from "./cobranza.interface";
 
-const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaResponse> => {
+const getCobranza = async (params: GetCobranzaParams): Promise<GetCobranzaResponse> => {
 
-    const { data } = await api.get<{ cobranza: CobranzaInterface[]; count: number, total: totalCobranzaResponse }>(
+    const { data } = await api.get<GetCobranzaResponse>(
         '/api/sells/cobranza/clients',
         {
             params: {
@@ -14,10 +14,22 @@ const getCobranza = async (params: getCobranzaInterface): Promise<CobranzaRespon
         });
 
     return {
-        cobranza: data.cobranza,
-        count: data.count,
-        totalStats: data.total
+        cobranza: data.cobranza
     };
+
+};
+
+const getCobranzaCountAndTotal = async (params: GetCobranzaCountAndTotalParams): Promise<GetTotalResponse> => {
+
+    const { data: { total, count } } = await api.get<GetTotalResponse>(
+        '/api/sells/cobranza/clients/totals',
+        {
+            params: {
+                ...params.filters,
+            }
+        });
+
+    return { count, total };
 
 };
 
@@ -26,7 +38,7 @@ const getCobranzaByClient = async ({
     client,
     PageNumber,
     filters
-}: getCobranzaByClientInterface): Promise<{ cobranza: SellsInterface[], count: number, totalStats: totalCobranzaByClientResponse }> => {
+}: GetCobranzaByClientParams): Promise<{ cobranza: SellsInterface[], count: number, totalStats: TotalCobranzaResponse }> => {
 
     const params = new URLSearchParams({
         PageNumber: String(PageNumber),
@@ -39,24 +51,39 @@ const getCobranzaByClient = async ({
         cobranzaOrderCondition: filters.cobranzaOrderCondition || '',
     });
 
-    const { data: { cobranza, total, count } } = await api.get<{ cobranza: SellsInterface[], count: number, total: totalCobranzaByClientResponse}>(
+    const { data: { cobranza, total, count } } = await api.get<{ cobranza: SellsInterface[], count: number, total: TotalCobranzaResponse }>(
         `/api/sells/cobranza/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`
     );
 
     return { cobranza, totalStats: total, count };
 };
 
-
-const getTotalCobranza = async ({
+const getCobranzaByClientCountAndTotal = async ({
+    Id_Almacen,
     client,
     filters
-}: getTotalCobranzaInterface): Promise<{ total: number }> => {
-    const { data } = await api.get<{ total: number }>(`/api/sells/cobranza/total/${client}?FilterExpired${filters.FilterExpired}&FilterNotExpired=${filters.FilterNotExpired}&TipoDoc=${filters.TipoDoc}&DateEnd=${filters.DateEnd}&DateStart=${filters.DateStart}&DateExactly=${filters.DateExactly}`);
-    return { total: data.total };
+}: GetCobranzaByClientParams ): Promise<GetTotalResponse> => {
+
+    const params = new URLSearchParams({
+        FilterExpired: String(filters.FilterExpired ?? ''),
+        FilterNotExpired: String(filters.FilterNotExpired ?? ''),
+        TipoDoc: String(filters.TipoDoc ?? ''),
+        DateEnd: filters.DateEnd || '',
+        DateStart: filters.DateStart || '',
+        DateExactly: filters.DateExactly || ''
+    });
+
+    const { data: { total, count } } = await api.get<GetTotalResponse>(
+        `/api/sells/cobranza/totals/${client}?${params.toString()}&Id_Almacen=${Id_Almacen}`
+    );
+
+    return { total, count };
 };
 
+
 export {
-    getCobranzaByClient,
     getCobranza,
-    getTotalCobranza
+    getCobranzaCountAndTotal,
+    getCobranzaByClient,
+    getCobranzaByClientCountAndTotal
 }

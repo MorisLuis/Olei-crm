@@ -1,6 +1,6 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
-import { TipoDocObject } from "@/services/cobranza/cobranza.interface";
-import { SellsByClientConditionObject } from "@/services/sells/sells.interface";
+import { TipoDocObject } from "@/utils/constants/cobranza";
+import { SellsByClientConditionObject } from "@/utils/constants/sells";
 
 export const sellsByClientFiltersConfig: FilterItemConfig[] = [
     {

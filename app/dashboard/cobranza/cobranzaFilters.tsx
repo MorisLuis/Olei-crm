@@ -1,5 +1,5 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
-import { CobranzaConditionObject } from "@/services/cobranza/cobranza.interface";
+import { CobranzaConditionObject } from "@/utils/constants/cobranza";
 
 export const cobranzaFiltersConfig: FilterItemConfig[] = [
     {

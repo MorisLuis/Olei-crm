@@ -1,5 +1,5 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
-import { SellsConditionObject } from "@/services/sells/sells.interface";
+import { SellsConditionObject } from "@/utils/constants/sells";
 
 export const sellsFiltersConfig: FilterItemConfig[] = [
     {

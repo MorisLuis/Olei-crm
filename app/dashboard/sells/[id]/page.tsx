@@ -11,7 +11,7 @@ import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFil
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { SellsByClientFilterSchema } from '@/schemas/sellsFilters.schema';
-import { totalSellsResponse } from '@/services/sells/sells.interface';
+import { TotalSellsResponse } from '@/services/sells/sells.interface';
 import { getSellsByClient } from '@/services/sells/sells.service';
 import SellDetails from './[sellId]/SellDetails';
 import { sellsByClientFiltersConfig } from './sellsClientFilters';
@@ -32,7 +32,7 @@ export default function SellsClientPage(): JSX.Element {
 
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, totalStats: totalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, total: TotalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
       ['sells-client', page],
       ({ PageNumber, filters }) => getSellsByClient({ client: Number(id), PageNumber, filters }),
       { PageNumber: page, filters }
@@ -62,7 +62,7 @@ export default function SellsClientPage(): JSX.Element {
         title={clientName}
         custumBack={() => push('/dashboard/sells')}
       />
-      <HeaderStats items={sellsClientStats(data?.totalStats)} isLoading={isLoading}/>
+      <HeaderStats items={sellsClientStats(data?.total)} isLoading={isLoading}/>
 
       <FilterBar
         filters={filters}

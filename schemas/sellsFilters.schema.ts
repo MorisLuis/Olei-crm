@@ -1,4 +1,4 @@
-import { SellsOrderByClientCondition, SellsOrderCondition } from '@/services/sells/sells.interface'
+import { SellsOrderByClientCondition, SellsOrderCondition } from '@/utils/constants/sells'
 import { z } from 'zod'
 
 export const SellsFilterSchema = z.object({
