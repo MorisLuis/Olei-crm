@@ -2,14 +2,20 @@ import { SellsInterface } from "@/interface/sells";
 
 /* PARAMS */
 interface GetSellsParams {
-    PageNumber: number;
     filters: SellsFilters;
 };
 
+interface GetSellsPaginatedParams extends GetSellsParams {
+    PageNumber: number;
+};
+
 interface GetSellsByClientParams {
-    PageNumber?: number;
     client: number;
     filters: SellsByClientFilters;
+};
+
+interface GetSellsByClientPaginatedParams extends GetSellsByClientParams {
+    PageNumber: number;
 };
 
 interface GetSellByIdParams {
@@ -48,8 +54,11 @@ interface TotalSellsResponse {
 }
 
 interface GetSellsResponse {
-    sells: SellsInterface[], 
-    count: number, 
+    sells: SellsInterface[]
+}
+
+interface GetSellsTotalResponse {
+    count: number,
     total: TotalSellsResponse
 }
 
@@ -65,10 +74,13 @@ export type {
 
     // PARAMS
     GetSellsParams,
+    GetSellsPaginatedParams,
     GetSellsByClientParams,
+    GetSellsByClientPaginatedParams,
     GetSellByIdParams,
 
     // Response
     TotalSellsResponse,
-    GetSellsResponse
+    GetSellsResponse,
+    GetSellsTotalResponse
 }

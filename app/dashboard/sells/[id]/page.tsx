@@ -11,8 +11,8 @@ import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFil
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { SellsByClientFilterSchema } from '@/schemas/sellsFilters.schema';
-import { TotalSellsResponse } from '@/services/sells/sells.interface';
-import { getSellsByClient } from '@/services/sells/sells.service';
+import { SellsByClientFilters, TotalSellsResponse } from '@/services/sells/sells.interface';
+import { getSellsByClient, getSellsByClientCountAndTotal } from '@/services/sells/sells.service';
 import SellDetails from './[sellId]/SellDetails';
 import { sellsByClientFiltersConfig } from './sellsClientFilters';
 import sellsClientStats from './sellsClientStats';
@@ -28,11 +28,13 @@ export default function SellsClientPage(): JSX.Element {
 
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<SellsInterface[]>([]);
+  const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
+  const [sellsCount, setSellsCount] = useState<number>()
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsByClientFilterSchema)
 
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, total: TotalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
       ['sells-client', page],
       ({ PageNumber, filters }) => getSellsByClient({ client: Number(id), PageNumber, filters }),
       { PageNumber: page, filters }
@@ -42,6 +44,21 @@ export default function SellsClientPage(): JSX.Element {
     if (!item.UniqueKey || !id) return;
     push(`/dashboard/sells/${id}/?sellId=${item.UniqueKey}`);
   }, [id, push]);
+
+  const handleGetTotals = useCallback(async (): Promise<void> => {
+    const { total, count } = await getSellsByClientCountAndTotal({
+      filters: filters as SellsByClientFilters,
+      client: Number(id)
+    })
+
+    setSellsTotal(total);
+    setSellsCount(count)
+  }, [filters, id])
+
+
+  useEffect(() => {
+    handleGetTotals()
+  }, [handleGetTotals, filters])
 
   useEffect(() => {
     setPage(1);
@@ -62,7 +79,7 @@ export default function SellsClientPage(): JSX.Element {
         title={clientName}
         custumBack={() => push('/dashboard/sells')}
       />
-      <HeaderStats items={sellsClientStats(data?.total)} isLoading={isLoading}/>
+      <HeaderStats items={sellsClientStats(sellsTotal)} isLoading={isLoading} />
 
       <FilterBar
         filters={filters}
@@ -75,7 +92,7 @@ export default function SellsClientPage(): JSX.Element {
 
       <TableSellsClient
         sells={items}
-        totalSells={data?.count ?? 0}
+        totalSells={sellsCount ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         handleSelectItem={handleSelectClient}
         buttonIsLoading={false}

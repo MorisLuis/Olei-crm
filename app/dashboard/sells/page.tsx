@@ -9,8 +9,8 @@ import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFil
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsInterface } from '@/interface/sells';
 import { SellsFilterSchema } from '@/schemas/sellsFilters.schema';
-import { TotalSellsResponse } from '@/services/sells/sells.interface';
-import { getSells } from '@/services/sells/sells.service';
+import { SellsFilters, TotalSellsResponse } from '@/services/sells/sells.interface';
+import { getSells, getSellsCountAndTotal } from '@/services/sells/sells.service';
 import { sellsFiltersConfig } from './sellsFilters';
 import sellsStats from './sellsStats';
 import TableSells from './sellsTable';
@@ -24,25 +24,25 @@ function SellsContent(): JSX.Element {
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema)
 
   const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[], count: number, total: TotalSellsResponse }, { PageNumber: number; filters: typeof filters }>(
+    useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
       ['sells', page],
       ({ PageNumber, filters }) => getSells({ PageNumber, filters }),
       { PageNumber: page, filters }
     );
 
   const handleGetTotals = useCallback(async (): Promise<void> => {
-    /* const { total, count } = await getCobranzaCountAndTotal({
+    const { total, count } = await getSellsCountAndTotal({
       filters: filters as SellsFilters
     })
 
     setSellsTotal(total);
-    setSellsCount(count) */
+    setSellsCount(count)
   }, [filters])
+
 
   useEffect(() => {
     handleGetTotals()
   }, [handleGetTotals, filters])
-
 
   useEffect(() => {
     setPage(1);
@@ -60,7 +60,7 @@ function SellsContent(): JSX.Element {
   return (
     <>
       <Header title="Ventas" dontShowBack />
-      <HeaderStats items={sellsStats(data?.total)} isLoading={isLoading} />
+      <HeaderStats items={sellsStats(sellsTotal)} isLoading={isLoading} />
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}
@@ -71,7 +71,7 @@ function SellsContent(): JSX.Element {
       />
       <TableSells
         sells={items}
-        totalSells={data?.count ?? 0}
+        totalSells={sellsCount ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         buttonIsLoading={false}
         loadingData={items.length <= 0 && isLoading}

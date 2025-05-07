@@ -6,7 +6,7 @@ interface Response {
 }
 
 
-export default function sellsStats(totalStats?: TotalSellsResponse): Response[] {
+export default function sellsStats(totalStats?: TotalSellsResponse | null): Response[] {
 
     const labelMap: Record<string, string> = {
         SumaSubtotal: "Subtotal",

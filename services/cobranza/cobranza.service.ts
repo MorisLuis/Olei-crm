@@ -80,7 +80,6 @@ const getCobranzaByClientCountAndTotal = async ({
     return { total, count };
 };
 
-
 export {
     getCobranza,
     getCobranzaCountAndTotal,
