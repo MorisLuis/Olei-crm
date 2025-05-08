@@ -35,7 +35,7 @@ export default function SellsClientPage(): JSX.Element {
 
   const { data, error, isLoading, refetch } =
     useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-      ['sells-client', page],
+      [`sells-client-${id}`, page],
       ({ PageNumber, filters }) => getSellsByClient({ client: Number(id), PageNumber, filters }),
       { PageNumber: page, filters }
     );

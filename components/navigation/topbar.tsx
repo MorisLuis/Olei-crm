@@ -43,7 +43,6 @@ export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
           <div className={styles.menu} onClick={openMenu}>
             <FontAwesomeIcon icon={faBars} className={'icon'} />
           </div>
-          <p className={styles.headertitle}>{globalPathname}</p>
         </div>
 
         <div className={styles.right}>

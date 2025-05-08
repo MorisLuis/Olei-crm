@@ -41,13 +41,6 @@ export default function ClientDetailsPage(): JSX.Element {
     <>
       <Header title={clientData?.Nombre ?? 'Regresar'} />
       <div className={styles.bitacoraDetails}>
-        <div className={styles.bitacoraDetails__data}>
-          <div className={styles.details}>
-            <h4>Reunión</h4>
-            <TableTertiaryBitacoraDetails Id_Bitacora={Number(Id_Bitacora)} />
-          </div>
-          <FileUploader />
-        </div>
         <div className={styles.bitacoraDetails__brief}>
           {clientData ? (
             <BriefCard data={briefData} header="Detalle de cliente" isLoading={false} />
@@ -56,6 +49,13 @@ export default function ClientDetailsPage(): JSX.Element {
               <p></p>
             </MessageCard>
           )}
+        </div>
+        <div className={styles.bitacoraDetails__data}>
+          <div className={styles.details}>
+            <h4>Reunión</h4>
+            <TableTertiaryBitacoraDetails Id_Bitacora={Number(Id_Bitacora)} />
+          </div>
+          <FileUploader />
         </div>
       </div>
     </>

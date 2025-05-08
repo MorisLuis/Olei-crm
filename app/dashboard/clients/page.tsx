@@ -21,7 +21,7 @@ function ClientsContent(): JSX.Element {
 
   const { data, error, isLoading, refetch } =
     useQueryPaginationWithFilters<{ clients: ClientInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
-      ['cobranza', page],
+      ['clients', page],
       ({ PageNumber, filters }) => getClients({ PageNumber, filters }),
       { PageNumber: page, filters }
     );

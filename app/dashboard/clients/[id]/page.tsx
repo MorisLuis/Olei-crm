@@ -110,19 +110,19 @@ export default function ClientDetailsPage() : JSX.Element {
       <Header title={titleName} actions={clientActions} />
 
       <div className={styles.clientDetails}>
+        <div className={styles.clientDetails__brief}>
+          <BriefCard
+            data={clientData ? briefClientData(clientData) : null}
+            header="Detalles de cliente"
+            isLoading={loadingClientData}
+          />
+        </div>
         <div className={styles.clientDetails__calendar}>
           <MyCalendar
             onClickEvent={handelOnClickEvent}
             onClickDay={handleOnClickDay}
             Id_Cliente={Number(Id_Cliente)}
             ClientVersion={true}
-          />
-        </div>
-        <div className={styles.clientDetails__brief}>
-          <BriefCard
-            data={clientData ? briefClientData(clientData) : null}
-            header="Detalles de cliente"
-            isLoading={loadingClientData}
           />
         </div>
       </div>
