@@ -2,131 +2,41 @@
 
 import { useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ErrorCard } from '@/components/Cards/ErrorCard';
-import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary';
-import { Tag } from '@/components/UI/Tag';
-import { useLoadMoreData } from '@/hooks/useLoadMoreData';
-import { useTagColor } from '@/hooks/useTagColor';
+import Custum500 from '@/components/500';
+import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { SellsDetailsInterface, SellsInterface } from '@/interface/sells';
 import { typeTipoDoc } from '@/services/sells/sells.interface';
-import { getSellById, getSellDetails, getTotalSellDetails } from '@/services/sells/sells.service';
+import { getSellById, getSellDetails, getSellDetailsCount } from '@/services/sells/sells.service';
 import { TipoDoc } from '@/utils/constants/cobranza';
-import { docType } from '@/utils/docType';
-import { formatDate } from '@/utils/formatDate';
-import TableSellsDetailsClient from './TableSellsDetails';
+import SellDetailsTableInformation from './SellDetailsTableInformation';
+import TableSellsDetailsClient from './SellsDetailsTable';
 import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 
-interface sellQueryInterface {
-  Id_Almacen: number;
-  TipoDocProp: SellsInterface['TipoDoc'];
-  Serie: string;
-  Folio: string;
-}
-
-export default function SellDetails() : JSX.Element {
+export default function SellDetails(): JSX.Element {
   const [sellInformation, setSellInformation] = useState<SellsInterface>();
-  const { changeColor } = useTagColor();
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
-  const [Folio, setFolio] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [Folio, setFolio] = useState<string>();
 
-  const getSellInformation = async ({
-    Id_Almacen,
-    TipoDocProp,
-    Serie,
-    Folio,
-  }: sellQueryInterface) : Promise<void> => {
-    const { sell } = await getSellById({
-      Id_Almacen,
-      TipoDoc: TipoDocProp,
-      Serie,
-      Folio,
-    });
+  const [page, setPage] = useState(1);
+  const [items, setItems] = useState<SellsDetailsInterface[]>([]);
+  const [sellsCount, setSellsCount] = useState<number>()
 
-    setSellInformation(sell);
-  };
+  const { data, error, isLoading, refetch } =
+    useQueryPaginationWithFilters<{ orderDetails: SellsDetailsInterface[] }, { PageNumber: number; }>(
+      [`sell-${Sellid}`, page],
+      ({ PageNumber }) => getSellDetails({ Folio: Folio, PageNumber }),
+      { PageNumber: page },
+      { enabled: !!Folio }
+    );
 
-  const fetchInitialData = useCallback(async (): Promise<SellsDetailsInterface[]> => {
-    const { orderDetails } = await getSellDetails({ Folio: Folio, PageNumber: 1 })
-    return orderDetails;
-  }, [Folio]);
-
-  const fetchPaginatedData = useCallback(async (_: unknown, page?: number): Promise<SellsDetailsInterface[]> => {
-    const { orderDetails } = await getSellDetails({ Folio: Folio, PageNumber: page ?? 1 });
-    return orderDetails;
-  }, [Folio]);
-
-  const fetchTotalCount = useCallback(async (): Promise<number> => {
-    const { total } = await getTotalSellDetails(Folio);
-    return total;
+  const handleGetTotals = useCallback(async (): Promise<void> => {
+    if (!Folio) return
+    const { total } = await getSellDetailsCount(Folio);
+    setSellsCount(total);
   }, [Folio])
 
-
-  const { data, handleLoadMore, handleResetData, isLoading, isButtonLoading, total } =
-    useLoadMoreData({
-      fetchInitialData,
-      fetchPaginatedData,
-      fetchTotalCount
-    });
-
-  const columns: ColumnTertiaryConfig<SellsInterface>[] = [
-    {
-      key: 'TipoDoc',
-      label: 'Tipo de documento',
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Tipo de documento</p>
-        </div>
-      ),
-      render: (_, item) => <Tag color={changeColor(item.TipoDoc)}>{docType(item.TipoDoc)}</Tag>,
-    },
-    {
-      key: 'Folio',
-      label: 'Folio',
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Folio</p>
-        </div>
-      ),
-    },
-    {
-      key: 'Fecha',
-      label: 'Fecha',
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Fecha</p>
-        </div>
-      ),
-      render: (Fecha) => (
-        <div>
-          <p>{formatDate(Fecha as Date)}</p>
-        </div>
-      ),
-    },
-    {
-      key: 'FechaEntrega',
-      label: 'FechaEntrega',
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Fecha Entrega</p>
-        </div>
-      ),
-      render: (FechaEntrega) => (
-        <>
-          {FechaEntrega ? (
-            <div>
-              <p>{formatDate(FechaEntrega as Date)}</p>
-            </div>
-          ) : (
-            <Tag color="gray">Sin datos</Tag>
-          )}
-        </>
-      ),
-    },
-  ];
-
-  const handleValidateQuery = useCallback(async () => {
+  const handleGetSellInformation = useCallback(async () => {
     if (!Sellid) return;
     const sellIdSplited = Sellid?.split('-');
     const Id_Almacen = Number(sellIdSplited?.[0]);
@@ -135,7 +45,6 @@ export default function SellDetails() : JSX.Element {
     const Folio = sellIdSplited?.[3];
 
     if (Id_Almacen == null || TipoDocProp == null || Folio == null) {
-      setError('Error: Todos los parámetros son obligatorios.');
       return;
     }
 
@@ -146,52 +55,52 @@ export default function SellDetails() : JSX.Element {
 
     if (!isValidTipoDoc(TipoDocProp)) {
       setSellInformation(undefined);
-      setError('Error: TipoDoc inválido.');
       return;
     }
 
     setFolio(Folio);
 
-    getSellInformation({
-      Id_Almacen: Id_Almacen,
-      TipoDocProp: TipoDocProp,
-      Serie: Serie,
-      Folio: Folio,
+    const { sell } = await getSellById({
+      Id_Almacen,
+      TipoDoc: TipoDocProp,
+      Serie,
+      Folio,
     });
+
+    setSellInformation(sell);
 
   }, [Sellid]);
 
   useEffect(() => {
-    if (!Sellid) return;
-    handleValidateQuery();
-  }, [Sellid, handleValidateQuery]);
+    handleGetTotals()
+    handleGetSellInformation()
+  }, [handleGetTotals, handleGetSellInformation])
 
   useEffect(() => {
-    if (Folio === '' || Folio === undefined) return;
-    handleResetData();
-  }, [Folio, handleResetData]);
+    setPage(1);
+    setItems([]);
+  }, []);
 
-  if (error) {
-    return (
-      <ErrorCard title="Hubo un error inesperado!" onClick={() => setError(null)}>
-        <p>{error}</p>
-      </ErrorCard>
-    );
-  }
+  useEffect(() => {
+    if (data?.orderDetails) {
+      setItems(prev => [...prev, ...data.orderDetails]);
+    }
+  }, [data]);
 
-  if (!sellInformation) {
-    return <p>Cargando...</p>;
-  }
+  if (error) return <Custum500 handleRetry={refetch} />;
 
   return (
     <div className={styles.sellDetails}>
-      <TableTertiary columns={columns} data={sellInformation} />
+
+      <SellDetailsTableInformation
+        sellInformation={sellInformation}
+      />
 
       <TableSellsDetailsClient
-        sells={data}
-        totalSells={total ?? 0}
-        loadMoreProducts={handleLoadMore}
-        buttonIsLoading={isButtonLoading}
+        sells={items}
+        totalSells={sellsCount ?? 0}
+        loadMoreProducts={() => setPage(p => p + 1)}
+        buttonIsLoading={isLoading}
         loadingData={isLoading}
       />
     </div>

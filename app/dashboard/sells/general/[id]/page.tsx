@@ -1,5 +1,6 @@
 'use client';
 
+import { isEqual } from 'lodash';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
@@ -29,9 +30,9 @@ export default function SellsClientPage(): JSX.Element {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<SellsInterface[]>([]);
   const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
-  const [sellsCount, setSellsCount] = useState<number>()
+  const [sellsCount, setSellsCount] = useState<number>();
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsByClientFilterSchema)
-
+  const [prevFilters, setPrevFilters] = useState(filters);
 
   const { data, error, isLoading, refetch } =
     useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
@@ -42,7 +43,7 @@ export default function SellsClientPage(): JSX.Element {
 
   const handleSelectClient = useCallback((item: SellsInterface) => {
     if (!item.UniqueKey || !id) return;
-    push(`/dashboard/sells/${id}/?sellId=${item.UniqueKey}`);
+    push(`/dashboard/sells/general/${id}/?sellId=${item.UniqueKey}`);
   }, [id, push]);
 
   const handleGetTotals = useCallback(async (): Promise<void> => {
@@ -61,9 +62,12 @@ export default function SellsClientPage(): JSX.Element {
   }, [handleGetTotals, filters])
 
   useEffect(() => {
-    setPage(1);
-    setItems([]);
-  }, [filters]);
+    if (!isEqual(filters, prevFilters)) {
+      setPage(1);
+      setItems([]);
+      setPrevFilters(filters)
+    }
+  }, [filters, prevFilters]);
 
   useEffect(() => {
     if (data?.sells) {

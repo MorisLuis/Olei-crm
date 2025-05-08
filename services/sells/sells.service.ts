@@ -53,15 +53,7 @@ export const getSellsByClientCountAndTotal = async (params: GetSellsByClientPara
 
 
 
-
-
-
-export const getSellById = async ({
-  Folio,
-  Serie,
-  Id_Almacen,
-  TipoDoc
-}: GetSellByIdParams): Promise<{ sell?: SellsInterface }> => {
+export const getSellById = async ({ Folio, Serie, Id_Almacen, TipoDoc }: GetSellByIdParams): Promise<{ sell?: SellsInterface }> => {
   const { data } = await api.get<{ sell: SellsInterface }>(
     `/api/sells/${Folio}?Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}`
   );
@@ -69,15 +61,12 @@ export const getSellById = async ({
 };
 
 
-export const getSellDetails = async (
-  { Folio, PageNumber, }
-    : { Folio: string; PageNumber: number }
-): Promise<{ orderDetails: SellsDetailsInterface[] }> => {
+export const getSellDetails = async ({ Folio, PageNumber }: { Folio?: string; PageNumber: number }): Promise<{ orderDetails: SellsDetailsInterface[] }> => {
   const { data } = await api.get<{ orderDetails: SellsDetailsInterface[] }>(`/api/order/details?folio=${Folio}&PageNumber=${PageNumber}`);
   return { orderDetails: data.orderDetails };
 };
 
-export const getTotalSellDetails = async (
+export const getSellDetailsCount = async (
   folio: string
 ): Promise<{ total: number }> => {
   const { data } = await api.get<{ total: number }>(`/api/order/details/total?folio=${folio}`);
