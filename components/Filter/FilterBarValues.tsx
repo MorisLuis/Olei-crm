@@ -44,21 +44,31 @@ export const filterBarValues = <T extends string>({
         const dateEnd = filters['DateEnd' as T];
         const dateExactly = filters['DateExactly' as T];
 
+        if (dateExactly) {
+            value = `${dateExactly}`;
+        } else if (dateStart && dateEnd) {
+            value = `${dateStart} - ${dateEnd}`;
+        } else if (dateStart) {
+            value = `${dateStart}`;
+        } else if (dateEnd) {
+            value = `${dateEnd}`;
+        }
+
         const someHasValue = [dateStart, dateEnd, dateExactly].some(
             val => typeof val === 'string' && val.trim() !== ''
         );
-    
+
         if (someHasValue) {
             active = true;
         }
     }
 
 
-    if(config.type === 'input' ){
+    if (config.type === 'input') {
         value = `${filters[key]}`;
         keyValue = key
 
-        if(value){
+        if (value) {
             active = true;
         }
     }
