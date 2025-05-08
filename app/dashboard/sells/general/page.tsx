@@ -3,7 +3,6 @@
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
-import Header from '@/components/navigation/header';
 import HeaderStats from '@/components/navigation/headerStats';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
@@ -57,9 +56,9 @@ function SellsContent(): JSX.Element {
 
   if (error) return <Custum500 handleRetry={refetch} />;
 
+
   return (
     <>
-      <Header title="Ventas" dontShowBack />
       <HeaderStats items={sellsStats(sellsTotal)} isLoading={isLoading} />
       <FilterBar
         filters={filters}

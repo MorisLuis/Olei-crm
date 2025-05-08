@@ -26,7 +26,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
           {screenData.slice(1, -2).map((item) => (
             <Link
               href={item.pathname}
-              className={`/dashboard/${basePath}` === item.pathname ? styles.active : ''}
+              className={item.pathname.startsWith(`/dashboard/${basePath}`) ? styles.active : ''}
               key={item.id}
             >
               <FontAwesomeIcon icon={item.icon} className={'icon'} />

@@ -42,7 +42,7 @@ export const screenData: screenDataInterface[] = [
   {
     id: 3,
     name: 'Ventas',
-    pathname: '/dashboard/sells',
+    pathname: '/dashboard/sells/general',
     description: 'Ventas Olei CRM by olei software',
     icon: faMoneyBill1,
   },

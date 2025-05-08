@@ -1,0 +1,38 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+.subNavigation{
+    width: 100%;
+    position: relative;
+    padding-bottom: variables.$padding-bottom;
+
+    .menu{
+        display: flex;
+        gap: variables.$gap;
+        background-color: variables.$background-color-secondary;
+        width: fit-content;
+        border: 1px solid variables.$color-border;
+        border-radius: variables.$border-radius;
+
+        .link{
+            padding: math.div(variables.$padding, 2);
+            border-radius: variables.$border-radius;
+            font-size: variables.$font-medium;
+            border: 1px solid transparent;
+            cursor: pointer;
+
+            &:hover{
+                background-color: variables.$background-color-tertiary;
+                border: 1px solid variables.$color-border;
+            }
+        }
+
+        .active{
+            background-color: variables.$background-color;
+            border: 1px solid variables.$color-border;
+            color: variables.$text-color;
+            box-shadow: variables.$box-shadow-button;
+        }
+    }
+}

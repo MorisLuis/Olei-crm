@@ -30,7 +30,7 @@ export default function TableSells({
   const noCoincidenceItems = sells.length === 0 && !loadingData
 
   const handleSelectClientSells = (item: SellsInterface) : void => {
-    push(`sells/${item.Id_Cliente}?client=${encodeURIComponent(item.Nombre.trim())}`);
+    push(`general/${item.Id_Cliente}?client=${encodeURIComponent(item.Nombre.trim())}`);
   };
 
   if (loadingData) {

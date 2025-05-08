@@ -14,7 +14,7 @@ import { TipoDoc } from '@/utils/constants/cobranza';
 import { docType } from '@/utils/docType';
 import { formatDate } from '@/utils/formatDate';
 import TableSellsDetailsClient from './TableSellsDetails';
-import styles from '../../../../../styles/pages/SellDetails.module.scss';
+import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 
 interface sellQueryInterface {
   Id_Almacen: number;

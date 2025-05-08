@@ -77,7 +77,7 @@ export default function SellsClientPage(): JSX.Element {
     <>
       <Header
         title={clientName}
-        custumBack={() => push('/dashboard/sells')}
+        custumBack={() => push('/dashboard/sells/general')}
       />
       <HeaderStats items={sellsClientStats(sellsTotal)} isLoading={isLoading} />
 

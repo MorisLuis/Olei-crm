@@ -7,7 +7,7 @@ const SellsFilterCondition: SellsFilterConditionByClientType[] = [
     'Not Expired',
 ];
 
-const SellsOrderCondition = ['Nombre', 'Saldo', 'Total'] as const;
+const SellsOrderCondition = ['Nombre', 'Total'] as const;
 
 
 const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
@@ -28,10 +28,6 @@ const SellsConditionObject: ReadonlyArray<{
     {
         value: 'Nombre',
         label: 'Nombre',
-    },
-    {
-        value: 'Saldo',
-        label: 'Saldo'
     },
     {
         value: 'Total',

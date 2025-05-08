@@ -46,3 +46,21 @@ export interface SellsDetailsInterface {
   SwNs?: boolean | null;
   SKU?: string | null;
 };
+
+export interface SellsProductsInterface {
+  Id_Almacen: number,
+  TipoDoc: number,
+  Folio: number,
+  Partida: number,
+
+  Codigo: string | null,
+  Descripcion: string | null,
+  Cantidad: number,
+  Precio: number,
+  Importe: number,
+  Impuesto: number,
+  Sku: string | null,
+  Marca: string;
+  Fecha: string | Date;
+}
+

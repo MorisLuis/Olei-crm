@@ -42,7 +42,7 @@ interface SellsByClientFilters {
 };
 
 type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
-type SellsOrderConditionType = 'Nombre' | 'Saldo' | 'Total';
+type SellsOrderConditionType = 'Nombre' | 'Total';
 type SellsOrderByClientConditionType = | 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
 type SellsFilterConditionByClientType = 'TipoDoc' | 'Expired' | 'Not Expired';
 
@@ -60,6 +60,12 @@ interface GetSellsResponse {
 interface GetSellsTotalResponse {
     count: number,
     total: TotalSellsResponse
+}
+
+interface TotalsSellsProductsReponse {
+    SumaImporte: string;
+    SumaImpuesto: string;
+    SumaTotal: string;
 }
 
 
@@ -81,6 +87,7 @@ export type {
 
     // Response
     TotalSellsResponse,
+    TotalsSellsProductsReponse,
     GetSellsResponse,
     GetSellsTotalResponse
 }

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import SellDetails from '@/app/dashboard/sells/[id]/[sellId]/SellDetails';
+import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails';
 import ModalDouble from '@/components/Modals/ModalDouble';
 import TableSecondary, { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { TimelineInterface } from '@/interface/calendar';

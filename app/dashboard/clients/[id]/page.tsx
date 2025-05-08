@@ -6,7 +6,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import FormMeeting, { INITIAL_MEETING } from '@/app/dashboard/bitacora/FormMeeting';
 import MyCalendar from '@/app/dashboard/calendar/Calendar';
-import SellDetails from '@/app/dashboard/sells/[id]/[sellId]/SellDetails';
+import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails';
 import BriefCard from '@/components/Cards/BriefCard';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
