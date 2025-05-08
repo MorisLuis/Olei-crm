@@ -4,7 +4,6 @@ import { faBars, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
-import { SettingsContext } from '@/context/Settings/SettingsContext';
 import { AuthContext } from '@/context/auth/AuthContext';
 import styles from '../../styles/Navigation.module.scss';
 
@@ -13,7 +12,6 @@ interface TopbarInterface {
 }
 
 export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
-  const { globalPathname } = useContext(SettingsContext);
   const [openMenuProfile, setOpenMenuProfile] = useState(false);
   const { push } = useRouter();
   const { logoutUser, user } = useContext(AuthContext);
