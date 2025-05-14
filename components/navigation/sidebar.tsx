@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { screenData } from '@/database/screens';
-import logoOlei from '../../public/HORIZONTAL_COLOR_PRINCIPAL.svg';
+import logoOlei from '../../public/Logo.svg';
 import styles from '../../styles/Navigation.module.scss';
 
 interface SidebarInterface {
@@ -29,7 +29,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
               className={item.pathname.startsWith(`/dashboard/${basePath}`) ? styles.active : ''}
               key={item.id}
             >
-              <FontAwesomeIcon icon={item.icon} className={'icon'} />
+              <FontAwesomeIcon icon={item.icon} className={`${styles.icon} icon`} />
               <p>{item.name}</p>
             </Link>
           ))}
