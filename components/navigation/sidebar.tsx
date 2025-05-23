@@ -1,11 +1,10 @@
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { screenData } from '@/database/screens';
-import logoOlei from '../../public/Logo.svg';
+import logoOlei from '../../public/Logo-white.svg';
 import styles from '../../styles/Navigation.module.scss';
 
 interface SidebarInterface {
@@ -35,7 +34,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
           ))}
         </ul>
 
-        <ul>
+        {/* <ul>
           <Link
             href="/dashboard/settings"
             className={pathname === '/dashboard/settings' ? styles.active : ''}
@@ -43,7 +42,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
             <FontAwesomeIcon icon={faGear} className={'icon'} />
             <p>Configuración</p>
           </Link>
-        </ul>
+        </ul> */}
       </nav>
     </aside>
   );

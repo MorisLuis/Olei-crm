@@ -1,6 +1,5 @@
 import { api } from '@/api/api';
 import { CalendarInterface, TimelineInterface } from '@/interface/calendar';
-import MeetingInterface from '@/interface/meeting';
 
 interface getCalendarByMonthInterface {
   Anio: number;

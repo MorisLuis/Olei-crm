@@ -24,6 +24,7 @@ interface HeaderInterface {
 }
 
 export default function Header({ title, actions, custumBack, dontShowBack }: HeaderInterface) : JSX.Element {
+  
   const router = useRouter();
   const pathname = usePathname();
   const [basePath, id] = pathname.split('/').filter(Boolean);

@@ -1,0 +1,45 @@
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+
+.Home {
+
+    &__bitacoraSection {
+        display: flex;
+        gap: calc(variables.$gap * 2);
+        margin-bottom: variables.$margin-vertical;
+
+        >div {
+            flex: 1
+        }
+    }
+
+    .statsSections {
+        display: flex;
+        width: 100%;
+        flex: 1;
+        gap: calc(variables.$gap * 2);
+        margin-bottom: calc(variables.$margin-vertical * 2);
+
+        @include mixins.respond(phone) {
+            flex-direction: column;
+        }
+
+        &__sells {
+            flex: 1;
+        }
+
+        &__bitacora {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: variables.$gap;
+
+            @include mixins.respond(phone) {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+}

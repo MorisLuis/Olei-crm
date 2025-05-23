@@ -6,6 +6,7 @@ interface Response {
 }
 
 export default function cobranzaStats(totalStats?: TotalCobranzaResponse | null): Response[] {
+
     const labelMap: Record<keyof TotalCobranzaResponse, string> = {
         SumaSaldoVencido: "Suma saldo vencido",
         SumaSaldoNoVencido: "Suma saldo no vencido",

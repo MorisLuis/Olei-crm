@@ -305,4 +305,36 @@
             display: none;
         }
     }
+};
+
+.StatCard {
+    border: 1px solid variables.$color-border;
+    border-radius: variables.$border-radius;
+    padding: calc(variables.$padding * 2);
+    font-size: variables.$font-medium;
+    box-shadow: variables.$box-shadow-button;
+
+    &:hover{
+        cursor: pointer;
+        background-color: variables.$background-color-tertiary;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .value {
+        color: variables.$text-color;
+        font-size: variables.$font-big;
+        font-weight: bold;
+
+        @include mixins.respond(tab-port) {
+            font-size: variables.$font-normal;
+        }
+    }
+
+    .message {
+        font-size: variables.$font-small;
+    }
 }

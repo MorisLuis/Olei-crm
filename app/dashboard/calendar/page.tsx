@@ -61,7 +61,6 @@ function CalendarContent(): JSX.Element {
   const handleMeetingUpdated = () : void => {
     setRefreshCalendar(prev => !prev);
   };
-  
 
   return (
     <>
@@ -100,3 +99,4 @@ export default function Calendar(): JSX.Element {
     </Suspense>
   );
 }
+

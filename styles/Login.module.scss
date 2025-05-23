@@ -18,11 +18,11 @@
         height: 100svh;
 
         img {
-            height: 15%;
+            height: 10%;
             width: auto;
             object-fit: contain;
             margin-bottom: variables.$margin-horizontal;
-        }
+        };
 
         .form {
             display: flex;

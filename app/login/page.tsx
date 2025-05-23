@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState, useContext } from 'react';
 import Button from '@/components/Buttons/Button';
 import { AuthContext } from '@/context/auth/AuthContext';
+import logoOlei from '../../public/Logo-blue.svg';
 import styles from '../../styles/Login.module.scss';
 
 type FormData = {
@@ -14,7 +15,7 @@ type FormData = {
   password: string;
 };
 
-export default function Login() : JSX.Element {
+export default function Login(): JSX.Element {
   const { push } = useRouter();
   const { loginUser } = useContext(AuthContext);
 
@@ -28,7 +29,7 @@ export default function Login() : JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Manejar cambios en los campos del formulario
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -37,7 +38,7 @@ export default function Login() : JSX.Element {
   };
 
   // Manejar el envío del formulario
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) : Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -54,10 +55,10 @@ export default function Login() : JSX.Element {
   return (
     <div className={styles.login}>
       <div className={styles.content}>
-        <h1>CRM</h1>
+
         <Image
-          src="/Logo_vertical.png"
-          alt="Olei online"
+          src={logoOlei}
+          alt={'olei crm'}
           width={200}
           height={200}
           priority
