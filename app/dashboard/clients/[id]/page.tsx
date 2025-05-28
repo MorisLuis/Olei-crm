@@ -86,7 +86,7 @@ export default function ClientDetailsPage() : JSX.Element {
       id: 3,
       text: 'Ventas',
       onclick: () =>
-        push(`/dashboard/sells/${clientData?.Id_Cliente}?client=${clientData?.Nombre}`),
+        push(`/dashboard/sells/general/${clientData?.Id_Cliente}?client=${clientData?.Nombre}`),
       notVsible: !clientData?.Id_Cliente,
     },
     {

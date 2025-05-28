@@ -43,8 +43,8 @@ export default function SellsClientPage(): JSX.Element {
 
   const handleSelectClient = useCallback((item: SellsInterface) => {
     if (!item.UniqueKey || !id) return;
-    push(`/dashboard/sells/general/${id}/?sellId=${item.UniqueKey}`);
-  }, [id, push]);
+    push(`/dashboard/sells/general/${id}/?sellId=${item.UniqueKey}&client=${clientName}`);
+  }, [id, push, clientName]);
 
   const handleGetTotals = useCallback(async (): Promise<void> => {
     const { total, count } = await getSellsByClientCountAndTotal({
@@ -99,9 +99,10 @@ export default function SellsClientPage(): JSX.Element {
         totalSells={sellsCount ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
         handleSelectItem={handleSelectClient}
-        buttonIsLoading={false}
+        buttonIsLoading={isLoading}
         loadingData={items.length <= 0 && isLoading}
       />
+
 
       <Modal
         visible={Sellid ? true : false}

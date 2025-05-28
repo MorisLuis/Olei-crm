@@ -88,7 +88,7 @@ function CobranzaContent(): JSX.Element {
                 totalSells={cobranzaCount ?? 0}
                 loadMoreProducts={() => setPage(p => p + 1)}
                 handleSelectItem={handleSelectItem}
-                buttonIsLoading={false}
+                buttonIsLoading={isLoading}
                 loadingData={items.length <= 0 && isLoading}
             />
         </>

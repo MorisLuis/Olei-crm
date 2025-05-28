@@ -72,7 +72,7 @@ function SellsProductsContent(): JSX.Element {
         sells={items}
         totalSells={sellsCount ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
-        buttonIsLoading={false}
+        buttonIsLoading={isLoading}
         loadingData={items.length <= 0 && isLoading}
       />
     </>

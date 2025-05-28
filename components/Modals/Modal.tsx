@@ -1,7 +1,6 @@
 import { faExpand, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { CSSProperties, useState } from 'react';
-import useLockBodyScroll from '@/hooks/useLockBodyScroll';
 import styles from '../../styles/Modal.module.scss';
 import ButtonSmall from '../Buttons/ButtonSmall';
 
@@ -49,8 +48,8 @@ const Modal = ({
   extraStyles,
   actionsBottom,
 }: Props) : JSX.Element | null => {
+
   const [isClosing, setIsClosing] = useState(false);
-  useLockBodyScroll(visible);
 
   const handleClose = () : void => {
     setIsClosing(true);

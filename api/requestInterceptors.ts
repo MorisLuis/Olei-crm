@@ -10,7 +10,7 @@ export const requestInterceptor = async (
     const token = Cookies.get("token");
 
     if (process.env.NODE_ENV === 'development') {
-        console.log("[📡 API REQUEST]", method?.toUpperCase(), url);
+        //console.log("[📡 API REQUEST]", method?.toUpperCase(), url);
     }
 
     // Asegurarse que headers existe

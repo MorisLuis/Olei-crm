@@ -19,53 +19,58 @@ import TableCobranzaByClient from './cobranzaClientTable';
 import FilterBar from '../../../../components/Filter/FilterBar';
 import SellDetails from '../../sells/general/[id]/[sellId]/SellDetails';
 
-
 export default function CobranzaByClient(): JSX.Element {
-
   const pathname = usePathname();
-  const { push, back } = useRouter()
+  const { push, replace } = useRouter();
   const searchParams = useSearchParams();
-  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaByClientFilterSchema);
+
+  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } =
+    useUrlFilters(CobranzaByClientFilterSchema);
 
   const Id_Cliente = pathname.split('/').filter(Boolean)[2];
-  const Id_Almacen = searchParams.get('Id_Almacen');
+  const Id_Almacen = searchParams.get('Id_Almacen') ?? '';
+  const sellId = searchParams.get('sellId');
+
   const clientName = searchParams.get('client') ?? 'Regresar';
   const email = searchParams.get('email') ?? '';
 
   const [cobranzaItems, setCobranzaItems] = useState<SellsInterface[]>([]);
   const [page, setPage] = useState(1);
   const [cobranzaByClientTotal, setCobranzaByClientTotal] = useState<TotalCobranzaResponse | null>(null);
-  const [cobranzaByClientCount, setCobranzaByClientCount] = useState<number>()
-  const [openModalSell, setOpenModalSell] = useState(false);
-  const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false)
+  const [cobranzaByClientCount, setCobranzaByClientCount] = useState<number>();
+  const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
 
-  const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ cobranza: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-      [`cobranzaByClient-${Id_Cliente}-${Id_Almacen}`, page, filters],
-      ({ PageNumber, filters }) =>
-        getCobranzaByClient({
-          client: Number(Id_Cliente),
-          Id_Almacen: Number(Id_Almacen),
-          PageNumber,
-          filters: filters as CobranzaByClientFilters,
-        }),
-      { PageNumber: page, filters }
-    );
+  const { data, error, isLoading, refetch } = useQueryPaginationWithFilters<{ cobranza: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
+    [`cobranzaByClient-${Id_Cliente}-${Id_Almacen}`, page, filters],
+    ({ PageNumber, filters }) =>
+      getCobranzaByClient({
+        client: Number(Id_Cliente),
+        Id_Almacen: Number(Id_Almacen),
+        PageNumber,
+        filters: filters as CobranzaByClientFilters,
+      }),
+    { PageNumber: page, filters },
+  );
 
   const cobranza = data?.cobranza;
 
-  const handleLoadMore = (): void => {
-    setPage((prev) => prev + 1);
-  };
+  const handleLoadMore = (): void => setPage((prev) => prev + 1);
 
   const handleSelectItem = (item: SellsInterface): void => {
-    setOpenModalSell(true)
-    push(`/dashboard/cobranza/${Id_Cliente}?sellId=${item.UniqueKey}`)
-  }
+    const params = new URLSearchParams({
+      Id_Almacen,
+      client: clientName,
+      email,
+    });
+    params.set('sellId', item.UniqueKey ?? "");
+    push(`/dashboard/cobranza/${Id_Cliente}?${params.toString()}`);
+  };
 
   const handleCloseModalSell = (): void => {
-    back()
-    setOpenModalSell(false)
+    /** quitamos sólo sellId para que el usuario siga en la misma pantalla */
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('sellId');
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const clientActions: ActionsInterface[] = [
@@ -74,36 +79,58 @@ export default function CobranzaByClient(): JSX.Element {
       text: 'Compartir Relación',
       onclick: () => setOpenModalShareCobranza(true),
       color: 'yellow',
-      notVsible: !email
-    }
-  ]
+      notVsible: !email,
+    },
+  ];
 
+  /** ────────────────────────────
+   *  Totales
+   *  Se obtienen cuando:
+   *    • no hay sellId  (vista normal)
+   *    • hay sellId PERO aún no se han cargado datos (refresh con modal)
+   *  ──────────────────────────── */
   const handleGetTotals = useCallback(async (): Promise<void> => {
     const { total, count } = await getCobranzaByClientCountAndTotal({
       client: Number(Id_Cliente),
       Id_Almacen: Number(Id_Almacen),
       filters: filters as CobranzaByClientFilters,
-    })
+    });
 
     setCobranzaByClientTotal(total);
-    setCobranzaByClientCount(count)
-  }, [Id_Almacen, Id_Cliente, filters])
+    setCobranzaByClientCount(count);
+  }, [Id_Cliente, Id_Almacen, filters]);
 
   useEffect(() => {
     if (!Id_Cliente) return;
-    handleGetTotals()
-  }, [handleGetTotals, Id_Cliente, filters])
 
+    const shouldGetTotals =
+      !sellId || (sellId && cobranzaItems.length === 0);
+
+    if (shouldGetTotals) {
+      handleGetTotals();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Id_Cliente, sellId, filters]);
+
+  /** ───────── Reset cuando cambian filtros (solo vista normal) */
   useEffect(() => {
-    setCobranzaItems([]);
-    setPage(1);
-  }, [filters]);
+    if (!sellId) {
+      setCobranzaItems([]);
+      setPage(1);
+    }
+  }, [filters, sellId]);
 
+  /** ───────── Append de datos (solo vista normal o refresh con modal) */
   useEffect(() => {
     if (!cobranza) return;
-    setCobranzaItems((prev) => [...prev, ...data.cobranza]);
-  }, [cobranza, data]);
 
+    const shouldAppend = !sellId || (sellId && cobranzaItems.length === 0);
+
+    if (shouldAppend) {
+      setCobranzaItems((prev) => [...prev, ...cobranza]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cobranza, sellId]);
 
   if (error) {
     return <Custum500 handleRetry={refetch} />;
@@ -111,8 +138,11 @@ export default function CobranzaByClient(): JSX.Element {
 
   return (
     <>
-      <Header title={clientName ?? 'Cobranza'} actions={clientActions} />
-      <HeaderStats items={cobranzaByClientStats(cobranzaByClientTotal)} isLoading={isLoading} />
+      <Header title={clientName} actions={clientActions} />
+      <HeaderStats
+        items={cobranzaByClientStats(cobranzaByClientTotal)}
+        isLoading={isLoading}
+      />
 
       <FilterBar
         filters={filters}
@@ -129,11 +159,11 @@ export default function CobranzaByClient(): JSX.Element {
         loadMoreProducts={handleLoadMore}
         handleSelectItem={handleSelectItem}
         buttonIsLoading={isLoading}
-        loadingData={cobranzaItems.length <= 0 && isLoading}
+        loadingData={cobranzaItems.length === 0 && isLoading}
       />
 
       <Modal
-        visible={openModalSell}
+        visible={sellId ? true : false}
         title='Detalle de venta'
         onClose={handleCloseModalSell}
         modalSize='medium'

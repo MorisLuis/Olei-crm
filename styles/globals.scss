@@ -109,3 +109,27 @@ h2{
 textarea{
   padding: 30px;
 }
+
+/* modal.css o tu archivo global/module */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* esto reemplaza bg-black/60 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* asegúrate que esté por encima del contenido */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 600px;
+}
