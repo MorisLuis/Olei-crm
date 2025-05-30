@@ -52,7 +52,7 @@ export default function ClientDetailsPage(): JSX.Element {
         </div>
         <div className={styles.bitacoraDetails__data}>
           <div className={styles.details}>
-            <h4>Reunión</h4>
+            <h4>Actividad</h4>
             <TableTertiaryBitacoraDetails Id_Bitacora={Number(Id_Bitacora)} />
           </div>
           <FileUploader />

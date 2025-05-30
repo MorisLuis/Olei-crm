@@ -123,7 +123,7 @@ export default function FormMeeting({
 
     handleMeetingCreated?.();
     showSuccess(
-      isEditing ? `Reunión ${meetingForm.Titulo} editada!` : `Reunión ${meetingForm.Titulo} creada!`
+      isEditing ? `Actividad ${meetingForm.Titulo} editada!` : `Actividad ${meetingForm.Titulo} creada!`
     );
   };
 
@@ -148,7 +148,7 @@ export default function FormMeeting({
 
     onMeetingUpdated?.();
     showSuccess(
-      isEditing ? `Reunión ${meetingForm.Titulo} editada!` : `Reunión ${meetingForm.Titulo} creada!`
+      isEditing ? `Actividad ${meetingForm.Titulo} editada!` : `Actividad ${meetingForm.Titulo} creada!`
     );
   };
 
@@ -207,7 +207,7 @@ export default function FormMeeting({
 
   return (
     <Modal
-      title="Crear Reunión"
+      title="Crear Actividad"
       visible={visible}
       onClose={() => {
         setMeetingForm(INITIAL_MEETING)
@@ -221,7 +221,7 @@ export default function FormMeeting({
         },
         action2: {
           action: isEditing ? (): Promise<void> => onUpdatetMeeting() : (): Promise<void> => onPostMeeting(),
-          label: isEditing ? 'Editar' : 'Crear reunión',
+          label: isEditing ? 'Editar' : 'Crear Actividad',
           disabled: !availableToPost,
         },
       }}

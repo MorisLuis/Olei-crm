@@ -8,7 +8,8 @@ export const ExecuteNavigationEventClient = (): {
   openModalSells: boolean,
   navigateCloseModalSecondary: () => void
 } => {
-  const { push } = useRouter();
+
+  const { push, back } = useRouter();
   const [openModalSells, setOpenModalSells] = useState(false);
 
   const navigateBackFromModalSells = (): void => {
@@ -22,7 +23,8 @@ export const ExecuteNavigationEventClient = (): {
   };
 
   const navigateToBack = (): void => {
-    push('/dashboard/calendar');
+    //push('/dashboard/calendar');
+    back()
   };
 
   const navigateCloseModalSecondary = (): void => {

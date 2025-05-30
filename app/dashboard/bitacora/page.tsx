@@ -43,7 +43,7 @@ function BitacoraContent(): JSX.Element {
   const clientActions: ActionsInterface[] = [
     {
         id: 1,
-        text: 'Nueva Reunión',
+        text: 'Nueva Actividad',
         onclick: () => setOpenModalCreateMeeting(true),
         color: 'yellow'
     }

@@ -22,6 +22,7 @@ export default function EventDetails(): JSX.Element {
 
   const pathname = usePathname();
   const { isMobile } = useWindowSize();
+
   const {
     navigateToBack,
     navigateBackFromModalSells,
@@ -55,7 +56,7 @@ export default function EventDetails(): JSX.Element {
   const clientActions: ActionsInterface[] = [
     {
       id: 1,
-      text: 'Nueva Reunión',
+      text: 'Nueva Actividad',
       onclick: () => setOpenModalCreateMeeting(true),
       color: 'yellow',
     },
@@ -110,7 +111,7 @@ export default function EventDetails(): JSX.Element {
         modalSize="medium"
       >
         <div className={styles.brief}>
-          <h4>Reunión</h4>
+          <h4>Actividad</h4>
           <TableTertiaryBitacoraDetails Id_Bitacora={eventSelected} />
         </div>
       </Modal>

@@ -29,7 +29,7 @@ export const RenderEventSelects = ({
         <p className={styles.brief__instruction}>
           Selecciona la tarea para ver el detalle de la tarea.
         </p>
-        <h4>Reunión</h4>
+        <h4>Actividad</h4>
         <TableTertiaryBitacoraDetails Id_Bitacora={eventSelected} />
       </div>
     );
