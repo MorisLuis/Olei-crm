@@ -21,8 +21,9 @@ import SellDetails from '../../sells/general/[id]/[sellId]/SellDetails';
 
 export default function CobranzaByClient(): JSX.Element {
   const pathname = usePathname();
-  const { push, replace } = useRouter();
+  const { push } = useRouter();
   const searchParams = useSearchParams();
+  const [isVisible, setIsVisible] = useState(false);
 
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } =
     useUrlFilters(CobranzaByClientFilterSchema);
@@ -64,13 +65,15 @@ export default function CobranzaByClient(): JSX.Element {
     });
     params.set('sellId', item.UniqueKey ?? "");
     push(`/dashboard/cobranza/${Id_Cliente}?${params.toString()}`);
+    setIsVisible(true);
   };
 
   const handleCloseModalSell = (): void => {
     /** quitamos sólo sellId para que el usuario siga en la misma pantalla */
     const params = new URLSearchParams(searchParams.toString());
     params.delete('sellId');
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
+    push(`${pathname}?${params.toString()}`, { scroll: false });
+    setIsVisible(false);
   };
 
   const clientActions: ActionsInterface[] = [
@@ -163,7 +166,7 @@ export default function CobranzaByClient(): JSX.Element {
       />
 
       <Modal
-        visible={sellId ? true : false}
+        visible={isVisible || (sellId ? true : false) }
         title='Detalle de venta'
         onClose={handleCloseModalSell}
         modalSize='medium'

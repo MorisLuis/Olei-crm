@@ -12,8 +12,7 @@ import { format } from '@/utils/currency';
 interface TableSellsDetailsClientInterface {
   sells: SellsDetailsInterface[];
   totalSells: number;
-  buttonIsLoading: boolean;
-  loadingData: boolean;
+  isLoading: boolean;
   loadMoreProducts: () => void;
   handleSelectItem?: (item: SellsDetailsInterface) => void;
 }
@@ -21,13 +20,12 @@ interface TableSellsDetailsClientInterface {
 export default function TableSellsDetailsClient({
   sells,
   totalSells,
-  loadingData,
-  buttonIsLoading,
+  isLoading,
   loadMoreProducts,
   handleSelectItem,
-}: TableSellsDetailsClientInterface) : JSX.Element {
+}: TableSellsDetailsClientInterface): JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells;
+  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
 
   const columns: ColumnSecondaryConfig<SellsDetailsInterface>[] = [
     {
@@ -63,7 +61,7 @@ export default function TableSellsDetailsClient({
     },
   ];
 
-  if (loadingData) {
+  if (isLoading) {
     return (
       <>
         {/* Header skeleton */}
@@ -85,7 +83,7 @@ export default function TableSellsDetailsClient({
       columns={columns}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={buttonIsLoading}
+      loadingMoreData={isLoading}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
     />

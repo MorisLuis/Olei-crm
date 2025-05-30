@@ -29,6 +29,8 @@ const Table = <T,>({
   handleLoadMore,
   loadingMoreData,
 }: TableProps<T>) : JSX.Element => {
+
+
   return (
     <div className={styles.table}>
       <table>

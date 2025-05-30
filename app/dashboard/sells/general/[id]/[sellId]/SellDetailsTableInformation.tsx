@@ -10,11 +10,13 @@ import { formatDate } from '@/utils/formatDate';
 import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 
 interface SellDetailsTableInformationInterface {
-    sellInformation?: SellsInterface
+    sellInformation?: SellsInterface;
+    isLoading: boolean
 }
 
 export default function SellDetailsTableInformation({
-    sellInformation
+    sellInformation,
+    isLoading
 }: SellDetailsTableInformationInterface) : JSX.Element {
 
     const { changeColor } = useTagColor();
@@ -76,7 +78,7 @@ export default function SellDetailsTableInformation({
     ];
 
 
-    if (!sellInformation) {
+    if (isLoading || !sellInformation) {
         return <p>Cargando...</p>;
     }
 

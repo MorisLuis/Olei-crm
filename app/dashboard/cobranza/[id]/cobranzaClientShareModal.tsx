@@ -53,7 +53,7 @@ export default function ShareCobranzaModal({
   };
 
   return (
-    <Modal visible={visible} title="Compartir relación" onClose={onClose} modalSize="small">
+    <Modal visible={visible} title="Compartir relación" onClose={onClose} modalSize="small" finalHeight="content">
       <div className={styles.modalShareCobranza}>
         <p className={styles.title}>
           Compartir con {remitente} al correo {email}, su relación de cobranza.

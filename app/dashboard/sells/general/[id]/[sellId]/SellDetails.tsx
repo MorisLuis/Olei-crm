@@ -13,6 +13,7 @@ import TableSellsDetailsClient from './SellsDetailsTable';
 import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 
 export default function SellDetails(): JSX.Element {
+
   const [sellInformation, setSellInformation] = useState<SellsInterface>();
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
@@ -21,14 +22,15 @@ export default function SellDetails(): JSX.Element {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<SellsDetailsInterface[]>([]);
   const [sellsCount, setSellsCount] = useState<number>()
+  const enabled = !!Folio;
 
-  const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ orderDetails: SellsDetailsInterface[] }, { PageNumber: number; }>(
-      [`sell-${Sellid}`, page],
-      ({ PageNumber }) => getSellDetails({ Folio: Folio, PageNumber }),
-      { PageNumber: page },
-      { enabled: !!Folio }
-    );
+  const { data, error, isLoading, refetch } = useQueryPaginationWithFilters<{ orderDetails: SellsDetailsInterface[] }, { PageNumber: number; }>(
+    [`sell-${Sellid}`, page],
+    ({ PageNumber }) => getSellDetails({ Folio: Folio, PageNumber }),
+    { PageNumber: page },
+    { enabled }
+  );
+  const loading = !enabled || isLoading;  // 👈 usa este en tu UI
 
   const handleGetTotals = useCallback(async (): Promise<void> => {
     if (!Folio) return
@@ -94,14 +96,15 @@ export default function SellDetails(): JSX.Element {
 
       <SellDetailsTableInformation
         sellInformation={sellInformation}
+        isLoading={loading}
       />
 
       <TableSellsDetailsClient
         sells={items}
         totalSells={sellsCount ?? 0}
         loadMoreProducts={() => setPage(p => p + 1)}
-        buttonIsLoading={isLoading}
-        loadingData={isLoading}
+
+        isLoading={loading}
       />
     </div>
   );

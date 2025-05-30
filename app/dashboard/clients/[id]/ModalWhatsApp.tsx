@@ -36,7 +36,7 @@ export default function WhatsAppModal({ onClose, visible, phoneNumber }: WhatsAp
   if (!phoneNumber) return null;
 
   return (
-    <Modal title="Whatsapp" visible={visible} onClose={onClose} modalSize="small">
+    <Modal title="Whatsapp" visible={visible} onClose={onClose} modalSize="small" finalHeight='content'>
       <div className={styles.SellActions}>
         <div className={styles.send_message}>
           <div className={styles.send_header}>

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { CSSProperties, useState } from 'react';
 import styles from '../../styles/Modal.module.scss';
 import ButtonSmall from '../Buttons/ButtonSmall';
+import AnimatedHeightWrapper from '../UI/AnimatedHeightWrapper';
 
 interface Props {
   visible: boolean;
@@ -31,6 +32,8 @@ interface Props {
       disabled: boolean;
     };
   };
+
+  finalHeight?: number | 'content';
 }
 
 const Modal = ({
@@ -47,11 +50,13 @@ const Modal = ({
   handleActionTopTwo,
   extraStyles,
   actionsBottom,
-}: Props) : JSX.Element | null => {
+
+  finalHeight
+}: Props): JSX.Element | null => {
 
   const [isClosing, setIsClosing] = useState(false);
 
-  const handleClose = () : void => {
+  const handleClose = (): void => {
     setIsClosing(true);
     setTimeout(() => {
       setIsClosing(false);
@@ -59,7 +64,7 @@ const Modal = ({
     }, 300);
   };
 
-  const renderActions = () : JSX.Element => (
+  const renderActions = (): JSX.Element => (
     <div className={styles.topactions}>
       <ButtonSmall
         text="Expandir"
@@ -120,7 +125,9 @@ const Modal = ({
             </div>
           </div>
 
-          <div className={styles.content}>{children}</div>
+          <AnimatedHeightWrapper isActive={visible} finalHeight={finalHeight}>
+            <div className={styles.content}>{children}</div>
+          </AnimatedHeightWrapper>
 
           {renderFooter()}
         </div>
