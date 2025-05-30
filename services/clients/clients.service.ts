@@ -4,6 +4,7 @@ import { getClientByIdInterface, getSellsInterface } from './clients.interface';
 
 
 export const getClients = async (params: getSellsInterface): Promise<{ clients: ClientInterface[], total: number }> => {
+
   const { data } = await api.get<{ clients: ClientInterface[], total: number }>(`/api/client`, {
     params: {
       PageNumber: params.PageNumber,
@@ -11,9 +12,9 @@ export const getClients = async (params: getSellsInterface): Promise<{ clients: 
     }
   });
 
-  return { 
-    clients: data.clients, 
-    total: data.total 
+  return {
+    clients: data.clients,
+    total: data.total
   };
 };
 

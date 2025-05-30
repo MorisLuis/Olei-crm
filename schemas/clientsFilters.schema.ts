@@ -3,5 +3,6 @@ import { z } from 'zod'
 
 export const ClientsFilterSchema = z.object({
     clientOrderCondition: z.enum(ClientOrderCondition).default('Nombre'),
-    searchTerm: z.string().optional().transform(val => val ?? '')
+    searchTerm: z.string().optional().transform(val => val ?? ''),
+    searchId: z.string().optional().transform(val => val ?? '')
 })

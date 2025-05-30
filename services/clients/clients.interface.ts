@@ -14,6 +14,7 @@ interface getClientByIdInterface {
 interface FilterClients {
     clientOrderCondition: ClientOrderConditionType;
     searchTerm: string;
+    searchId?: string;
 }
 
 type ClientOrderConditionType = 'Id_Cliente' | 'Nombre';

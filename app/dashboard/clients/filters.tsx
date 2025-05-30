@@ -10,7 +10,12 @@ export const clientsFiltersConfig: FilterItemConfig[] = [
     },
     {
         key: 'searchTerm',
-        label: 'Nombre',
+        label: 'Buscar por nombre',
+        type: 'input'
+    },
+    {
+        key: 'searchId',
+        label: 'Buscar por id',
         type: 'input'
     }
 ];

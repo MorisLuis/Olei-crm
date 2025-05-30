@@ -17,7 +17,7 @@ function ClientsContent(): JSX.Element {
 
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<ClientInterface[]>([]);
-  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(ClientsFilterSchema)
+  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(ClientsFilterSchema);
 
   const { data, error, isLoading, refetch } =
     useQueryPaginationWithFilters<{ clients: ClientInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
@@ -32,9 +32,7 @@ function ClientsContent(): JSX.Element {
   }, [filters]);
 
   useEffect(() => {
-    if (data?.clients) {
-      setItems(prev => [...prev, ...data.clients]);
-    }
+    if (data?.clients) setItems(prev => [...prev, ...data.clients]);
   }, [data]);
 
   if (error) return <Custum500 handleRetry={refetch} />;
@@ -46,7 +44,7 @@ function ClientsContent(): JSX.Element {
       <FilterBar
         filters={filters}
         config={clientsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: 'clientOrderCondition' | 'searchTerm', value: string | number) => void}
+        updateFilter={updateFilter as unknown as (key: 'clientOrderCondition' | 'searchTerm' | 'searchId', value: string | number | undefined) => void}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
