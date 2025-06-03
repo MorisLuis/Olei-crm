@@ -16,6 +16,7 @@ import { getActualHour, getCorrectDate } from "@/utils/formatTime";
 import styles from '../../../styles/Form.module.scss';
 
 export const INITIAL_MEETING: MeetingInterface = {
+  Nombre: '',
   Fecha: '',
   Hour: '',
   HourEnd: '',

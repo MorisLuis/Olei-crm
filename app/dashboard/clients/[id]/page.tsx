@@ -11,7 +11,6 @@ import BriefCard from '@/components/Cards/BriefCard';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { ClientInterface } from '@/interface/client';
-import { meetingExample } from '@/seed/bitacoraData';
 import { getClientById } from '@/services/clients/clients.service';
 import { briefClientData } from './BriefClientData';
 import EmailModal from './ModalEmail';
@@ -53,7 +52,7 @@ export default function ClientDetailsPage(): JSX.Element {
 
     if (dataEvent.TableType === 'Bitacora') {
       // Get meeting from API
-      setEventToOpen(meetingExample);
+      //setEventToOpen(meetingExample);
       setOpenModalCreateMeeting(true);
       return;
     }

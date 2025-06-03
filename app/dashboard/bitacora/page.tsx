@@ -42,12 +42,12 @@ function BitacoraContent(): JSX.Element {
 
   const clientActions: ActionsInterface[] = [
     {
-        id: 1,
-        text: 'Nueva Actividad',
-        onclick: () => setOpenModalCreateMeeting(true),
-        color: 'yellow'
+      id: 1,
+      text: 'Nueva Actividad',
+      onclick: () => setOpenModalCreateMeeting(true),
+      color: 'yellow'
     }
-]
+  ]
 
   if (error) return <Custum500 handleRetry={refetch} />;
 

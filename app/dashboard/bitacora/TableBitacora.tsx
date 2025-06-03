@@ -42,9 +42,9 @@ export default function TableBitacora({
 
   const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
     {
-      key: 'Id_Bitacora',
-      label: 'Id Bitacora',
-      render: (Id_Bitacora) => <span>{Id_Bitacora?.toString()}</span>,
+      key: 'Nombre',
+      label: 'Cliente',
+      render: (Nombre) => <span>{Nombre?.toString()}</span>,
     },
     {
       key: 'Descripcion',

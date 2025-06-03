@@ -13,5 +13,6 @@ export const BitacoraFilterSchema = z.object({
     FilterTipoContacto: z.union([z.literal(0), z.literal(1)]).default(0),
     TipoContacto: TipoContactoSchema.default(0),
     Id_Cliente: z.number().default(0),
-    termSearch: z.string().optional().transform(val => val ?? '')
+    termSearch: z.string().optional().transform(val => val ?? ''),
+    searchTerm: z.string().optional().transform(val => val ?? '')
 })

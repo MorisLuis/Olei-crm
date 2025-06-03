@@ -9,6 +9,11 @@ export const bitacoraFiltersConfig: FilterItemConfig[] = [
         options: MeetingOrderConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
+        key: 'searchTerm',
+        label: 'Buscar por nombre',
+        type: 'input'
+    },
+    {
         key: 'TipoContacto',
         label: 'Tipo de contacto',
         type: 'select',

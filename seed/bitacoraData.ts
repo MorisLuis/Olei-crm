@@ -1,5 +1,5 @@
 import MeetingInterface from '@/interface/meeting';
-
+/* 
 export const meetingsExamples: MeetingInterface[] = [
   {
     Titulo: 'primer titulo',
@@ -73,3 +73,4 @@ export const meetingExample: MeetingInterface = {
   Comentarios:
     'En esta reunion reunionreunionreunionreunion reunionreunionreunionreunion se platico de muchas cosas',
 };
+ */
