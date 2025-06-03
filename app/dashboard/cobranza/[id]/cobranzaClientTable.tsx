@@ -55,18 +55,6 @@ export default function TableCobranzaByClient({
       ),
     },
     {
-      key: 'FechaEntrega',
-      label: 'Fecha Vencimiento',
-      render: (FechaEntrega) =>
-        FechaEntrega ? (
-          <div>
-            <p>{formatDate(FechaEntrega as Date)}</p>
-          </div>
-        ) : (
-          <Tag color="gray">Sin datos</Tag>
-        ),
-    },
-    {
       key: 'ExpiredDays',
       label: 'Dias para vecimiento',
       render: (ExpiredDays) => (

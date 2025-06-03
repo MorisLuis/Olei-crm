@@ -18,7 +18,7 @@ import EmailModal from './ModalEmail';
 import WhatsAppModal from './ModalWhatsApp';
 import styles from '../../../../styles/pages/Clients.module.scss';
 
-export default function ClientDetailsPage() : JSX.Element {
+export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();
   const [clientData, setClientData] = useState<ClientInterface>();
   const [loadingClientData, setLoadingClientData] = useState(false);
@@ -43,12 +43,12 @@ export default function ClientDetailsPage() : JSX.Element {
     setLoadingClientData(false);
   }, [Id_Cliente, idAlmacen]);
 
-  const handleCloseMeetingModal = () : void => {
+  const handleCloseMeetingModal = (): void => {
     setOpenModalCreateMeeting(false);
     setEventToOpen(INITIAL_MEETING);
   };
 
-  const handelOnClickEvent = (info: EventClickArg) : void => {
+  const handelOnClickEvent = (info: EventClickArg): void => {
     const dataEvent = info.event.extendedProps;
 
     if (dataEvent.TableType === 'Bitacora') {
@@ -65,7 +65,7 @@ export default function ClientDetailsPage() : JSX.Element {
     }
   };
 
-  const handleOnClickDay = (arg: DateClickArg) : void => {
+  const handleOnClickDay = (arg: DateClickArg): void => {
     push(`/dashboard/calendar/event/${arg.date}`);
   };
 

@@ -8,7 +8,6 @@ export interface SellsInterface {
   Folio: number;
   Serie: string;
   Fecha: Date;
-  FechaEntrega?: Date | null;
   Saldo: number;
   Total: number;
   Nombre: string;

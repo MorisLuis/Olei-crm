@@ -56,19 +56,6 @@ export default function TableSellsClient({
       ),
     },
     {
-      key: 'FechaEntrega',
-      label: 'Fecha Entrega',
-      render: (FechaEntrega) => (
-        <div>
-          {FechaEntrega ? (
-            <p>{formatDate(FechaEntrega as Date)}</p>
-          ) : (
-            <Tag color="gray">Sin datos</Tag>
-          )}
-        </div>
-      ),
-    },
-    {
       key: 'ExpiredDays',
       label: 'Dias para vecimiento',
       render: (ExpiredDays) => (

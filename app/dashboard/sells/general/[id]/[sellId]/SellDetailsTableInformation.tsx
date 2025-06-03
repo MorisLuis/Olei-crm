@@ -23,6 +23,15 @@ export default function SellDetailsTableInformation({
 
     const columns: ColumnTertiaryConfig<SellsInterface>[] = [
         {
+            key: 'Nombre',
+            label: 'Client',
+            renderLabel: () => (
+                <div className={styles.sellItem}>
+                    <p>Cliente</p>
+                </div>
+            ),
+        },
+        {
             key: 'TipoDoc',
             label: 'Tipo de documento',
             renderLabel: () => (
@@ -55,26 +64,7 @@ export default function SellDetailsTableInformation({
                 </div>
             ),
         },
-        {
-            key: 'FechaEntrega',
-            label: 'FechaEntrega',
-            renderLabel: () => (
-                <div className={styles.sellItem}>
-                    <p>Fecha Entrega</p>
-                </div>
-            ),
-            render: (FechaEntrega) => (
-                <>
-                    {FechaEntrega ? (
-                        <div>
-                            <p>{formatDate(FechaEntrega as Date)}</p>
-                        </div>
-                    ) : (
-                        <Tag color="gray">Sin datos</Tag>
-                    )}
-                </>
-            ),
-        },
+        
     ];
 
 

@@ -59,8 +59,6 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
         setSellsCount(count)
     }, [filters, clientId])
 
-
-
     useEffect(() => {
         handleGetTotals()
     }, [handleGetTotals, filters])
