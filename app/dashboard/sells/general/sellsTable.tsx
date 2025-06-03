@@ -12,7 +12,7 @@ import { columnsSells } from './sellsTableData';
 interface TableSellsInterface {
   sells: SellsInterface[];
   totalSells: number;
-  buttonIsLoading: boolean;
+  isLoading: boolean;
   loadingData: boolean;
   loadMoreProducts: () => void;
 }
@@ -21,12 +21,12 @@ export default function TableSells({
   sells,
   totalSells,
   loadingData,
-  buttonIsLoading,
+  isLoading,
   loadMoreProducts,
 }: TableSellsInterface) : JSX.Element {
 
   const { push } = useRouter();
-  const NoMoreProductToShow = sells.length === totalSells;
+  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
   const noCoincidenceItems = sells.length === 0 && !loadingData
 
   const handleSelectClientSells = (item: SellsInterface) : void => {
@@ -54,7 +54,7 @@ export default function TableSells({
       columns={columnsSells}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={buttonIsLoading}
+      loadingMoreData={isLoading}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectClientSells}
     />

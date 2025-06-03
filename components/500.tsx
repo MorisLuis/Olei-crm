@@ -1,14 +1,13 @@
 
 'use client';
 
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import React from 'react';
 import ButtonSmall from '@/components/Buttons/ButtonSmall';
 import styles from './../styles/pages/NotFound.module.scss';
 
 interface Custum500Props {
-    handleRetry: (options?: RefetchOptions) => Promise<QueryObserverResult<unknown, Error>>;
+    handleRetry: () => void;
 }
 
 
@@ -32,7 +31,7 @@ export default function Custum500({ handleRetry }: Custum500Props): JSX.Element 
                     className={styles.message}
                 >
                     Lo sentimos, hubo un error en el servidor intentalo más tarde. 😞
-                    <ButtonSmall text="Volver al intentarlo" onClick={handleRetry} />
+                    <ButtonSmall text="Volver al intentarlo" onClick={() => handleRetry?.()} />
                 </motion.p>
             </motion.div>
         </div>

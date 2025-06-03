@@ -61,8 +61,8 @@ export const getSellById = async ({ Folio, Serie, Id_Almacen, TipoDoc }: GetSell
 };
 
 
-export const getSellDetails = async ({ Folio, PageNumber }: { Folio?: string; PageNumber: number }): Promise<{ orderDetails: SellsDetailsInterface[] }> => {
-  const { data } = await api.get<{ orderDetails: SellsDetailsInterface[] }>(`/api/order/details?folio=${Folio}&PageNumber=${PageNumber}`);
+export const getSellDetails = async ({ Folio, TipoDoc, PageNumber }: { Folio?: string; TipoDoc?: number; PageNumber: number }): Promise<{ orderDetails: SellsDetailsInterface[] }> => {
+  const { data } = await api.get<{ orderDetails: SellsDetailsInterface[] }>(`/api/order/details?folio=${Folio}&PageNumber=${PageNumber}&TipoDoc=${TipoDoc}`);
   return { orderDetails: data.orderDetails };
 };
 
