@@ -74,7 +74,7 @@ export default function ClientDetailsPage(): JSX.Element {
       id: 1,
       text: 'Whatsapp',
       onclick: () => setOpenModalWhatsApp(true),
-      notVsible: !clientData?.Telefono1,
+      notVsible: !clientData?.TelefonoWhatsapp?.trim(),
     },
     {
       id: 2,
@@ -130,7 +130,8 @@ export default function ClientDetailsPage(): JSX.Element {
       <WhatsAppModal
         visible={openModalWhatsApp}
         onClose={() => setOpenModalWhatsApp(false)}
-        phoneNumber={clientData?.Telefono1}
+        phoneNumber={clientData?.TelefonoWhatsapp?.trim()}
+        
       />
 
       <EmailModal
