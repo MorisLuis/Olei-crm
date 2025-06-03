@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { isEqual } from "lodash";
 
 
-interface UseSellsReturn {
+interface UseSellsByClientReturn {
     handleSelectClient: (item: SellsInterface) => void;
 
     error: unknown;
@@ -24,7 +24,7 @@ interface UseSellsReturn {
  * Custom hook para manejar toda la lógica de obtener las ventas.
  */
 
-export function useSellsByClient(clientId: number, filters: SellsByClientFilters): UseSellsReturn {
+export function useSellsByClient(clientId: number, filters: SellsByClientFilters): UseSellsByClientReturn {
 
     const { push } = useRouter();
     const searchParams = useSearchParams();
@@ -79,10 +79,10 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
         }
     }, [data]);
 
-        // Función para cargar más página
-        const loadMore = () => {
-            setPage((p) => p + 1);
-        };
+    // Función para cargar más página
+    const loadMore = () => {
+        setPage((p) => p + 1);
+    };
 
     return {
         handleSelectClient,

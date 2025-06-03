@@ -1,62 +1,22 @@
 'use client';
 
-import React, { Suspense, useCallback, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import HeaderStats from '@/components/navigation/headerStats';
-import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
+import { useSells } from '@/hooks/sells/useSells';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
-import { SellsInterface } from '@/interface/sells';
 import { SellsFilterSchema } from '@/schemas/sellsFilters.schema';
-import { SellsFilters, TotalSellsResponse } from '@/services/sells/sells.interface';
-import { getSells, getSellsCountAndTotal } from '@/services/sells/sells.service';
 import { sellsFiltersConfig } from './sellsFilters';
 import sellsStats from './sellsStats';
 import TableSells from './sellsTable';
 
 function SellsContent(): JSX.Element {
 
-  const [page, setPage] = useState(1);
-  const [items, setItems] = useState<SellsInterface[]>([]);
-  const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
-  const [sellsCount, setSellsCount] = useState<number>()
-  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema)
-
-  const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-      ['sells', page],
-      ({ PageNumber, filters }) => getSells({ PageNumber, filters }),
-      { PageNumber: page, filters }
-    );
-
-  const handleGetTotals = useCallback(async (): Promise<void> => {
-    const { total, count } = await getSellsCountAndTotal({
-      filters: filters as SellsFilters
-    })
-
-    setSellsTotal(total);
-    setSellsCount(count)
-  }, [filters])
-
-
-  useEffect(() => {
-    handleGetTotals()
-  }, [handleGetTotals, filters])
-
-  useEffect(() => {
-    setPage(1);
-    setItems([]);
-  }, [filters]);
-
-  useEffect(() => {
-    if (data?.sells) {
-      setItems(prev => [...prev, ...data.sells]);
-    }
-  }, [data]);
+  const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema);
+  const {  refetch, error, loadMore, isLoading, items, sellsTotal, sellsCount } = useSells(filters);
 
   if (error) return <Custum500 handleRetry={refetch} />;
-
-
   return (
     <>
       <HeaderStats items={sellsStats(sellsTotal)} isLoading={isLoading} />
@@ -71,7 +31,7 @@ function SellsContent(): JSX.Element {
       <TableSells
         sells={items}
         totalSells={sellsCount ?? 0}
-        loadMoreProducts={() => setPage(p => p + 1)}
+        loadMoreProducts={loadMore}
         isLoading={isLoading}
         loadingData={items.length <= 0 && isLoading}
       />
