@@ -15,10 +15,10 @@ interface TableTertiaryBitacoraDetailsInterface {
 
 export default function TableTertiaryBitacoraDetails({
   Id_Bitacora,
-}: TableTertiaryBitacoraDetailsInterface) : JSX.Element {
+}: TableTertiaryBitacoraDetailsInterface): JSX.Element {
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
   const [meetingData, setMeetingData] = useState<MeetingInterface>();
-  const onOpenComments = () : void => setOpenCommentsModal(true);
+  const onOpenComments = (): void => setOpenCommentsModal(true);
   const { columns } = ColumnsBitacoraDetails({ onOpenComments });
 
   const handleGetMeeting = useCallback(async () => {
@@ -38,7 +38,10 @@ export default function TableTertiaryBitacoraDetails({
   return (
     <>
       <div className={styles.sellDetails}>
-        <TableTertiary columns={columns} data={meetingData} />
+        <TableTertiary
+          columns={columns}
+          data={meetingData}
+        />
       </div>
       <Modal
         title="Comentarios"

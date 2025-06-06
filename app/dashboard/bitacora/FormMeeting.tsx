@@ -86,8 +86,6 @@ export default function FormMeeting({
     debouncedSearchClient(value);
   }, [debouncedSearchClient]);
 
-
-
   const onSelectClient = async (option: OptionType): Promise<void> => {
     if (option === null) return
     const splitValue = option.value.toString().split('-');
@@ -102,7 +100,6 @@ export default function FormMeeting({
     handleChange('Id_Almacen', 0);
   }
 
-  // Doc type.
   const onSelectDocType = async (option: OptionType): Promise<void> => {
     handleChange('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3 | 4)
   }

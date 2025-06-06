@@ -15,6 +15,7 @@ export const RenderEventSelects = ({
   events,
   eventSelected,
 }: RenderEventSelectsInterface) : JSX.Element => {
+
   if (!eventsOfTheDay) {
     return (
       <div>

@@ -3,16 +3,18 @@
 @use "../Abstracts/mixins";
 @use "../Abstracts/variables";
 
-.event {
+.timeline {
     position: relative;
 
     .content {
         display: flex;
+        flex-direction: row;
         gap: calc(variables.$gap * 2);
         position: relative;
+        width: 100%;
 
         .brief {
-            width: 50%;
+            width: 40%;
             position: sticky; // Corrige el prefijo
             top: 10px; // Define la distancia desde el borde superior
             height: fit-content;
@@ -32,10 +34,8 @@
             }
         }
 
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            width: 50%;
+        .timelineContent {
+            width: 60%;
             z-index: 0;
             gap: calc(variables.$gap * 2);
 

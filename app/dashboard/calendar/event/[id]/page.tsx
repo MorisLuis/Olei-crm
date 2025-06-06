@@ -1,21 +1,18 @@
 'use client';
 
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTertiaryBitacoraDetails';
-import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
-import ModalSells from './ModalSells';
-import { RenderEventSelects } from './RenderEventSelects';
-import MyTimeline from './Timeline';
-import TimelineEventsValidation from './TimelineEventsValidation';
-import { ExecuteNavigationEventClient } from './navigation';
-import { useEventsOfTheDay } from './useEventsOfTheDay';
+import Timeline from './timeline';
+import TimelineEventsValidation from './timelineEventsValidation';
+import ModalSells from './timelineModalSells';
+import { ExecuteNavigationEventClient } from './timelineNavigation';
+import { useGetEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 export default function EventDetails(): JSX.Element {
@@ -31,27 +28,24 @@ export default function EventDetails(): JSX.Element {
     navigateCloseModalSecondary,
   } = ExecuteNavigationEventClient();
 
-  const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
-  const decodedDate = decodeURIComponent(lastSegment!);
-
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const [openModalEvent, setOpenModalEvent] = useState(false);
   const [eventSelected, setEventSelected] = useState<number>(0);
   const [refreshTimeline, setRefreshTimeline] = useState(false)
-  const eventsOfTheDay = useEventsOfTheDay(decodedDate, refreshTimeline);
+  const searchParams = useSearchParams();
+  const idCliente = searchParams.get('Id_Cliente');
+
+  const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+  const decodedDate = decodeURIComponent(lastSegment!);
+  const eventsOfTheDay = useGetEventsOfTheDay(decodedDate, idCliente, refreshTimeline);
   const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
 
-  const handleMeetingCreated = (): void => {
-    setRefreshTimeline(prev => !prev);
-  };
-
-  // Abrir modal solo en móviles
-  const handleSelectEventFromTimeline = (Id: MeetingInterface): void => {
+  const onMeetingCreated = (): void => setRefreshTimeline(prev => !prev);
+  const onCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
+  const onSelectEventFromTimeline = (Id: MeetingInterface): void => {
     if (isMobile) setOpenModalEvent(true);
     setEventSelected(Id.Id_Bitacora);
   };
-
-  const handleCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
 
   const clientActions: ActionsInterface[] = [
     {
@@ -68,41 +62,23 @@ export default function EventDetails(): JSX.Element {
     }
   }, [events, refreshTimeline]);
 
-  if (!events || !sellEvents) {
-    return (
-      <div>
-        <p>Cargando...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.event}>
-      <Header title="Calendario" actions={clientActions} custumBack={navigateToBack} />
+    <div className={styles.timeline}>
+      <Header
+        title="Calendario"
+        actions={clientActions}
+        custumBack={navigateToBack}
+      />
 
-      <div className={styles.content}>
-        <div className={styles.timeline}>
-          {sellEvents.length > 0 && (
-            <MessageSecondaryCard
-              title={'Hay docuentos que expiran hoy.'}
-              icon={faFileExcel}
-              action={{
-                onClick: () => navigateToModalSells(),
-                color: 'blue',
-                text: 'Ver documentos',
-              }}
-            />
-          )}
-
-          <MyTimeline
-            onClickEvent={handleSelectEventFromTimeline}
-            initialDateProp={decodedDate}
-            eventsOfTheDay={events}
-          />
-        </div>
-
-        {RenderEventSelects({ events, eventsOfTheDay, eventSelected })}
-      </div>
+      <Timeline
+        onClickEvent={onSelectEventFromTimeline}
+        initialDateProp={decodedDate}
+        eventsOfTheDay={eventsOfTheDay}
+        events={events}
+        sellEvents={sellEvents}
+        eventSelected={eventSelected}
+        navigateToModalSells={navigateToModalSells}
+      />
 
       <Modal
         visible={openModalEvent}
@@ -118,8 +94,8 @@ export default function EventDetails(): JSX.Element {
 
       <FormMeeting
         visible={openModalCreateMeeting}
-        onClose={handleCloseMeetingModal}
-        handleMeetingCreated={handleMeetingCreated}
+        onClose={onCloseMeetingModal}
+        handleMeetingCreated={onMeetingCreated}
       />
 
       <ModalSells

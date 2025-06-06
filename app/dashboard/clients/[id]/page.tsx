@@ -52,7 +52,6 @@ export default function ClientDetailsPage(): JSX.Element {
 
     if (dataEvent.TableType === 'Bitacora') {
       // Get meeting from API
-      //setEventToOpen(meetingExample);
       setOpenModalCreateMeeting(true);
       return;
     }
@@ -65,7 +64,7 @@ export default function ClientDetailsPage(): JSX.Element {
   };
 
   const handleOnClickDay = (arg: DateClickArg): void => {
-    push(`/dashboard/calendar/event/${arg.date}`);
+    push(`/dashboard/calendar/event/${arg.date}?Id_Cliente=${Id_Cliente}`);
   };
 
   const clientActions: ActionsInterface[] = [

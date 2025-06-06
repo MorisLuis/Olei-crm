@@ -1,20 +1,34 @@
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { EventClickArg } from '@fullcalendar/core/index.js';
-import esLocale from '@fullcalendar/core/locales/es'; // Idioma español
+import esLocale from '@fullcalendar/core/locales/es';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { TimelineMeetingInterface } from '@/interface/calendar';
+import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
+import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import MeetingInterface from '@/interface/meeting';
+import { RenderEventSelects } from './timelineEventSelected';
+import styles from '../../../../../styles/pages/Calendar.module.scss';
 
-interface MyTimelineInterface {
+interface TimelinePropsInterface {
   onClickEvent: (eventBody: MeetingInterface) => void;
-  initialDateProp?: string | Date; // La fecha puede ser undefined
-  eventsOfTheDay: TimelineMeetingInterface[];
+  initialDateProp?: string | Date;
+  eventsOfTheDay: TimelineInterface[] | null;
+
+  events: TimelineMeetingInterface[];
+  sellEvents: TimelineInterface[];
+  eventSelected: number;
+  navigateToModalSells: () => void;
 }
 
-const MyTimeline = ({ onClickEvent, initialDateProp, eventsOfTheDay }: MyTimelineInterface) : JSX.Element => {
-  const handleOnClickEvent = (arg: EventClickArg) : void => {
-    onClickEvent(arg.event.extendedProps as MeetingInterface); // Pasar el evento completo al callback
-  };
+const Timeline = ({
+  onClickEvent,
+  initialDateProp,
+  eventsOfTheDay,
+  events,
+  sellEvents,
+  eventSelected,
+  navigateToModalSells
+}: TimelinePropsInterface): JSX.Element => {
 
   const getFormattedDate = (date: string | Date | undefined): string => {
     if (!date) {
@@ -37,26 +51,53 @@ const MyTimeline = ({ onClickEvent, initialDateProp, eventsOfTheDay }: MyTimelin
 
   const formattedDate = getFormattedDate(initialDateProp);
 
+  if (!events || !sellEvents || !eventsOfTheDay) {
+    return (
+      <div>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="custom-timeline">
-      <FullCalendar
-        plugins={[timeGridPlugin]}
-        initialView="timeGridDay"
-        initialDate={formattedDate} // Fecha inicial del calendario
-        slotDuration="01:00:00"
-        events={eventsOfTheDay} // Usar el arreglo mapeado
-        headerToolbar={{
-          start: '',
-          center: 'title',
-          end: '',
-        }}
-        eventClick={handleOnClickEvent}
-        allDaySlot={false}
-        locale={esLocale}
-        height={'auto'}
-      />
+    <div className={styles.content}>
+
+      {sellEvents.length > 0 && (
+        <MessageSecondaryCard
+          title={'Hay docuentos que expiran hoy.'}
+          icon={faFileExcel}
+          action={{
+            onClick: () => navigateToModalSells(),
+            color: 'blue',
+            text: 'Ver documentos',
+          }}
+        />
+      )}
+
+      <div className={styles.timelineContent}>
+        <div className="custom-timeline">
+          <FullCalendar
+            plugins={[timeGridPlugin]}
+            initialView="timeGridDay"
+            initialDate={formattedDate} // Fecha inicial del calendario
+            slotDuration="01:00:00"
+            events={events} // Usar el arreglo mapeado
+            headerToolbar={{
+              start: '',
+              center: 'title',
+              end: '',
+            }}
+            eventClick={(arg: EventClickArg): void => onClickEvent(arg.event.extendedProps as MeetingInterface)}
+            allDaySlot={false}
+            locale={esLocale}
+            height={'auto'}
+          />
+        </div>
+      </div>
+
+      {RenderEventSelects({ events, eventsOfTheDay, eventSelected })}
     </div>
   );
 };
 
-export default MyTimeline;
+export default Timeline;

@@ -31,8 +31,9 @@ export const getCalendarByMonthAndClient = async ({
 
 
 export const getCalendarTaskByDay = async (
-  Day: string
+  Day: string,
+  Id_Cliente: string | null
 ): Promise<{ tasks: TimelineInterface[] }> => {
-  const { data } = await api.get<{ tasks: TimelineInterface[] }>(`/api/calendar/day?Day=${Day}`);
+  const { data } = await api.get<{ tasks: TimelineInterface[] }>(`/api/calendar/day?Day=${Day}&Id_Cliente=${Id_Cliente}`);
   return { tasks: data.tasks };
 };
