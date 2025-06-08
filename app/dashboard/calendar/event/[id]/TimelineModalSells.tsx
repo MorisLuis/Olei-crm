@@ -15,12 +15,13 @@ interface ModalSellsInterface {
   onCloseModalSecondary: () => void;
 }
 
-export default function ModalSells({
+export default function TimelineModalSells({
   visible,
   onClose,
   sellEvents,
   onCloseModalSecondary
 }: ModalSellsInterface) : JSX.Element {
+
   const [openSecondModal, setOpenSecondModal] = useState(false);
   const { push } = useRouter();
 

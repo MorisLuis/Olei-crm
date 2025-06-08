@@ -9,9 +9,9 @@ import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
 import Timeline from './Timeline';
-import ModalSells from './TimelineModalSells';
-import TimelineEventsValidation from './timelineEventsValidation';
-import { ExecuteNavigationEventClient } from './timelineNavigation';
+import TimelineEventsValidation from './TimelineEventsValidation';
+import TimelineModalSells from './TimelineModalSells';
+import { ExecuteNavigationEventClient } from './TimelineNavigation';
 import { useGetEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
@@ -109,7 +109,7 @@ export default function EventDetails(): JSX.Element {
         clientData={clientData}
       />
 
-      <ModalSells
+      <TimelineModalSells
         visible={openModalSells}
         onClose={navigateBackFromModalSells}
         onCloseModalSecondary={navigateCloseModalSecondary}

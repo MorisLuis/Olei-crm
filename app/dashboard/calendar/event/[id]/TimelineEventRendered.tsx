@@ -10,7 +10,7 @@ interface RenderEventSelectsInterface {
   eventSelected: number;
 }
 
-export const RenderEventSelects = ({
+export const EventsRendered = ({
   eventsOfTheDay,
   events,
   eventSelected,
