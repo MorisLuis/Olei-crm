@@ -20,7 +20,6 @@ const INITIAL_MEETING: MeetingInterface = {
     Hour: '',
     HourEnd: '',
     Descripcion: '',
-    Titulo: '',
     TipoContacto: 0,
     Comentarios: '',
     Id_Bitacora: 0,
@@ -82,7 +81,7 @@ export const useFormMeeting = ({
     const [clientName, setClientName] = useState<string | null>(null)
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
     const [clientsDataRaw, setClientsDataRaw] = useState<ClientInterface[]>();
-    const availableToPost: boolean = !!meetingForm?.Titulo && !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
+    const availableToPost: boolean = !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
 
     const onChangeFormMeeting = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]): void => {
         setMeetingForm((prev) => ({ ...prev, [key]: value }));
@@ -166,7 +165,7 @@ export const useFormMeeting = ({
 
         handleMeetingCreated?.();
         showSuccess(
-            isEditing ? `Actividad ${meetingForm.Titulo} editada!` : `Actividad ${meetingForm.Titulo} creada!`
+            isEditing ? `Actividad editada!` : `Actividad creada!`
         );
     };
 
@@ -191,7 +190,7 @@ export const useFormMeeting = ({
 
         onMeetingUpdated?.();
         showSuccess(
-            isEditing ? `Actividad ${meetingForm.Titulo} editada!` : `Actividad ${meetingForm.Titulo} creada!`
+            isEditing ? `Actividad editada!` : `Actividad creada!`
         );
     };
 
@@ -199,7 +198,7 @@ export const useFormMeeting = ({
     useEffect(() => {
         if (!visible) return;
 
-        if (meetingProp?.Titulo) {
+        if (meetingProp?.TipoContacto) {
             resetMeeting(meetingProp);
         } else {
             const { hour, hourEnd } = getActualHour()

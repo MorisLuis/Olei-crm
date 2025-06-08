@@ -20,17 +20,6 @@ export const ColumnsBitacoraDetails = ({
   const { changeColor } = useTagColor();
   const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
     {
-      key: 'Titulo',
-      label: 'Titulo',
-      render: (_, item: MeetingInterface) =>
-        item.Titulo ? <span>{item.Titulo}</span> : <Tag color="gray">No tiene titulo</Tag>,
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Titulo</p>
-        </div>
-      ),
-    },
-    {
       key: 'Fecha',
       label: 'Fecha',
       renderLabel: () => (

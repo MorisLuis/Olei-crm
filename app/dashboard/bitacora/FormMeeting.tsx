@@ -8,7 +8,7 @@ import Modal from '@/components/Modals/Modal';
 import { useFormMeeting } from "@/hooks/useFormMeeting";
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
-import { optionTipoMeeting } from './formMeetingData';
+import { optionTipoMeeting } from './FormMeetingData';
 import styles from '../../../styles/Form.module.scss';
 
 interface FormMeetingInterface {
@@ -111,13 +111,7 @@ export default function FormMeeting({
           value={optionTipoMeeting.find((item) => item.value === meetingForm.TipoContacto) ?? null}
           label="Selecciona el tipo de tarea"
         />
-        <Input
-          value={meetingForm.Titulo}
-          name="Titulo"
-          placeholder="Título de la reunión"
-          onChange={(value) => onChangeFormMeeting('Titulo', value)}
-          label="Escribe un título para la tarea."
-        />
+
         <Input
           value={meetingForm.Descripcion}
           name="Descripción"
