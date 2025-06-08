@@ -66,7 +66,7 @@ export const postMeeting = async (bodyMeeting: MeetingInterface): Promise<any> =
 
     if (errors.length > 0) {
       return { error: true, message: 'Errores de validación', details: errors };
-    }
+    };
 
     // Petición a la API
     const response = await api.post('/api/meetings', bodyMeeting);

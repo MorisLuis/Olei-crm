@@ -126,7 +126,7 @@ export default function FormMeeting({
           label="Escribe una descripción de la tarea."
         />
         <InputDatePicker
-          onChange={(value) => onChangeFormMeeting('Fecha', value ?? new Date())}
+          onChange={(value) => onChangeFormMeeting('Fecha', value ?? new Date().toISOString())}
           label="¿Cuándo será tu tarea?"
           value={meetingForm.Fecha}
         />

@@ -205,7 +205,7 @@ export const useFormMeeting = ({
             const { hour, hourEnd } = getActualHour()
             setMeetingForm(prevMeeting => ({
                 ...prevMeeting,
-                Fecha: new Date(),
+                Fecha: new Date().toISOString(),
                 Hour: hour,
                 HourEnd: hourEnd,
             }));
