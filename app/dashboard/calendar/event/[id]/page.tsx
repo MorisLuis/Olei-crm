@@ -9,9 +9,9 @@ import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
 import Timeline from './Timeline';
-import TimelineEventsValidation from './TimelineEventsValidation';
+import TimelineEventsValidation from './TimelineEventsValidationTemp';
 import TimelineModalSells from './TimelineModalSells';
-import { ExecuteNavigationEventClient } from './TimelineNavigation';
+import { ExecuteNavigationEventClient } from './TimelineNavigationTemp';
 import { useGetEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
