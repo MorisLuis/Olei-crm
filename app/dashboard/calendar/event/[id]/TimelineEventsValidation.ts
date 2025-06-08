@@ -3,7 +3,7 @@ import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calenda
 
 interface TimelineEventsValidationInterface {
   eventsOfTheDay: TimelineInterface[];
-}
+};
 
 const TimelineEventsValidation = ({
   eventsOfTheDay
