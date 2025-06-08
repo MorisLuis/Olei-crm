@@ -12,7 +12,7 @@ import React, { useRef, useState, useCallback, useContext, useEffect } from 'rea
 import { SettingsContext } from '@/context/Settings/SettingsContext';
 import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/calendar';
 import { renderEventContent } from './RenderEvents';
-import { DataCalendarConverted } from './TransformedEventsData';
+import { DataCalendarConverted } from './transformedEventsData';
 
 interface MyCalendarInterface {
   onClickEvent: (info: EventClickArg) => void;

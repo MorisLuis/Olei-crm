@@ -10,7 +10,7 @@ import MeetingInterface from '@/interface/meeting';
 import { getMeetingById } from '@/services/bitacora/meeting.service';
 import MyCalendar from './Calendar';
 import FormMeeting from '../bitacora/FormMeeting';
-import { INITIAL_MEETING } from '../bitacora/FormMeetingData';
+import { INITIAL_MEETING } from '../bitacora/formMeetingData';
 import SellDetails from '../sells/general/[id]/[sellId]/SellDetails';
 
 function CalendarContent(): JSX.Element {

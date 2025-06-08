@@ -8,7 +8,7 @@ import Modal from '@/components/Modals/Modal';
 import { useFormMeeting } from "@/hooks/useFormMeeting";
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
-import { optionTipoMeeting } from './FormMeetingData';
+import { optionTipoMeeting } from './formMeetingData';
 import styles from '../../../styles/Form.module.scss';
 
 interface FormMeetingInterface {

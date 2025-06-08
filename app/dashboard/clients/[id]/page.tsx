@@ -16,7 +16,7 @@ import { briefClientData } from './BriefClientData';
 import EmailModal from './ModalEmail';
 import WhatsAppModal from './ModalWhatsApp';
 import styles from '../../../../styles/pages/Clients.module.scss';
-import { INITIAL_MEETING } from '../../bitacora/FormMeetingData';
+import { INITIAL_MEETING } from '../../bitacora/formMeetingData';
 
 export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();
