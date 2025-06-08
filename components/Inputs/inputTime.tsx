@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useClickOutside } from '@/hooks/useClickOutside';
 import useToast from '@/hooks/useToast';
 import { hourValidation } from '@/validations/FormMeetingValidation';
 
@@ -9,72 +10,107 @@ interface TimeInputInterface {
   placeholder?: string;
 }
 
-const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface) : JSX.Element => {
+const generateTimeOptions = (): string[] => {
+
+  const options: string[] = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (const minute of [0, 30]) {
+      const h = hour.toString().padStart(2, '0');
+      const m = minute.toString().padStart(2, '0');
+      options.push(`${h}:${m}`);
+    }
+  }
+  return options;
+};
+
+const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface): JSX.Element => {
 
   const [time, setTime] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { showError } = useToast();
 
+  const timeOptions = generateTimeOptions();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
-    let value = e.target.value;
+    const val = e.target.value;
+    setTime(val);
+    onChange(val);
+  };
 
-    // Eliminar cualquier carácter no permitido
-    value = value.replace(/[^0-9]/g, '');
-
-    // Insertar ':' automáticamente después del segundo dígito
-    if (value.length > 2) {
-      value = value.slice(0, 2) + ':' + value.slice(2, 4);
-    }
-
-    // Limitar a 4 caracteres (hh:mm)
-    if (value.length <= 5) {
-      setTime(value);
-    }
-
-    return onChange(value);
+  const handleOptionClick = (option: string) : void => {
+    setTime(option);
+    onChange(option);
+    setIsOpen(false);
   };
 
   const handleBlur = () : void => {
-    if (time === '') return;
-
-    // Validar formato completo hh:mm al perder el foco
+    if (!time) return;
     if (!hourValidation(time)) {
-      setTime(''); // Limpiar si no es válido
-      showError('Horario invalido');
+      setTime('');
+      showError('Horario inválido');
     }
   };
 
   useEffect(() => {
+    /**
+     * Este efecto se ejecuta cuando cambia la prop `value`.
+     * 
+     * Funcionalidad:
+     * - Formatea el valor recibido a un formato de hora `hh:mm` (máximo 5 caracteres).
+     * - Si el valor es válido (según el regex `hourValidation`), lo establece como hora.
+     * - Si tiene exactamente 5 caracteres pero no es válido, muestra un error y limpia el input.
+     * - Si tiene menos de 5 caracteres (input parcial), lo deja pasar para permitir que el usuario continúe escribiendo.
+     * 
+     * Casos comunes cubiertos:
+     * - value = "14:30"  => válido, se muestra tal cual.
+     * - value = "99:99"  => inválido, limpia y muestra error.
+     * - value = "12:"    => input parcial, se muestra sin error.
+     */
+
     if (!value) return;
     const formattedValue = value.slice(0, 5);
 
-    // Solo validar si el valor tiene 5 caracteres (formato completo hh:mm).
-    if (formattedValue.length === 5 && hourValidation(formattedValue)) {
+    if (hourValidation(formattedValue)) {
       setTime(formattedValue);
     } else if (formattedValue.length === 5) {
-      setTime(''); // Limpiar si es inválido y tiene longitud completa.
+      setTime('');
       showError('Valor inicial inválido');
     } else {
-      setTime(formattedValue); // Permitir valores parciales como "1" o "12".
+      setTime(formattedValue);
     }
   }, [value, showError]);
 
+  useClickOutside(dropdownRef, () => setIsOpen(false));
+
   return (
-    <div>
-      {label && (
-        <label htmlFor={label} className="label">
-          {label}
-        </label>
-      )}
+    <div className="inputComponent" ref={dropdownRef}>
+      {label && <label className="time-input-label">{label}</label>}
+
       <input
         type="text"
         value={time}
         onChange={handleChange}
+        onFocus={() => setIsOpen(true)}
         onBlur={handleBlur}
         placeholder={`${placeholder ?? ''} hh:mm`}
         maxLength={5}
         className="input"
-        pattern="^(?:[01]\d|2[0-3]):[0-5]\d$" // Validar hh:mm directamente
       />
+
+      {isOpen && (
+        <div className="input-dropdown">
+          {timeOptions.map((option) => (
+            <div
+              key={option}
+              onClick={() => handleOptionClick(option)}
+              className="input-dropdown-option"
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

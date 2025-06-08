@@ -1,9 +1,9 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
+import React, { useEffect, useMemo, useState } from 'react';
 import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTertiaryBitacoraDetails';
+import FormMeeting from '@/app/dashboard/bitacora/formMeeting';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useWindowSize } from '@/hooks/useWindowSize';
@@ -34,6 +34,16 @@ export default function EventDetails(): JSX.Element {
   const [refreshTimeline, setRefreshTimeline] = useState(false)
   const searchParams = useSearchParams();
   const idCliente = searchParams.get('Id_Cliente');
+  const idAlmacen = searchParams.get('Id_Almacen');
+  const clientName = searchParams.get('clientName');
+
+  const clientData = useMemo(() => {
+    return (idCliente && idAlmacen && clientName) ? {
+      Id_Cliente: Number(idCliente),
+      Id_Almacen: Number(idAlmacen),
+      name: clientName
+    } : undefined
+  }, [idCliente, idAlmacen, clientName])
 
   const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
   const decodedDate = decodeURIComponent(lastSegment!);
@@ -65,7 +75,7 @@ export default function EventDetails(): JSX.Element {
   return (
     <div className={styles.timeline}>
       <Header
-        title="Calendario"
+        title={clientName ? clientName : "Calendario"}
         actions={clientActions}
         custumBack={navigateToBack}
       />
@@ -96,6 +106,7 @@ export default function EventDetails(): JSX.Element {
         visible={openModalCreateMeeting}
         onClose={onCloseMeetingModal}
         handleMeetingCreated={onMeetingCreated}
+        clientData={clientData}
       />
 
       <ModalSells

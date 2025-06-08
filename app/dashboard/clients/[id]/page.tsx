@@ -4,7 +4,7 @@ import { EventClickArg } from '@fullcalendar/core/index.js';
 import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
-import FormMeeting, { INITIAL_MEETING } from '@/app/dashboard/bitacora/FormMeeting';
+import FormMeeting from '@/app/dashboard/bitacora/formMeeting';
 import MyCalendar from '@/app/dashboard/calendar/Calendar';
 import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails';
 import BriefCard from '@/components/Cards/BriefCard';
@@ -16,6 +16,7 @@ import { briefClientData } from './BriefClientData';
 import EmailModal from './ModalEmail';
 import WhatsAppModal from './ModalWhatsApp';
 import styles from '../../../../styles/pages/Clients.module.scss';
+import { INITIAL_MEETING } from '../../bitacora/formMeetingData';
 
 export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();
@@ -26,21 +27,22 @@ export default function ClientDetailsPage(): JSX.Element {
   const [openModalEmail, setOpenModalEmail] = useState(false);
   const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING);
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
-  const { id: Id_Cliente } = useParams();
+  const params = useParams();
   const searchParams = useSearchParams();
+  const idCliente = params.id;
   const idAlmacen = searchParams.get('Id_Almacen');
-  const titleName = clientData ? clientData?.Nombre : null;
-  const Sellid = searchParams.get('sellId');
+  const clientName = clientData ? clientData?.Nombre : null;
+  const sellId = searchParams.get('sellId');
 
   const handleGetClientData = useCallback(async () => {
-    if (!Id_Cliente || !idAlmacen) return;
-    if (typeof Id_Cliente !== 'string') return;
+    if (!idCliente || !idAlmacen) return;
+    if (typeof idCliente !== 'string') return;
     if (typeof idAlmacen !== 'string') return;
     setLoadingClientData(true);
-    const { client } = await getClientById({ Id_Cliente, Id_Almacen: idAlmacen });
+    const { client } = await getClientById({ Id_Cliente: idCliente, Id_Almacen: idAlmacen });
     setClientData(client);
     setLoadingClientData(false);
-  }, [Id_Cliente, idAlmacen]);
+  }, [idCliente, idAlmacen]);
 
   const handleCloseMeetingModal = (): void => {
     setOpenModalCreateMeeting(false);
@@ -64,7 +66,7 @@ export default function ClientDetailsPage(): JSX.Element {
   };
 
   const handleOnClickDay = (arg: DateClickArg): void => {
-    push(`/dashboard/calendar/event/${arg.date}?Id_Cliente=${Id_Cliente}`);
+    push(`/dashboard/calendar/event/${arg.date}?Id_Cliente=${idCliente}&Id_Almacen=${idAlmacen}&clientName=${clientName}`);
   };
 
   const clientActions: ActionsInterface[] = [
@@ -99,13 +101,13 @@ export default function ClientDetailsPage(): JSX.Element {
   ];
 
   useEffect(() => {
-    if (!Id_Cliente || !idAlmacen) return;
+    if (!idCliente || !idAlmacen) return;
     handleGetClientData();
-  }, [Id_Cliente, idAlmacen, handleGetClientData]);
+  }, [idCliente, idAlmacen, handleGetClientData]);
 
   return (
     <>
-      <Header title={titleName} actions={clientActions} />
+      <Header title={clientName} actions={clientActions} />
 
       <div className={styles.clientDetails}>
         <div className={styles.clientDetails__brief}>
@@ -119,7 +121,7 @@ export default function ClientDetailsPage(): JSX.Element {
           <MyCalendar
             onClickEvent={handelOnClickEvent}
             onClickDay={handleOnClickDay}
-            Id_Cliente={Number(Id_Cliente)}
+            Id_Cliente={Number(idCliente)}
             ClientVersion={true}
           />
         </div>
@@ -146,7 +148,7 @@ export default function ClientDetailsPage(): JSX.Element {
       />
 
       <Modal
-        visible={Sellid ? true : false}
+        visible={sellId ? true : false}
         title="Detalle de venta"
         onClose={() => push(`?Id_Almacen=${idAlmacen}`)}
         modalSize="medium"

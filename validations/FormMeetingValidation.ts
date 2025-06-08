@@ -29,7 +29,7 @@ const transformDate = (date: string) : string => {
   return dateString
 };
 
-
+/* Validates whether a given string is a valid 24-hour time in "HH:mm" format. */
 export const hourValidation = (hour: string): boolean => {
   const regex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
   return regex.test(hour);
