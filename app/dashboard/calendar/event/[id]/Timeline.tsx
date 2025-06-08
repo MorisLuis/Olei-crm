@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import MeetingInterface from '@/interface/meeting';
-import { RenderEventSelects } from './timelineEventSelected';
+import { RenderEventSelects } from './TimelineEventSelected';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelinePropsInterface {

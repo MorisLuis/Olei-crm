@@ -4,7 +4,7 @@ import { EventClickArg } from '@fullcalendar/core/index.js';
 import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
-import FormMeeting from '@/app/dashboard/bitacora/formMeeting';
+import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import MyCalendar from '@/app/dashboard/calendar/Calendar';
 import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails';
 import BriefCard from '@/components/Cards/BriefCard';
@@ -16,7 +16,7 @@ import { briefClientData } from './BriefClientData';
 import EmailModal from './ModalEmail';
 import WhatsAppModal from './ModalWhatsApp';
 import styles from '../../../../styles/pages/Clients.module.scss';
-import { INITIAL_MEETING } from '../../bitacora/formMeetingData';
+import { INITIAL_MEETING } from '../../bitacora/FormMeetingData';
 
 export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();

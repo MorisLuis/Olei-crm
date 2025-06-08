@@ -2,13 +2,13 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
+import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTertiaryBitacoraDetails';
-import FormMeeting from '@/app/dashboard/bitacora/formMeeting';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
-import Timeline from './timeline';
+import Timeline from './Timeline';
 import TimelineEventsValidation from './timelineEventsValidation';
 import ModalSells from './timelineModalSells';
 import { ExecuteNavigationEventClient } from './timelineNavigation';
