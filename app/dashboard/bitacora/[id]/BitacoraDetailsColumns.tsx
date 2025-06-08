@@ -5,8 +5,8 @@ import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
 import MeetingInterface from '@/interface/meeting';
 import { contactType } from '@/utils/contactType';
-import { formatDate } from '@/utils/formatDate';
-import { formatTime } from '@/utils/formatTime';
+import { formatDate } from '@/utils/format/formatDate';
+import { formatTime } from '@/utils/format/formatTime';
 import styles from '../../../../styles/pages/SellDetails.module.scss';
 
 interface columnsBitacoraDetailsInterface {
@@ -15,7 +15,7 @@ interface columnsBitacoraDetailsInterface {
 
 export const ColumnsBitacoraDetails = ({
   onOpenComments
-}: columnsBitacoraDetailsInterface) : { columns: ColumnTertiaryConfig<MeetingInterface>[] }=> {
+}: columnsBitacoraDetailsInterface): { columns: ColumnTertiaryConfig<MeetingInterface>[] } => {
 
   const { changeColor } = useTagColor();
   const columns: ColumnTertiaryConfig<MeetingInterface>[] = [

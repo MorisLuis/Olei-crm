@@ -1,5 +1,5 @@
 import { TooltipProps } from 'recharts';
-import { formatMonth } from '@/utils/formatMonth';
+import { formatMonth } from '@/utils/format/formatMonth';
 
 
 const CustomTooltipSells = ({ active, payload }: TooltipProps<number, string>) : JSX.Element | null => {

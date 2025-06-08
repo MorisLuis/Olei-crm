@@ -17,19 +17,6 @@ export const dateValidation = (date: Date | string): boolean => {
   return regex.test(dateString);
 };
 
-const transformDate = (date: string) : string => {
-  let dateString;
-  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(date)) {
-    // Si tiene formato 'YYYY-MM-DDTHH:mm:ss.sssZ', lo convertimos
-    dateString = date.split('T')[0];
-  } else {
-    dateString = date; // Mantenerlo como está si ya es 'YYYY-MM-DD'
-  }
-
-  return dateString
-};
-
-/* Validates whether a given string is a valid 24-hour time in "HH:mm" format. */
 export const hourValidation = (hour: string): boolean => {
   const regex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
   return regex.test(hour);
@@ -40,6 +27,15 @@ export const emailValidation = (email: string): boolean => {
   return regex.test(email);
 };
 
-export const isoToDate = (isoString: string | Date): Date => {
-  return new Date(isoString);
+/* UTILS */
+const transformDate = (date: string): string => {
+  let dateString;
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(date)) {
+    // Si tiene formato 'YYYY-MM-DDTHH:mm:ss.sssZ', lo convertimos
+    dateString = date.split('T')[0];
+  } else {
+    dateString = date; // Mantenerlo como está si ya es 'YYYY-MM-DD'
+  }
+
+  return dateString
 };

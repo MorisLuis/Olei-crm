@@ -8,7 +8,7 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import Header from '@/components/navigation/header';
 import { ClientInterface } from '@/interface/client';
 import { getClientById } from '@/services/clients/clients.service';
-import TableTertiaryBitacoraDetails from './TableTertiaryBitacoraDetails';
+import BitacoraDetailsTable from './BitacoraDetails';
 import styles from '../../../../styles/pages/Bitacora.module.scss';
 import { briefClientData } from '../../clients/[id]/BriefClientData';
 
@@ -47,7 +47,7 @@ export default function ClientDetailsPage(): JSX.Element {
         <div className={styles.bitacoraDetails__data}>
           <div className={styles.details}>
             <h4>Actividad</h4>
-            <TableTertiaryBitacoraDetails Id_Bitacora={Number(Id_Bitacora)} />
+            <BitacoraDetailsTable Id_Bitacora={Number(Id_Bitacora)} />
           </div>
         </div>
       </div>

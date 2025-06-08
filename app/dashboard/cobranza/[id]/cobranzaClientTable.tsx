@@ -10,7 +10,7 @@ import { useTagColor } from '@/hooks/useTagColor';
 import { SellsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
 import { docType } from '@/utils/docType';
-import { formatDate } from '@/utils/formatDate';
+import { formatDate } from '@/utils/format/formatDate';
 
 interface TableCobranzaInterface {
   sells: SellsInterface[];

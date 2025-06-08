@@ -6,7 +6,7 @@ import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails
 import ModalDouble from '@/components/Modals/ModalDouble';
 import TableSecondary, { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { TimelineInterface } from '@/interface/calendar';
-import { formatDate } from '@/utils/formatDate';
+import { formatDate } from '@/utils/format/formatDate';
 
 interface ModalSellsInterface {
   visible: boolean;

@@ -5,17 +5,18 @@ import Modal from '@/components/Modals/Modal';
 import TableTertiary from '@/components/UI/Tables/TableTertiary';
 import MeetingInterface from '@/interface/meeting';
 import { getMeetingById } from '@/services/bitacora/meeting.service';
-import { ColumnsBitacoraDetails } from './ColumnsBitacoraDetails';
-import CommentsModal from './ModalComments';
+import { ColumnsBitacoraDetails } from './BitacoraDetailsColumns';
+import CommentsModal from './CommentsModal';
 import styles from '../../../../styles/pages/SellDetails.module.scss';
 
 interface TableTertiaryBitacoraDetailsInterface {
   Id_Bitacora: number;
 }
 
-export default function TableTertiaryBitacoraDetails({
+export default function BitacoraDetailsTable({
   Id_Bitacora,
 }: TableTertiaryBitacoraDetailsInterface): JSX.Element {
+
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
   const [meetingData, setMeetingData] = useState<MeetingInterface>();
   const onOpenComments = (): void => setOpenCommentsModal(true);

@@ -6,7 +6,7 @@ import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
 import { SellsInterface } from '@/interface/sells';
 import { docType } from '@/utils/docType';
-import { formatDate } from '@/utils/formatDate';
+import { formatDate } from '@/utils/format/formatDate';
 import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 
 interface SellDetailsTableInformationInterface {

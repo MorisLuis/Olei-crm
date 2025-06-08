@@ -36,7 +36,6 @@ const getActualHour = (): { hour: string, hourEnd: string } => {
   }
 };
 
-
 const getCorrectDate = (Fecha: Date | string) : Date => {
       // Crear la fecha a partir del string ISO
       const utcDate = new Date(Fecha);

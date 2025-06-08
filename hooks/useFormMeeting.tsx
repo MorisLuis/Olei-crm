@@ -8,7 +8,7 @@ import { ClientInterface } from "@/interface/client";
 import MeetingInterface from "@/interface/meeting";
 import { postMeeting, updateMeeting } from "@/services/bitacora/meeting.service";
 import { getClientById, searchClients } from "@/services/clients/clients.service";
-import { getActualHour, getCorrectDate } from "@/utils/formatTime";
+import { getActualHour, getCorrectDate } from "@/utils/format/formatTime";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useToast from "./useToast";

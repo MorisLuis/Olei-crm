@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
-import TableTertiaryBitacoraDetails from '@/app/dashboard/bitacora/[id]/TableTertiaryBitacoraDetails';
+import BitacoraDetailsTable from '@/app/dashboard/bitacora/[id]/BitacoraDetails';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { useWindowSize } from '@/hooks/useWindowSize';
@@ -98,7 +98,7 @@ export default function EventDetails(): JSX.Element {
       >
         <div className={styles.brief}>
           <h4>Actividad</h4>
-          <TableTertiaryBitacoraDetails Id_Bitacora={eventSelected} />
+          <BitacoraDetailsTable Id_Bitacora={eventSelected} />
         </div>
       </Modal>
 

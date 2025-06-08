@@ -10,8 +10,8 @@ import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
 import MeetingInterface from '@/interface/meeting';
 import { contactType } from '@/utils/contactType';
-import { formatDate } from '@/utils/formatDate';
-import { formatTime } from '@/utils/formatTime';
+import { formatDate } from '@/utils/format/formatDate';
+import { formatTime } from '@/utils/format/formatTime';
 
 interface TableBitacoraInterface {
   meetings: MeetingInterface[];

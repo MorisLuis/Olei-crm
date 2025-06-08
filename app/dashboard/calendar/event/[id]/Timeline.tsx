@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import MeetingInterface from '@/interface/meeting';
+import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
 import { EventsRendered } from './TimelineEventRendered';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
@@ -29,27 +30,6 @@ const Timeline = ({
   eventSelected,
   navigateToModalSells
 }: TimelinePropsInterface): JSX.Element => {
-
-  const getFormattedDate = (date: string | Date | undefined): string => {
-    if (!date) {
-      return new Date().toISOString().split('T')[0]; // Formato "YYYY-MM-DD"
-    }
-
-    let dateObj: Date;
-    if (typeof date === 'string') {
-      dateObj = new Date(date);
-      if (isNaN(dateObj.getTime())) {
-        console.warn("Fecha inválida detectada en 'initialDateProp', usando la fecha actual.");
-        return new Date().toISOString().split('T')[0]; // Formato "YYYY-MM-DD"
-      }
-    } else {
-      dateObj = date;
-    }
-
-    return dateObj.toISOString().split('T')[0]; // Formato "YYYY-MM-DD"
-  };
-
-  const formattedDate = getFormattedDate(initialDateProp);
 
   if (!events || !sellEvents || !eventsOfTheDay) {
     return (
@@ -79,7 +59,7 @@ const Timeline = ({
           <FullCalendar
             plugins={[timeGridPlugin]}
             initialView="timeGridDay"
-            initialDate={formattedDate} // Fecha inicial del calendario
+            initialDate={formatDateIsoOrNow(initialDateProp)} // Fecha inicial del calendario
             slotDuration="01:00:00"
             events={events} // Usar el arreglo mapeado
             headerToolbar={{

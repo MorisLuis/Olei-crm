@@ -2,7 +2,7 @@ import { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
 import { SellsProductsInterface } from '@/interface/sells';
 import { format } from '@/utils/currency';
-import { formatDate } from '@/utils/formatDate';
+import { formatDate } from '@/utils/format/formatDate';
 
 export const columnsSells: ColumnConfig<SellsProductsInterface>[] = [
   {
