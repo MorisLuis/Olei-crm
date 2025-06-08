@@ -30,8 +30,8 @@ export const CobranzaConditionObject: ReadonlyArray<{
 
 
 
-export type CobranzaByClientOrderConditionByClientType = 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
-export const CobranzaByClientCondition = ['TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
+export type CobranzaByClientOrderConditionByClientType = 'TipoDoc' | 'Folio' | 'Fecha' | 'ExpiredDays';
+export const CobranzaByClientCondition = ['TipoDoc', 'Folio', 'Fecha', 'ExpiredDays'] as const;
 
 
 export const CobranzaByClientConditionObject: ReadonlyArray<{
@@ -46,14 +46,6 @@ export const CobranzaByClientConditionObject: ReadonlyArray<{
         value: 'Folio',
         label: 'Folio',
     },
-/*     {
-        value: 'Fecha',
-        label: 'Fecha',
-    },
-    {
-        value: 'FechaEntrega',
-        label: 'Fecha de Entrega',
-    }, */
     {
         value: 'ExpiredDays',
         label: 'Días expirados',

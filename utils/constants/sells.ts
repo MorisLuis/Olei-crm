@@ -52,16 +52,12 @@ const SellsByClientConditionObject: ReadonlyArray<{
         label: 'Fecha'
     },
     {
-        value: 'FechaEntrega',
-        label: 'Fecha de entrega'
-    },
-    {
         value: 'ExpiredDays',
         label: 'Dias expirados'
     }
 ] as const;
 
-const SellsOrderByClientCondition = [ 'TipoDoc', 'Folio', 'Fecha', 'FechaEntrega', 'ExpiredDays'] as const;
+const SellsOrderByClientCondition = [ 'TipoDoc', 'Folio', 'Fecha', 'ExpiredDays'] as const;
 
 
 export {

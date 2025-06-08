@@ -17,6 +17,7 @@ function SellsContent(): JSX.Element {
   const {  refetch, error, loadMore, isLoading, items, sellsTotal, sellsCount } = useSells(filters);
 
   if (error) return <Custum500 handleRetry={refetch} />;
+
   return (
     <>
       <HeaderStats items={sellsStats(sellsTotal)} isLoading={isLoading} />

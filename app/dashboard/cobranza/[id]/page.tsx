@@ -76,7 +76,7 @@ export default function CobranzaByClient(): JSX.Element {
         totalSells={cobranzaCount ?? 0}
         loadMoreProducts={loadMore}
         handleSelectItem={handleSelectItem}
-        buttonIsLoading={isLoading}
+        isLoading={isLoading}
         loadingData={items.length === 0 && isLoading}
       />
 

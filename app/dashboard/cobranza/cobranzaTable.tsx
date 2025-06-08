@@ -11,7 +11,7 @@ import { format } from '@/utils/currency';
 interface TableCobranzaInterface {
   sells: CobranzaInterface[];
   totalSells: number;
-  buttonIsLoading: boolean;
+  isLoading: boolean;
   loadingData: boolean;
   loadMoreProducts: () => void;
   handleSelectItem: (item: CobranzaInterface) => void;
@@ -20,14 +20,14 @@ interface TableCobranzaInterface {
 export default function TableCobranza({
   sells,
   totalSells,
-  buttonIsLoading,
+  isLoading,
   loadingData,
   loadMoreProducts,
   handleSelectItem,
 }: TableCobranzaInterface): JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells;
-  const noCoincidenceItems = sells.length === 0 && !loadingData
+  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
+  const noCoincidenceItems = sells.length === 0 && !loadingData 
 
   const columns: ColumnConfig<CobranzaInterface>[] = [
     {
@@ -66,7 +66,7 @@ export default function TableCobranza({
       columns={columns}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={buttonIsLoading}
+      loadingMoreData={isLoading}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
     />

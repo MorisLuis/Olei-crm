@@ -43,7 +43,7 @@ interface SellsByClientFilters {
 
 type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
 type SellsOrderConditionType = 'Nombre' | 'Total';
-type SellsOrderByClientConditionType = | 'TipoDoc' | 'Folio' | 'Fecha' | 'FechaEntrega' | 'ExpiredDays';
+type SellsOrderByClientConditionType = | 'TipoDoc' | 'Folio' | 'Fecha' | 'ExpiredDays';
 type SellsFilterConditionByClientType = 'TipoDoc' | 'Expired' | 'Not Expired';
 
 
