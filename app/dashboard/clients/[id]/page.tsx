@@ -1,11 +1,10 @@
 'use client';
 
-import { EventClickArg } from '@fullcalendar/core/index.js';
 import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
-import MyCalendar from '@/app/dashboard/calendar/Calendar';
+import CalendarComponent from '@/app/dashboard/calendar/Calendar';
 import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails';
 import BriefCard from '@/components/Cards/BriefCard';
 import Modal from '@/components/Modals/Modal';
@@ -49,21 +48,6 @@ export default function ClientDetailsPage(): JSX.Element {
     setEventToOpen(INITIAL_MEETING);
   };
 
-  const handelOnClickEvent = (info: EventClickArg): void => {
-    const dataEvent = info.event.extendedProps;
-
-    if (dataEvent.TableType === 'Bitacora') {
-      // Get meeting from API
-      setOpenModalCreateMeeting(true);
-      return;
-    }
-
-    if (dataEvent.TableType === 'Ventas') {
-      // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-      push(`?Id_Almacen=${idAlmacen}&sellId=${dataEvent.Id}`);
-      return;
-    }
-  };
 
   const handleOnClickDay = (arg: DateClickArg): void => {
     push(`/dashboard/calendar/event/${arg.date}?Id_Cliente=${idCliente}&Id_Almacen=${idAlmacen}&clientName=${clientName}`);
@@ -118,11 +102,10 @@ export default function ClientDetailsPage(): JSX.Element {
           />
         </div>
         <div className={styles.clientDetails__calendar}>
-          <MyCalendar
-            onClickEvent={handelOnClickEvent}
+          <CalendarComponent
             onClickDay={handleOnClickDay}
             Id_Cliente={Number(idCliente)}
-            ClientVersion={true}
+            clientVersion={true}
           />
         </div>
       </div>
@@ -158,3 +141,21 @@ export default function ClientDetailsPage(): JSX.Element {
     </>
   );
 }
+
+/* 
+  const handelOnClickEvent = (info: EventClickArg): void => {
+    const dataEvent = info.event.extendedProps;
+
+    if (dataEvent.TableType === 'Bitacora') {
+      // Get meeting from API
+      setOpenModalCreateMeeting(true);
+      return;
+    }
+
+    if (dataEvent.TableType === 'Ventas') {
+      // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
+      push(`?Id_Almacen=${idAlmacen}&sellId=${dataEvent.Id}`);
+      return;
+    }
+  };
+*/

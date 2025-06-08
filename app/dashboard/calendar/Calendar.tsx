@@ -1,6 +1,5 @@
 import {
   DatesSetArg,
-  EventClickArg,
   EventInput,
   EventSourceInput,
 } from '@fullcalendar/core/index.js';
@@ -14,90 +13,67 @@ import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/cale
 import { renderEventContent } from './RenderEvents';
 import { DataCalendarConverted } from './temp';
 
-interface MyCalendarInterface {
-  onClickEvent: (info: EventClickArg) => void;
+interface CalendarComponentInterface {
   onClickDay: (arg: DateClickArg) => void;
-
-  ClientVersion?: boolean;
   Id_Cliente?: number;
+
+  clientVersion?: boolean;
   refreshCalendar?: boolean;
 }
 
-const MyCalendar = ({
-  onClickEvent,
+const CalendarComponent = ({
   onClickDay,
-  ClientVersion,
   Id_Cliente,
+  clientVersion,
   refreshCalendar
-}: MyCalendarInterface): JSX.Element => {
+}: CalendarComponentInterface): JSX.Element => {
 
   const processedDaysRef = useRef<{ [key: string]: boolean }>({});
   const [events, setEvents] = useState<EventSourceInput>([]);
   const { firtRenderCalendar, handleRenderCalendar } = useContext(SettingsContext);
 
-  const handleEventClick = (info: EventClickArg): void => {
-    const countEvents = info.event.extendedProps.eventCount;
+  const fetchCalendarEvents = useCallback(async (month: number, year: number) => {
 
-    if (countEvents >= 3) {
-      const dateClickArg: DateClickArg = {
-        date: info.event.start as Date,
-        dateStr: info.event.startStr,
-        allDay: false,
-        dayEl: info.el,
-        jsEvent: {} as MouseEvent,
-        view: info.view,
-      };
-      return onClickDay(dateClickArg);
+    if (firtRenderCalendar) {
+      handleRenderCalendar(false);
+      return;
     }
 
-    onClickEvent(info);
-  };
+    let dataCalendar;
+    if (clientVersion && Id_Cliente) {
+      dataCalendar = await getCalendarByMonthAndClient({ Anio: year, Mes: month, Id_Cliente });
+    } else {
+      dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
+    }
 
-  const handleGetCalendarByMonth = useCallback(
-    async (month: number, year: number) => {
-      if (firtRenderCalendar) {
-        handleRenderCalendar(false);
-        return;
-      }
+    const convertedData = DataCalendarConverted(dataCalendar.tasks);
+    setEvents(convertedData);
+  }, [firtRenderCalendar, handleRenderCalendar, clientVersion, Id_Cliente]);
 
-      let dataCalendar;
-      if (ClientVersion && Id_Cliente) {
-        dataCalendar = await getCalendarByMonthAndClient({ Anio: year, Mes: month, Id_Cliente });
-      } else {
-        dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
-      }
+  const onCalendarViewChange = useCallback((arg: DatesSetArg) => {
 
-      const convertedData = DataCalendarConverted(dataCalendar.tasks);
-      setEvents(convertedData);
-    }, [firtRenderCalendar, handleRenderCalendar, ClientVersion, Id_Cliente]
-  );
+    processedDaysRef.current = {};
+    // Usamos view.activeStart para obtener el primer día visible del mes
+    const activeStartDate = arg.view.activeStart;
 
-  const handleViewChange = useCallback(
-    (arg: DatesSetArg) => {
-      processedDaysRef.current = {};
-      // Usamos view.activeStart para obtener el primer día visible del mes
-      const activeStartDate = arg.view.activeStart;
+    // Sumar 7 días a la fecha para obtener una fecha dentro del mes visible.
+    const correctedStartDate = new Date(activeStartDate);
+    correctedStartDate.setDate(correctedStartDate.getDate() + 7);
 
-      // Sumar 7 días a la fecha para obtener una fecha dentro del mes visible.
-      const correctedStartDate = new Date(activeStartDate);
-      correctedStartDate.setDate(correctedStartDate.getDate() + 7);
+    const month = correctedStartDate.getMonth();
+    const year = correctedStartDate.getFullYear();
+    setEvents([]);
 
-      const month = correctedStartDate.getMonth();
-      const year = correctedStartDate.getFullYear();
-      setEvents([]);
-
-      handleGetCalendarByMonth(month + 1, year);
-    },
-    [handleGetCalendarByMonth]
-  );
+    fetchCalendarEvents(month + 1, year);
+  }, [fetchCalendarEvents]);
 
   useEffect(() => {
     const currentDate = new Date(); // Obtiene la fecha actual
     const currentMonth = currentDate.getMonth() + 1; // getMonth() devuelve 0-11, por eso sumamos 1
     const currentYear = currentDate.getFullYear(); // Obtiene el año actual
 
-    handleGetCalendarByMonth(currentMonth, currentYear);
-  }, [handleGetCalendarByMonth, refreshCalendar]);
+    fetchCalendarEvents(currentMonth, currentYear);
+  }, [fetchCalendarEvents, refreshCalendar]);
 
   useEffect(() => {
     return (): void => {
@@ -121,13 +97,34 @@ const MyCalendar = ({
       selectable={true}
       events={events}
       dateClick={onClickDay}
-      eventClick={handleEventClick}
+      //eventClick={onClickDay}
       height="auto"
       locale={esLocale}
       eventContent={(eventInfo) => renderEventContent({ eventInfo, processedDaysRef })}
-      datesSet={handleViewChange}
+      datesSet={onCalendarViewChange}
     />
   );
 };
 
-export default MyCalendar;
+export default CalendarComponent;
+
+
+/* 
+  const handleEventClick = (info: EventClickArg): void => {
+    const countEvents = info.event.extendedProps.eventCount;
+
+    if (countEvents >= 3) {
+      const dateClickArg: DateClickArg = {
+        date: info.event.start as Date,
+        dateStr: info.event.startStr,
+        allDay: false,
+        dayEl: info.el,
+        jsEvent: {} as MouseEvent,
+        view: info.view,
+      };
+      return onClickDay(dateClickArg);
+    }
+
+    onClickEvent(info);
+  };
+*/

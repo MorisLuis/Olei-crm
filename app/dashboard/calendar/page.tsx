@@ -1,14 +1,12 @@
 'use client';
 
-import { EventClickArg } from '@fullcalendar/core/index.js';
 import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState } from 'react';
 import Modal from '@/components/Modals/Modal';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import MeetingInterface from '@/interface/meeting';
-import { getMeetingById } from '@/services/bitacora/meeting.service';
-import MyCalendar from './Calendar';
+import CalendarComponent from './Calendar';
 import FormMeeting from '../bitacora/FormMeeting';
 import { INITIAL_MEETING } from '../bitacora/formMeetingData';
 import SellDetails from '../sells/general/[id]/[sellId]/SellDetails';
@@ -20,26 +18,6 @@ function CalendarContent(): JSX.Element {
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
   const [refreshCalendar, setRefreshCalendar] = useState(false)
-
-  const handelOnClickEvent = async (info: EventClickArg): Promise<void | null> => {
-    const dataEvent = info.event.extendedProps;
-
-    if (dataEvent.TableType === 'Bitacora') {
-      // Get meeting from API
-      const { meeting } = await getMeetingById(dataEvent.Id);
-      if (!meeting) return null;
-      setEventToOpen(meeting);
-      setOpenModalCreateMeeting(true);
-      return null;
-    }
-
-    if (dataEvent.TableType === 'Ventas') {
-      // Get sell and folio from API.
-      // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-      push(`calendar/?sellId=${dataEvent.Id}&Id_Cliente=${dataEvent.Id_Cliente}`);
-      return null;
-    }
-  };
 
   const handleOnClickDay = (arg: DateClickArg): void => {
     push(`calendar/event/${arg.date}`);
@@ -59,7 +37,7 @@ function CalendarContent(): JSX.Element {
     },
   ];
 
-  const handleMeetingUpdated = () : void => {
+  const handleMeetingUpdated = (): void => {
     setRefreshCalendar(prev => !prev);
   };
 
@@ -67,8 +45,7 @@ function CalendarContent(): JSX.Element {
     <>
       <Header title="Calendario" actions={clientActions} dontShowBack />
 
-      <MyCalendar
-        onClickEvent={handelOnClickEvent}
+      <CalendarComponent
         onClickDay={handleOnClickDay}
         refreshCalendar={refreshCalendar}
       />
@@ -77,7 +54,7 @@ function CalendarContent(): JSX.Element {
         visible={openModalCreateMeeting}
         onClose={handleCloseMeetingModal}
         meetingProp={eventToOpen}
-        onMeetingUpdated={handleMeetingUpdated} 
+        onMeetingUpdated={handleMeetingUpdated}
         isEditing
         clientData={{
           name: 'luis',
@@ -106,3 +83,25 @@ export default function Calendar(): JSX.Element {
   );
 }
 
+
+/* 
+  const handelOnClickEvent = async (info: EventClickArg): Promise<void | null> => {
+    const dataEvent = info.event.extendedProps;
+
+    if (dataEvent.TableType === 'Bitacora') {
+      // Get meeting from API
+      const { meeting } = await getMeetingById(dataEvent.Id);
+      if (!meeting) return null;
+      setEventToOpen(meeting);
+      setOpenModalCreateMeeting(true);
+      return null;
+    }
+
+    if (dataEvent.TableType === 'Ventas') {
+      // Get sell and folio from API.
+      // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
+      push(`calendar/?sellId=${dataEvent.Id}&Id_Cliente=${dataEvent.Id_Cliente}`);
+      return null;
+    }
+  };
+*/
