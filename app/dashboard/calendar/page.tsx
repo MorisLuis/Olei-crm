@@ -8,7 +8,7 @@ import Header, { ActionsInterface } from '@/components/navigation/header';
 import MeetingInterface from '@/interface/meeting';
 import CalendarComponent from './Calendar';
 import FormMeeting from '../bitacora/FormMeeting';
-import { INITIAL_MEETING } from '../bitacora/FormMeetingData';
+import { INITIAL_MEETING } from '../bitacora/FormMeetingDataTemp';
 import SellDetails from '../sells/general/[id]/[sellId]/SellDetails';
 
 function CalendarContent(): JSX.Element {
