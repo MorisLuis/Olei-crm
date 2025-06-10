@@ -21,7 +21,7 @@ export const DataCalendarConverted = (calendarData:  CalendarInterface[]) : Even
     (event: Partial<CalendarInterface>) => {
       // Verificar si Fecha está definida y normalizarla a un objeto Date
       if (!event.Fecha) {
-        throw new Error('La propiedad Fecha no está definida en el evento.');
+        throw new Error('La propiedad Fecha no está definida en la actividad.');
       }
 
       const fechaNormalizada = event.Fecha instanceof Date ? event.Fecha : new Date(event.Fecha);

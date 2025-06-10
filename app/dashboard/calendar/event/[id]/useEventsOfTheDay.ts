@@ -2,9 +2,21 @@ import { useCallback, useEffect, useState } from 'react';
 import { TimelineInterface } from '@/interface/calendar';
 import { getCalendarTaskByDay } from '@/services/calendar';
 
-export const useGetEventsOfTheDay = (decodedDate: string, idCliente: string | null, refreshTimeline?: boolean ): TimelineInterface[] | null => {
+
+interface useGetEventsOfTheDayResponse {
+  eventsOfTheDay: TimelineInterface[] | null;
+  isLoading: boolean;
+}
+
+export const useGetEventsOfTheDay = (
+  decodedDate: string,
+  idCliente: string | null,
+  refreshTimeline?: boolean
+): useGetEventsOfTheDayResponse => {
 
   const [eventsOfTheDay, setEventsOfTheDay] = useState<TimelineInterface[] | null>(null);
+
+  const isLoading = eventsOfTheDay === null;
 
   const fetchEvents = useCallback(async (): Promise<void> => {
     const date = new Date(decodedDate);
@@ -17,5 +29,8 @@ export const useGetEventsOfTheDay = (decodedDate: string, idCliente: string | nu
     fetchEvents();
   }, [decodedDate, fetchEvents, refreshTimeline]);
 
-  return eventsOfTheDay;
+  return {
+    eventsOfTheDay,
+    isLoading
+  };
 };

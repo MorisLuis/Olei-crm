@@ -3,41 +3,59 @@ import { EventClickArg } from '@fullcalendar/core/index.js';
 import esLocale from '@fullcalendar/core/locales/es';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { useEffect, useState } from 'react';
+import BitacoraDetailsTable from '@/app/dashboard/bitacora/[id]/BitacoraDetails';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
-import { EventSelected } from './TimelineEventRendered';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelinePropsInterface {
-  onClickEvent: (Id_Bitacora: number) => void;
-  initialDateProp?: string | Date;
 
-  events: TimelineMeetingInterface[];
+  events: TimelineMeetingInterface[] | null;
   sellEvents: TimelineInterface[];
-  eventSelected: number;
   navigateToModalSells: () => void;
+  initialDateProp?: string | Date;
+  refreshTimeline: boolean;
+  isLoadingEvents: boolean
 
-  isLoadingEventSelected: boolean;
 }
 
 const Timeline = ({
-  onClickEvent,
   initialDateProp,
   events,
   sellEvents,
-  eventSelected,
   navigateToModalSells,
-  isLoadingEventSelected
+  refreshTimeline,
+  isLoadingEvents
 }: TimelinePropsInterface): JSX.Element => {
+
+  const [eventSelected, setEventSelected] = useState<number>(0);
+  const [isSelectingEvent, setIsSelectingEvent] = useState(true)
+
+  const onSelectEventFromTimeline = (Id_Bitacora: number): void => {
+    setEventSelected(Id_Bitacora);
+    setIsSelectingEvent(false)
+  };
+
+  useEffect(() => {
+    if (!isLoadingEvents) {
+      if(events && events.length > 0) {
+        onSelectEventFromTimeline(Number(events[0].id));
+      } else {
+        onSelectEventFromTimeline(0)
+      }
+    }
+  }, [events, refreshTimeline, isLoadingEvents]);
 
   if (!events || !sellEvents) {
     return (
       <div>
-        <p>Cargando...</p>
+        <p>Cargando timeline...</p>
       </div>
     );
   }
+
 
   return (
     <div className={styles.content}>
@@ -59,7 +77,7 @@ const Timeline = ({
           )}
         </div>
 
-        {/* TIMELINES */}
+        {/* TIMELINE */}
         <div className="custom-timeline">
           <FullCalendar
             plugins={[timeGridPlugin]}
@@ -72,7 +90,7 @@ const Timeline = ({
               center: 'title',
               end: '',
             }}
-            eventClick={(arg: EventClickArg): void => onClickEvent(arg.event.extendedProps?.Id_Bitacora as number)}
+            eventClick={(arg: EventClickArg): void => onSelectEventFromTimeline(arg.event.extendedProps?.Id_Bitacora as number)}
             allDaySlot={false}
             locale={esLocale}
             height={'auto'}
@@ -81,12 +99,16 @@ const Timeline = ({
       </div>
 
       {/* EVENT SELECTED */}
-      <EventSelected
-        events={events}
-        eventSelected={eventSelected}
-        isLoading={isLoadingEventSelected}
-      />
-
+      <div className={styles.brief}>
+        <p className={styles.brief__instruction}>
+          Selecciona la actividad para ver el detalle.
+        </p>
+        <h4>Actividad</h4>
+        <BitacoraDetailsTable
+          Id_Bitacora={eventSelected}
+          isLoading={isSelectingEvent || isLoadingEvents}
+        />
+      </div>
     </div>
   );
 };

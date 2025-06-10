@@ -106,7 +106,7 @@ export default function FormMeeting({
           name="Tipo de contacto"
           onSelect={onSelectDocType}
           value={optionTipoMeeting.find((item) => item.value === meetingForm.TipoContacto) ?? null}
-          label="Selecciona el tipo de tarea"
+          label="Selecciona el tipo de actividad"
         />
 
         <Input
@@ -114,17 +114,17 @@ export default function FormMeeting({
           name="Descripción"
           placeholder="Descripción de la reunión"
           onChange={(value) => onChangeFormMeeting('Descripcion', value)}
-          label="Escribe una descripción de la tarea."
+          label="Escribe una descripción de la actividad."
         />
         <InputDatePicker
           onChange={(value) => onChangeFormMeeting('Fecha', value ?? new Date().toISOString())}
-          label="¿Cuándo será tu tarea?"
+          label="¿Cuándo será tu actividad?"
           value={meetingForm.Fecha}
         />
         <div className={styles.hours}>
           <TimeInput
             onChange={(value) => onChangeFormMeeting('Hour', value)}
-            label="¿A qué hora será tu tarea?"
+            label="¿A qué hora será tu actividad?"
             value={meetingForm.Hour || ''}
             placeholder="Inicio"
           />

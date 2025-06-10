@@ -50,7 +50,7 @@ export default function CommentsModal({
     <div className={styles.SellActions}>
       <div className={styles.send_message}>
         <div className={styles.send_header}>
-          <p>Escribe comentario de la tarea actual.</p>
+          <p>Escribe comentario de la actividad actual.</p>
         </div>
         <div className={styles.send_input}>
           <InputTextBox

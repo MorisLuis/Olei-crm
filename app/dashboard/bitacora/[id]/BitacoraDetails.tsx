@@ -14,56 +14,58 @@ import styles from '../../../../styles/pages/SellDetails.module.scss';
 interface TableTertiaryBitacoraDetailsInterface {
   Id_Bitacora: number;
   isLoading: boolean;
-  
 }
 
 export default function BitacoraDetailsTable({
   Id_Bitacora,
   isLoading
 }: TableTertiaryBitacoraDetailsInterface): JSX.Element {
-
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
   const [meetingData, setMeetingData] = useState<MeetingInterface>();
+  const [isLoadingMeetingData, setIsLoadingMeetingData] = useState(true)
+
   const onOpenComments = (): void => setOpenCommentsModal(true);
   const { columns } = ColumnsBitacoraDetails({ onOpenComments });
 
-  const handleGetMeeting = useCallback(async () => {
-    if (!Id_Bitacora) return;
-    const { meeting } = await getMeetingById(Id_Bitacora.toString());
-    setMeetingData(meeting);
-  }, [Id_Bitacora]);
+  const fetchMeeting = useCallback(async () : Promise<void> => {
+    if(isLoading) return;
+
+    if(Id_Bitacora) {
+      const { meeting } = await getMeetingById(Id_Bitacora.toString());
+      setMeetingData(meeting);
+    } else {
+      setMeetingData(undefined)
+    }
+
+    setIsLoadingMeetingData(false);
+  }, [isLoading, Id_Bitacora]);
 
   useEffect(() => {
-    handleGetMeeting();
-  }, [Id_Bitacora, handleGetMeeting]);
+    fetchMeeting();
+  }, [fetchMeeting, Id_Bitacora, isLoading]);
 
-  if(isLoading) {
-    return <div>
-      <p>Cargando...</p>
-    </div>
+  if (isLoading || isLoadingMeetingData) {
+    return (
+      <div>
+        <p>Cargando...</p>
+      </div>
+    );
   }
 
   if (!meetingData) {
     return (
-      <MessageCard
-        title="Selecciona evento"
-        icon={faCalendarXmark}
-      >
-        <p>
-          No tienes evento seleccionado
-        </p>
-    </MessageCard>
-    )
+      <MessageCard title="Selecciona actividad" icon={faCalendarXmark}>
+        <p>No tienes actividad seleccionado</p>
+      </MessageCard>
+    );
   }
 
   return (
     <>
       <div className={styles.sellDetails}>
-        <TableTertiary
-          columns={columns}
-          data={meetingData}
-        />
+        <TableTertiary columns={columns} data={meetingData} />
       </div>
+
       <Modal
         title="Comentarios"
         visible={openCommentsModal}
