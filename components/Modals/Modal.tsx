@@ -1,7 +1,8 @@
 import { faExpand, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { CSSProperties, useState } from 'react';
-import styles from '../../styles/Modal.module.scss';
+import styles from '../../styles/Components/Modals/Modal.module.scss';
+import stylesBackground from '../../styles/Components/Modals/ModalBackground.module.scss';
 import ButtonSmall from '../Buttons/ButtonSmall';
 import AnimatedHeightWrapper from '../UI/AnimatedHeightWrapper';
 
@@ -84,7 +85,7 @@ const Modal = ({
 
   const renderFooter = (): JSX.Element | null =>
     actionsBottom ? (
-      <div className={styles.footer}>
+      <div className={styles.Modal__footer}>
         <ButtonSmall
           text={actionsBottom.action1.label}
           onClick={actionsBottom.action1.action}
@@ -104,17 +105,19 @@ const Modal = ({
   return visible ? (
     <>
       {!modalBlack ? (
-        <div className={styles.modalBackground} onClick={handleClose}></div>
+        <div className={stylesBackground.modalBackground} onClick={handleClose}></div>
       ) : (
-        <div className={styles.modalBackgroundSecondary} onClick={handleClose}></div>
+        <div className={stylesBackground.modalBackgroundSecondary} onClick={handleClose}></div>
       )}
 
       <div
         className={`${styles.Modal} ${styles[modalSize]} ${isClosing ? styles.closing : ''}`}
         style={extraStyles}
       >
-        <div className={styles.container}>
-          <div className={styles.header}>
+  
+        <div className={styles.Modal__content}>
+
+          <div className={styles.Modal__header}>
             <div className={styles.left}>
               {title && <h3>{title}</h3>}
               {actionsVisible && renderActions()}
@@ -126,11 +129,12 @@ const Modal = ({
           </div>
 
           <AnimatedHeightWrapper isActive={visible} finalHeight={finalHeight}>
-            <div className={styles.content}>{children}</div>
+            <div className={styles.childrenWrapper}>{children}</div>
           </AnimatedHeightWrapper>
 
-          {renderFooter()}
         </div>
+    
+        {renderFooter()}
       </div>
     </>
   ) : null;

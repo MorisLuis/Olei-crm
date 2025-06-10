@@ -1,0 +1,181 @@
+@use "sass:math";
+@use "../../main.scss";
+@use "../../Abstracts/mixins";
+@use "../../Abstracts/variables";
+
+.Modal {
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 80vh;
+    width: 80%;
+    background-color: variables.$background-color-secondary;
+    border-radius: variables.$border-radius;
+    border: 1px solid variables.$color-border;
+    box-shadow: variables.$box-shadow-modal;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+
+    @include mixins.respond(tab-port) {
+        height: 100%;
+    }
+
+    @include mixins.respond(phone) {
+        width: 100%;
+        left: 0px;
+        bottom: 0px;
+        top: 0px;
+        animation: modal-open-mobile 0.2s ease-in-out forwards;
+        border-radius: variables.$border-radius variables.$border-radius 0 0;
+        max-height: 100vh;
+
+        &.closing {
+            animation: modal-close-mobile 0.2s ease-in-out forwards;
+        }
+    }
+
+
+    &__content {
+        position: relative;
+        height: 100%;
+    }
+
+    &__header {
+        background-color: variables.$background-color;
+        padding: variables.$padding;
+        border-bottom: 1px solid variables.$color-border;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+        max-height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: variables.$border-radius;
+
+        @include mixins.respond(phone) {
+            margin-bottom: variables.$margin-vertical;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$gap;
+
+            .topactions {
+                display: flex;
+                flex-direction: row;
+                gap: variables.$gap;
+            }
+
+            h3 {
+                margin-right: variables.$margin-horizontal;
+                font-size: variables.$font-normal;
+            }
+        }
+
+        .close {
+            width: fit-content;
+            padding: calc(variables.$padding / 2);
+            border-radius: variables.$border-radius;
+            height: fit-content;
+            cursor: pointer;
+            border: 1px solid transparent;
+
+            display: flex;
+            justify-content: center;
+
+            &:hover {
+                background-color: variables.$background-color-secondary;
+                border: 1px solid variables.$color-border;
+            }
+        }
+    }
+
+    .childrenWrapper {
+        padding: variables.$padding;
+        overflow-y: scroll;
+
+        /* Ocultar el scrollbar */
+        /* Firefox */
+        scrollbar-width: none;
+        /* IE y Edge */
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            /* Chrome, Safari y Opera */
+            display: none;
+        }
+
+        @include mixins.respond(phone) {
+            padding: 0px variables.$padding;
+        }
+    }
+
+    &__footer {
+        padding: variables.$padding;
+        border-top: 1px solid variables.$color-border;
+        display: flex;
+        justify-content: space-between;
+        height: 10%;
+        position: sticky;
+        width: 100%;
+        bottom: 0px;
+        background-color: variables.$background-color;
+    }
+
+    &.small {
+        width: 30%;
+
+        @include mixins.respond(phone) {
+            width: 100%;
+            height: 100%;
+            left: 0%;
+            top: 0%;
+            animation: modal-open-mobile 0.3s ease-in-out forwards;
+        }
+
+        .childrenWrapper {
+            @include mixins.respond(phone) {
+                height: 80%;
+            }
+        }
+
+        .footer {
+            height: 25%;
+
+            @include mixins.respond(phone) {
+                height: 20%;
+            }
+        }
+    }
+
+    &.medium {
+        width: 40%;
+
+        @include mixins.respond(tab-land) {
+            width: 60%;
+        }
+
+        @include mixins.respond(tab-port) {
+            width: 80%;
+        }
+
+        @include mixins.respond(phone) {
+            width: 100%;
+            height: 100%;
+            max-height: 100vh;
+            left: 0%;
+            top: 0%;
+            transform: translate(-50%, -50%) scale(0.8);
+            animation: modal-open-mobile 0.3s ease-in-out forwards;
+        }
+
+    }
+
+}

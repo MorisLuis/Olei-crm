@@ -84,7 +84,7 @@ export default function CobranzaByClient(): JSX.Element {
         visible={sellId ? true : false}
         title='Detalle de venta'
         onClose={handleCloseModalSell}
-        modalSize='medium'
+        //modalSize='medium'
       >
         <SellDetails />
       </Modal>

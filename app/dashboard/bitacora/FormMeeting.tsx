@@ -6,7 +6,6 @@ import TimeInput from '@/components/Inputs/inputTime';
 import SelectReact from '@/components/Inputs/select';
 import Modal from '@/components/Modals/Modal';
 import { useFormMeeting } from "@/hooks/useFormMeeting";
-import { useWindowSize } from '@/hooks/useWindowSize';
 import MeetingInterface from '@/interface/meeting';
 import { optionTipoMeeting } from './FormMeetingDataTemp';
 import styles from '../../../styles/Form.module.scss';
@@ -38,8 +37,6 @@ export default function FormMeeting({
   handleMeetingCreated,
   clientData
 }: FormMeetingInterface): JSX.Element | null {
-
-  const { isMobile } = useWindowSize();
 
   const {
     clientActions,
@@ -91,7 +88,7 @@ export default function FormMeeting({
           disabled: !availableToPost,
         },
       }}
-      extraStyles={{ width: isMobile ? '100%' : '40%' }}
+      //extraStyles={{ width: isMobile ? '100%' : '40%' }}
     >
       <div className={styles.formMetting}>
         <SelectReact
