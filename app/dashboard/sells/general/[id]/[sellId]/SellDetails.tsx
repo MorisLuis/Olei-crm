@@ -15,6 +15,7 @@ export default function SellDetails(): JSX.Element {
 
   if (error) return <Custum500 handleRetry={refetch} />;
 
+
   return (
     <div className={styles.sellDetails}>
 

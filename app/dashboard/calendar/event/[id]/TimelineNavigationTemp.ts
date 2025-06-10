@@ -23,7 +23,6 @@ export const ExecuteNavigationEventClient = (): {
   };
 
   const navigateToBack = (): void => {
-    //push('/dashboard/calendar');
     back()
   };
 
