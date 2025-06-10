@@ -1,6 +1,8 @@
 'use client';
 
+import { faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
 import React, { useCallback, useEffect, useState } from 'react';
+import { MessageCard } from '@/components/Cards/MessageCard';
 import Modal from '@/components/Modals/Modal';
 import TableTertiary from '@/components/UI/Tables/TableTertiary';
 import MeetingInterface from '@/interface/meeting';
@@ -11,10 +13,13 @@ import styles from '../../../../styles/pages/SellDetails.module.scss';
 
 interface TableTertiaryBitacoraDetailsInterface {
   Id_Bitacora: number;
+  isLoading: boolean;
+  
 }
 
 export default function BitacoraDetailsTable({
   Id_Bitacora,
+  isLoading
 }: TableTertiaryBitacoraDetailsInterface): JSX.Element {
 
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
@@ -32,8 +37,23 @@ export default function BitacoraDetailsTable({
     handleGetMeeting();
   }, [Id_Bitacora, handleGetMeeting]);
 
+  if(isLoading) {
+    return <div>
+      <p>Cargando...</p>
+    </div>
+  }
+
   if (!meetingData) {
-    return <div>Cargando...</div>;
+    return (
+      <MessageCard
+        title="Selecciona evento"
+        icon={faCalendarXmark}
+      >
+        <p>
+          No tienes evento seleccionado
+        </p>
+    </MessageCard>
+    )
   }
 
   return (

@@ -39,6 +39,10 @@
             z-index: 0;
             gap: calc(variables.$gap * 2);
 
+            &__documents{
+                margin-bottom: variables.$margin-vertical;
+            }
+
 
             @include mixins.respond(tab-port) {
                 width: 100%;

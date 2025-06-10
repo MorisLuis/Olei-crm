@@ -5,33 +5,33 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
 import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
-import MeetingInterface from '@/interface/meeting';
 import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
-import { EventsRendered } from './TimelineEventRendered';
+import { EventSelected } from './TimelineEventRendered';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelinePropsInterface {
-  onClickEvent: (eventBody: MeetingInterface) => void;
+  onClickEvent: (Id_Bitacora: number) => void;
   initialDateProp?: string | Date;
-  eventsOfTheDay: TimelineInterface[] | null;
 
   events: TimelineMeetingInterface[];
   sellEvents: TimelineInterface[];
   eventSelected: number;
   navigateToModalSells: () => void;
+
+  isLoadingEventSelected: boolean;
 }
 
 const Timeline = ({
   onClickEvent,
   initialDateProp,
-  eventsOfTheDay,
   events,
   sellEvents,
   eventSelected,
-  navigateToModalSells
+  navigateToModalSells,
+  isLoadingEventSelected
 }: TimelinePropsInterface): JSX.Element => {
 
-  if (!events || !sellEvents || !eventsOfTheDay) {
+  if (!events || !sellEvents) {
     return (
       <div>
         <p>Cargando...</p>
@@ -42,19 +42,24 @@ const Timeline = ({
   return (
     <div className={styles.content}>
 
-      {sellEvents.length > 0 && (
-        <MessageSecondaryCard
-          title={'Hay docuentos que expiran hoy.'}
-          icon={faFileExcel}
-          action={{
-            onClick: () => navigateToModalSells(),
-            color: 'blue',
-            text: 'Ver documentos',
-          }}
-        />
-      )}
-
       <div className={styles.timelineContent}>
+
+        {/* DOCUMENTS */}
+        <div className={styles.timelineContent__documents}>
+          {sellEvents.length > 0 && (
+            <MessageSecondaryCard
+              title={'Hay docuentos que expiran hoy.'}
+              icon={faFileExcel}
+              action={{
+                onClick: () => navigateToModalSells(),
+                color: 'blue',
+                text: 'Ver documentos',
+              }}
+            />
+          )}
+        </div>
+
+        {/* TIMELINES */}
         <div className="custom-timeline">
           <FullCalendar
             plugins={[timeGridPlugin]}
@@ -67,7 +72,7 @@ const Timeline = ({
               center: 'title',
               end: '',
             }}
-            eventClick={(arg: EventClickArg): void => onClickEvent(arg.event.extendedProps as MeetingInterface)}
+            eventClick={(arg: EventClickArg): void => onClickEvent(arg.event.extendedProps?.Id_Bitacora as number)}
             allDaySlot={false}
             locale={esLocale}
             height={'auto'}
@@ -75,7 +80,13 @@ const Timeline = ({
         </div>
       </div>
 
-      {EventsRendered({ events, eventsOfTheDay, eventSelected })}
+      {/* EVENT SELECTED */}
+      <EventSelected
+        events={events}
+        eventSelected={eventSelected}
+        isLoading={isLoadingEventSelected}
+      />
+
     </div>
   );
 };

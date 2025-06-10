@@ -47,7 +47,10 @@ export default function ClientDetailsPage(): JSX.Element {
         <div className={styles.bitacoraDetails__data}>
           <div className={styles.details}>
             <h4>Actividad</h4>
-            <BitacoraDetailsTable Id_Bitacora={Number(Id_Bitacora)} />
+            <BitacoraDetailsTable
+              Id_Bitacora={Number(Id_Bitacora)}
+              isLoading={false}
+            />
           </div>
         </div>
       </div>

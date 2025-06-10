@@ -1,22 +1,22 @@
 import { faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
 import BitacoraDetailsTable from '@/app/dashboard/bitacora/[id]/BitacoraDetails';
 import { MessageCard } from '@/components/Cards/MessageCard';
-import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
+import { TimelineMeetingInterface } from '@/interface/calendar';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface RenderEventSelectsInterface {
-  eventsOfTheDay: TimelineInterface[] | null;
   events: TimelineMeetingInterface[];
   eventSelected: number;
+  isLoading: boolean
 }
 
-export const EventsRendered = ({
-  eventsOfTheDay,
+export const EventSelected = ({
   events,
   eventSelected,
+  isLoading
 }: RenderEventSelectsInterface): JSX.Element => {
 
-  if (!eventsOfTheDay) {
+  if (isLoading) {
     return (
       <div>
         <p>Cargando...</p>
@@ -43,7 +43,10 @@ export const EventsRendered = ({
         Selecciona la tarea para ver el detalle de la tarea.
       </p>
       <h4>Actividad</h4>
-      <BitacoraDetailsTable Id_Bitacora={eventSelected} />
+      <BitacoraDetailsTable 
+        Id_Bitacora={eventSelected} 
+        isLoading={false}
+      />
     </div>
   );
 };
