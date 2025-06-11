@@ -56,7 +56,6 @@ const Timeline = ({
     );
   }
 
-
   return (
     <div className={styles.content}>
 

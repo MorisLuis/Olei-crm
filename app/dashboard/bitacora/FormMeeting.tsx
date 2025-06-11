@@ -108,7 +108,7 @@ export default function FormMeeting({
           value={optionTipoMeeting.find((item) => item.value === meetingForm.TipoContacto) ?? null}
           label="Selecciona el tipo de actividad"
         />
-
+    
         <Input
           value={meetingForm.Descripcion}
           name="Descripción"
@@ -116,24 +116,29 @@ export default function FormMeeting({
           onChange={(value) => onChangeFormMeeting('Descripcion', value)}
           label="Escribe una descripción de la actividad."
         />
+    
         <InputDatePicker
           onChange={(value) => onChangeFormMeeting('Fecha', value ?? new Date().toISOString())}
           label="¿Cuándo será tu actividad?"
           value={meetingForm.Fecha}
         />
-        <div className={styles.hours}>
-          <TimeInput
-            onChange={(value) => onChangeFormMeeting('Hour', value)}
-            label="¿A qué hora será tu actividad?"
-            value={meetingForm.Hour || ''}
-            placeholder="Inicio"
-          />
-          <TimeInput
-            onChange={(value) => onChangeFormMeeting('HourEnd', value)}
-            label="."
-            value={meetingForm.HourEnd || ''}
-            placeholder="Fin"
-          />
+
+        <div>
+          <label className='label'>¿A qué hora será tu actividad?</label>
+          <div className={styles.hours}>
+            <TimeInput
+              onChange={(value) => onChangeFormMeeting('Hour', value)}
+              label=""
+              value={meetingForm.Hour || ''}
+              placeholder="Inicio"
+            />
+            <TimeInput
+              onChange={(value) => onChangeFormMeeting('HourEnd', value)}
+              label=""
+              value={meetingForm.HourEnd || ''}
+              placeholder="Fin"
+            />
+        </div>
         </div>
 
         <InputTextBox

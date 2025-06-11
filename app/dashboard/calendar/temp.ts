@@ -30,7 +30,7 @@ export const DataCalendarConverted = (calendarData:  CalendarInterface[]) : Even
       const eventDate = fechaNormalizada.toISOString().split('T')[0];
 
       return {
-        title: event.Titulo,
+        title: event.Descripcion,
         start: normalizeDate(event.Fecha), // Usamos la fecha normalizada
         extendedProps: {
           Id_Cliente: event.Id_Cliente,

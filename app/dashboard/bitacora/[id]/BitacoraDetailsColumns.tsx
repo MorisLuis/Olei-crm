@@ -20,6 +20,29 @@ export const ColumnsBitacoraDetails = ({
   const { changeColor } = useTagColor();
   const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
     {
+      key: 'Descripcion',
+      label: 'Descripcion',
+      renderLabel: () => (
+        <div className={styles.sellItem}>
+          <p>Descripcion</p>
+        </div>
+      ),
+      render: (value) => (
+        <div className={styles.sellItem}>
+          <p className={styles.value}>{value?.toString()}</p>
+        </div>
+      ),
+    },
+    {
+      key: 'Nombre',
+      label: 'Cliente',
+      renderLabel: () => (
+        <div className={styles.sellItem}>
+          <p>Cliente</p>
+        </div>
+      ),
+    },
+    {
       key: 'Fecha',
       label: 'Fecha',
       renderLabel: () => (
@@ -67,34 +90,11 @@ export const ColumnsBitacoraDetails = ({
       ),
     },
     {
-      key: 'Id_Almacen',
-      label: 'Id Almacen',
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Id Almacen</p>
-        </div>
-      ),
-    },
-    {
       key: 'Id_Cliente',
       label: 'Id Cliente',
       renderLabel: () => (
         <div className={styles.sellItem}>
           <p>Id Cliente</p>
-        </div>
-      ),
-    },
-    {
-      key: 'Descripcion',
-      label: 'Descripcion',
-      renderLabel: () => (
-        <div className={styles.sellItem}>
-          <p>Descripcion</p>
-        </div>
-      ),
-      render: (value) => (
-        <div className={styles.sellItem}>
-          <p className={styles.value}>{value?.toString()}</p>
         </div>
       ),
     },

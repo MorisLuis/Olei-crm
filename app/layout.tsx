@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
               <SettingsProvider>
                 <NProgressComponent />
                 {children}
+                <div id="portal-root" /> {/* 👈 este es el importante */}
               </SettingsProvider>
             </AuthProvider>
           </ErrorBoundary>

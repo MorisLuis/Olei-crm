@@ -55,14 +55,14 @@
     top: 100%;
     left: 0;
     width: 100%;
-    max-height: 100px;
+    max-height: 200px;
     overflow-y: auto;
     background: variables.$background-color;
     border: 1px solid variables.$color-border;
     border-top: none;
     border-radius: variables.$border-radius;
     box-shadow: variables.$box-shadow-modal;
-    z-index: 99;
+    z-index: 9999999999;
 
     .input-dropdown-option {
         padding: calc(variables.$padding / 2);

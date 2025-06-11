@@ -56,9 +56,9 @@ export default function TimelineModalSells({
       ),
     },
     {
-      key: 'Titulo',
-      label: 'Titulo',
-      render: (Title) => <div>{Title?.toString()}</div>,
+      key: 'Descripcion',
+      label: 'Descripcion',
+      render: (Descripcion) => <div>{Descripcion?.toString()}</div>,
     },
     {
       key: 'Fecha',

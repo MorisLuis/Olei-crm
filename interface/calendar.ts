@@ -4,7 +4,7 @@ export interface CalendarInterface {
   Folio?: number;
   Id_Sell?: string;
   Fecha: Date;
-  Titulo: string;
+  Descripcion?: string;
   TableType?: 'Bitacora' | 'Ventas';
 }
 
@@ -13,9 +13,9 @@ export interface TimelineInterface {
   Folio?: number;
   Id_Sell?: string;
   Fecha: Date;
-  Titulo: string;
   TableType?: 'Bitacora' | 'Ventas';
   Hour?: string;
+  Descripcion?: string;
   HourEnd?: string;
 }
 

@@ -32,7 +32,7 @@ const TimelineEventsValidation = ({
           id: meeting.Id_Bitacora?.toString() || '',
           start,
           end,
-          title: meeting.Titulo,
+          title: meeting.Descripcion ?? "Sin descripción",
           extendedProps: { Id_Bitacora: meeting.Id_Bitacora },
         };
 

@@ -11,7 +11,6 @@ interface TimeInputInterface {
 }
 
 const generateTimeOptions = (): string[] => {
-
   const options: string[] = [];
   for (let hour = 0; hour < 24; hour++) {
     for (const minute of [0, 30]) {
@@ -24,27 +23,27 @@ const generateTimeOptions = (): string[] => {
 };
 
 const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface): JSX.Element => {
-
   const [time, setTime] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { showError } = useToast();
 
   const timeOptions = generateTimeOptions();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const val = e.target.value;
     setTime(val);
     onChange(val);
   };
 
-  const handleOptionClick = (option: string) : void => {
+  const handleOptionClick = (option: string): void => {
     setTime(option);
     onChange(option);
     setIsOpen(false);
   };
 
-  const handleBlur = () : void => {
+  const handleBlur = (): void => {
     if (!time) return;
     if (!hourValidation(time)) {
       setTime('');
@@ -53,21 +52,6 @@ const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface):
   };
 
   useEffect(() => {
-    /**
-     * Este efecto se ejecuta cuando cambia la prop `value`.
-     * 
-     * Funcionalidad:
-     * - Formatea el valor recibido a un formato de hora `hh:mm` (máximo 5 caracteres).
-     * - Si el valor es válido (según el regex `hourValidation`), lo establece como hora.
-     * - Si tiene exactamente 5 caracteres pero no es válido, muestra un error y limpia el input.
-     * - Si tiene menos de 5 caracteres (input parcial), lo deja pasar para permitir que el usuario continúe escribiendo.
-     * 
-     * Casos comunes cubiertos:
-     * - value = "14:30"  => válido, se muestra tal cual.
-     * - value = "99:99"  => inválido, limpia y muestra error.
-     * - value = "12:"    => input parcial, se muestra sin error.
-     */
-
     if (!value) return;
     const formattedValue = value.slice(0, 5);
 
@@ -84,10 +68,11 @@ const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface):
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
   return (
-    <div className="inputComponent" ref={dropdownRef}>
+    <div className="inputComponent" style={{ position: 'relative' }}>
       {label && <label className="time-input-label">{label}</label>}
 
       <input
+        ref={inputRef}
         type="text"
         value={time}
         onChange={handleChange}
@@ -99,12 +84,31 @@ const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface):
       />
 
       {isOpen && (
-        <div className="input-dropdown">
+        <div
+          ref={dropdownRef}
+          className="input-dropdown"
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            zIndex: 1000,
+            backgroundColor: 'white',
+            border: '1px solid #ccc',
+            width: '100%',
+            maxHeight: '200px',
+            overflowY: 'auto',
+          }}
+        >
           {timeOptions.map((option) => (
             <div
               key={option}
               onClick={() => handleOptionClick(option)}
               className="input-dropdown-option"
+              style={{
+                padding: '8px',
+                cursor: 'pointer',
+                borderBottom: '1px solid #eee',
+              }}
             >
               {option}
             </div>

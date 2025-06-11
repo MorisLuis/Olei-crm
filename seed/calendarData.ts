@@ -2,7 +2,7 @@ import { TimelineInterface } from '@/interface/calendar';
 
 export const calendarTimelineExamples: TimelineInterface[] = [
   {
-    Titulo: 'Reunion madrugada',
+    Descripcion: 'Reunion madrugada',
     Fecha: new Date(2024, 11, 22),
     TableType: 'Bitacora',
     Id_Bitacora: 1,
@@ -10,7 +10,7 @@ export const calendarTimelineExamples: TimelineInterface[] = [
     HourEnd: '02:20',
   },
   {
-    Titulo: 'Reunion para temas muy importantes',
+    Descripcion: 'Reunion para temas muy importantes',
     Fecha: new Date(2024, 11, 22),
     TableType: 'Bitacora',
     Id_Bitacora: 2,
@@ -18,7 +18,7 @@ export const calendarTimelineExamples: TimelineInterface[] = [
     HourEnd: '13:20',
   },
   {
-    Titulo: 'Reunion para temas muy importantes',
+    Descripcion: 'Reunion para temas muy importantes',
     Fecha: new Date(2024, 11, 22),
     TableType: 'Bitacora',
     Id_Bitacora: 3,
@@ -26,14 +26,14 @@ export const calendarTimelineExamples: TimelineInterface[] = [
     HourEnd: '14:20',
   },
   {
-    Titulo: 'Remisión',
+    Descripcion: 'Remisión',
     Folio: 21,
     Fecha: new Date(2024, 11, 22),
     TableType: 'Ventas',
     Id_Sell: '1-1--0',
   },
   {
-    Titulo: 'Cotización',
+    Descripcion: 'Cotización',
     Folio: 212,
     Fecha: new Date(2024, 11, 22),
     TableType: 'Ventas',

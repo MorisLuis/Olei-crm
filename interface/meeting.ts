@@ -1,5 +1,5 @@
 export default interface MeetingInterface {
-  Nombre: string;
+  Nombre: string; // Client name
   Id_Bitacora: number;
   Id_Almacen?: number;
   Id_Cliente?: number;
