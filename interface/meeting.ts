@@ -7,6 +7,6 @@ export default interface MeetingInterface {
   Hour: string | undefined;
   HourEnd: string | undefined;
   Descripcion: string;
-  TipoContacto: 0 | 1 | 2 | 3 | 4;
+  TipoContacto: 0 | 1 | 2 | 3;
   Comentarios?: string;
 }

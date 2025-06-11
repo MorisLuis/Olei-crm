@@ -2,10 +2,10 @@ import { MeetingOrderCondition } from '@/services/bitacora/meeting.interface'
 import { z } from 'zod'
 
 const TipoContactoSchema = z.coerce.number()
-    .refine(val => [0, 1, 2, 3, 4].includes(val), {
+    .refine(val => [0, 1, 2, 3 ].includes(val), {
         message: 'Invalid TipoContacto value',
     })
-    .transform(val => val as 0 | 1 | 2 | 3 | 4);
+    .transform(val => val as 0 | 1 | 2 | 3 );
 
 export const BitacoraFilterSchema = z.object({
     meetingOrderCondition: z.enum(MeetingOrderCondition).default('Cliente'),

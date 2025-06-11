@@ -31,14 +31,13 @@ const MeetingOrderCondition = [
     'TipoContacto',
 ] as const;
 
-const validTipoContacto: Array<MeetingInterface['TipoContacto']> = [0, 1, 2, 3, 4];
+const validTipoContacto: Array<MeetingInterface['TipoContacto']> = [0, 1, 2, 3];
 
 const tipoContactoMap = {
     0: 'Otro',
     1: 'Cita',
     2: 'Llamada',
-    3: 'Achivo Enviado',
-    4: 'Videollamada',
+    3: 'Tarea'
 } as const;
 
 type TipoContactoLabel = typeof tipoContactoMap[keyof typeof tipoContactoMap];
@@ -61,11 +60,7 @@ const TipoContactoObject: ReadonlyArray<{
     },
     {
         value: 3,
-        label: 'Achivo Enviado'
-    },
-    {
-        value: 4,
-        label: 'Videollamada'
+        label: 'Tarea'
     }
 ] as const;
 

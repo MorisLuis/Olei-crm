@@ -124,7 +124,7 @@ export const useFormMeeting = ({
     };
 
     const onSelectDocType = async (option: OptionType): Promise<void> => {
-        onChangeFormMeeting('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3 | 4)
+        onChangeFormMeeting('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3 )
     };
 
     const resetMeeting = async (meetingProp: MeetingInterface): Promise<void> => {

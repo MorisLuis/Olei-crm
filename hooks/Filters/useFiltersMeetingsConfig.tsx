@@ -26,8 +26,7 @@ export const useFiltersMeetingConfig = () => {
       data: [
         { filter: 'TipoContacto', value: 1, label: 'Cita' },
         { filter: 'TipoContacto', value: 2, label: 'Llamada' },
-        { filter: 'TipoContacto', value: 3, label: 'Archivo Enviado' },
-        { filter: 'TipoContacto', value: 4, label: 'Videollamada' },
+        { filter: 'TipoContacto', value: 3, label: 'Tarea' },
       ],
       value: filtersActive.find((item) => item.filter === 'TipoContacto')?.value ?? '',
     },
