@@ -15,7 +15,7 @@ import { briefClientData } from './BriefClientData';
 import EmailModal from './ModalEmail';
 import WhatsAppModal from './ModalWhatsApp';
 import styles from '../../../../styles/pages/Clients.module.scss';
-import { INITIAL_MEETING } from '../../bitacora/FormMeetingDataTemp';
+import { INITIAL_MEETING } from '../../bitacora/FormMeetingData';
 
 export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();
@@ -48,7 +48,6 @@ export default function ClientDetailsPage(): JSX.Element {
     setEventToOpen(INITIAL_MEETING);
   };
 
-
   const handleOnClickDay = (arg: DateClickArg): void => {
     push(`/dashboard/calendar/event/${arg.date}?Id_Cliente=${idCliente}&Id_Almacen=${idAlmacen}&clientName=${clientName}`);
   };
@@ -78,7 +77,7 @@ export default function ClientDetailsPage(): JSX.Element {
       text: 'Cobranza',
       onclick: () =>
         push(
-          `/dashboard/cobranza/${clientData?.Id_Cliente}?client=${clientData?.Nombre?.trim()}&email=${clientData?.CorreoVtas?.trim()}`
+          `/dashboard/cobranza/${clientData?.Id_Cliente}?client=${clientData?.Nombre?.trim()}&Id_Almacen=${idAlmacen}&email=${clientData?.CorreoVtas?.trim()}`
         ),
       notVsible: !clientData?.Id_Cliente,
     },
@@ -91,7 +90,11 @@ export default function ClientDetailsPage(): JSX.Element {
 
   return (
     <>
-      <Header title={clientName} actions={clientActions} />
+      <Header
+        title={clientName}
+        actions={clientActions}
+        custumBack={() => push('/dashboard/clients')}
+      />
 
       <div className={styles.clientDetails}>
         <div className={styles.clientDetails__brief}>
@@ -114,7 +117,7 @@ export default function ClientDetailsPage(): JSX.Element {
         visible={openModalWhatsApp}
         onClose={() => setOpenModalWhatsApp(false)}
         phoneNumber={clientData?.TelefonoWhatsapp?.trim()}
-        
+
       />
 
       <EmailModal

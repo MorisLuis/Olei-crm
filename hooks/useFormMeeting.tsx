@@ -81,7 +81,7 @@ export const useFormMeeting = ({
     const [clientName, setClientName] = useState<string | null>(null)
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
     const [clientsDataRaw, setClientsDataRaw] = useState<ClientInterface[]>();
-    const availableToPost: boolean = !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente;
+    const availableToPost: boolean = !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente && !!meetingForm?.Descripcion
 
     const onChangeFormMeeting = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]): void => {
         setMeetingForm((prev) => ({ ...prev, [key]: value }));

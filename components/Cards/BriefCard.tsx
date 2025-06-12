@@ -16,7 +16,8 @@ interface BriefCardInterface {
   isLoading: boolean;
 }
 
-export default function BriefCard({ data, header = 'Resumen', isLoading }: BriefCardInterface) : JSX.Element {
+export default function BriefCard({ data, header = 'Resumen', isLoading }: BriefCardInterface): JSX.Element {
+
   if (isLoading) {
     return (
       <div>
@@ -43,11 +44,7 @@ export default function BriefCard({ data, header = 'Resumen', isLoading }: Brief
         <div key={item.id} className={styles.data}>
           <div>
             <label>{item.label}</label>
-            {item.value && item.value !== 'null' ? (
-              <p>{item.value}</p>
-            ) : (
-              <Tag color="gray">Sin datos</Tag>
-            )}
+            {item.value && item.value !== 'null' ? (<p>{item.value}</p>) : (<Tag color="gray">Sin datos</Tag>)}
           </div>
           <div className={`${styles.dividerLocal} divider small`}></div>
         </div>

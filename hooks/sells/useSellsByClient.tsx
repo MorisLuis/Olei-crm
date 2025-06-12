@@ -8,8 +8,6 @@ import { isEqual } from "lodash";
 
 
 interface UseSellsByClientReturn {
-    handleSelectClient: (item: SellsInterface) => void;
-
     error: unknown;
     refetch: () => void;
     isLoading: boolean;
@@ -44,10 +42,6 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
             { PageNumber: page, filters }
         );
 
-    const handleSelectClient = useCallback((item: SellsInterface) => {
-        if (!item.UniqueKey || !clientId) return;
-        push(`/dashboard/sells/general/${clientId}/?sellId=${item.UniqueKey}&client=${clientName}`);
-    }, [clientId, push, clientName]);
 
     const handleGetTotals = useCallback(async (): Promise<void> => {
         const { total, count } = await getSellsByClientCountAndTotal({
@@ -83,7 +77,6 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
     };
 
     return {
-        handleSelectClient,
         error,
         refetch,
         isLoading,

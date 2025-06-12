@@ -1,38 +1,40 @@
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import { useNavigationContext } from '@/context/Navigation/NavigationContext';
 import { SellsInterface } from '@/interface/sells';
 
-interface ExecuteNavigationSellsByClientInterface {
-  Id_Cliente: string;
-}
-
-export const ExecuteNavigationSellsByClient = ({
-  Id_Cliente,
-}: ExecuteNavigationSellsByClientInterface): {
-  navigateToSellDetails: (item: SellsInterface) => void,
+export const useSellsByClientNavigation = (): {
+  navigateToCloseModal: () => void,
   navigateToBack: () => void,
-  navigateToBackModal: () => void
+  onSelectClient: (item: SellsInterface) => void
 } => {
 
-  const { push, back } = useRouter();
+  const { push } = useRouter();
+  const { previousRoute, currentRoute } = useNavigationContext();
 
-  const navigateToSellDetails = useCallback(
-    (item: SellsInterface) => {
-      if (!item.UniqueKey || !Id_Cliente) return;
-      push(`/dashboard/sells/${Id_Cliente}/?sellId=${item.UniqueKey}`);
-    }, [Id_Cliente, push]);
+  const navigateToCloseModal = useCallback(() => {
+    const [pathname, search] = currentRoute.split('?');
+    const params = new URLSearchParams(search);
+    params.delete('sellId');
+    const cleanRoute = `${pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    push(cleanRoute)
+  }, [push, currentRoute]);
 
-  const navigateToBack = () : void => {
-    push('/dashboard/sells');
+  const navigateToBack = (): void => {
+    if (previousRoute) {
+      push(previousRoute);
+    } else {
+      push('/dashboard/sells/general');
+    }
   };
 
-  const navigateToBackModal = () : void => {
-    back();
-  };
+  const onSelectClient = useCallback((item: SellsInterface) => {
+    push(`${currentRoute}&sellId=${item.UniqueKey}`)
+  }, [push, currentRoute]);
 
   return {
-    navigateToSellDetails,
+    navigateToCloseModal,
     navigateToBack,
-    navigateToBackModal,
+    onSelectClient
   };
 };

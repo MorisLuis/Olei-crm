@@ -2,8 +2,10 @@
 
 import "../styles/globals.scss";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Suspense } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NProgressComponent from "@/components/Nprogress";
+import { NavigationProvider } from "@/context/Navigation/NavigationContext";
 import { SettingsProvider } from "@/context/Settings/SettingsProvider";
 import { AuthProvider } from "@/context/auth/AuthProvider";
 
@@ -17,15 +19,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       <body>
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>
-            <AuthProvider>
-              <SettingsProvider>
-                <NProgressComponent />
-                {children}
-                <div id="portal-root" /> {/* 👈 este es el importante */}
-              </SettingsProvider>
-            </AuthProvider>
+            <Suspense fallback={null}>
+              <NavigationProvider>
+                <AuthProvider>
+                  <SettingsProvider>
+                    <NProgressComponent />
+                    {children}
+                    <div id="portal-root" />
+                  </SettingsProvider>
+                </AuthProvider>
+              </NavigationProvider>
+            </Suspense>
           </ErrorBoundary>
         </QueryClientProvider>
+
       </body>
     </html>
   );
