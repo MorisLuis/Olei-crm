@@ -7,7 +7,7 @@ import SelectReact from '@/components/Inputs/select';
 import Modal from '@/components/Modals/Modal';
 import { useFormMeeting } from "@/hooks/useFormMeeting";
 import MeetingInterface from '@/interface/meeting';
-import { optionTipoMeeting } from './FormMeetingDataTemp';
+import { optionTipoMeeting } from './FormMeetingData';
 import styles from '../../../styles/Form.module.scss';
 
 interface FormMeetingInterface {

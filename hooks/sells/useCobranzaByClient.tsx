@@ -15,7 +15,6 @@ interface useCobranzaByClientReturn {
     error: unknown;
     loadMore: () => void;
     refetch: () => void;
-    handleSelectItem: (item: SellsInterface) => void;
 }
 
 export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
@@ -49,17 +48,6 @@ export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
     const cobranza = data?.cobranza;
 
     const loadMore = (): void => setPage((prev) => prev + 1);
-
-    const handleSelectItem = (item: SellsInterface): void => {
-        const params = new URLSearchParams({
-            Id_Almacen,
-            client: clientName,
-            email,
-        });
-        params.set('sellId', item.UniqueKey ?? "");
-        push(`/dashboard/cobranza/${Id_Cliente}?${params.toString()}`);
-    };
-
 
     const handleGetTotals = useCallback(async (): Promise<void> => {
         const { total, count } = await getCobranzaByClientCountAndTotal({
@@ -102,7 +90,6 @@ export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
         loadMore,
         isLoading,
         cobranzaCount,
-        cobranzaByClientTotal,
-        handleSelectItem
+        cobranzaByClientTotal
     }
 }

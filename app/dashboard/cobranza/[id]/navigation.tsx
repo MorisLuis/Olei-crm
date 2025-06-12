@@ -1,34 +1,42 @@
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
+import { useNavigationContext } from '@/context/Navigation/NavigationContext';
 import { SellsInterface } from '@/interface/sells';
 
-interface ExecuteNavigationCobranzaInterface {
-  Id_Cliente: string;
+interface ExecuteNavigationCobranzaResponse {
+  navigateToCloseModal: () => void;
+  navigateToBack: () => void;
+  onSelectItem: (item: SellsInterface) => void;
 }
 
-export const ExecuteNavigationCobranza = ({
-  Id_Cliente
-}: ExecuteNavigationCobranzaInterface) : { navigateToCobranza: (item: SellsInterface) => void, navigateToBack: () => void } => {
-  
-  const { push, back } = useRouter();
+export const useCobranzaNavigation = (): ExecuteNavigationCobranzaResponse => {
 
-  const navigateToCobranza = useCallback(
-    (item: SellsInterface) => {
-      const { Id_Almacen, TipoDoc, Serie, Folio } = item;
-      if (!Id_Almacen || !TipoDoc || !Serie || !Folio) return;
-      push(
-        `/dashboard/cobranza/${Id_Cliente}?sellId=${item.UniqueKey}&Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}&Folio=${Folio}`
-      );
-    },
-    [Id_Cliente, push]
-  );
+  const { push } = useRouter();
+  const { previousRoute, currentRoute } = useNavigationContext();
+
+  const navigateToCloseModal = useCallback(() => {
+    const [pathname, search] = currentRoute.split('?');
+    const params = new URLSearchParams(search);
+    params.delete('sellId');
+    const cleanRoute = `${pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    push(cleanRoute)
+  }, [currentRoute, push]);
 
   const navigateToBack = useCallback(() => {
-    back();
-  }, [back]);
+    if (previousRoute) {
+      push(previousRoute);
+    } else {
+      push('/dashboard/cobranza');
+    }
+  }, [push, previousRoute]);
+
+  const onSelectItem = useCallback((item: SellsInterface) => {
+    push(`${currentRoute}&sellId=${item.UniqueKey}`)
+  }, [push, currentRoute]);
 
   return {
-    navigateToCobranza,
+    navigateToCloseModal,
     navigateToBack,
+    onSelectItem
   };
 };

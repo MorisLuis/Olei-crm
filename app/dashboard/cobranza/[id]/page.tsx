@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import Custum500 from '@/components/500';
 import Modal from '@/components/Modals/Modal';
@@ -14,20 +14,21 @@ import { cobranzaByClientFiltersConfig } from './cobranzaClientFilters';
 import ShareCobranzaModal from './cobranzaClientShareModal';
 import cobranzaByClientStats from './cobranzaClientStats';
 import TableCobranzaByClient from './cobranzaClientTable';
+import { useCobranzaNavigation } from './navigation';
 import FilterBar from '../../../../components/Filter/FilterBar';
 import SellDetails from '../../sells/general/[id]/[sellId]/SellDetails';
 
 export default function CobranzaByClient(): JSX.Element {
-  const pathname = usePathname();
-  const { push } = useRouter();
+
   const searchParams = useSearchParams();
   const clientName = searchParams.get('client') ?? 'Regresar';
   const email = searchParams.get('email') ?? '';
   const sellId = searchParams.get('sellId');
+  const { navigateToBack, navigateToCloseModal, onSelectItem } = useCobranzaNavigation()
 
   const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaByClientFilterSchema);
-  const { error, refetch, items, loadMore, isLoading, cobranzaCount, handleSelectItem, cobranzaByClientTotal } = useCobranzaByClient(filters);
+  const { error, refetch, items, loadMore, isLoading, cobranzaCount, cobranzaByClientTotal } = useCobranzaByClient(filters);
 
   const clientActions: ActionsInterface[] = [
     {
@@ -39,12 +40,6 @@ export default function CobranzaByClient(): JSX.Element {
     },
   ];
 
-  const handleCloseModalSell = (): void => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete('sellId');
-    push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
   if (error) {
     return <Custum500 handleRetry={refetch} />;
   }
@@ -54,9 +49,9 @@ export default function CobranzaByClient(): JSX.Element {
       <Header
         title={clientName}
         actions={clientActions}
-        custumBack={() => push('/dashboard/cobranza')}
+        custumBack={navigateToBack}
       />
-  
+
       <HeaderStats
         items={cobranzaByClientStats(cobranzaByClientTotal)}
         isLoading={isLoading}
@@ -75,7 +70,7 @@ export default function CobranzaByClient(): JSX.Element {
         sells={items}
         totalSells={cobranzaCount ?? 0}
         loadMoreProducts={loadMore}
-        handleSelectItem={handleSelectItem}
+        handleSelectItem={onSelectItem}
         isLoading={isLoading}
         loadingData={items.length === 0 && isLoading}
       />
@@ -83,8 +78,7 @@ export default function CobranzaByClient(): JSX.Element {
       <Modal
         visible={sellId ? true : false}
         title='Detalle de venta'
-        onClose={handleCloseModalSell}
-        //modalSize='medium'
+        onClose={navigateToCloseModal}
       >
         <SellDetails />
       </Modal>
