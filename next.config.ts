@@ -1,47 +1,40 @@
 import type { NextConfig } from 'next';
+import withBundleAnalyzer from '@next/bundle-analyzer';
+
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 const nextConfig: NextConfig = {
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
-    // Opciones específicas para Sass
-    // Si "silenceDeprecations" es algo personalizado, retíralo si no está documentado.
   },
-
   headers: async () => [
     {
-      source: '/(.*)', // Aplica a todas las rutas
+      source: '/(.*)',
       headers: [
         {
           key: 'Access-Control-Allow-Origin',
-          value: 'https://www.oleionline.com', // Cambia por tu dominio de producción
+          value: 'https://www.oleionline.com',
         },
         {
           key: 'Access-Control-Allow-Credentials',
-          value: 'true', // Permite enviar cookies con solicitudes cross-origin
+          value: 'true',
         },
         {
           key: 'Access-Control-Allow-Methods',
-          value: 'GET,POST,PUT,DELETE,OPTIONS', // Métodos permitidos
+          value: 'GET,POST,PUT,DELETE,OPTIONS',
         },
         {
           key: 'Access-Control-Allow-Headers',
-          value: 'X-Requested-With, Accept, Content-Type, Authorization', // Cabeceras permitidas
+          value: 'X-Requested-With, Accept, Content-Type, Authorization',
         },
       ],
     },
   ],
-
   redirects: async () => [
-    {
-      source: '/',
-      destination: '/login',
-      permanent: true, // true para redirección 301 permanente, false para 302 temporal
-    },
-    {
-      source: '/dashboard',
-      destination: '/dashboard/sells',
-      permanent: true,
-    },
+    { source: '/', destination: '/login', permanent: true },
+    { source: '/dashboard', destination: '/dashboard/sells', permanent: true },
     { source: '/bitacora', destination: '/dashboard/bitacora', permanent: true },
     { source: '/calendar', destination: '/dashboard/calendar', permanent: true },
     { source: '/clients', destination: '/dashboard/clients', permanent: true },
@@ -51,4 +44,4 @@ const nextConfig: NextConfig = {
   ],
 };
 
-export default nextConfig;
+export default bundleAnalyzer(nextConfig);

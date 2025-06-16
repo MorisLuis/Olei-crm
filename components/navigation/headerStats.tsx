@@ -1,6 +1,8 @@
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { format } from '@/utils/currency';
 import styles from '../../styles/Navigation/headerStats.module.scss'
+import StatCard from '../Cards/StatCard';
 import HeaderStatsSkeleton from '../Skeletons/HeaderStatsSkeleton';
 
 interface headerStatsInterface {
@@ -14,31 +16,21 @@ export default function HeaderStats({
 }: headerStatsInterface): JSX.Element {
 
     if (isLoading) {
-        return <HeaderStatsSkeleton/>
+        return <HeaderStatsSkeleton />
     }
 
     return (
         <div className={styles.headerStats}>
             {
                 items.map((item, index) =>
-                    <StatsItem key={index} item={item} />
+                    <StatCard
+                        key={`${index}-${item.label}`}
+                        title={item.label}
+                        value={format(item.value)}
+                        icon={faDollarSign}
+                    />
                 )
             }
         </div>
     )
-}
-
-interface statsItemInterface {
-    item: { label: string, value: number }
-}
-
-const StatsItem = ({ item }: statsItemInterface): JSX.Element => {
-
-    return (
-        <div className={styles.headerStatsItem}>
-            <label>{item.label}</label>
-            <p className={styles.headerStatsItem_value}>{format(item.value)}</p>
-        </div>
-    )
-
 }
