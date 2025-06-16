@@ -13,7 +13,6 @@
     font-size: variables.$font-medium;
     box-shadow: variables.$box-shadow-button;
 
-
     .productHeader {
 
         .productName {
@@ -313,6 +312,7 @@
     padding: calc(variables.$padding * 2);
     font-size: variables.$font-medium;
     box-shadow: variables.$box-shadow-button;
+    flex: 1;
 
     &:hover{
         cursor: pointer;

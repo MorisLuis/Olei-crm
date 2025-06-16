@@ -11,10 +11,10 @@ import { useSellsByClient } from '@/hooks/sells/useSellsByClient';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsByClientFilterSchema } from '@/schemas/sellsFilters.schema';
 import SellDetails from './[sellId]/SellDetails';
-import { useSellsByClientNavigation } from './navigation';
 import { sellsByClientFiltersConfig } from './sellsClientFilters';
 import sellsClientStats from './sellsClientStats';
 import TableSellsClient from './sellsClientTable';
+import { useSellsByClientNavigation } from './useSellsByClientNavigation';
 
 export default function SellsClientPage(): JSX.Element {
 
