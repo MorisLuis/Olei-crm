@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { UserCRMInterface } from '@/interface/user';
 
-interface ContextProps {
+export interface AuthContextProps {
   isLoggedIn: boolean;
   user: UserCRMInterface;
   loggingIn: boolean;
@@ -12,4 +12,4 @@ interface ContextProps {
   openModalBackground: () => void;
 }
 
-export const AuthContext = createContext({} as ContextProps);
+export const AuthContext = createContext({} as AuthContextProps);
