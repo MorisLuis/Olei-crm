@@ -5,7 +5,7 @@ import InputTextBox from '@/components/Inputs/inputTextBox';
 import Modal from '@/components/Modals/Modal';
 import { AuthContext } from '@/context/auth/AuthContext';
 import useToast from '@/hooks/useToast';
-import { postEmail, postEmailInterface } from '@/services/email';
+import { postEmail, postEmailInterface } from '@/services/email/email.service';
 import styles from '../../../../styles/pages/Sells.module.scss';
 
 interface EmailModalInterface {

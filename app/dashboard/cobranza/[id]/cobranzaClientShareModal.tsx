@@ -4,10 +4,11 @@ import Modal from '@/components/Modals/Modal';
 import { AuthContext } from '@/context/auth/AuthContext';
 import useToast from '@/hooks/useToast';
 import { CobranzaByClientFilters } from '@/services/cobranza/cobranza.interface';
-import { postEmailCobranza, postEmailCobranzaInterface } from '@/services/email';
+import { PostEmailCobranzaParams } from '@/services/email/email.interface';
+import { postEmailCobranza } from '@/services/email/email.service';
 import styles from '../../../../styles/pages/Cobranza.module.scss';
 
-interface ShareCobranzaModalInterface {
+export interface ShareCobranzaModalInterface {
   visible: boolean;
   onClose: () => void;
   email: string;
@@ -22,20 +23,18 @@ export default function ShareCobranzaModal({
   clientName,
   filters
 }: ShareCobranzaModalInterface): JSX.Element {
-  const {
-    user: { Id: remitente, Id_Cliente, Nombre },
-  } = useContext(AuthContext);
 
+  const { user: { Id: remitente, Id_Cliente, Nombre } } = useContext(AuthContext);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
-
   const { showPromise } = useToast();
 
-  const handleDownloadPDF = async (): Promise<void | null> => {
+  const onSendPdfToEmail = async (): Promise<void | null> => {
+
     setDownloadingPDF(true);
     if (!email) return null;
     if (!Nombre) return null;
 
-    const emailBody: postEmailCobranzaInterface = {
+    const emailBody: PostEmailCobranzaParams = {
       destinatario: email,
       remitente: Nombre,
       text: 'Relacion',
@@ -50,10 +49,17 @@ export default function ShareCobranzaModal({
     showPromise('Enviando', 'Se ha enviado tu PDF!', myCsvPromise);
     setDownloadingPDF(false);
     onClose();
+
   };
 
   return (
-    <Modal visible={visible} title="Compartir relación" onClose={onClose} modalSize="small" finalHeight="content">
+    <Modal
+      visible={visible}
+      title="Compartir relación"
+      onClose={onClose}
+      modalSize="small"
+      finalHeight="content"
+    >
       <div className={styles.modalShareCobranza}>
         <p className={styles.title}>
           Compartir con {remitente} al correo {email}, su relación de cobranza.
@@ -63,7 +69,7 @@ export default function ShareCobranzaModal({
             buttonText="Compartir PDF"
             loading={downloadingPDF}
             color="blue"
-            onClick={handleDownloadPDF}
+            onClick={onSendPdfToEmail}
             disabled={!email}
           />
         </div>
