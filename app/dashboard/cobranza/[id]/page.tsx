@@ -14,7 +14,7 @@ import { cobranzaByClientFiltersConfig } from './cobranzaClientFilters';
 import ShareCobranzaModal from './cobranzaClientShareModal';
 import cobranzaByClientStats from './cobranzaClientStats';
 import TableCobranzaByClient from './cobranzaClientTable';
-import { useCobranzaNavigation } from './navigation';
+import { useCobranzaNavigation } from './useCobranzaNavigation';
 import FilterBar from '../../../../components/Filter/FilterBar';
 import SellDetails from '../../sells/general/[id]/[sellId]/SellDetails';
 
