@@ -313,6 +313,8 @@
     font-size: variables.$font-medium;
     box-shadow: variables.$box-shadow-button;
     flex: 1;
+    background-color: 'red';
+    align-content: center;
 
     &:hover{
         cursor: pointer;

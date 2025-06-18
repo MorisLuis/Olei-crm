@@ -7,10 +7,11 @@
     min-height: 80px;
 
     display: flex;
-    align-items: center;
     margin-bottom: calc(variables.$margin-vertical / 2);
 
     gap: variables.$gap;
+    background-color: 'orange';
+    flex: 1;
 
     @include mixins.respond(phone) {
         display: flex;
@@ -27,7 +28,6 @@
         border-radius: variables.$border-radius;
         padding: variables.$padding;
         background-color: variables.$background-color-secondary;
-
 
         @include mixins.respond(phone) {
             width: 100%;

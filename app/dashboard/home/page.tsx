@@ -83,9 +83,6 @@ export default function Home(): JSX.Element {
 
       <Calendar/>
 
-      {/* <section style={{ marginTop: 300 }}>
-        <pre>{JSON.stringify(statistics, null, 2)}</pre>
-      </section> */}
     </div>
   );
 }
