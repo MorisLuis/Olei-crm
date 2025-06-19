@@ -88,7 +88,6 @@ export default function FormMeeting({
           disabled: !availableToPost,
         },
       }}
-      //extraStyles={{ width: isMobile ? '100%' : '40%' }}
     >
       <div className={styles.formMetting}>
         <SelectReact

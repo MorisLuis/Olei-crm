@@ -144,21 +144,3 @@ export default function ClientDetailsPage(): JSX.Element {
     </>
   );
 }
-
-/* 
-  const handelOnClickEvent = (info: EventClickArg): void => {
-    const dataEvent = info.event.extendedProps;
-
-    if (dataEvent.TableType === 'Bitacora') {
-      // Get meeting from API
-      setOpenModalCreateMeeting(true);
-      return;
-    }
-
-    if (dataEvent.TableType === 'Ventas') {
-      // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-      push(`?Id_Almacen=${idAlmacen}&sellId=${dataEvent.Id}`);
-      return;
-    }
-  };
-*/

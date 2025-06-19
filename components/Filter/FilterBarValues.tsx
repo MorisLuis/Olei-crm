@@ -5,10 +5,16 @@ interface FilterBarValuesInterface<T extends string = string> {
     filters: Record<T, string | number | undefined>;
 }
 
+export interface FilterResponse {
+    keyValue: string | number | null,
+    value: string | null,
+    active: boolean
+}
+
 export const filterBarValues = <T extends string>({
     config,
     filters
-}: FilterBarValuesInterface): { keyValue: string | number | null, value: string | null, active: boolean } => {
+}: FilterBarValuesInterface): FilterResponse => {
     const key = config.key as keyof typeof filters;
 
     let value;

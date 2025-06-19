@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { useClickOutside } from '@/hooks/dom/useClickOutside';
 import useToast from '@/hooks/useToast';
 import { hourValidation } from '@/validations/FormMeetingValidation';
 
@@ -23,6 +23,7 @@ const generateTimeOptions = (): string[] => {
 };
 
 const TimeInput = ({ value, onChange, label, placeholder }: TimeInputInterface): JSX.Element => {
+
   const [time, setTime] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

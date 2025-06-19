@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
 import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 import { FilterItemConfig } from './FilterBar';
 
@@ -22,7 +23,14 @@ export const FilterBarInputs = <T extends string = string>({
 
     const value = filters[filter.key as T];
     const [inputValue, setInputValue] = useState('');
-    const [hasTyped, setHasTyped] = useState(false); // <- Bandera del buscador ( input )
+    const [hasTyped, setHasTyped] = useState(false);
+
+    const handleSearch = () : void => {
+        updateFilter(filter.key as T, inputValue)
+        toggleModal(filter.key)
+    }
+
+    const handleKeyDown = useEnterSubmit(handleSearch);
 
 
     switch (filter.type) {
@@ -50,6 +58,7 @@ export const FilterBarInputs = <T extends string = string>({
                         type={filter.inputType || 'text'}
                         className={styles.filterButton}
                         value={hasTyped ? inputValue : value ?? ''}
+                        onKeyDown={handleKeyDown}
                         onChange={(e) => {
                             setInputValue(e.target.value);
                             setHasTyped(true);
@@ -58,10 +67,7 @@ export const FilterBarInputs = <T extends string = string>({
 
                     <button
                         className={`button-small blue ${styles.inputButton}`}
-                        onClick={() => {
-                            updateFilter(filter.key as T, inputValue)
-                            toggleModal(filter.key)
-                        }}
+                        onClick={handleSearch}
                     >
                         Buscar
                     </button>

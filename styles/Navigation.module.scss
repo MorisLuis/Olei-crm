@@ -6,15 +6,17 @@
 .sidebar {
     margin: 0px;
     padding: variables.$padding;
-    overflow-y: auto;
+    //overflow-y: auto;
     height: 100vh;
-    overflow-x: hidden;
+    //overflow-x: hidden;
     position: sticky;
     top: 0px;
     width: 15%;
     min-width: 200px;
     font-size: variables.$font-medium;
     color: variables.$text-color-light;
+    background-color: 'red';
+
 
     &.active {
         display: block;

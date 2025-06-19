@@ -22,15 +22,15 @@
         flex-direction: column;
         width: 100%;
         overflow: scroll;
-        max-height: 100vh;
+        max-height: calc(100vh - 10px);
 
         border-radius: calc(variables.$border-radius * 3) 0px 0px 0px;
         background-color: variables.$background-color;
         margin-top: 10px;
 
         .mainbody{
+            background-color: 'red';
             padding: variables.$padding*2;
-            
         }
     }
 }
