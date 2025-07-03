@@ -3,34 +3,21 @@
 @use "../Abstracts/mixins";
 @use "../Abstracts/variables";
 
-.timeline {
+.timelinePage {
     position: relative;
 
-    .content {
+    &__content {
         display: flex;
         flex-direction: row;
         gap: calc(variables.$gap * 2);
         position: relative;
         width: 100%;
 
-        .brief {
+        .briefContent {
             width: 40%;
-            position: sticky; // Corrige el prefijo
-            top: 10px; // Define la distancia desde el borde superior
-            height: fit-content;
 
             @include mixins.respond(tab-port) {
                 display: none;
-            }
-
-            &__instruction {
-                margin-bottom: variables.$margin-vertical;
-                font-size: variables.$font-medium;
-                color: variables.$text-color-secondary;
-            }
-
-            h4 {
-                margin-bottom: variables.$margin-vertical;
             }
         }
 
@@ -39,7 +26,7 @@
             z-index: 0;
             gap: calc(variables.$gap * 2);
 
-            &__documents{
+            &__documents {
                 margin-bottom: variables.$margin-vertical;
             }
 
@@ -48,5 +35,23 @@
                 width: 100%;
             }
         }
+    }
+}
+
+
+.brief {
+    width: 100%;
+    position: sticky;
+    top: 10px;
+    height: fit-content;
+
+    &__instruction {
+        margin-bottom: variables.$margin-vertical;
+        font-size: variables.$font-medium;
+        color: variables.$text-color-secondary;
+    }
+
+    h4 {
+        margin-bottom: variables.$margin-vertical;
     }
 }

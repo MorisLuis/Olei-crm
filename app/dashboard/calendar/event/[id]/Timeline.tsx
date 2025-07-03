@@ -4,10 +4,12 @@ import esLocale from '@fullcalendar/core/locales/es';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useEffect, useState } from 'react';
-import BitacoraDetailsTable from '@/app/dashboard/bitacora/[id]/BitacoraDetails';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard';
+import Modal from '@/components/Modals/Modal';
+import { useWindowSize } from '@/hooks/useWindowSize';
 import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
+import TimelineEventSelected from './TimelineEventSelected';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelinePropsInterface {
@@ -31,16 +33,19 @@ const Timeline = ({
 }: TimelinePropsInterface): JSX.Element => {
 
   const [eventSelected, setEventSelected] = useState<number>(0);
-  const [isSelectingEvent, setIsSelectingEvent] = useState(true)
+  const [openModalEventSelected, setOpenModalEventSelected] = useState(false)
+  const [isSelectingEvent, setIsSelectingEvent] = useState(true);
+  const { isMobile } = useWindowSize()
 
   const onSelectEventFromTimeline = (Id_Bitacora: number): void => {
+    setOpenModalEventSelected(true);
     setEventSelected(Id_Bitacora);
     setIsSelectingEvent(false)
   };
 
   useEffect(() => {
     if (!isLoadingEvents) {
-      if(events && events.length > 0) {
+      if (events && events.length > 0) {
         onSelectEventFromTimeline(Number(events[0].id));
       } else {
         onSelectEventFromTimeline(0)
@@ -57,12 +62,11 @@ const Timeline = ({
   }
 
   return (
-    <div className={styles.content}>
-
+    <main className={styles.timelinePage__content}>
+  
       <div className={styles.timelineContent}>
-
         {/* DOCUMENTS */}
-        <div className={styles.timelineContent__documents}>
+        <section className={styles.timelineContent__documents}>
           {sellEvents.length > 0 && (
             <MessageSecondaryCard
               title={'Hay docuentos que expiran hoy.'}
@@ -74,10 +78,10 @@ const Timeline = ({
               }}
             />
           )}
-        </div>
+        </section>
 
         {/* TIMELINE */}
-        <div className="custom-timeline">
+        <section className="custom-timeline">
           <FullCalendar
             plugins={[timeGridPlugin]}
             initialView="timeGridDay"
@@ -94,21 +98,28 @@ const Timeline = ({
             locale={esLocale}
             height={'auto'}
           />
-        </div>
+        </section>
       </div>
 
       {/* EVENT SELECTED */}
-      <div className={styles.brief}>
-        <p className={styles.brief__instruction}>
-          Selecciona la actividad para ver el detalle.
-        </p>
-        <h4>Actividad</h4>
-        <BitacoraDetailsTable
-          Id_Bitacora={eventSelected}
+      <div className={styles.briefContent}>
+        <TimelineEventSelected
+          eventSelected={eventSelected}
           isLoading={isSelectingEvent || isLoadingEvents}
         />
       </div>
-    </div>
+
+      <Modal
+        visible={openModalEventSelected && isMobile}
+        title='Actividad'
+        onClose={() => setOpenModalEventSelected(false)}
+      >
+        <TimelineEventSelected
+          eventSelected={eventSelected}
+          isLoading={isSelectingEvent || isLoadingEvents}
+        />
+      </Modal>
+    </main>
   );
 };
 

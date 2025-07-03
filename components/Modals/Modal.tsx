@@ -4,7 +4,6 @@ import React, { CSSProperties, useState } from 'react';
 import styles from '../../styles/Components/Modals/Modal.module.scss';
 import stylesBackground from '../../styles/Components/Modals/ModalBackground.module.scss';
 import ButtonSmall from '../Buttons/ButtonSmall';
-import AnimatedHeightWrapper from '../UI/AnimatedHeightWrapper';
 
 interface Props {
   visible: boolean;
@@ -50,9 +49,7 @@ const Modal = ({
   handleActionTopOne,
   handleActionTopTwo,
   extraStyles,
-  actionsBottom,
-
-  finalHeight
+  actionsBottom
 }: Props): JSX.Element | null => {
 
   const [isClosing, setIsClosing] = useState(false);
@@ -114,7 +111,7 @@ const Modal = ({
         className={`${styles.Modal} ${styles[modalSize]} ${isClosing ? styles.closing : ''}`}
         style={extraStyles}
       >
-  
+
         <div className={styles.Modal__content}>
 
           <div className={styles.Modal__header}>
@@ -128,12 +125,12 @@ const Modal = ({
             </div>
           </div>
 
-          <AnimatedHeightWrapper isActive={visible} finalHeight={finalHeight}>
-            <div className={styles.childrenWrapper}>{children}</div>
-          </AnimatedHeightWrapper>
+          <div className={styles.childrenWrapper}>{children}</div>
+          {/* <AnimatedHeightWrapper isActive={visible} finalHeight={finalHeight}>
+          </AnimatedHeightWrapper> */}
 
         </div>
-    
+
         {renderFooter()}
       </div>
     </>

@@ -47,6 +47,7 @@ const AnimatedHeightWrapper: React.FC<AnimatedHeightWrapperProps> = ({
                 height: 0,
                 overflow: 'hidden',
                 transition: `height ${duration}ms ease`,
+                backgroundColor: 'green',
             }}
         >
             {children}

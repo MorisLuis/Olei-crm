@@ -20,6 +20,7 @@ export default function BitacoraDetailsTable({
   Id_Bitacora,
   isLoading
 }: TableTertiaryBitacoraDetailsInterface): JSX.Element {
+
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
   const [meetingData, setMeetingData] = useState<MeetingInterface>();
   const [isLoadingMeetingData, setIsLoadingMeetingData] = useState(true)
@@ -27,10 +28,10 @@ export default function BitacoraDetailsTable({
   const onOpenComments = (): void => setOpenCommentsModal(true);
   const { columns } = ColumnsBitacoraDetails({ onOpenComments });
 
-  const fetchMeeting = useCallback(async () : Promise<void> => {
-    if(isLoading) return;
+  const fetchMeeting = useCallback(async (): Promise<void> => {
+    if (isLoading) return;
 
-    if(Id_Bitacora) {
+    if (Id_Bitacora) {
       const { meeting } = await getMeetingById(Id_Bitacora.toString());
       setMeetingData(meeting);
     } else {
@@ -63,7 +64,10 @@ export default function BitacoraDetailsTable({
   return (
     <>
       <div className={styles.sellDetails}>
-        <TableTertiary columns={columns} data={meetingData} />
+        <TableTertiary
+          columns={columns}
+          data={meetingData}
+        />
       </div>
 
       <Modal

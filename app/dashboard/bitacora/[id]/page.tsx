@@ -44,12 +44,13 @@ export default function ClientDetailsPage(): JSX.Element {
             </MessageCard>
           )}
         </div>
+    
         <div className={styles.bitacoraDetails__data}>
           <div className={styles.details}>
             <h4>Actividad</h4>
             <BitacoraDetailsTable
               Id_Bitacora={Number(Id_Bitacora)}
-              isLoading={false}
+              isLoading={!Id_Bitacora}
             />
           </div>
         </div>

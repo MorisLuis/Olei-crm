@@ -298,15 +298,27 @@
         border-style: solid none;
         font-size: variables.$font-medium;
 
-        &:not(:last-child) {
-            border-bottom: 0px;
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .item__label {
             color: variables.$text-color-secondary;
+            width: 30%;
+        }
+
+        .item__value {
+            width: 70%;
+            display: flex;
+            justify-content: flex-end;
+
         }
 
 
+
+        &:not(:last-child) {
+            border-bottom: 0px;
+        }
         &:last-child {
             border-style: solid none none none;
         }

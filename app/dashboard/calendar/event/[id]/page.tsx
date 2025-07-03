@@ -57,7 +57,7 @@ export default function EventDetails(): JSX.Element {
 
 
   return (
-    <div className={styles.timeline}>
+    <div className={styles.timelinePage}>
       <Header
         title={clientName ? clientName : "Calendario"}
         actions={clientActions}
