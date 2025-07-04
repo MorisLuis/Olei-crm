@@ -23,7 +23,7 @@ export const cobranzaByClientFiltersConfig: FilterItemConfig[] = [
             { label: 'Filtrar No Vencido', value: 'FilterNotExpired', activeValue: "No vencido" },
         ],
     },
-    {
+/*     {
         key: 'DateRange',
         label: 'Fecha',
         type: 'date-range',
@@ -44,5 +44,6 @@ export const cobranzaByClientFiltersConfig: FilterItemConfig[] = [
                 type: 'date',
             }
         ]
-    }
+    } */
 ];
+

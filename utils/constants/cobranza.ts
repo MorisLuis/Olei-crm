@@ -52,8 +52,8 @@ export const CobranzaByClientConditionObject: ReadonlyArray<{
     },
 ] as const;
 
-export type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
-export const TipoDoc: typeTipoDoc[] = [0, 1, 2, 3, 4];
+export type typeTipoDoc = 0 | 1 | 2
+export const TipoDoc: typeTipoDoc[] = [0, 1, 2];
 
 export const TipoDocObject: ReadonlyArray<{
     value: typeTipoDoc;
@@ -70,13 +70,5 @@ export const TipoDocObject: ReadonlyArray<{
     {
         value: 2,
         label: 'Remisión',
-    },
-    {
-        value: 3,
-        label: 'Pedidos',
-    },
-    {
-        value: 4,
-        label: 'Cotización',
-    },
+    }
 ] as const;
