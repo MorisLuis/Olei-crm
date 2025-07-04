@@ -36,7 +36,7 @@ export const renderEventContent = ({
   return (
     <div className={`fc-event-modified ${additionalClass}`}>
       <span className={eventType === 'Bitacora' ? 'blue' : 'red'}></span>
-      <p>{eventInfo.event.title === 'null' ? 'Sin titulo' : eventInfo.event.title}</p>
+      <p>{eventInfo.event.title === 'null' ? 'Documentos' : eventInfo.event.title}</p>
     </div>
   );
 };

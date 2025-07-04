@@ -56,11 +56,6 @@ function CalendarContent(): JSX.Element {
         meetingProp={eventToOpen}
         onMeetingUpdated={handleMeetingUpdated}
         isEditing
-        clientData={{
-          name: 'luis',
-          Id_Almacen: 1,
-          Id_Cliente: 1
-        }}
       />
 
       <Modal

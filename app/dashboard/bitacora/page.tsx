@@ -53,7 +53,11 @@ function BitacoraContent(): JSX.Element {
 
   return (
     <div className={styles.page}>
-      <Header title="Bitacora" actions={clientActions} dontShowBack />
+      <Header
+        title="Bitacora"
+        actions={clientActions}
+        dontShowBack
+      />
 
       <FilterBar
         filters={filters}

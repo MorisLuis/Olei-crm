@@ -37,7 +37,6 @@ export default function Header({ title, actions, custumBack, dontShowBack }: Hea
         {id && !dontShowBack && (
           <div className={`${styles.icon}`} onClick={goBack}>
             <FontAwesomeIcon
-              
               icon={faArrowLeft}
               className={`icon__small`}
             />
@@ -46,7 +45,6 @@ export default function Header({ title, actions, custumBack, dontShowBack }: Hea
         <h2>{Title}</h2>
         <div className="none">{basePath}</div>
       </div>
-
       <ActionsComponent actions={actions} />
     </div>
   );
