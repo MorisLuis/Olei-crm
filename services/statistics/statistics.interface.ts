@@ -10,7 +10,7 @@ interface getStatisticsCRMResponse {
     sellerOfMonth: number;
 
     sells: { period: number, sellsByMonth: number }[];
-    cobranza: { type: string, sumCobranzaExpired: number, sumCobranza: number }[];
+    cobranza: { type: 'MES' | 'HOY' | 'HOY_FWD' | 'TOTAL', sumCobranzaExpired: number, sumCobranza: number }[];
 };
 
 

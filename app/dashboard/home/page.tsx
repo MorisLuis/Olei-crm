@@ -51,31 +51,31 @@ export default function Home(): JSX.Element {
 
         <div className={styles.statsSections__bitacora}>
           <StatCard
-            title='Cuentas por cobrar'
-            value={format(statistics.cobranza[0].sumCobranza)}
+            title='Cuentas por cobrar del mes'
+            value={format(statistics.cobranza.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
             icon={faDollarSign}
-            message='Solo esta semana'
+            message=''
+            onClick={() => push('cobranza')}
+          />
+          <StatCard
+            title='Cuentas por cobrar de hoy'
+            value={format(statistics.cobranza.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
+            icon={faDollarSign}
+            message=''
             onClick={() => push('cobranza')}
           />
           <StatCard
             title='Cuentas por cobrar totales'
-            value={format(statistics.cobranza[1].sumCobranza)}
-            icon={faDollarSign}
-            message='Incluidas las expiradas'
-            onClick={() => push('cobranza')}
-          />
-          <StatCard
-            title='Productos vendidos'
-            value={statistics.productsSoldMonth}
+            value={format(statistics.cobranza.find((item) => item.type === 'TOTAL')?.sumCobranza ?? 0)}
             icon={faBoxesStacked}
-            message='desde el inicio del mes a hoy'
+            message=''
             onClick={() => push('sells/products')}
           />
           <StatCard
-            title='Clientes'
-            value={statistics.sellerOfMonth}
+            title='Cuentas por cobrar a vencer'
+            value={format(statistics.cobranza.find((item) => item.type === 'HOY_FWD')?.sumCobranza ?? 0)}
             icon={faUserTie}
-            message='desde el inicio del mes a hoy'
+            message={`y ${format(statistics.cobranza.find((item) => item.type === 'HOY_FWD')?.sumCobranzaExpired ?? 0)} vencidos`}
             onClick={() => push('sells/general')}
           />
         </div>
