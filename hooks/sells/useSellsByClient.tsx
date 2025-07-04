@@ -3,9 +3,7 @@ import { SellsByClientFilters, TotalSellsResponse } from "@/services/sells/sells
 import { useCallback, useEffect, useState } from "react";
 import { useQueryPaginationWithFilters } from "../useQueryPaginationWithFilters";
 import { getSellsByClient, getSellsByClientCountAndTotal } from "@/services/sells/sells.service";
-import { useRouter, useSearchParams } from "next/navigation";
-import { isEqual } from "lodash";
-
+import { useSearchParams } from "next/navigation";
 
 interface UseSellsByClientReturn {
     error: unknown;
@@ -24,24 +22,31 @@ interface UseSellsByClientReturn {
 
 export function useSellsByClient(clientId: number, filters: SellsByClientFilters): UseSellsByClientReturn {
 
-    const { push } = useRouter();
     const searchParams = useSearchParams();
-    
+
     const [page, setPage] = useState(1);
     const [items, setItems] = useState<SellsInterface[]>([]);
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
     const [prevFilters, setPrevFilters] = useState(filters);
 
+    
     const clientName = searchParams.get('client') ?? 'Regresar';
+
+
+    const queryKey = [
+        `sells-client-${clientId}`,
+        page,
+        ...(filters.DateStart ? [`dateStart-${filters.DateStart}`] : []),
+        ...(filters.DateEnd ? [`dateEnd-${filters.DateEnd}`] : []),
+    ];
 
     const { data, error, isLoading, refetch } =
         useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-            [`sells-client-${clientId}`, page],
+            queryKey,
             ({ PageNumber, filters }) => getSellsByClient({ client: Number(clientId), PageNumber, filters }),
             { PageNumber: page, filters }
         );
-
 
     const handleGetTotals = useCallback(async (): Promise<void> => {
         const { total, count } = await getSellsByClientCountAndTotal({
@@ -57,13 +62,18 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
         handleGetTotals()
     }, [handleGetTotals, filters])
 
-    useEffect(() => {
+/*     useEffect(() => {
         if (!isEqual(filters, prevFilters)) {
             setPage(1);
             setItems([]);
             setPrevFilters(filters)
         }
-    }, [filters, prevFilters]);
+    }, [filters, prevFilters]); */
+
+    useEffect(() => {
+        setPage(1);
+        setItems([]);
+    }, [filters]);
 
     useEffect(() => {
         if (data?.sells) {

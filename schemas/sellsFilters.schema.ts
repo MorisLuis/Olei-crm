@@ -1,9 +1,13 @@
 import { SellsOrderByClientCondition, SellsOrderCondition } from '@/utils/constants/sells'
 import { z } from 'zod'
 
+export type SellsFilterSchemaType = 'sellsOrderCondition' | 'searchTerm' | 'DateStart' | 'DateEnd' | 'DateExactly'
 export const SellsFilterSchema = z.object({
     sellsOrderCondition: z.enum(SellsOrderCondition).default('Nombre'),
-    searchTerm: z.string().optional().transform(val => val ?? '')
+    searchTerm: z.string().optional().transform(val => val ?? ''),
+    DateExactly: z.string().optional().transform(val => val ?? ''),
+    DateStart: z.string().optional().transform(val => val ?? ''),
+    DateEnd: z.string().optional().transform(val => val ?? '')
 })
 
 

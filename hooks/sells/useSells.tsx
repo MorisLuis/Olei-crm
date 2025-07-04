@@ -16,15 +16,26 @@ interface UseSellsReturn {
 }
 
 export function useSells(filters: any): UseSellsReturn {
+    
 
     const [page, setPage] = useState(1);
     const [items, setItems] = useState<SellsInterface[]>([]);
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
-    const [sellsCount, setSellsCount] = useState<number>(0)
+    const [sellsCount, setSellsCount] = useState<number>(0);
+
+
+
+    // queryKey con solo los filtros presentes
+    const queryKey = [
+        'sells',
+        page,
+        ...(filters.DateStart ? [`dateStart-${filters.DateStart}`] : []),
+        ...(filters.DateEnd ? [`dateEnd-${filters.DateEnd}`] : []),
+    ];
 
     const { data, error, isLoading, refetch } =
         useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-            ['sells', page],
+            queryKey,
             ({ PageNumber, filters }) => getSells({ PageNumber, filters }),
             { PageNumber: page, filters }
         );

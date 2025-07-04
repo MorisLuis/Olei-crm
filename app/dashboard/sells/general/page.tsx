@@ -7,7 +7,7 @@ import HeaderStats from '@/components/navigation/headerStats';
 import SubNavigation from '@/components/navigation/subNavigation';
 import { useSells } from '@/hooks/sells/useSells';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
-import { SellsFilterSchema } from '@/schemas/sellsFilters.schema';
+import { SellsFilterSchema, SellsFilterSchemaType } from '@/schemas/sellsFilters.schema';
 import { sellsFiltersConfig } from './sellsFilters';
 import sellsStats from './sellsStats';
 import TableSells from './sellsTable';
@@ -28,16 +28,20 @@ function SellsContent(): JSX.Element {
   return (
     <>
       <SubNavigation items={Menu} />
-      <HeaderStats items={sellsStats(sellsTotal)} isLoading={isLoading} />
+      <HeaderStats
+        items={sellsStats(sellsTotal)}
+        isLoading={isLoading}
+      />
 
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: 'sellsOrderCondition' | 'searchTerm', value: string | number) => void}
+        updateFilter={updateFilter as unknown as (key: SellsFilterSchemaType, value: string | number) => void}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
       />
+
       <TableSells
         sells={items}
         totalSells={sellsCount ?? 0}

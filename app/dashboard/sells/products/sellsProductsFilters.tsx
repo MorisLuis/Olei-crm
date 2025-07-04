@@ -24,11 +24,6 @@ export const sellsFiltersConfig: FilterItemConfig[] = [
         type: 'input'
     },
     {
-        key: 'Sku',
-        label: 'Sku',
-        type: 'input'
-    },
-    {
         key: 'DateRange',
         label: 'Fecha',
         type: 'date-range',

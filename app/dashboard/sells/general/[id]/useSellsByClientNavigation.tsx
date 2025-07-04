@@ -32,6 +32,8 @@ export const useSellsByClientNavigation = (): {
     push(`${currentRoute}&sellId=${item.UniqueKey}`)
   }, [push, currentRoute]);
 
+  
+
   return {
     navigateToCloseModal,
     navigateToBack,
