@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 // Zod schema para los filtros de la página de cobranza
 export const CobranzaFilterSchema = z.object({
-    cobranzaOrderCondition: z.enum(CobranzaOrderCondition).default('ExpiredDays'),
+    cobranzaOrderCondition: z.enum(CobranzaOrderCondition).default('SaldoNoVencido'),
     termSearch: z.string().optional().transform(val => val ?? '')
 })
 

@@ -16,14 +16,11 @@ interface UseSellsReturn {
 }
 
 export function useSells(filters: any): UseSellsReturn {
-    
 
     const [page, setPage] = useState(1);
     const [items, setItems] = useState<SellsInterface[]>([]);
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
-
-
 
     // queryKey con solo los filtros presentes
     const queryKey = [

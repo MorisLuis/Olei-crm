@@ -43,6 +43,11 @@ export default function TableCobranza({
       key: 'SaldoNoVencido',
       label: 'Saldo no vencido',
       render: (_, item) => <p>{format(item.SaldoNoVencido)}</p>,
+    },
+    {
+      key: 'TotalSaldo',
+      label: 'Total Saldo',
+      render: (_, item) => <p>{format(item.TotalSaldo)}</p>,
     }
   ];
 
