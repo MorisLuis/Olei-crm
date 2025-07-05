@@ -12,6 +12,7 @@ interface SidebarInterface {
 }
 
 export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
+
   const pathname = usePathname();
   const basePath = pathname.split('/')[2];
 

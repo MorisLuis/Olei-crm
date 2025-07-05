@@ -1,3 +1,4 @@
+import { getCurrentMonthRange } from '@/utils/getCurrentMonth';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
   faMoneyBill1,
@@ -15,7 +16,12 @@ interface screenDataInterface {
   pathname: string;
   description: string;
   icon: IconProp;
-}
+};
+
+
+
+const { DateStart, DateEnd } = getCurrentMonthRange();
+
 
 export const screenData: screenDataInterface[] = [
   {
@@ -42,7 +48,7 @@ export const screenData: screenDataInterface[] = [
   {
     id: 3,
     name: 'Ventas',
-    pathname: '/dashboard/sells/general',
+    pathname: `/dashboard/sells/general?DateStart=${DateStart}&DateEnd=${DateEnd}`,
     description: 'Ventas Olei CRM by olei software',
     icon: faMoneyBill1,
   },

@@ -20,7 +20,7 @@ const SubNavigation = ({ items } : SubNavigationInterface) : JSX.Element => {
             <div className={styles.menu}>
                 {
                     items.map((item) =>
-                        <div key={item.key} className={item.pathname === actualPathname ? `${styles.link} ${styles.active}` : `${styles.link}`}>
+                        <div key={item.key} className={item.pathname.startsWith(actualPathname) ? `${styles.link} ${styles.active}` : `${styles.link}`}>
                             <Link href={item.pathname} shallow>
                                 {item.name}
                             </Link>

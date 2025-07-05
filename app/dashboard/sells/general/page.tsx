@@ -11,11 +11,7 @@ import { SellsFilterSchema, SellsFilterSchemaType } from '@/schemas/sellsFilters
 import { sellsFiltersConfig } from './sellsFilters';
 import sellsStats from './sellsStats';
 import TableSells from './sellsTable';
-
-const Menu = [
-  { name: "General", pathname: "general", key: 1 },
-  { name: "Productos", pathname: "products", key: 2 }
-];
+import { Menu } from '../sellsMenu';
 
 
 function SellsContent(): JSX.Element {
