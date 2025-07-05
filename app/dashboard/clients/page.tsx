@@ -44,8 +44,8 @@ function ClientsContent(): JSX.Element {
       <FilterBar
         filters={filters}
         config={clientsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: 'clientOrderCondition' | 'searchTerm' | 'searchId', value: string | number | undefined) => void}
-        updateFilters={updateFilters}
+        updateFilter={updateFilter}
+                updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
       />

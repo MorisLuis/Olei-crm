@@ -7,7 +7,7 @@ import HeaderStats from '@/components/navigation/headerStats';
 import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsProductsInterface } from '@/interface/sells';
-import { SellsProductsFilterSchema, SellsProductsFilterSchemaType } from '@/schemas/sellsProductsFilters.schema';
+import { SellsProductsFilterSchema } from '@/schemas/sellsProductsFilters.schema';
 import { TotalsSellsProductsReponse } from '@/services/sells/sells.interface';
 import { SellsProductsFilters } from '@/services/sells/sellsProducts/sellsProducts.interface';
 import { getSellsProducts, getSellsProductsCountAndTotal } from '@/services/sells/sellsProducts/sellsProducts.service';
@@ -62,7 +62,7 @@ function SellsProductsContent(): JSX.Element {
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: SellsProductsFilterSchemaType, value: string | number) => void}
+        updateFilter={updateFilter}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}

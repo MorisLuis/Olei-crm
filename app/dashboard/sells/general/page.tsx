@@ -7,7 +7,7 @@ import HeaderStats from '@/components/navigation/headerStats';
 import SubNavigation from '@/components/navigation/subNavigation';
 import { useSells } from '@/hooks/sells/useSells';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
-import { SellsFilterSchema, SellsFilterSchemaType } from '@/schemas/sellsFilters.schema';
+import { SellsFilterSchema } from '@/schemas/sellsFilters.schema';
 import { sellsFiltersConfig } from './sellsFilters';
 import sellsStats from './sellsStats';
 import TableSells from './sellsTable';
@@ -32,7 +32,7 @@ function SellsContent(): JSX.Element {
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}
-        updateFilter={updateFilter as unknown as (key: SellsFilterSchemaType, value: string | number) => void}
+        updateFilter={updateFilter}
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}

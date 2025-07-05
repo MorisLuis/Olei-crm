@@ -1,37 +1,45 @@
+'use client';
 
 import { useState } from 'react';
 import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
 import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 import { FilterItemConfig } from './FilterBar';
 
-interface FilterInputRendererProps<T extends string = string> {
+type FilterBarInputsProps<F extends Record<string, string | number | undefined>> = {
     filter: FilterItemConfig;
-    filters: Record<T, string | number | undefined>;
-    updateFilter: (key: T, value: string | number) => void;
-    updateFilters: (updates: Partial<Record<T, string | number>>) => void;
-    toggleModal: (key: string) => void
-}
+    filters: F;
 
+    toggleModal?: (key: string) => void;
+    updateFilter: <K extends keyof F>(key: K, value: F[K]) => void;
+    updateFilters?: (updates: Partial<F>) => void;
+};
 
-export const FilterBarInputs = <T extends string = string>({
+export const FilterBarInputs = <F extends Record<string, string | number | undefined>>({
     filter,
     filters,
     updateFilter,
     updateFilters,
-    toggleModal
-}: FilterInputRendererProps<T>): JSX.Element | null => {
+    toggleModal,
+}: FilterBarInputsProps<F>): JSX.Element | null => {
 
-    const value = filters[filter.key as T];
+    const value = filters[filter.key as keyof F];
     const [inputValue, setInputValue] = useState('');
     const [hasTyped, setHasTyped] = useState(false);
 
-    const handleSearch = () : void => {
-        updateFilter(filter.key as T, inputValue)
-        toggleModal(filter.key)
-    }
+    const [rangeDraft, setRangeDraft] = useState<Partial<Record<keyof F, string>>>({});
 
-    const handleKeyDown = useEnterSubmit(handleSearch);
+    const handleKeyDown = useEnterSubmit(() => {
+        updateFilter(filter.key as keyof F, inputValue as F[keyof F]);
+        toggleModal?.(filter.key);
+    });
 
+    const handleDraftChange = (key: keyof F, val: string): void =>
+        setRangeDraft(prev => ({ ...prev, [key]: val }));
+
+    const handleSearchDateRange = (): void => {
+        updateFilters?.(rangeDraft as Partial<F>);
+        toggleModal?.(filter.key);
+    };
 
     switch (filter.type) {
         case 'select':
@@ -39,14 +47,14 @@ export const FilterBarInputs = <T extends string = string>({
                 <select
                     className={styles.filterButton}
                     value={value ?? ''}
-                    onChange={(e) => {
-                        updateFilter(filter.key as T, e.target.value);
-                        toggleModal(filter.key);
+                    onChange={e => {
+                        updateFilter(filter.key as keyof F, e.target.value as F[keyof F]);
+                        toggleModal?.(filter.key);
                     }}
                 >
-                    {filter.options?.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
+                    {filter.options?.map(opt => (
+                        <option key={opt.value} value={opt.value}>
+                            {opt.label}
                         </option>
                     ))}
                 </select>
@@ -57,17 +65,19 @@ export const FilterBarInputs = <T extends string = string>({
                     <input
                         type={filter.inputType || 'text'}
                         className={styles.filterButton}
-                        value={hasTyped ? inputValue : value ?? ''}
+                        value={hasTyped ? inputValue : (value as string | number | undefined) ?? ''}
                         onKeyDown={handleKeyDown}
-                        onChange={(e) => {
+                        onChange={e => {
                             setInputValue(e.target.value);
                             setHasTyped(true);
                         }}
                     />
-
                     <button
                         className={`button-small blue ${styles.inputButton}`}
-                        onClick={handleSearch}
+                        onClick={() => {
+                            updateFilter(filter.key as keyof F, inputValue as F[keyof F]);
+                            toggleModal?.(filter.key);
+                        }}
                     >
                         Buscar
                     </button>
@@ -80,54 +90,60 @@ export const FilterBarInputs = <T extends string = string>({
                     <input
                         type="date"
                         className={styles.filterButton}
-                        value={inputValue ? inputValue : value ?? ''}
-                        onChange={(e) => updateFilter(filter.key as T, e.target.value)}
+                        value={(value as string | undefined) ?? ''}
+                        onChange={e =>
+                            updateFilter(filter.key as keyof F, e.target.value as F[keyof F])
+                        }
                     />
                 </>
             );
         case 'radio':
             return (
                 <div className={styles.radioGroup}>
-                    {filter.options?.map((option) => (
-                        <label key={option.value} className={styles.option}>
+                    {filter.options?.map(opt => (
+                        <label key={opt.value} className={styles.option}>
                             <input
                                 type="radio"
                                 name={filter.key}
-                                value={option.value}
-                                checked={filters[option.value as T] === 1}
+                                value={opt.value}
+                                checked={filters[opt.value as keyof F] === 1}
                                 onChange={() => {
-                                    const updates: Partial<Record<T, number>> = {};
-
-                                    updates[option.value as T] = 1;
-                                    filter.options?.forEach(opt => {
-                                        if (opt.value !== option.value) {
-                                            updates[opt.value as T] = 0;
-                                        }
+                                    const updates: Partial<F> = {};
+                                    updates[opt.value as keyof F] = 1 as unknown as F[keyof F];
+                                    filter.options?.forEach(o => {
+                                        if (o.value !== opt.value)
+                                            (updates as Record<string, unknown>)[o.value] = 0;
                                     });
-
-                                    updateFilters(updates);
+                                    updateFilters?.(updates);
                                 }}
                             />
-                            {option.label}
+                            {opt.label}
                         </label>
                     ))}
                 </div>
             );
+
         case 'date-range':
             return (
-                <div className={styles.dateRangeWrapper}>
-                    {filter.children?.map((childFilter) => (
-                        <div key={childFilter.key} className={styles.dateRangeItem}>
-                            <FilterBarInputs
-                                filter={childFilter}
-                                filters={filters}
-                                updateFilter={updateFilter}
-                                updateFilters={updateFilters}
-                                toggleModal={toggleModal}
-                            />
-                        </div>
-                    ))}
-                </div>
+                <>
+                    <div className={styles.dateRangeWrapper}>
+                        {filter.children?.map((child: FilterItemConfig) => (
+                            <div key={child.key} className={styles.dateRangeItem}>
+                                <FilterBarInputs
+                                    filter={child}
+                                    filters={{ ...filters, ...rangeDraft }}
+                                    updateFilter={(k, v) => handleDraftChange(k as keyof F, String(v))}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <button
+                        className={`button-small blue ${styles.inputButton}`}
+                        onClick={handleSearchDateRange}
+                    >
+                        Buscar
+                    </button>
+                </>
             );
 
         default:

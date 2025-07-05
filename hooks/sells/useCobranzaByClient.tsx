@@ -1,6 +1,6 @@
 import { SellsInterface } from "@/interface/sells";
 import { useQueryPaginationWithFilters } from "../useQueryPaginationWithFilters";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { getCobranzaByClient, getCobranzaByClientCountAndTotal } from "@/services/cobranza/cobranza.service";
 import { CobranzaByClientFilters, TotalCobranzaResponse } from "@/services/cobranza/cobranza.interface";
 import { useCallback, useEffect, useState } from "react";
@@ -20,14 +20,10 @@ interface useCobranzaByClientReturn {
 export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
 
     const pathname = usePathname();
-    const { push } = useRouter();
     const searchParams = useSearchParams();
     const Id_Cliente = pathname.split('/').filter(Boolean)[2];
     const Id_Almacen = searchParams.get('Id_Almacen') ?? '';
     const sellId = searchParams.get('sellId');
-
-    const clientName = searchParams.get('client') ?? 'Regresar';
-    const email = searchParams.get('email') ?? '';
 
     const [cobranzaItems, setCobranzaItems] = useState<SellsInterface[]>([]);
     const [page, setPage] = useState(1);

@@ -77,7 +77,7 @@ function CobranzaContent(): JSX.Element {
             <FilterBar
                 filters={filters}
                 config={cobranzaFiltersConfig}
-                updateFilter={updateFilter as unknown as (key: 'cobranzaOrderCondition' | 'termSearch', value: string | number) => void}
+                updateFilter={updateFilter}
                 updateFilters={updateFilters}
                 removeFilter={removeFilter}
                 removeFilters={removeFilters}

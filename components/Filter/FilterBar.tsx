@@ -13,28 +13,28 @@ export interface FilterItemConfig {
     label: string;
     type: 'select' | 'input' | 'date' | 'radio' | 'date-range';
     inputType?: string;
-    options?: { label: string; value: string | number, activeValue?: string }[];
+    options?: { label: string; value: string | number; activeValue?: string }[];
     children?: FilterItemConfig[];
 }
 
-interface FilterBarProps<T extends string, V = string | number> {
-    filters: Record<T, string | number | undefined>;
-    config: FilterItemConfig[];
-    updateFilter: (key: T, value: V) => void;
-    updateFilters: (updates: Partial<Record<T, V>>) => void;
-    removeFilter: (key: T) => void;
-    removeFilters: (key: T[]) => void;
-}
+type FilterBarProps<F extends Record<string, string | number | undefined>> = {
+    filters: F;
+    updateFilter: <K extends keyof F>(key: K, value: F[K]) => void;
+    updateFilters: (updates: Partial<F>) => void;
+    removeFilter: (key: keyof F) => void;
+    removeFilters: (keys: (keyof F)[]) => void;
 
-const FilterBar = <T extends string = string>({
+    config: FilterItemConfig[];
+};
+
+const FilterBar = <F extends Record<string, string | number | undefined>>({
     filters,
     config,
     updateFilter,
     updateFilters,
     removeFilter,
-    removeFilters
-}: FilterBarProps<T>): JSX.Element => {
-
+    removeFilters,
+}: FilterBarProps<F>): JSX.Element => {
     const [openModalKey, setOpenModalKey] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -42,97 +42,90 @@ const FilterBar = <T extends string = string>({
         setOpenModalKey(prev => (prev === key ? null : key));
     };
 
-    const handleRemoveFilter = (filter: FilterItemConfig, values: string | number | null): void => {
+    const handleRemoveFilter = (filter: FilterItemConfig): void => {
         if (filter.key === 'DateRange') {
-            removeFilters(['DateStart', 'DateEnd', 'DateExactly'] as T[])
+            removeFilters(['DateStart', 'DateEnd', 'DateExactly'] as (keyof F)[]);
         } else {
-            removeFilter(values as T)
+            removeFilter(filter.key as keyof F);
         }
     };
 
-    const hasAtLeastTwoValidFilters = (): boolean => {
-        const count = Object.values(filters).filter(
-            value => value !== '' && value !== 0 && value !== undefined
-        ).length;
-        return count >= 2;
-    }
+    const hasAtLeastTwoValidFilters = (): boolean =>
+        Object.values(filters).filter(v => v !== '' && v !== 0 && v !== undefined).length >= 2;
 
-    const renderModal = (filter: FilterItemConfig): JSX.Element => {
-        return (
-            <>
-                {openModalKey === filter.key && (
-                    <div className={styles.filterModal} ref={dropdownRef}>
-                        <div className={styles.label}>Filtrar por {filter.label}</div>
-                        <FilterBarInputs
-                            filter={filter}
-                            filters={filters}
-                            updateFilter={updateFilter}
-                            updateFilters={updateFilters}
-                            toggleModal={toggleModal}
-                        />
-                    </div>
-                )}
-            </>
-        )
-    };
+    const renderModal = (filter: FilterItemConfig): JSX.Element => (
+        <>
+            {openModalKey === filter.key && (
+                <div className={styles.filterModal} ref={dropdownRef}>
+                    <div className={styles.label}>Filtrar por {filter.label}</div>
 
-    const renderFilter = (filter: FilterItemConfig, isActive: boolean, values: FilterResponse): JSX.Element => {
-        return (
-            <div style={{ display: 'flex' }}>
+                    <FilterBarInputs
+                        filter={filter}
+                        filters={filters}
+                        toggleModal={toggleModal}
 
-                {isActive && (
-                    <button
-                        className={`${styles.filterButton} ${styles.icon}`}
-                        onClick={() => handleRemoveFilter(filter, values.keyValue)}
-                    >
-                        <FontAwesomeIcon icon={faCircleXmark} className={styles.icon} />
-                    </button>
-                )}
+                        updateFilter={updateFilter}
+                        updateFilters={updateFilters}
+                    />
+                </div>
+            )}
+        </>
+    );
 
+    const renderFilterBtn = (
+        filter: FilterItemConfig,
+        isActive: boolean,
+        values: FilterResponse
+    ): JSX.Element => (
+        <div style={{ display: 'flex' }}>
+            {isActive && (
                 <button
-                    className={`${styles.filterButton} ${isActive ? styles.filterButtonActive : ''}`}
-                    onClick={() => toggleModal(filter.key)}
+                    className={`${styles.filterButton} ${styles.icon}`}
+                    onClick={() => handleRemoveFilter(filter)}
                 >
-                    {filter.label}
-                    {values.value && (
-                        <span className={styles.value}> | {values.value}</span>
-                    )}
+                    <FontAwesomeIcon icon={faCircleXmark} className={styles.icon} />
                 </button>
-            </div>
-        )
-    };
+            )}
+
+            <button
+                className={`${styles.filterButton} ${isActive ? styles.filterButtonActive : ''}`}
+                onClick={() => toggleModal(filter.key)}
+            >
+                {filter.label}
+                {values.value && <span className={styles.value}> | {values.value}</span>}
+            </button>
+        </div>
+    );
 
     useClickOutside(dropdownRef, () => setOpenModalKey(null));
 
     return (
         <div className={styles.filtersComponent}>
             <div className={styles.filtersWrapper}>
-                {config.map((filter) => {
+                {config.map((filter: FilterItemConfig) => {
                     const values = filterBarValues({ config: filter, filters });
                     const isActive = values.active;
 
                     return (
                         <div key={filter.key} className={styles.filterItem}>
-
-                            {/* FILTER */}
-                            {renderFilter(filter, isActive, values)}
-
+                            {/* BOTÓN / BADGE */}
+                            {renderFilterBtn(filter, isActive, values)}
                             {/* MODAL */}
                             {renderModal(filter)}
-
                         </div>
                     );
                 })}
 
-                {
-                    hasAtLeastTwoValidFilters() &&
-                    <div className={styles.filterItem} onClick={() => removeFilters(Object.keys(filters) as T[])}>
+                {hasAtLeastTwoValidFilters() && (
+                    <div
+                        className={styles.filterItem}
+                        onClick={() => removeFilters(Object.keys(filters) as (keyof F)[])}
+                    >
                         <p className={styles.filterClear}>Limpiar filtros</p>
                     </div>
-                }
+                )}
             </div>
         </div>
-
     );
 };
 
