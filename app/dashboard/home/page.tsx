@@ -43,7 +43,9 @@ export default function Home(): JSX.Element {
           <ChartWidget
             data={statistics.sells}
             chartTitle='Ventas del mes'
-            chartValue={format(statistics.sells[0].sellsByMonth)}
+            chartSubtitle="Ventas del dia"
+            chartValue={format(statistics.sells[0].sellsByMonthCredit ?? 0)}
+            chartSubValue={format(statistics.sellsToday.sellsTotal ?? 0)}
             chartMessage=''
             onClick={() => push('sells/general')}
           />

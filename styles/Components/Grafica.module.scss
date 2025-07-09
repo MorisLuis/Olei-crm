@@ -21,12 +21,19 @@
 
     .ChartData{
         font-size: variables.$font-medium;
+        display: flex;
+        justify-content: space-between;
+
+        & > div:nth-child(2){
+            text-align: right;
+        }
 
         &__value {
             color: variables.$text-color;
             font-size: variables.$font-big;
             font-weight: bold;
         }
+
     }
 
     .graph{
