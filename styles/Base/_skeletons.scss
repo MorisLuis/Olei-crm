@@ -19,6 +19,11 @@
     min-width: 100px;
 }
 
+.skeleton--text--small {
+    min-height: variables.$font-small;
+    min-width: 100px;
+}
+
 .skeleton--h2 {
     height: variables.$font-big;
     width: variables.$font-medium;

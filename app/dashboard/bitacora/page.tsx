@@ -66,6 +66,7 @@ function BitacoraContent(): JSX.Element {
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
+        isLoading={isLoading}
       />
 
       <TableBitacora

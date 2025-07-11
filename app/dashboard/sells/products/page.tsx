@@ -66,6 +66,7 @@ function SellsProductsContent(): JSX.Element {
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
+        isLoading={isLoading}
       />
   
       <TableSells

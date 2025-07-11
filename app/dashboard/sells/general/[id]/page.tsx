@@ -53,6 +53,7 @@ export default function SellsClientPage(): JSX.Element {
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
+        isLoading={isLoading}
       />
 
       <TableSellsClient

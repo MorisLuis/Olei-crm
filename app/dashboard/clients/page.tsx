@@ -45,9 +45,10 @@ function ClientsContent(): JSX.Element {
         filters={filters}
         config={clientsFiltersConfig}
         updateFilter={updateFilter}
-                updateFilters={updateFilters}
+        updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
+        isLoading={isLoading}
       />
 
       <TableClients

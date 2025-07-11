@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '@/context/auth/AuthContext';
 import styles from '../../styles/Navigation.module.scss';
+import TopbarSkeleton from '../Skeletons/navigation/topbarSkeleton';
 
 interface TopbarInterface {
   openMenu: () => void;
@@ -25,9 +26,7 @@ export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
   const renderProfile = ()  : JSX.Element => {
 
     if(!user?.Nombre) {
-      return(
-        <div>cargando...</div>
-      )
+      return <TopbarSkeleton/>
     }
 
     return (

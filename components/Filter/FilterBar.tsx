@@ -7,6 +7,7 @@ import { useClickOutside } from '@/hooks/dom/useClickOutside';
 import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 import { FilterBarInputs } from './FilterBarInputs';
 import { FilterResponse, filterBarValues } from './FilterBarValues';
+import FilterBarSkeleton from '../Skeletons/navigation/FilterBarSkeleton';
 
 export interface FilterItemConfig {
     key: string;
@@ -25,6 +26,7 @@ type FilterBarProps<F extends Record<string, string | number | undefined>> = {
     removeFilters: (keys: (keyof F)[]) => void;
 
     config: FilterItemConfig[];
+    isLoading: boolean;
 };
 
 const FilterBar = <F extends Record<string, string | number | undefined>>({
@@ -34,7 +36,9 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
     updateFilters,
     removeFilter,
     removeFilters,
+    isLoading
 }: FilterBarProps<F>): JSX.Element => {
+
     const [openModalKey, setOpenModalKey] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +102,11 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
     );
 
     useClickOutside(dropdownRef, () => setOpenModalKey(null));
+
+    if(isLoading) {
+        return (<FilterBarSkeleton/>)
+    }
+    
 
     return (
         <div className={styles.filtersComponent}>

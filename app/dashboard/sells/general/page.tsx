@@ -24,6 +24,7 @@ function SellsContent(): JSX.Element {
   return (
     <>
       <SubNavigation items={Menu} />
+  
       <HeaderStats
         items={sellsStats(sellsTotal)}
         isLoading={isLoading}
@@ -36,6 +37,7 @@ function SellsContent(): JSX.Element {
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
+        isLoading={isLoading}
       />
 
       <TableSells

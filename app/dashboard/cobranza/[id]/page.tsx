@@ -64,6 +64,7 @@ export default function CobranzaByClient(): JSX.Element {
         updateFilters={updateFilters}
         removeFilter={removeFilter}
         removeFilters={removeFilters}
+        isLoading={isLoading}
       />
 
       <TableCobranzaByClient
