@@ -12,6 +12,7 @@ interface TopbarInterface {
 }
 
 export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
+
   const [openMenuProfile, setOpenMenuProfile] = useState(false);
   const { push } = useRouter();
   const { logoutUser, user } = useContext(AuthContext);
@@ -22,6 +23,13 @@ export default function Topbar({ openMenu }: TopbarInterface) : JSX.Element {
   };
 
   const renderProfile = ()  : JSX.Element => {
+
+    if(!user?.Nombre) {
+      return(
+        <div>cargando...</div>
+      )
+    }
+
     return (
       <div className={styles.profile} onClick={() => setOpenMenuProfile(!openMenuProfile)}>
         <div className={styles.info}>

@@ -17,7 +17,7 @@ export default function HeaderStats({
     sizeSkeleton
 }: headerStatsInterface): JSX.Element {
 
-    if (!isLoading) {
+    if (isLoading) {
         return <HeaderStatsSkeleton size={sizeSkeleton}/>
     }
 

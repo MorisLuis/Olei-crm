@@ -11,6 +11,7 @@ interface LayoutDashboardInterface {
 }
 
 export default function LayoutDashboard({ children }: LayoutDashboardInterface) : JSX.Element {
+
   const [openMenu, setOpenMenu] = useState(false);
   const handleOpenMenu = () : void => setOpenMenu(!openMenu);
 

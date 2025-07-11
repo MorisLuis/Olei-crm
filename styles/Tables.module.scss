@@ -3,6 +3,8 @@
 @use "Abstracts/mixins";
 @use "Abstracts/variables";
 
+
+
 .table {
     width: 100%;
     font-size: variables.$font-medium;
@@ -25,6 +27,10 @@
         thead {
             background-color: variables.$background-color;
             border-radius: variables.$border-radius;
+
+            @include mixins.respond(phone) {
+                display: none;
+            }
 
             th {
                 padding: variables.$padding;
@@ -56,6 +62,13 @@
             tr {
                 border-radius: variables.$border-radius;
 
+
+                @include mixins.respond(phone) {
+                    display: block;
+                    border-bottom: 1px solid variables.$color-border;
+                    padding: variables.$padding;
+                }
+
                 &:hover {
                     background-color: variables.$background-color-secondary;
                 }
@@ -65,27 +78,47 @@
                     border-bottom: 1px solid variables.$color-border;
                     cursor: pointer;
 
+
                     @include mixins.respond(phone) {
+                        padding: variables.$padding;
+
+                        display: flex;
+                        justify-content: space-between;
+                        border: none;
+                        min-width: 100%;
+                        padding: 0px;
+                        padding-bottom: variables.$padding;
+                        align-items: center;
+                        text-align: end;
+
+                        &::before {
+                            content: attr(data-label);
+                            color: variables.$color-gray;
+                            flex-basis: 50%;
+                            text-align: left;
+                        }
+
                         span {
                             display: flex;
                             text-align: end;
                         }
                     }
 
+                    &.isSkeleton {
+                        &::before{
+                            content: none;
+                        }
+                    }
+
+
                     &:first-child {
                         border-radius: 0px variables.$border-radius;
                         overflow: hidden;
-
                     }
 
                     &:last-child {
                         border-radius: variables.$border-radius 0px;
                         overflow: hidden;
-                    }
-
-
-                    @include mixins.respond(phone) {
-                        padding: variables.$padding;
                     }
 
                     &.text-blue-500 {
@@ -115,41 +148,8 @@
         font-size: variables.$font-medium;
     }
 
-    // Responsive adjustments for smaller screens
-    @include mixins.respond(phone) {
-
-        table {
-            thead {
-                display: none;
-            }
-
-            tbody {
-                tr {
-                    display: block;
-                    border-bottom: 1px solid variables.$color-border;
-                    padding: variables.$padding;
-
-                    td {
-                        display: flex;
-                        justify-content: space-between;
-                        border: none;
-                        min-width: 100%;
-                        padding: 0px;
-                        padding-bottom: variables.$padding;
-                        align-items: center;
-
-                        &:before {
-                            content: attr(data-label);
-                            color: variables.$color-gray;
-                            flex-basis: 50%;
-                            text-align: left;
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
+
 
 .tableSecondary {
     width: 100%;
@@ -319,6 +319,7 @@
         &:not(:last-child) {
             border-bottom: 0px;
         }
+
         &:last-child {
             border-style: solid none none none;
         }

@@ -82,7 +82,7 @@ export default function TableCobranzaByClient({
   ];
 
   if (loadingData) {
-    return <TableSkeleton />
+    return <TableSkeleton columns={4} />
   }
 
   if (noCoincidenceItems) {

@@ -65,7 +65,7 @@ export default function TableSellsDetailsClient({
     return (
       <>
         {/* Header skeleton */}
-        <TableSkeleton />
+        <TableSkeleton columns={4}/>
       </>
     );
   }

@@ -49,7 +49,7 @@ const Table = <T,>({
               {columns.map((col, colIndex) => (
                 <td
                   key={colIndex}
-                  className={col.className || ''}
+                  className={`${col.className}` || ''}
                   data-label={col.label}
                   style={{ width: col.width }}
                   onClick={() => handleSelectItem?.(item)}

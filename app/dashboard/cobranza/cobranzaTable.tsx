@@ -52,7 +52,7 @@ export default function TableCobranza({
   ];
 
   if (loadingData) {
-    return <TableSkeleton />
+    return <TableSkeleton columns={4} />
   }
 
   if (noCoincidenceItems) {

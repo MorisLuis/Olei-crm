@@ -45,7 +45,7 @@ export default function TableSells({
   };
 
   if (loadingData) {
-    return <TableSkeleton />
+    return <TableSkeleton columns={4} />
   }
 
   if (noCoincidenceItems) {
