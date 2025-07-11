@@ -107,24 +107,3 @@ const CalendarComponent = ({
 };
 
 export default CalendarComponent;
-
-
-/* 
-  const handleEventClick = (info: EventClickArg): void => {
-    const countEvents = info.event.extendedProps.eventCount;
-
-    if (countEvents >= 3) {
-      const dateClickArg: DateClickArg = {
-        date: info.event.start as Date,
-        dateStr: info.event.startStr,
-        allDay: false,
-        dayEl: info.el,
-        jsEvent: {} as MouseEvent,
-        view: info.view,
-      };
-      return onClickDay(dateClickArg);
-    }
-
-    onClickEvent(info);
-  };
-*/

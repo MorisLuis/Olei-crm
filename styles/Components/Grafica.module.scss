@@ -12,12 +12,10 @@
     box-shadow: variables.$box-shadow-button;
     flex: 1;
 
-
     &:hover{
         cursor: pointer;
         background-color: variables.$background-color-tertiary;
     }
-
 
     .ChartData{
         font-size: variables.$font-medium;
@@ -33,10 +31,10 @@
             font-size: variables.$font-big;
             font-weight: bold;
         }
-
     }
 
     .graph{
         display: flex;
+        min-height: 100px;
     }
 }

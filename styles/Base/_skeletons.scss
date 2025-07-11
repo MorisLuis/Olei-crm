@@ -1,0 +1,41 @@
+@use "sass:math";
+@use "../Abstracts/variables";
+
+.skeleton--background {
+    background-color: variables.$color-border-secondary;
+    animation: loading 1s infinite;
+    border-radius: calc(variables.$border-radius /3);
+}
+
+.skeleton {
+    background-color: variables.$color-border;
+    animation: loading 1s infinite;
+    border-radius: calc(variables.$border-radius /3);
+    //height: variables.$font-normal;
+}
+
+.skeleton--text {
+    min-height: variables.$font-normal;
+    min-width: 100px;
+}
+
+.skeleton--h2 {
+    height: variables.$font-big;
+    width: variables.$font-medium;
+}
+
+
+.utils {
+
+    &__marginBottom {
+        margin-bottom: variables.$margin-vertical;
+
+        &__small {
+            margin-bottom: calc(variables.$margin-vertical / 4);
+        }
+    }
+
+    &__half--width{
+        width: 50%;
+    }
+}

@@ -9,7 +9,6 @@ interface StatCard {
     icon: IconDefinition;
 
     message?: string;
-    isLoading?: boolean;
     onClick?: () => void;
 }
 
@@ -18,17 +17,8 @@ export default function StatCard({
     value,
     message,
     icon,
-    isLoading,
     onClick
 }: StatCard): JSX.Element {
-
-    if (isLoading) {
-        return (
-            <div>
-                <p>Cargando...</p>
-            </div>
-        )
-    }
 
     return (
         <div className={styles.StatCard} onClick={onClick}>
@@ -39,8 +29,8 @@ export default function StatCard({
                     className={`icon cursor ${styles.edit}`}
                 />
             </div>
-            <p className={styles.value}>{value}</p>
-            <p className={styles.message}>{message}</p>
+            <p className={styles.StatCard__value}>{value}</p>
+            <p className={styles.StatCard__message}>{message}</p>
         </div>
     )
 }

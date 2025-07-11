@@ -1,13 +1,12 @@
 import React from 'react';
+import StatCardSkeleton from './Cards/StateCardSkeleton';
 import styles from '../../styles/Navigation/headerStats.module.scss';
 
-const HeaderStatsSkeleton = (): JSX.Element => {
+const HeaderStatsSkeleton = ({ size = 2 }: { size?: number }): JSX.Element => {
     return (
         <div className={styles.headerStats}>
-            {Array.from({ length: 2 }, (_, i) => (
-                <div key={i} className={`${styles.headerStatsItem} skeleton`}>
-                    <label></label>
-                </div>
+            {Array.from({ length: size }, (_, i) => (
+                <StatCardSkeleton key={i} />
             ))}
         </div>
     );

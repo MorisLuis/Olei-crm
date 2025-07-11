@@ -7,16 +7,18 @@ import HeaderStatsSkeleton from '../Skeletons/HeaderStatsSkeleton';
 
 interface headerStatsInterface {
     items: { label: string, value: number }[],
-    isLoading: boolean
+    isLoading: boolean,
+    sizeSkeleton?: number;
 }
 
 export default function HeaderStats({
     items,
-    isLoading
+    isLoading,
+    sizeSkeleton
 }: headerStatsInterface): JSX.Element {
 
-    if (isLoading) {
-        return <HeaderStatsSkeleton />
+    if (!isLoading) {
+        return <HeaderStatsSkeleton size={sizeSkeleton}/>
     }
 
     return (

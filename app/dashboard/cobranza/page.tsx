@@ -72,7 +72,7 @@ function CobranzaContent(): JSX.Element {
     return (
         <>
             <Header title="Cobranza" dontShowBack />
-            <HeaderStats items={cobranzaStats(cobranzaTotal)} isLoading={isLoading} />
+            <HeaderStats items={cobranzaStats(cobranzaTotal)} isLoading={isLoading} sizeSkeleton={3}/>
 
             <FilterBar
                 filters={filters}

@@ -6,6 +6,7 @@ import { useEffect, useState, useContext } from 'react';
 
 import StatCard from '@/components/Cards/StatCard';
 import ChartWidget from '@/components/Charts/ChardWidget';
+import HomeSkeleton from '@/components/Skeletons/pages/HomeSkeleton';
 import Header from '@/components/navigation/header';
 import { AuthContext } from '@/context/auth/AuthContext';
 import { getStatisticsCRM } from '@/services/statistics/statistics';
@@ -31,7 +32,7 @@ export default function Home(): JSX.Element {
   }, []);
 
   if (loading || !statistics) {
-    return <div className={styles.Home}>Cargando estadísticas...</div>;
+    return <HomeSkeleton/>
   }
 
   return (

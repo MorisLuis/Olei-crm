@@ -6,9 +6,7 @@
 .sidebar {
     margin: 0px;
     padding: variables.$padding;
-    //overflow-y: auto;
     height: 100vh;
-    //overflow-x: hidden;
     position: sticky;
     top: 0px;
     width: 15%;
@@ -325,10 +323,9 @@
 }
 
 .header {
+    display: flex;
     margin-bottom: calc(variables.$margin-vertical / 2);
     color: variables.$color-tertiary;
-
-    display: flex;
     justify-content: space-between;
     align-items: center;
     min-height: 30px;
@@ -354,6 +351,10 @@
                 border-radius: variables.$border-radius;
                 border: 1px solid variables.$color-border-secondary;
             }
+        }
+
+        .text {
+            min-width: 100px;
         }
     }
 

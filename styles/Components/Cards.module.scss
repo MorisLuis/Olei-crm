@@ -313,7 +313,6 @@
     font-size: variables.$font-medium;
     box-shadow: variables.$box-shadow-button;
     flex: 1;
-    background-color: 'red';
     align-content: center;
 
     &:hover{
@@ -326,7 +325,7 @@
         justify-content: space-between;
     }
 
-    .value {
+    &__value {
         color: variables.$text-color;
         font-size: variables.$font-big;
         font-weight: bold;
@@ -336,7 +335,7 @@
         }
     }
 
-    .message {
+    &__message {
         font-size: variables.$font-small;
     }
 }

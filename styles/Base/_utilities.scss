@@ -52,7 +52,7 @@
     }
 }
 
-.instruction{
+.instruction {
     font-size: variables.$font-medium;
     color: variables.$text-color-secondary;
     margin-bottom: variables.$margin-vertical;
@@ -69,12 +69,6 @@
     }
 }
 
-.skeleton {
-    background-color: variables.$color-border;
-    animation: loadingSkeleton 1s infinite;
-    height: variables.$font-normal;
-    border-radius: calc(variables.$border-radius /3);
-}
 
 .backgroundModal {
     width: 100vw;
