@@ -1,10 +1,8 @@
 'use client';
 
-import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import BriefCard from '@/components/Cards/BriefCard';
-import { MessageCard } from '@/components/Cards/MessageCard';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import { ClientInterface } from '@/interface/client';
 import { getClientById } from '@/services/clients/clients.service';
@@ -20,13 +18,17 @@ export default function ClientDetailsPage(): JSX.Element {
   const searchParams = useSearchParams();
   const idAlmacen = searchParams.get('Id_Almacen');
   const idClient = searchParams.get('Id_Cliente');
+
   const [clientData, setClientData] = useState<ClientInterface | null>();
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
+  const [loadingClientData, setLoadingClientData] = useState(true);
 
   const handelGetClientData = useCallback(async () => {
     if (!idAlmacen || !idClient) return;
+    setLoadingClientData(true)
     const { client } = await getClientById({ Id_Almacen: idAlmacen, Id_Cliente: idClient });
     setClientData(client);
+    setLoadingClientData(false)
   }, [idAlmacen, idClient]);
 
   const clientActions: ActionsInterface[] = [
@@ -34,7 +36,8 @@ export default function ClientDetailsPage(): JSX.Element {
       id: 1,
       text: 'Nueva Actividad',
       onclick: () => setOpenModalCreateMeeting(true),
-      color: 'yellow'
+      color: 'yellow',
+      notVsible: loadingClientData
     }
   ];
 
@@ -55,24 +58,23 @@ export default function ClientDetailsPage(): JSX.Element {
       <Header
         title={clientData?.Nombre ?? 'Regresar'}
         actions={clientActions}
+        isLoading={loadingClientData}
       />
 
       <div className={styles.bitacoraDetails}>
         <div className={styles.bitacoraDetails__brief}>
-          {clientData ? (
-            <BriefCard data={briefClientData(clientData)} header="Detalle de cliente" isLoading={false} />
-          ) : (
-            <MessageCard title="No hay infomacion del cliente" icon={faFaceFrown}>
-              <p></p>
-            </MessageCard>
-          )}
+          <BriefCard
+            data={clientData ? briefClientData(clientData) : null}
+            header="Detalle de cliente"
+            isLoading={loadingClientData}
+          />
         </div>
 
         <div className={styles.bitacoraDetails__data}>
           <div className={styles.details}>
             <h4>Actividad</h4>
             <BitacoraDetailsTable
-              Id_Bitacora={Number(Id_Bitacora)}
+              Id_Bitacora={Number(Id_Bitacora ?? 0)}
               isLoading={!Id_Bitacora}
             />
           </div>

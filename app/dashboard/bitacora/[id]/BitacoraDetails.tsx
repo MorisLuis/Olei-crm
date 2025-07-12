@@ -4,6 +4,7 @@ import { faCalendarXmark } from '@fortawesome/free-solid-svg-icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import Modal from '@/components/Modals/Modal';
+import TableTertiarySkeleton from '@/components/Skeletons/Tables/TableTertiarySkeleton';
 import TableTertiary from '@/components/UI/Tables/TableTertiary';
 import MeetingInterface from '@/interface/meeting';
 import { getMeetingById } from '@/services/bitacora/meeting.service';
@@ -23,12 +24,14 @@ export default function BitacoraDetailsTable({
 
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
   const [meetingData, setMeetingData] = useState<MeetingInterface>();
+  const [isLoadingMeeting, setIsLoadingMeeting] = useState(true)
 
   const onOpenComments = (): void => setOpenCommentsModal(true);
   const { columns } = ColumnsBitacoraDetails({ onOpenComments });
 
   const fetchMeeting = useCallback(async (): Promise<void> => {
     if (isLoading) return;
+    setIsLoadingMeeting(true);
 
     if (Id_Bitacora) {
       const { meeting } = await getMeetingById(Id_Bitacora.toString());
@@ -36,12 +39,22 @@ export default function BitacoraDetailsTable({
     } else {
       setMeetingData(undefined)
     }
+
+    setIsLoadingMeeting(false);
   }, [isLoading, Id_Bitacora]);
 
   useEffect(() => {
     fetchMeeting();
   }, [fetchMeeting, Id_Bitacora, isLoading]);
 
+
+  if (isLoading || isLoadingMeeting) {
+    return (
+      <div className={styles.sellDetails}>
+        <TableTertiarySkeleton columns={6} />
+      </div>
+    )
+  }
 
   if (!meetingData) {
     return (

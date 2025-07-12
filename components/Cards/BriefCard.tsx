@@ -2,6 +2,7 @@ import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { MessageCard } from './MessageCard';
 import styles from '../../styles/Components/Cards.module.scss';
+
 import BriefCardSkeleton from '../Skeletons/Cards/BriefCardSkeleton';
 import { Tag } from '../UI/Tag';
 
