@@ -4,7 +4,7 @@ import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
-import TableSkeleton from '@/components/Skeletons/TableSkeleton';
+import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table from '@/components/UI/Tables/Table';
 import { ClientInterface } from '@/interface/client';
 import { columnClients } from './TableClientsData';

@@ -45,7 +45,8 @@ function BitacoraContent(): JSX.Element {
       id: 1,
       text: 'Nueva Actividad',
       onclick: () => setOpenModalCreateMeeting(true),
-      color: 'yellow'
+      color: 'yellow',
+      notVsible: isLoading
     }
   ]
 

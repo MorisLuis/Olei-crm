@@ -23,7 +23,6 @@ export default function BitacoraDetailsTable({
 
   const [openCommentsModal, setOpenCommentsModal] = useState(false);
   const [meetingData, setMeetingData] = useState<MeetingInterface>();
-  const [isLoadingMeetingData, setIsLoadingMeetingData] = useState(true)
 
   const onOpenComments = (): void => setOpenCommentsModal(true);
   const { columns } = ColumnsBitacoraDetails({ onOpenComments });
@@ -37,21 +36,12 @@ export default function BitacoraDetailsTable({
     } else {
       setMeetingData(undefined)
     }
-
-    setIsLoadingMeetingData(false);
   }, [isLoading, Id_Bitacora]);
 
   useEffect(() => {
     fetchMeeting();
   }, [fetchMeeting, Id_Bitacora, isLoading]);
 
-  if (isLoading || isLoadingMeetingData) {
-    return (
-      <div>
-        <p>Cargando...</p>
-      </div>
-    );
-  }
 
   if (!meetingData) {
     return (

@@ -11,7 +11,13 @@ import FormMeeting from '../bitacora/FormMeeting';
 import { INITIAL_MEETING } from '../bitacora/FormMeetingData';
 import SellDetails from '../sells/general/[id]/[sellId]/SellDetails';
 
-function CalendarContent(): JSX.Element {
+interface CalendarContentInterface {
+  isLoading?: boolean
+}
+
+function CalendarContent({
+  isLoading = false
+}: CalendarContentInterface): JSX.Element {
   const { push, back } = useRouter();
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const [eventToOpen, setEventToOpen] = useState<MeetingInterface>(INITIAL_MEETING);
@@ -43,11 +49,16 @@ function CalendarContent(): JSX.Element {
 
   return (
     <>
-      <Header title="Calendario" actions={clientActions} dontShowBack />
+      <Header
+        title="Calendario"
+        actions={clientActions}
+        dontShowBack
+      />
 
       <CalendarComponent
         onClickDay={handleOnClickDay}
         refreshCalendar={refreshCalendar}
+        isLoading={isLoading}
       />
 
       <FormMeeting
@@ -70,33 +81,10 @@ function CalendarContent(): JSX.Element {
   );
 }
 
-export default function Calendar(): JSX.Element {
+export default function CalendarScreen(): JSX.Element {
   return (
     <Suspense fallback={<p>Cargando...</p>}>
       <CalendarContent />
     </Suspense>
   );
 }
-
-
-/* 
-  const handelOnClickEvent = async (info: EventClickArg): Promise<void | null> => {
-    const dataEvent = info.event.extendedProps;
-
-    if (dataEvent.TableType === 'Bitacora') {
-      // Get meeting from API
-      const { meeting } = await getMeetingById(dataEvent.Id);
-      if (!meeting) return null;
-      setEventToOpen(meeting);
-      setOpenModalCreateMeeting(true);
-      return null;
-    }
-
-    if (dataEvent.TableType === 'Ventas') {
-      // Get sell and folio from API.
-      // Doesnt exist sellId we have to use composed key from 'Ventas' Table ( UniqueKey )
-      push(`calendar/?sellId=${dataEvent.Id}&Id_Cliente=${dataEvent.Id_Cliente}`);
-      return null;
-    }
-  };
-*/

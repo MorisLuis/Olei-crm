@@ -301,6 +301,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: variables.$gap;
 
         .item__label {
             color: variables.$text-color-secondary;
@@ -311,7 +312,6 @@
             width: 70%;
             display: flex;
             justify-content: flex-end;
-
         }
 
 

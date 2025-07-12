@@ -13,7 +13,7 @@ import { getStatisticsCRM } from '@/services/statistics/statistics';
 import { getStatisticsCRMResponse } from '@/services/statistics/statistics.interface';
 import styles from '@/styles/pages/Home.module.scss';
 import { format } from '@/utils/currency';
-import Calendar from '../calendar/page';
+import CalendarScreen from '../calendar/page';
 
 export default function Home(): JSX.Element {
   const { user } = useContext(AuthContext);
@@ -84,7 +84,7 @@ export default function Home(): JSX.Element {
         </div>
       </div>
 
-      <Calendar/>
+      <CalendarScreen />
 
     </div>
   );

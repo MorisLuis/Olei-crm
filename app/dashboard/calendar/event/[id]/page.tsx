@@ -4,14 +4,14 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import Header, { ActionsInterface } from '@/components/navigation/header';
-import Timeline from './Timeline';
+import ClientAgendaContent from './ClientAgendaContent';
 import TimelineEventsValidation from './TimelineEventsValidationTemp';
 import TimelineModalSells from './TimelineModalSells';
 import { ExecuteNavigationEventClient } from './TimelineNavigationTemp';
 import { useGetEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
-export default function EventDetails(): JSX.Element {
+export default function ClientAgenda(): JSX.Element {
 
   const pathname = usePathname();
 
@@ -52,9 +52,9 @@ export default function EventDetails(): JSX.Element {
       text: 'Nueva Actividad',
       onclick: () => setOpenModalCreateMeeting(true),
       color: 'yellow',
+      notVsible: isLoading
     },
   ];
-
 
   return (
     <div className={styles.timelinePage}>
@@ -64,7 +64,7 @@ export default function EventDetails(): JSX.Element {
         custumBack={navigateToBack}
       />
 
-      <Timeline
+      <ClientAgendaContent
         initialDateProp={decodedDate}
         events={events}
         sellEvents={sellEvents}

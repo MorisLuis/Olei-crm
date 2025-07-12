@@ -29,7 +29,7 @@ export default function Header({ title, actions, custumBack, dontShowBack }: Hea
   const pathname = usePathname();
   const [basePath, id] = pathname.split('/').filter(Boolean);
   const goBack = custumBack ? custumBack : () : void => router.back();
-  const Title = title === null ? '' : title ? title : 'Regresar';
+  const Title = title === null ? 'Cargando...' : title ? title : 'Regresar';
 
   return (
     <div className={styles.header}>

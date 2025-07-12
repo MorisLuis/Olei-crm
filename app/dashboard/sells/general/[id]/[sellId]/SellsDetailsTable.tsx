@@ -3,7 +3,7 @@
 import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
-import TableSkeleton from '@/components/Skeletons/TableSkeleton';
+import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table from '@/components/UI/Tables/Table';
 import { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
 import { SellsDetailsInterface } from '@/interface/sells';

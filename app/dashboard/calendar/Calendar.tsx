@@ -1,6 +1,5 @@
 import {
   DatesSetArg,
-  EventInput,
   EventSourceInput,
 } from '@fullcalendar/core/index.js';
 import esLocale from '@fullcalendar/core/locales/es';
@@ -10,6 +9,7 @@ import FullCalendar from '@fullcalendar/react';
 import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
 import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/calendar';
+import CalendarComponentSkeleton from './CalendarComponentSkeleton';
 import { renderEventContent } from './RenderEvents';
 import { DataCalendarConverted } from './temp';
 
@@ -19,13 +19,15 @@ interface CalendarComponentInterface {
 
   clientVersion?: boolean;
   refreshCalendar?: boolean;
+  isLoading: boolean
 }
 
 const CalendarComponent = ({
   onClickDay,
   Id_Cliente,
   clientVersion,
-  refreshCalendar
+  refreshCalendar,
+  isLoading
 }: CalendarComponentInterface): JSX.Element => {
 
   const processedDaysRef = useRef<{ [key: string]: boolean }>({});
@@ -81,12 +83,12 @@ const CalendarComponent = ({
     };
   }, [handleRenderCalendar]);
 
-  if ((events as EventInput[]).length < 0) {
+  if (isLoading) {
     return (
-      <div>
-        <p>Cargando....</p>
+      <div style={{ width: "100%", height: "100%" }}>
+        <CalendarComponentSkeleton/>
       </div>
-    );
+    )
   }
 
   return (
@@ -97,7 +99,6 @@ const CalendarComponent = ({
       selectable={true}
       events={events}
       dateClick={onClickDay}
-      //eventClick={onClickDay}
       height="auto"
       locale={esLocale}
       eventContent={(eventInfo) => renderEventContent({ eventInfo, processedDaysRef })}

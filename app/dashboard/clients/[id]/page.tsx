@@ -20,9 +20,9 @@ import { INITIAL_MEETING } from '../../bitacora/FormMeetingData';
 export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();
   const [clientData, setClientData] = useState<ClientInterface>();
-  const [loadingClientData, setLoadingClientData] = useState(false);
+  const [loadingClientData, setLoadingClientData] = useState(true);
 
-  const [openModalWhatsApp, setOpenModalWhatsApp] = useState(false);
+  const [openModalWhatsApp, setOpenModalWhatsApp] = useState(true);
   const [openModalEmail, setOpenModalEmail] = useState(false);
   const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING);
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
@@ -109,6 +109,7 @@ export default function ClientDetailsPage(): JSX.Element {
             onClickDay={handleOnClickDay}
             Id_Cliente={Number(idCliente)}
             clientVersion={true}
+            isLoading={loadingClientData}
           />
         </div>
       </div>
@@ -117,7 +118,6 @@ export default function ClientDetailsPage(): JSX.Element {
         visible={openModalWhatsApp}
         onClose={() => setOpenModalWhatsApp(false)}
         phoneNumber={clientData?.TelefonoWhatsapp?.trim()}
-
       />
 
       <EmailModal

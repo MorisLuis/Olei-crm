@@ -78,7 +78,8 @@
 
             @include mixins.respond(phone) {
                 width: 100%;
-                :first-child{
+
+                :first-child {
                     display: flex;
                 }
             }
@@ -245,7 +246,7 @@
     }
 }
 
-.MessageSecondaryCard{
+.MessageSecondaryCard {
     background-color: variables.$background-color-secondary;
     padding: calc(variables.$padding*1.5) variables.$padding;
     border: 1px solid variables.$color-border;
@@ -257,7 +258,7 @@
     justify-content: space-between;
     align-items: center;
 
-    .left{
+    .left {
         display: flex;
         gap: variables.$gap;
     }
@@ -295,16 +296,26 @@
     border: 1px solid variables.$color-border;
     box-shadow: variables.$box-shadow-button;
 
-    .data{
-        label{
-            color: variables.$text-color-secondary;
+    &__data {
+        width: auto;
+
+        .dataItem {
+            position: relative;
+
+            label {
+                color: variables.$text-color-secondary;
+                width: 50%;
+                display: flex;
+            }
         }
 
-        &:last-of-type .dividerLocal{
+        &:last-of-type .dividerLocal {
             display: none;
         }
     }
-};
+}
+
+;
 
 .StatCard {
     border: 1px solid variables.$color-border;
@@ -315,7 +326,7 @@
     flex: 1;
     align-content: center;
 
-    &:hover{
+    &:hover {
         cursor: pointer;
         background-color: variables.$background-color-tertiary;
     }

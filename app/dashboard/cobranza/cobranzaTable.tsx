@@ -3,7 +3,7 @@
 import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
-import TableSkeleton from '@/components/Skeletons/TableSkeleton';
+import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { CobranzaInterface } from '@/services/cobranza/cobranza.interface';
 import { format } from '@/utils/currency';
