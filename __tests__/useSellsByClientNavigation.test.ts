@@ -65,7 +65,7 @@ describe('useSellsByClientNavigation', () => {
         expect(pushMock).toHaveBeenCalledWith('/dashboard/sells/general');
     });
 
-    it('onSelectClient adds sellId to currentRoute', () => {
+    it('onSelectSell adds sellId to currentRoute', () => {
         (useNavigationContext as jest.Mock).mockReturnValue({
             currentRoute: '/dashboard/sells/general?clientId=123',
             previousRoute: null
@@ -74,7 +74,7 @@ describe('useSellsByClientNavigation', () => {
         const { result } = renderHook(() => useSellsByClientNavigation());
 
         act(() => {
-            result.current.onSelectClient({ UniqueKey: 'abc123' } as SellsInterface);
+            result.current.onSelectSell({ UniqueKey: 'abc123' } as SellsInterface);
         });
 
         expect(pushMock).toHaveBeenCalledWith('/dashboard/sells/general?clientId=123&sellId=abc123');

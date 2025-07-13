@@ -13,7 +13,6 @@ import sellsStats from './sellsStats';
 import TableSells from './sellsTable';
 import { Menu } from '../sellsMenu';
 
-
 function SellsContent(): JSX.Element {
 
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema);
@@ -44,8 +43,8 @@ function SellsContent(): JSX.Element {
         sells={items}
         totalSells={sellsCount ?? 0}
         loadMoreProducts={loadMore}
-        isLoading={isLoading}
         loadingData={items.length <= 0 && isLoading}
+        isLoading={isLoading}
       />
     </>
   );

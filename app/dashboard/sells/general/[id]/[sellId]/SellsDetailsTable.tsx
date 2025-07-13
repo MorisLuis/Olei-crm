@@ -62,12 +62,7 @@ export default function TableSellsDetailsClient({
   ];
 
   if (isLoading) {
-    return (
-      <>
-        {/* Header skeleton */}
-        <TableSkeleton columns={4}/>
-      </>
-    );
+    return (<TableSkeleton columns={4} />);
   }
 
   if (sells?.length === 0) {

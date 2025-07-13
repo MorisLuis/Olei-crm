@@ -1,5 +1,3 @@
-// features/sales/components/SellDetails.tsx
-/** @fileoverview Página de detalle de venta con productos paginados */
 'use client';
 
 import React  from 'react';
@@ -12,7 +10,7 @@ import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 export default function SellDetails(): JSX.Element {
 
   const { items, error, refetch, sellInformation, isLoading, sellsCount, loadMore  } = useSellDetails()
-
+  
   if (error) return <Custum500 handleRetry={refetch} />;
 
 

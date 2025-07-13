@@ -6,7 +6,7 @@ import { SellsInterface } from '@/interface/sells';
 export const useSellsByClientNavigation = (): {
   navigateToCloseModal: () => void,
   navigateToBack: () => void,
-  onSelectClient: (item: SellsInterface) => void
+  onSelectSell: (item: SellsInterface) => void
 } => {
 
   const { push } = useRouter();
@@ -28,7 +28,7 @@ export const useSellsByClientNavigation = (): {
     }
   };
 
-  const onSelectClient = useCallback((item: SellsInterface) => {
+  const onSelectSell = useCallback((item: SellsInterface) => {
     push(`${currentRoute}&sellId=${item.UniqueKey}`)
   }, [push, currentRoute]);
 
@@ -37,6 +37,6 @@ export const useSellsByClientNavigation = (): {
   return {
     navigateToCloseModal,
     navigateToBack,
-    onSelectClient
+    onSelectSell
   };
 };

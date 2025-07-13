@@ -1,9 +1,10 @@
 import { SellsInterface } from "@/interface/sells";
 import { SellsByClientFilters, TotalSellsResponse } from "@/services/sells/sells.interface";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useQueryPaginationWithFilters } from "../useQueryPaginationWithFilters";
 import { getSellsByClient, getSellsByClientCountAndTotal } from "@/services/sells/sells.service";
 import { useSearchParams } from "next/navigation";
+import { isEqual } from "lodash";
 
 interface UseSellsByClientReturn {
     error: unknown;
@@ -28,11 +29,9 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
     const [items, setItems] = useState<SellsInterface[]>([]);
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
-    const [prevFilters, setPrevFilters] = useState(filters);
-
+    const prevFiltersRef = useRef<SellsByClientFilters>();
     
     const clientName = searchParams.get('client') ?? 'Regresar';
-
 
     const queryKey = [
         `sells-client-${clientId}`,
@@ -49,6 +48,7 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
         );
 
     const handleGetTotals = useCallback(async (): Promise<void> => {
+
         const { total, count } = await getSellsByClientCountAndTotal({
             filters: filters as SellsByClientFilters,
             client: Number(clientId)
@@ -62,17 +62,12 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
         handleGetTotals()
     }, [handleGetTotals, filters])
 
-/*     useEffect(() => {
-        if (!isEqual(filters, prevFilters)) {
+    useEffect(() => {
+        if (!isEqual(filters, prevFiltersRef.current)) {
             setPage(1);
             setItems([]);
-            setPrevFilters(filters)
+            prevFiltersRef.current = filters; // actualización sincronizada
         }
-    }, [filters, prevFilters]); */
-
-    useEffect(() => {
-        setPage(1);
-        setItems([]);
     }, [filters]);
 
     useEffect(() => {
@@ -80,6 +75,7 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
             setItems(prev => [...prev, ...data.sells]);
         }
     }, [data]);
+
 
     // Función para cargar más página
     const loadMore = () => {

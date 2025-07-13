@@ -28,13 +28,13 @@ export const getSellsCountAndTotal = async (params: GetSellsParams): Promise<Get
 };
 
 export const getSellsByClient = async (params: GetSellsByClientPaginatedParams): Promise<GetSellsResponse> => {
-
   const { data } = await api.get<GetSellsResponse>(`/api/sells/client/${params.client}`, {
     params: {
       PageNumber: params.PageNumber,
       ...params.filters
     }
   });
+
   return { sells: data.sells };
 };
 

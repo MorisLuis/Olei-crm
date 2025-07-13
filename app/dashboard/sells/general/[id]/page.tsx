@@ -21,8 +21,8 @@ export default function SellsClientPage(): JSX.Element {
   const { id: idCliente } = useParams();
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
+  const { navigateToBack, navigateToCloseModal, onSelectSell } = useSellsByClientNavigation()
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsByClientFilterSchema);
-  const { navigateToBack, navigateToCloseModal, onSelectClient } = useSellsByClientNavigation()
 
   const {
     error,
@@ -60,7 +60,7 @@ export default function SellsClientPage(): JSX.Element {
         sells={items}
         totalSells={sellsCount ?? 0}
         loadMoreProducts={loadMore}
-        handleSelectItem={onSelectClient}
+        handleSelectItem={onSelectSell}
         isLoading={isLoading}
         loadingData={items.length <= 0 && isLoading}
       />
