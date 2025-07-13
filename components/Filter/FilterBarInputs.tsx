@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
+import useToast from '@/hooks/useToast';
+import isValidDate from '@/utils/validators/isValidDate';
 import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 import { FilterItemConfig } from './FilterBar';
 
@@ -25,6 +27,7 @@ export const FilterBarInputs = <F extends Record<string, string | number | undef
     const value = filters[filter.key as keyof F];
     const [inputValue, setInputValue] = useState('');
     const [hasTyped, setHasTyped] = useState(false);
+    const { showError } = useToast()
 
     const [rangeDraft, setRangeDraft] = useState<Partial<Record<keyof F, string>>>({});
 
@@ -37,9 +40,20 @@ export const FilterBarInputs = <F extends Record<string, string | number | undef
         setRangeDraft(prev => ({ ...prev, [key]: val }));
 
     const handleSearchDateRange = (): void => {
+        const invalidDateKey = Object.entries(rangeDraft).find(
+            ([, value]) => value && !isValidDate(value)
+        );
+
+        if (invalidDateKey) {
+            setRangeDraft(prev => ({ ...prev, [`${invalidDateKey[0]}`]: undefined }));
+            showError(`La fecha "${invalidDateKey[1]}" no es válida. Usa formato dd/MM/yyyy.`)
+            return;
+        }
+
         updateFilters?.(rangeDraft as Partial<F>);
         toggleModal?.(filter.key);
     };
+
 
     switch (filter.type) {
         case 'select':

@@ -1,6 +1,6 @@
 import { api } from '@/api/api';
 import MeetingInterface from '@/interface/meeting';
-import { dateValidation, hourValidation } from '@/validations/FormMeetingValidation';
+import { dateValidation, hourValidation } from '@/utils/validators/FormMeetingValidation';
 import { getMeetingsInterface } from './meeting.interface';
 
 

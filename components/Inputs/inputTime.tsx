@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/dom/useClickOutside';
 import useToast from '@/hooks/useToast';
-import { hourValidation } from '@/validations/FormMeetingValidation';
+import { hourValidation } from '@/utils/validators/FormMeetingValidation';
 
 interface TimeInputInterface {
   value?: string;

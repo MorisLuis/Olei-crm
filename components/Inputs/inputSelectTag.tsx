@@ -1,7 +1,7 @@
 import React, { KeyboardEventHandler } from 'react';
 import { MultiValue } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { emailValidation } from '@/validations/FormMeetingValidation';
+import { emailValidation } from '@/utils/validators/FormMeetingValidation';
 
 const components = {
   DropdownIndicator: null,
