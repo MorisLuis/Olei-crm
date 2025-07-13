@@ -24,11 +24,11 @@ export const FilterBarInputs = <F extends Record<string, string | number | undef
     toggleModal,
 }: FilterBarInputsProps<F>): JSX.Element | null => {
 
+    const { showError } = useToast();
+
     const value = filters[filter.key as keyof F];
     const [inputValue, setInputValue] = useState('');
     const [hasTyped, setHasTyped] = useState(false);
-    const { showError } = useToast()
-
     const [rangeDraft, setRangeDraft] = useState<Partial<Record<keyof F, string>>>({});
 
     const handleKeyDown = useEnterSubmit(() => {
@@ -40,6 +40,7 @@ export const FilterBarInputs = <F extends Record<string, string | number | undef
         setRangeDraft(prev => ({ ...prev, [key]: val }));
 
     const handleSearchDateRange = (): void => {
+
         const invalidDateKey = Object.entries(rangeDraft).find(
             ([, value]) => value && !isValidDate(value)
         );
