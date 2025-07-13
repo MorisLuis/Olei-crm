@@ -15,6 +15,7 @@ export function useQueryPaginationWithFilters<T, F extends { PageNumber?: number
         sort: (a, b) => a.localeCompare(b),
     })
 
+    
     const enabled = options?.enabled ?? !!params.PageNumber;
 
     // Definimos las opciones explícitamente, permitiendo 'keepPreviousData'

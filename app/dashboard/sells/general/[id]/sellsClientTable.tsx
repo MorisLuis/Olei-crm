@@ -31,7 +31,8 @@ export default function TableSellsClient({
   handleSelectItem,
 }: TableSellsClientInterface): JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
+  //const NoMoreProductToShow = sells.length === totalSells || !isLoading;
+  const NoMoreProductToShow = sells.length === totalSells;
   const noCoincidenceItems = sells.length === 0 && !loadingData
 
   const { changeColor } = useTagColor();

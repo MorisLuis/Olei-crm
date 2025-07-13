@@ -1,10 +1,11 @@
-import { SellsInterface } from "@/interface/sells";
-import { SellsByClientFilters, TotalSellsResponse } from "@/services/sells/sells.interface";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useQueryPaginationWithFilters } from "../useQueryPaginationWithFilters";
-import { getSellsByClient, getSellsByClientCountAndTotal } from "@/services/sells/sells.service";
-import { useSearchParams } from "next/navigation";
-import { isEqual } from "lodash";
+import { useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
+import qs from 'qs';
+
+import { SellsInterface } from '@/interface/sells';
+import { SellsByClientFilters, TotalSellsResponse } from '@/services/sells/sells.interface';
+import { getSellsByClient, getSellsByClientCountAndTotal } from '@/services/sells/sells.service';
+import { useSearchParams } from 'next/navigation';
 
 interface UseSellsByClientReturn {
     error: unknown;
@@ -15,71 +16,60 @@ interface UseSellsByClientReturn {
     clientName: string;
     sellsTotal: TotalSellsResponse | null;
     loadMore: () => void;
-};
+    hasMore: boolean;
+}
 
-/**
- * Custom hook para manejar toda la lógica de obtener las ventas.
- */
+export function useSellsByClient(
+    clientId: number,
+    filters: SellsByClientFilters
+): UseSellsByClientReturn {
 
-export function useSellsByClient(clientId: number, filters: SellsByClientFilters): UseSellsByClientReturn {
-
-    const searchParams = useSearchParams();
-
-    const [page, setPage] = useState(1);
-    const [items, setItems] = useState<SellsInterface[]>([]);
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
-    const prevFiltersRef = useRef<SellsByClientFilters>();
-    
+
+    const searchParams = useSearchParams();
     const clientName = searchParams.get('client') ?? 'Regresar';
 
-    const queryKey = [
-        `sells-client-${clientId}`,
-        page,
-        ...(filters.DateStart ? [`dateStart-${filters.DateStart}`] : []),
-        ...(filters.DateEnd ? [`dateEnd-${filters.DateEnd}`] : []),
-    ];
-
-    const { data, error, isLoading, refetch } =
-        useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-            queryKey,
-            ({ PageNumber, filters }) => getSellsByClient({ client: Number(clientId), PageNumber, filters }),
-            { PageNumber: page, filters }
-        );
-
-    const handleGetTotals = useCallback(async (): Promise<void> => {
-
-        const { total, count } = await getSellsByClientCountAndTotal({
-            filters: filters as SellsByClientFilters,
-            client: Number(clientId)
-        })
-
+    // Get totals
+    const fetchTotals = useCallback(async () => {
+        const { total, count } = await getSellsByClientCountAndTotal({ filters, client: clientId });
         setSellsTotal(total);
-        setSellsCount(count)
-    }, [filters, clientId])
+        setSellsCount(count);
+    }, [filters, clientId]);
 
     useEffect(() => {
-        handleGetTotals()
-    }, [handleGetTotals, filters])
+        fetchTotals();
+    }, [fetchTotals]);
 
-    useEffect(() => {
-        if (!isEqual(filters, prevFiltersRef.current)) {
-            setPage(1);
-            setItems([]);
-            prevFiltersRef.current = filters; // actualización sincronizada
-        }
-    }, [filters]);
+    // Serialize the filters to the queryKey.
+    const serializedFilters = qs.stringify(filters, {
+        skipNulls: true,
+        sort: (a, b) => a.localeCompare(b),
+    });
 
-    useEffect(() => {
-        if (data?.sells) {
-            setItems(prev => [...prev, ...data.sells]);
-        }
-    }, [data]);
+    const {
+        data,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        refetch,
+    } = useInfiniteQuery<{ sells: SellsInterface[] }, Error>({
+        queryKey: ['sells-client', clientId, serializedFilters],
+        queryFn: ({ pageParam = 1 }) => getSellsByClient({ client: clientId, PageNumber: pageParam as number, filters }),
+        getNextPageParam: (lastPage, allPages) => lastPage.sells.length === 0 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 5,
+    });
 
+    // Combinamos todas las páginas en un solo array
+    const items = data?.pages.flatMap(page => page.sells) ?? [];
 
-    // Función para cargar más página
     const loadMore = () => {
-        setPage((p) => p + 1);
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
     };
 
     return {
@@ -90,6 +80,7 @@ export function useSellsByClient(clientId: number, filters: SellsByClientFilters
         sellsCount,
         clientName,
         sellsTotal,
-        loadMore
-    }
+        loadMore,
+        hasMore: !!hasNextPage,
+    };
 }
