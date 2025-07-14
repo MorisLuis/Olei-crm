@@ -68,16 +68,22 @@
                     border-bottom: 1px solid variables.$color-border;
                     padding: variables.$padding;
                 }
-
-                &:hover {
-                    background-color: variables.$background-color-secondary;
+    
+                &.hoverState {
+                    &:hover{
+                        background-color: variables.$background-color-secondary;
+                    }
                 }
 
                 td {
                     padding: calc(variables.$padding / 2) variables.$padding;
                     border-bottom: 1px solid variables.$color-border;
-                    cursor: pointer;
 
+                    &.hoverState {
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
 
                     @include mixins.respond(phone) {
                         padding: variables.$padding;
@@ -109,7 +115,6 @@
                             content: none;
                         }
                     }
-
 
                     &:first-child {
                         border-radius: 0px variables.$border-radius;

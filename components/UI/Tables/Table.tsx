@@ -20,6 +20,7 @@ interface TableProps<T> {
 
   loadingMoreData: boolean;
   noMoreData: boolean;
+  hoverAvailable?: boolean
 }
 
 const Table = <T,>({
@@ -29,6 +30,7 @@ const Table = <T,>({
   handleLoadMore,
   noMoreData = false,
   loadingMoreData,
+  hoverAvailable = true
 }: TableProps<T>): JSX.Element => {
 
 
@@ -38,7 +40,7 @@ const Table = <T,>({
       {/* TABLE */}
       <table>
         <thead>
-          <tr>
+          <tr >
             {columns.map((col, index) => (
               <th key={index} className={col.className || ''} style={{ width: col.width }}>
                 {col.label}
@@ -48,11 +50,11 @@ const Table = <T,>({
         </thead>
         <tbody>
           {data.map((item, rowIndex) => (
-            <tr key={rowIndex}>
+            <tr key={rowIndex} className={hoverAvailable ? `${styles.hoverState}` : ''}>
               {columns.map((col, colIndex) => (
                 <td
                   key={colIndex}
-                  className={`${col.className}` || ''}
+                  className={hoverAvailable ? `${col.className} ${styles.hoverState}` : `${col.className}` || ''}
                   data-label={col.label}
                   style={{ width: col.width }}
                   onClick={() => handleSelectItem?.(item)}

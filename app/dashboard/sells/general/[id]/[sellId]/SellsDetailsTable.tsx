@@ -81,6 +81,7 @@ export default function TableSellsDetailsClient({
       loadingMoreData={isLoading}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
+      hoverAvailable={false}
     />
   );
 }

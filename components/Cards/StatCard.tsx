@@ -10,6 +10,7 @@ interface StatCard {
 
     message?: string;
     onClick?: () => void;
+    hoverAvailable?: boolean
 }
 
 export default function StatCard({
@@ -17,11 +18,12 @@ export default function StatCard({
     value,
     message,
     icon,
-    onClick
+    onClick,
+    hoverAvailable = true
 }: StatCard): JSX.Element {
 
     return (
-        <div className={styles.StatCard} onClick={onClick}>
+        <div className={hoverAvailable ? `${styles.StatCard} ${styles.hoverState}` : `${styles.StatCard}`} onClick={onClick}>
             <div className={styles.StatCard__header}>
                 <p>{title}</p>
                 <FontAwesomeIcon

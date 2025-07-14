@@ -18,7 +18,7 @@ export default function HeaderStats({
 }: headerStatsInterface): JSX.Element {
 
     if (isLoading) {
-        return <HeaderStatsSkeleton size={sizeSkeleton}/>
+        return <HeaderStatsSkeleton size={sizeSkeleton} />
     }
 
     return (
@@ -30,6 +30,7 @@ export default function HeaderStats({
                         title={item.label}
                         value={format(item.value)}
                         icon={faDollarSign}
+                        hoverAvailable={false}
                     />
                 )
             }

@@ -315,8 +315,6 @@
     }
 }
 
-;
-
 .StatCard {
     border: 1px solid variables.$color-border;
     border-radius: variables.$border-radius;
@@ -326,10 +324,13 @@
     flex: 1;
     align-content: center;
 
-    &:hover {
-        cursor: pointer;
-        background-color: variables.$background-color-tertiary;
+    &.hoverState {
+        &:hover {
+            cursor: pointer;
+            background-color: variables.$background-color-tertiary;
+        }
     }
+
 
     &__header {
         display: flex;
