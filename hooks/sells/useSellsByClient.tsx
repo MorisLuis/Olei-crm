@@ -10,13 +10,16 @@ import { useSearchParams } from 'next/navigation';
 interface UseSellsByClientReturn {
     error: unknown;
     refetch: () => void;
-    isLoading: boolean;
     items: SellsInterface[];
     sellsCount: number;
     clientName: string;
     sellsTotal: TotalSellsResponse | null;
     loadMore: () => void;
+
     hasMore: boolean;
+    isLoading: boolean;
+    isLoadingTotals: boolean;
+    isFetchingNextPage: boolean;
 }
 
 export function useSellsByClient(
@@ -26,20 +29,19 @@ export function useSellsByClient(
 
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true)
 
     const searchParams = useSearchParams();
     const clientName = searchParams.get('client') ?? 'Regresar';
 
     // Get totals
     const fetchTotals = useCallback(async () => {
+        setIsLoadingTotals(true)
         const { total, count } = await getSellsByClientCountAndTotal({ filters, client: clientId });
         setSellsTotal(total);
         setSellsCount(count);
+        setIsLoadingTotals(false)
     }, [filters, clientId]);
-
-    useEffect(() => {
-        fetchTotals();
-    }, [fetchTotals]);
 
     // Serialize the filters to the queryKey.
     const serializedFilters = qs.stringify(filters, {
@@ -60,10 +62,10 @@ export function useSellsByClient(
         queryFn: ({ pageParam = 1 }) => getSellsByClient({ client: clientId, PageNumber: pageParam as number, filters }),
         getNextPageParam: (lastPage, allPages) => lastPage.sells.length === 0 ? undefined : allPages.length + 1,
         initialPageParam: 1,
-        staleTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60 * 5 // Five minutes
     });
 
-    // Combinamos todas las páginas en un solo array
+    // Combine all the pages in one array.
     const items = data?.pages.flatMap(page => page.sells) ?? [];
 
     const loadMore = () => {
@@ -72,15 +74,21 @@ export function useSellsByClient(
         }
     };
 
+    useEffect(() => {
+        fetchTotals();
+    }, [fetchTotals]);
+
     return {
         error,
         refetch,
-        isLoading,
         items,
         sellsCount,
         clientName,
         sellsTotal,
         loadMore,
         hasMore: !!hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isLoadingTotals
     };
 }

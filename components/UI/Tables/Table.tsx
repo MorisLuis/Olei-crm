@@ -16,23 +16,26 @@ interface TableProps<T> {
   data: T[];
   columns: ColumnConfig<T>[];
   handleLoadMore: () => void;
+  handleSelectItem?: (arg: T) => void;
+
   loadingMoreData: boolean;
   noMoreData: boolean;
-  handleSelectItem?: (arg: T) => void;
 }
 
 const Table = <T,>({
   data,
   columns,
-  noMoreData = false,
   handleSelectItem,
   handleLoadMore,
+  noMoreData = false,
   loadingMoreData,
-}: TableProps<T>) : JSX.Element => {
+}: TableProps<T>): JSX.Element => {
 
 
   return (
     <div className={styles.table}>
+
+      {/* TABLE */}
       <table>
         <thead>
           <tr>
@@ -64,6 +67,7 @@ const Table = <T,>({
         </tbody>
       </table>
 
+      {/* BUTTON LOAD MORE DATA */}
       {!noMoreData && (
         <div className={styles.laodMore}>
           <ButtonLoad
@@ -75,6 +79,7 @@ const Table = <T,>({
         </div>
       )}
 
+      {/* MESSAGE */}
       {noMoreData && (
         <p className={styles.message}>
           Ya no hay mas productos, cambia los filtros para ver otros resultados

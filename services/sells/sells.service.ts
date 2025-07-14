@@ -34,7 +34,6 @@ export const getSellsByClient = async (params: GetSellsByClientPaginatedParams):
       ...params.filters
     }
   });
-
   return { sells: data.sells };
 };
 
@@ -46,6 +45,7 @@ export const getSellsByClientCountAndTotal = async (params: GetSellsByClientPara
       ...params.filters
     }
   });
+
   return { count, total };
 };
 

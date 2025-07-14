@@ -16,23 +16,22 @@ import { formatDate } from '@/utils/format/formatDate';
 interface TableSellsClientInterface {
   sells: SellsInterface[];
   totalSells: number;
-  isLoading: boolean;
-  loadingData: boolean;
   loadMoreProducts: () => void;
   handleSelectItem: (item: SellsInterface) => void;
+  loadingData: boolean;
+  isFetchingNextPage: boolean;
 }
 
 export default function TableSellsClient({
   sells,
   totalSells,
   loadingData,
-  isLoading,
   loadMoreProducts,
   handleSelectItem,
+  isFetchingNextPage
 }: TableSellsClientInterface): JSX.Element {
 
-  //const NoMoreProductToShow = sells.length === totalSells || !isLoading;
-  const NoMoreProductToShow = sells.length === totalSells;
+  const NoMoreProductToShow = sells.length === totalSells || !totalSells;
   const noCoincidenceItems = sells.length === 0 && !loadingData
 
   const { changeColor } = useTagColor();
@@ -103,7 +102,7 @@ export default function TableSellsClient({
       columns={columns}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={isLoading}
+      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
     />

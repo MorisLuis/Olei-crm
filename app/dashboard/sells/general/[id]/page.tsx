@@ -27,12 +27,14 @@ export default function SellsClientPage(): JSX.Element {
   const {
     error,
     refetch,
-    isLoading,
     items,
     sellsCount,
     clientName,
     sellsTotal,
-    loadMore
+    loadMore,
+    isLoading,
+    isFetchingNextPage,
+    isLoadingTotals
   } = useSellsByClient(Number(idCliente), filters)
 
   if (error) return <Custum500 handleRetry={refetch} />;
@@ -44,7 +46,7 @@ export default function SellsClientPage(): JSX.Element {
         custumBack={navigateToBack}
       />
 
-      <HeaderStats items={sellsClientStats(sellsTotal)} isLoading={isLoading} />
+      <HeaderStats items={sellsClientStats(sellsTotal)} isLoading={isLoadingTotals} />
 
       <FilterBar
         filters={filters}
@@ -61,8 +63,8 @@ export default function SellsClientPage(): JSX.Element {
         totalSells={sellsCount ?? 0}
         loadMoreProducts={loadMore}
         handleSelectItem={onSelectSell}
-        isLoading={isLoading}
         loadingData={items.length <= 0 && isLoading}
+        isFetchingNextPage={isFetchingNextPage}
       />
 
       <Modal

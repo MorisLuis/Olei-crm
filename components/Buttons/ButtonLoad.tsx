@@ -19,6 +19,7 @@ const ButtonLoad = ({
   disabled,
   color
 }: Props) : JSX.Element => {
+
   return (
     <button
       className={`button ${color} ${loading ? 'loading' : ''} display-flex allCenter`}
