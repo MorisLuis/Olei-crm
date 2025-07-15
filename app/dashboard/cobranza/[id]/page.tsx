@@ -28,7 +28,7 @@ export default function CobranzaByClient(): JSX.Element {
 
   const [openModalShareCobranza, setOpenModalShareCobranza] = useState(false);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaByClientFilterSchema);
-  const { error, refetch, items, loadMore, isLoading, cobranzaCount, cobranzaByClientTotal } = useCobranzaByClient(filters);
+  const { error, refetch, items, loadMore, isLoading, cobranzaCount, cobranzaByClientTotal, isFetchingNextPage, isLoadingTotals } = useCobranzaByClient(filters);
 
   const clientActions: ActionsInterface[] = [
     {
@@ -54,7 +54,7 @@ export default function CobranzaByClient(): JSX.Element {
 
       <HeaderStats
         items={cobranzaByClientStats(cobranzaByClientTotal)}
-        isLoading={isLoading}
+        isLoading={isLoadingTotals}
       />
 
       <FilterBar
@@ -72,8 +72,8 @@ export default function CobranzaByClient(): JSX.Element {
         totalSells={cobranzaCount ?? 0}
         loadMoreProducts={loadMore}
         handleSelectItem={onSelectItem}
-        isLoading={isLoading}
         loadingData={items.length === 0 && isLoading}
+        isFetchingNextPage={isFetchingNextPage}
       />
 
       <Modal

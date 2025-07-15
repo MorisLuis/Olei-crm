@@ -16,7 +16,7 @@ import { Menu } from '../sellsMenu';
 function SellsContent(): JSX.Element {
 
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsFilterSchema);
-  const { refetch, error, loadMore, isLoading, items, sellsTotal, sellsCount } = useSells(filters);
+  const { refetch, error, loadMore, isLoading, items, sellsTotal, sellsCount, isFetchingNextPage, isLoadingTotals } = useSells(filters);
 
   if (error) return <Custum500 handleRetry={refetch} />;
 
@@ -26,7 +26,7 @@ function SellsContent(): JSX.Element {
   
       <HeaderStats
         items={sellsStats(sellsTotal)}
-        isLoading={isLoading}
+        isLoading={isLoadingTotals}
       />
 
       <FilterBar
@@ -43,8 +43,9 @@ function SellsContent(): JSX.Element {
         sells={items}
         totalSells={sellsCount ?? 0}
         loadMoreProducts={loadMore}
-        loadingData={items.length <= 0 && isLoading}
-        isLoading={isLoading}
+        isLoadingData={items.length <= 0 && isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoadingUseQuery={isLoading}
       />
     </>
   );

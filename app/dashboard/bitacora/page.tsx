@@ -1,10 +1,10 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { Suspense, useState } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Header, { ActionsInterface } from '@/components/navigation/header';
-import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import MeetingInterface from '@/interface/meeting';
 import { BitacoraFilterSchema } from '@/schemas/bitacoraFilters.schema';
@@ -16,29 +16,26 @@ import styles from '../../../styles/pages/Sells.module.scss';
 
 function BitacoraContent(): JSX.Element {
 
-  const [page, setPage] = useState(1);
-  const [items, setItems] = useState<MeetingInterface[]>([]);
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(BitacoraFilterSchema);
 
-  const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ meetings: MeetingInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
-      ['bitacora', page],
-      ({ PageNumber, filters }) => getMeetings({ PageNumber, filters }),
-      { PageNumber: page, filters }
-    );
+  const {
+    data,
+    error,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useInfiniteQuery<{ meetings: MeetingInterface[], total: number }, Error>({
+    queryKey: ['clients', filters],
+    queryFn: ({ pageParam = 1 }) => getMeetings({ PageNumber: pageParam as number, filters }),
+    getNextPageParam: (lastPage, allPages) => lastPage.meetings.length === 0 ? undefined : allPages.length + 1,
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5 // Five minutes
+  });
 
-  useEffect(() => {
-    setPage(1);
-    setItems([]);
-  }, [filters]);
-
-  useEffect(() => {
-    if (data?.meetings) {
-      setItems(prev => [...prev, ...data.meetings]);
-    }
-  }, [data]);
-
+  const items = data?.pages.flatMap(page => page.meetings) ?? [];
+  const count = data?.pages.flatMap(page => page.total)[0] ?? 0;
 
   const clientActions: ActionsInterface[] = [
     {
@@ -72,10 +69,12 @@ function BitacoraContent(): JSX.Element {
 
       <TableBitacora
         meetings={items}
-        totalMeetings={data?.total ?? 0}
-        loadMoreProducts={() => setPage(p => p + 1)}
-        buttonIsLoading={isLoading}
-        loadingData={items.length <= 0 && isLoading}
+        totalMeetings={count ?? 0}
+        loadMoreProducts={fetchNextPage}
+        
+        isLoadingData={items.length <= 0 && isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoadingUseQuery={isLoading}
       />
 
       <FormMeeting

@@ -27,12 +27,13 @@ export function useSellsByClient(
     filters: SellsByClientFilters
 ): UseSellsByClientReturn {
 
+    const searchParams = useSearchParams();
+    const clientName = searchParams.get('client') ?? 'Regresar';
+    
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
     const [isLoadingTotals, setIsLoadingTotals] = useState(true)
-
-    const searchParams = useSearchParams();
-    const clientName = searchParams.get('client') ?? 'Regresar';
+    
 
     // Get totals
     const fetchTotals = useCallback(async () => {

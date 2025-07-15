@@ -1,9 +1,9 @@
 import { SellsInterface } from "@/interface/sells";
-import { useQueryPaginationWithFilters } from "../useQueryPaginationWithFilters";
 import { usePathname, useSearchParams } from "next/navigation";
 import { getCobranzaByClient, getCobranzaByClientCountAndTotal } from "@/services/cobranza/cobranza.service";
 import { CobranzaByClientFilters, TotalCobranzaResponse } from "@/services/cobranza/cobranza.interface";
 import { useCallback, useEffect, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 
 interface useCobranzaByClientReturn {
@@ -11,10 +11,12 @@ interface useCobranzaByClientReturn {
     items: SellsInterface[];
     cobranzaCount?: number;
     cobranzaByClientTotal: TotalCobranzaResponse | null;
-    isLoading: boolean;
     error: unknown;
     loadMore: () => void;
     refetch: () => void;
+    isFetchingNextPage: boolean,
+    isLoading: boolean,
+    isLoadingTotals: boolean
 }
 
 export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
@@ -23,29 +25,13 @@ export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
     const searchParams = useSearchParams();
     const Id_Cliente = pathname.split('/').filter(Boolean)[2];
     const Id_Almacen = searchParams.get('Id_Almacen') ?? '';
-    const sellId = searchParams.get('sellId');
 
-    const [cobranzaItems, setCobranzaItems] = useState<SellsInterface[]>([]);
-    const [page, setPage] = useState(1);
     const [cobranzaByClientTotal, setCobranzaByClientTotal] = useState<TotalCobranzaResponse | null>(null);
     const [cobranzaCount, setCobranzaCount] = useState<number>();
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true);
 
-    const { data, error, isLoading, refetch } = useQueryPaginationWithFilters<{ cobranza: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-        [`cobranzaByClient-${Id_Cliente}-${Id_Almacen}`, page, filters],
-        ({ PageNumber, filters }) =>
-            getCobranzaByClient({
-                client: Number(Id_Cliente),
-                Id_Almacen: Number(Id_Almacen),
-                PageNumber,
-                filters: filters as CobranzaByClientFilters,
-            }),
-        { PageNumber: page, filters },
-    );
-    const cobranza = data?.cobranza;
-
-    const loadMore = (): void => setPage((prev) => prev + 1);
-
-    const handleGetTotals = useCallback(async (): Promise<void> => {
+    const fetchTotals = useCallback(async (): Promise<void> => {
+        setIsLoadingTotals(true)
         const { total, count } = await getCobranzaByClientCountAndTotal({
             client: Number(Id_Cliente),
             Id_Almacen: Number(Id_Almacen),
@@ -54,38 +40,51 @@ export function useCobranzaByClient(filters: any): useCobranzaByClientReturn {
 
         setCobranzaByClientTotal(total);
         setCobranzaCount(count);
+        setIsLoadingTotals(false)
     }, [Id_Cliente, Id_Almacen, filters]);
 
-    useEffect(() => {
-        if (!Id_Cliente) return;
-        const shouldGetTotals = !sellId || (sellId && cobranzaItems.length === 0);
-        if (shouldGetTotals) handleGetTotals();
+    const {
+        data,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        refetch,
+    } = useInfiniteQuery<{ cobranza: SellsInterface[] }, Error>({
+        queryKey: [`cobranzaByClient-${Id_Cliente}-${Id_Almacen}`, filters],
+        queryFn: ({ pageParam = 1 }) =>
+            getCobranzaByClient({
+                client: Number(Id_Cliente),
+                Id_Almacen: Number(Id_Almacen),
+                PageNumber: pageParam as number,
+                filters: filters as CobranzaByClientFilters,
+            }),
+        getNextPageParam: (lastPage, allPages) => lastPage.cobranza.length === 0 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 5 // Five minutes
+    });
+    const items = data?.pages.flatMap(page => page.cobranza) ?? [];
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [Id_Cliente, sellId, filters]);
-
-    useEffect(() => {
-        if (!sellId) {
-            setCobranzaItems([]);
-            setPage(1);
+    const loadMore = () => {
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
         }
-    }, [filters, sellId]);
+    };
 
     useEffect(() => {
-        if (!cobranza) return;
-        const shouldAppend = !sellId || (sellId && cobranzaItems.length === 0);
-        if (shouldAppend) setCobranzaItems((prev) => [...prev, ...cobranza]);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cobranza, sellId]);
+        fetchTotals();
+    }, [fetchTotals]);
 
     return {
-        items: cobranzaItems,
+        items,
         error,
         refetch,
         loadMore,
-        isLoading,
         cobranzaCount,
-        cobranzaByClientTotal
+        cobranzaByClientTotal,
+        isFetchingNextPage,
+        isLoading,
+        isLoadingTotals
     }
 }

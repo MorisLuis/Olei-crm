@@ -11,27 +11,31 @@ import { columnsSells } from './sellsProductsTableData';
 interface TableSellsInterface {
   sells: SellsProductsInterface[];
   totalSells: number;
-  buttonIsLoading: boolean;
-  loadingData: boolean;
   loadMoreProducts: () => void;
+
+  isLoadingData: boolean;
+  isFetchingNextPage: boolean;
+  isLoadingUseQuery: boolean
 }
 
 export default function TableSells({
   sells,
   totalSells,
-  loadingData,
-  buttonIsLoading,
   loadMoreProducts,
+
+  isLoadingData,
+  isFetchingNextPage,
+  isLoadingUseQuery
 }: TableSellsInterface) : JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells;
-  const noCoincidenceItems = sells.length === 0 && !loadingData
+  const NoMoreProductToShow = sells.length === totalSells || !totalSells || isLoadingUseQuery;
+  const noCoincidenceItems = sells.length === 0 && !isLoadingData;
 
   const handleSelectClientSells = (_item: SellsProductsInterface) : void => {
     //push(`sells/${item.Id_Cliente}?client=${encodeURIComponent(item.Nombre.trim())}`);
   };
 
-  if (loadingData) {
+  if (isLoadingData) {
     return <TableSkeleton columns={4} />
   }
 
@@ -52,7 +56,7 @@ export default function TableSells({
       columns={columnsSells}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={buttonIsLoading}
+      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectClientSells}
     />

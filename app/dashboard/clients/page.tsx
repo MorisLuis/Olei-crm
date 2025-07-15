@@ -1,10 +1,10 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { Suspense } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Header from '@/components/navigation/header';
-import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { ClientInterface } from '@/interface/client';
 import { ClientsFilterSchema } from '@/schemas/clientsFilters.schema';
@@ -15,25 +15,25 @@ import styles from '../../../styles/pages/Clients.module.scss';
 
 function ClientsContent(): JSX.Element {
 
-  const [page, setPage] = useState(1);
-  const [items, setItems] = useState<ClientInterface[]>([]);
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(ClientsFilterSchema);
 
-  const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ clients: ClientInterface[], total: number }, { PageNumber: number; filters: typeof filters }>(
-      ['clients', page],
-      ({ PageNumber, filters }) => getClients({ PageNumber, filters }),
-      { PageNumber: page, filters }
-    );
+    const {
+      data,
+      error,
+      fetchNextPage,
+      isFetchingNextPage,
+      isLoading,
+      refetch,
+  } = useInfiniteQuery<{ clients: ClientInterface[], total: number }, Error>({
+      queryKey: ['clients', filters],
+      queryFn: ({ pageParam = 1 }) => getClients({ PageNumber: pageParam as number, filters }),
+      getNextPageParam: (lastPage, allPages) => lastPage.clients.length === 0 ? undefined : allPages.length + 1,
+      initialPageParam: 1,
+      staleTime: 1000 * 60 * 5 // Five minutes
+  });
 
-  useEffect(() => {
-    setPage(1);
-    setItems([]);
-  }, [filters]);
-
-  useEffect(() => {
-    if (data?.clients) setItems(prev => [...prev, ...data.clients]);
-  }, [data]);
+  const items = data?.pages.flatMap(page => page.clients) ?? [];
+  const count = data?.pages.flatMap(page => page.total)[0] ?? 0;
 
   if (error) return <Custum500 handleRetry={refetch} />;
 
@@ -53,10 +53,11 @@ function ClientsContent(): JSX.Element {
 
       <TableClients
         clients={items}
-        totalClients={data?.total ?? 0}
-        loadMoreProducts={() => setPage(p => p + 1)}
-        buttonIsLoading={isLoading}
-        loadingData={items.length <= 0 && isLoading}
+        totalClients={count ?? 0}
+        loadMoreProducts={fetchNextPage}
+        isLoadingData={items.length <= 0 && isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoadingUseQuery={isLoading}
       />
     </div>
   );

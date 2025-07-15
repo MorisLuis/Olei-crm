@@ -15,22 +15,22 @@ import { formatDate } from '@/utils/format/formatDate';
 interface TableCobranzaInterface {
   sells: SellsInterface[];
   totalSells: number;
-  isLoading: boolean;
   loadingData: boolean;
   loadMoreProducts: () => void;
   handleSelectItem: (item: SellsInterface) => void;
+  isFetchingNextPage: boolean
 }
 
 export default function TableCobranzaByClient({
   sells,
   totalSells,
-  isLoading,
   loadMoreProducts,
   handleSelectItem,
-  loadingData
+  loadingData,
+  isFetchingNextPage
 }: TableCobranzaInterface) : JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
+  const NoMoreProductToShow = sells.length === totalSells || !totalSells;
   const noCoincidenceItems = sells.length === 0 && !loadingData
 
   const { changeColor } = useTagColor();
@@ -101,7 +101,7 @@ export default function TableCobranzaByClient({
       columns={columns}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={isLoading}
+      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
     />

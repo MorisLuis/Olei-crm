@@ -1,13 +1,13 @@
 
 'use client';
 
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Header from '@/components/navigation/header';
 import HeaderStats from '@/components/navigation/headerStats';
-import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { CobranzaFilterSchema } from '@/schemas/cobranzaFilters.schema';
 import { CobranzaInterface, CobranzaFilters, TotalCobranzaResponse } from '@/services/cobranza/cobranza.interface';
@@ -19,18 +19,26 @@ import TableCobranza from './cobranzaTable';
 function CobranzaContent(): JSX.Element {
 
     const router = useRouter()
-    const [page, setPage] = useState(1);
     const [cobranzaTotal, setCobranzaTotal] = useState<TotalCobranzaResponse | null>(null);
     const [cobranzaCount, setCobranzaCount] = useState<number>()
-    const [items, setItems] = useState<CobranzaInterface[]>([]);
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true)
     const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(CobranzaFilterSchema)
 
-    const { data, error, isLoading, refetch } =
-        useQueryPaginationWithFilters<{ cobranza: CobranzaInterface[] }, { PageNumber: number; filters: typeof filters }>(
-            ['cobranza', page],
-            ({ PageNumber, filters }) => getCobranza({ PageNumber, filters }),
-            { PageNumber: page, filters }
-        );
+    const {
+        data,
+        error,
+        fetchNextPage,
+        isFetchingNextPage,
+        isLoading,
+        refetch,
+    } = useInfiniteQuery<{ cobranza: CobranzaInterface[] }, Error>({
+        queryKey: ['cobranza', filters],
+        queryFn: ({ pageParam = 1 }) => getCobranza({ PageNumber: pageParam as number, filters }),
+        getNextPageParam: (lastPage, allPages) => lastPage.cobranza.length === 0 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 5 // Five minutes
+    });
+    const items = data?.pages.flatMap(page => page.cobranza) ?? [];
 
     const handleSelectItem = (item: CobranzaInterface): void => {
         const params = new URLSearchParams({
@@ -42,37 +50,29 @@ function CobranzaContent(): JSX.Element {
     };
 
     const handleGetTotals = useCallback(async (): Promise<void> => {
+        setIsLoadingTotals(true)
         const { total, count } = await getCobranzaCountAndTotal({
             filters: filters as CobranzaFilters
         })
-
         setCobranzaTotal(total);
         setCobranzaCount(count)
+        setIsLoadingTotals(false);
     }, [filters])
 
     useEffect(() => {
         handleGetTotals()
     }, [handleGetTotals, filters])
 
-
-    useEffect(() => {
-        setPage(1);
-        setItems([]);
-    }, [filters]);
-
-    useEffect(() => {
-        if (data?.cobranza) {
-            setItems(prev => [...prev, ...data.cobranza]);
-        }
-    }, [data]);
-
-
     if (error) return <Custum500 handleRetry={refetch} />;
 
     return (
         <>
             <Header title="Cobranza" dontShowBack />
-            <HeaderStats items={cobranzaStats(cobranzaTotal)} isLoading={isLoading} sizeSkeleton={3}/>
+            <HeaderStats
+                items={cobranzaStats(cobranzaTotal)}
+                isLoading={isLoadingTotals}
+                sizeSkeleton={3}
+            />
 
             <FilterBar
                 filters={filters}
@@ -87,10 +87,11 @@ function CobranzaContent(): JSX.Element {
             <TableCobranza
                 sells={items}
                 totalSells={cobranzaCount ?? 0}
-                loadMoreProducts={() => setPage(p => p + 1)}
+                loadMoreProducts={fetchNextPage}
                 handleSelectItem={handleSelectItem}
-                isLoading={isLoading}
-                loadingData={items.length <= 0 && isLoading}
+                isLoadingData={items.length <= 0 && isLoading}
+                isFetchingNextPage={isFetchingNextPage}
+                isLoadingUseQuery={isLoading}
             />
         </>
     );

@@ -1,78 +1,77 @@
 import { SellsInterface } from "@/interface/sells";
-import { useQueryPaginationWithFilters } from "../useQueryPaginationWithFilters";
 import { useCallback, useEffect, useState } from "react";
 import { SellsFilters, TotalSellsResponse } from "@/services/sells/sells.interface";
 import { getSells, getSellsCountAndTotal } from "@/services/sells/sells.service";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 
 interface UseSellsReturn {
     error: unknown;
     refetch: () => void;
-    isLoading: boolean;
     items: SellsInterface[];
     loadMore: () => void;
     sellsCount: number;
     sellsTotal: TotalSellsResponse | null;
+    isLoading: boolean;
+    isFetchingNextPage: boolean,
+    isLoadingTotals: boolean
 }
 
 export function useSells(filters: any): UseSellsReturn {
 
-    const [page, setPage] = useState(1);
-    const [items, setItems] = useState<SellsInterface[]>([]);
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true);
 
-    // queryKey con solo los filtros presentes
-    const queryKey = [
-        'sells',
-        page,
-        ...(filters.DateStart ? [`dateStart-${filters.DateStart}`] : []),
-        ...(filters.DateEnd ? [`dateEnd-${filters.DateEnd}`] : []),
-    ];
-
-    const { data, error, isLoading, refetch } =
-        useQueryPaginationWithFilters<{ sells: SellsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-            queryKey,
-            ({ PageNumber, filters }) => getSells({ PageNumber, filters }),
-            { PageNumber: page, filters }
-        );
-
-    const handleGetTotals = useCallback(async (): Promise<void> => {
+    const fetchTotals = useCallback(async (): Promise<void> => {
+        setIsLoadingTotals(true)
         const { total, count } = await getSellsCountAndTotal({
             filters: filters as SellsFilters
         })
 
         setSellsTotal(total);
         setSellsCount(count)
+        setIsLoadingTotals(false)
     }, [filters])
 
+    const {
+        data,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        refetch,
+    } = useInfiniteQuery<{ sells: SellsInterface[] }, Error>({
+        queryKey: ['sells', filters],
+        queryFn: ({ pageParam = 1 }) => getSells({ PageNumber: pageParam as number, filters }),
+        getNextPageParam: (lastPage, allPages) => lastPage.sells.length === 0 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 5 // Five minutes
+    });
+    const items = data?.pages.flatMap(page => page.sells) ?? [];
 
-    useEffect(() => {
-        handleGetTotals()
-    }, [handleGetTotals, filters])
 
-    useEffect(() => {
-        setPage(1);
-        setItems([]);
-    }, [filters]);
-
-    useEffect(() => {
-        if (data?.sells) {
-            setItems(prev => [...prev, ...data.sells]);
-        }
-    }, [data]);
-
-    // Función para cargar más página
     const loadMore = () => {
-        setPage((p) => p + 1);
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
     };
+
+    useEffect(() => {
+        fetchTotals();
+    }, [fetchTotals]);
+
+
     return {
         error,
         refetch,
-        isLoading,
         items,
         loadMore,
         sellsTotal,
-        sellsCount
+        sellsCount,
+        isFetchingNextPage,
+        isLoading,
+        isLoadingTotals
     }
 }

@@ -12,22 +12,25 @@ import { columnClients } from './TableClientsData';
 interface TableSellsInterface {
   clients: ClientInterface[];
   totalClients: number;
-  buttonIsLoading: boolean;
-  loadingData: boolean;
   loadMoreProducts: () => void;
+
+  isLoadingData: boolean;
+  isFetchingNextPage: boolean;
+  isLoadingUseQuery: boolean
 }
 
 export default function TableClients({
   clients,
   totalClients,
-  loadingData,
-  buttonIsLoading,
   loadMoreProducts,
+  isLoadingData,
+  isFetchingNextPage,
+  isLoadingUseQuery
 }: TableSellsInterface) : JSX.Element {
 
   const { push } = useRouter();
-  const NoMoreProductToShow = clients.length === totalClients;
-  const noCoincidenceItems = clients.length === 0 && !loadingData
+  const NoMoreProductToShow = clients.length === totalClients || !totalClients || isLoadingUseQuery;
+  const noCoincidenceItems = clients.length === 0 && !isLoadingData
 
   const handleSelectClientSells = (item: ClientInterface)  : void => {
     if (!item.Id_Almacen) {
@@ -37,7 +40,7 @@ export default function TableClients({
     push(`clients/${item.Id_Cliente}?Id_Almacen=${item.Id_Almacen}`);
   };
 
-  if (loadingData) {
+  if (isLoadingData) {
     return <TableSkeleton columns={4} />
   }
 
@@ -58,7 +61,7 @@ export default function TableClients({
       columns={columnClients}
       data={clients}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={buttonIsLoading}
+      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectClientSells}
     />

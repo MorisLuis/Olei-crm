@@ -11,23 +11,26 @@ import { format } from '@/utils/currency';
 interface TableCobranzaInterface {
   sells: CobranzaInterface[];
   totalSells: number;
-  isLoading: boolean;
-  loadingData: boolean;
   loadMoreProducts: () => void;
   handleSelectItem: (item: CobranzaInterface) => void;
+
+  isLoadingData: boolean;
+  isFetchingNextPage: boolean;
+  isLoadingUseQuery: boolean
 }
 
 export default function TableCobranza({
   sells,
   totalSells,
-  isLoading,
-  loadingData,
   loadMoreProducts,
   handleSelectItem,
+  isLoadingData,
+  isFetchingNextPage,
+  isLoadingUseQuery
 }: TableCobranzaInterface): JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
-  const noCoincidenceItems = sells.length === 0 && !loadingData 
+  const NoMoreProductToShow = sells.length === totalSells || !totalSells || isLoadingUseQuery;
+  const noCoincidenceItems = sells.length === 0 && !isLoadingData 
 
   const columns: ColumnConfig<CobranzaInterface>[] = [
     {
@@ -51,7 +54,7 @@ export default function TableCobranza({
     }
   ];
 
-  if (loadingData) {
+  if (isLoadingData) {
     return <TableSkeleton columns={4} />
   }
 
@@ -71,7 +74,7 @@ export default function TableCobranza({
       columns={columns}
       data={sells}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={isLoading}
+      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
     />

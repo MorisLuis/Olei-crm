@@ -1,10 +1,10 @@
 'use client';
 
+import { useInfiniteQuery } from '@tanstack/react-query';
 import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import HeaderStats from '@/components/navigation/headerStats';
-import { useQueryPaginationWithFilters } from '@/hooks/useQueryPaginationWithFilters';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsProductsInterface } from '@/interface/sells';
 import { SellsProductsFilterSchema } from '@/schemas/sellsProductsFilters.schema';
@@ -17,48 +17,53 @@ import TableSells from './sellsProductsTable';
 
 function SellsProductsContent(): JSX.Element {
 
-  const [page, setPage] = useState(1);
-  const [items, setItems] = useState<SellsProductsInterface[]>([]);
   const [sellsTotal, setSellsTotal] = useState<TotalsSellsProductsReponse | null>(null);
   const [sellsCount, setSellsCount] = useState<number>()
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsProductsFilterSchema)
+  const [isLoadingTotals, setIsLoadingTotals] = useState(true);
 
-  const { data, error, isLoading, refetch } =
-    useQueryPaginationWithFilters<{ sells: SellsProductsInterface[] }, { PageNumber: number; filters: typeof filters }>(
-      ['sells-products', page],
-      ({ PageNumber, filters }) => getSellsProducts({ PageNumber, filters }),
-      { PageNumber: page, filters }
-    );
-
-  const handleGetTotals = useCallback(async (): Promise<void> => {
+  const fetchTotals = useCallback(async (): Promise<void> => {
+    setIsLoadingTotals(true)
     const { totals, count } = await getSellsProductsCountAndTotal({
       filters: filters as SellsProductsFilters
     })
 
     setSellsTotal(totals);
     setSellsCount(count)
+    setIsLoadingTotals(false)
   }, [filters])
 
-  useEffect(() => {
-    handleGetTotals()
-  }, [handleGetTotals, filters])
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useInfiniteQuery<{ sells: SellsProductsInterface[] }, Error>({
+    queryKey: ['sells', filters],
+    queryFn: ({ pageParam = 1 }) => getSellsProducts({ PageNumber: pageParam as number, filters }),
+    getNextPageParam: (lastPage, allPages) => lastPage.sells.length === 0 ? undefined : allPages.length + 1,
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5 // Five minutes
+  });
+  const items = data?.pages.flatMap(page => page.sells) ?? [];
 
   useEffect(() => {
-    setPage(1);
-    setItems([]);
-  }, [filters]);
+    fetchTotals()
+  }, [fetchTotals])
 
-  useEffect(() => {
-    if (data?.sells) {
-      setItems(prev => [...prev, ...data.sells]);
-    }
-  }, [data]);
 
   if (error) return <Custum500 handleRetry={refetch} />;
 
   return (
     <>
-      <HeaderStats items={sellsProductsStats(sellsTotal)} isLoading={isLoading} />
+      <HeaderStats
+        items={sellsProductsStats(sellsTotal)}
+        isLoading={isLoadingTotals}
+      />
+
       <FilterBar
         filters={filters}
         config={sellsFiltersConfig}
@@ -68,13 +73,14 @@ function SellsProductsContent(): JSX.Element {
         removeFilters={removeFilters}
         isLoading={isLoading}
       />
-  
+
       <TableSells
         sells={items}
         totalSells={sellsCount ?? 0}
-        loadMoreProducts={() => setPage(p => p + 1)}
-        buttonIsLoading={isLoading}
-        loadingData={items.length <= 0 && isLoading}
+        loadMoreProducts={fetchNextPage}
+        isLoadingData={items.length <= 0 && isLoading}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoadingUseQuery={isLoading}
       />
     </>
   );

@@ -16,28 +16,29 @@ import { formatTime } from '@/utils/format/formatTime';
 interface TableBitacoraInterface {
   meetings: MeetingInterface[];
   totalMeetings: number;
-  buttonIsLoading: boolean;
-  loadingData: boolean;
   loadMoreProducts: () => void;
+
+  isLoadingData: boolean;
+  isFetchingNextPage: boolean;
+  isLoadingUseQuery: boolean
 }
 
 export default function TableBitacora({
   meetings,
   totalMeetings,
-  loadingData,
-  buttonIsLoading,
   loadMoreProducts,
+  isLoadingData,
+  isFetchingNextPage,
+  isLoadingUseQuery
 }: TableBitacoraInterface)  : JSX.Element {
 
   const { push } = useRouter();
   const { changeColor } = useTagColor();
-  const NoMoreProductToShow = meetings.length === totalMeetings;
-  const noCoincidenceItems = meetings.length === 0 && !loadingData
+  const NoMoreProductToShow = meetings.length === totalMeetings || !totalMeetings || isLoadingUseQuery;
+  const noCoincidenceItems = meetings.length === 0 && !isLoadingData
 
   const handleSelectMeeting = (item: MeetingInterface) : void => {
-    push(
-      `/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`
-    );
+    push( `/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`);
   };
 
   const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
@@ -82,7 +83,7 @@ export default function TableBitacora({
     },
   ];
 
-  if (loadingData) {
+  if (isLoadingData) {
     return <TableSkeleton columns={4} />
   }
 
@@ -102,7 +103,7 @@ export default function TableBitacora({
       columns={columnsBitacora}
       data={meetings}
       noMoreData={NoMoreProductToShow}
-      loadingMoreData={buttonIsLoading}
+      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectMeeting}
     />
