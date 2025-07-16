@@ -54,14 +54,14 @@ export default function Home(): JSX.Element {
 
         <div className={styles.statsSections__bitacora}>
           <StatCard
-            title='Cuentas por cobrar del mes'
+            title='Cobranza del mes'
             value={format(statistics.cobranza.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
             icon={faDollarSign}
             message=''
             onClick={() => push('cobranza')}
           />
           <StatCard
-            title='Cuentas por cobrar de hoy'
+            title='Cobranza de hoy'
             value={format(statistics.cobranza.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
             icon={faDollarSign}
             message=''
@@ -76,9 +76,9 @@ export default function Home(): JSX.Element {
           />
           <StatCard
             title='Cuentas por cobrar a vencer'
-            value={format(statistics.cobranza.find((item) => item.type === 'HOY_FWD')?.sumCobranza ?? 0)}
+            value={format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranza ?? 0)}
             icon={faUserTie}
-            message={`y ${format(statistics.cobranza.find((item) => item.type === 'HOY_FWD')?.sumCobranzaExpired ?? 0)} vencidos`}
+            message={`y ${format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranzaExpired ?? 0)} vencidos`}
             onClick={() => push('sells/general')}
           />
         </div>
