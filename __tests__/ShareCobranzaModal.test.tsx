@@ -4,16 +4,28 @@ import { postEmailCobranza } from '@/services/email/email.service';
 import { AuthContext, AuthContextProps } from '@/context/auth/AuthContext';
 import ShareCobranzaModal, { ShareCobranzaModalInterface } from '@/app/dashboard/cobranza/[id]/cobranzaClientShareModal';
 
-// 🧠 Mock servicios
+// 🧠 Mocks para next/navigation
+jest.mock('next/navigation', () => ({
+    useParams: jest.fn(() => ({ id: '108' })), // Simula que estás en la ruta /cobranza/108
+    useSearchParams: jest.fn(() => ({
+        get: (key: string) => {
+            if (key === 'Id_Almacen') return '1';
+            return null;
+        },
+    })),
+}));
+
+// 🧠 Mock del servicio de correo
 jest.mock('@/services/email/email.service', () => ({
     postEmailCobranza: jest.fn().mockResolvedValue({}),
 }));
 
+// 🧠 Mock del hook de toast
 jest.mock('@/hooks/useToast', () => () => ({
     showPromise: jest.fn(),
 }));
 
-// 🧠 Mock data contexto de auth
+// 🧠 Datos mock del contexto de autenticación
 const mockAuthContext: AuthContextProps = {
     user: {
         Id: '123',
@@ -25,20 +37,18 @@ const mockAuthContext: AuthContextProps = {
         from: 'crm',
         CorreoVtas: '',
         Id_Cliente: 999,
-        Id_UsuarioOOL: ""
+        Id_UsuarioOOL: '',
     },
     isLoggedIn: true,
     loggingIn: false,
     modalBackgroundOpen: false,
     loginUser: jest.fn(),
     logoutUser: jest.fn(),
-    openModalBackground: jest.fn()
+    openModalBackground: jest.fn(),
 };
 
-
-// Helper para renderizar con contexto
+// 🛠️ Helper para renderizar con contexto
 const renderWithContext = (propsOverride = {}) => {
-
     const defaultProps: ShareCobranzaModalInterface = {
         visible: true,
         onClose: jest.fn(),
@@ -52,8 +62,8 @@ const renderWithContext = (propsOverride = {}) => {
             DateStart: '',
             DateEnd: '',
             cobranzaOrderCondition: '',
-            termSearch: ''
-        }
+            termSearch: '',
+        },
     };
 
     return render(
@@ -67,7 +77,6 @@ const renderWithContext = (propsOverride = {}) => {
 };
 
 describe('ShareCobranzaModal', () => {
-
     it('renders the modal with correct content', () => {
         renderWithContext();
         expect(screen.getByText('Compartir PDF')).toBeInTheDocument();
@@ -93,7 +102,6 @@ describe('ShareCobranzaModal', () => {
                 remitente: 'Juan Tester',
                 nombreRemitente: 'Cliente XYZ',
                 subject: 'Relacion de cobranza',
-                Id_Cliente: 999,
                 filters: {
                     FilterExpired: 0,
                     FilterNotExpired: 0,
@@ -102,13 +110,14 @@ describe('ShareCobranzaModal', () => {
                     DateStart: '',
                     DateEnd: '',
                     cobranzaOrderCondition: '',
-                    termSearch: ''
+                    termSearch: '',
                 },
+                Id_Cliente: 108, // viene del mock de useParams
+                Id_Almacen: 1,   // viene del mock de searchParams
                 PageNumber: 1,
             }));
         });
 
         expect(mockOnClose).toHaveBeenCalled();
     });
-
 });

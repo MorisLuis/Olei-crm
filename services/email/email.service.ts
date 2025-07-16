@@ -35,6 +35,7 @@ export const postEmailCobranza = async (params: PostEmailCobranzaParams): Promis
     nombreRemitente,
     filters,
     PageNumber,
+    Id_Almacen
   } = params;
 
   const { data } = await api.post(`/api/email/cobranza/pdf/${Id_Cliente}`,
@@ -44,6 +45,7 @@ export const postEmailCobranza = async (params: PostEmailCobranzaParams): Promis
       subject,
       text,
       nombreRemitente,
+      Id_Almacen
     },
     { params: { ...filters, PageNumber } }
   );

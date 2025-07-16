@@ -6,9 +6,10 @@ interface PostEmailCobranzaParams {
     text: string,
     subject: string,
     nombreRemitente: string,
-    Id_Cliente: number,
     PageNumber: number,
     filters: CobranzaByClientFilters
+    Id_Cliente: number,
+    Id_Almacen: number;
 };
 
 

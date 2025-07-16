@@ -1,3 +1,4 @@
+import { useParams, useSearchParams } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 import ButtonLoad from '@/components/Buttons/ButtonLoad';
 import Modal from '@/components/Modals/Modal';
@@ -24,15 +25,22 @@ export default function ShareCobranzaModal({
   filters
 }: ShareCobranzaModalInterface): JSX.Element {
 
-  const { user: { Id: remitente, Id_Cliente, Nombre } } = useContext(AuthContext);
-  const [downloadingPDF, setDownloadingPDF] = useState(false);
+  const { user: { Id: remitente, Nombre } } = useContext(AuthContext);
+  const { id: idCliente } = useParams();
+  const searchParams = useSearchParams();
+
   const { showPromise } = useToast();
+  const idAlmacen = searchParams.get('Id_Almacen');
+
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
+
 
   const onSendPdfToEmail = async (): Promise<void | null> => {
 
     setDownloadingPDF(true);
     if (!email) return null;
     if (!Nombre) return null;
+    if (!idCliente) return null;
 
     const emailBody: PostEmailCobranzaParams = {
       destinatario: email,
@@ -40,7 +48,8 @@ export default function ShareCobranzaModal({
       text: 'Relacion',
       subject: 'Relacion de cobranza',
       nombreRemitente: clientName,
-      Id_Cliente,
+      Id_Cliente: Number(idCliente),
+      Id_Almacen: Number(idAlmacen),
       filters,
       PageNumber: 1
     };
