@@ -12,20 +12,27 @@ import { format } from '@/utils/currency';
 interface TableSellsDetailsClientInterface {
   sells: SellsDetailsInterface[];
   totalSells: number;
-  isLoading: boolean;
   loadMoreProducts: () => void;
   handleSelectItem?: (item: SellsDetailsInterface) => void;
+
+  isLoadingData: boolean;
+  isLoadingUseQuery: boolean;
+  isFetchingNextPage: boolean;
 }
 
 export default function TableSellsDetailsClient({
   sells,
   totalSells,
-  isLoading,
   loadMoreProducts,
   handleSelectItem,
+
+  isLoadingData,
+  isLoadingUseQuery,
+  isFetchingNextPage
 }: TableSellsDetailsClientInterface): JSX.Element {
 
-  const NoMoreProductToShow = sells.length === totalSells || !isLoading;
+  const NoMoreProductToShow = sells.length === totalSells || !totalSells || isLoadingUseQuery;
+  const noCoincidenceItems = sells.length === 0 && !isLoadingData;
 
   const columns: ColumnSecondaryConfig<SellsDetailsInterface>[] = [
     {
@@ -61,11 +68,11 @@ export default function TableSellsDetailsClient({
     },
   ];
 
-  if (isLoading) {
+  if (isLoadingData) {
     return (<TableSkeleton columns={4} />);
   }
 
-  if (sells?.length === 0) {
+  if (noCoincidenceItems) {
     return (
       <MessageCard title="No hay coincidencias exactas" icon={faFaceFrown}>
         <p>Cambia o elimina algunos de los filtros o modifica el área de búsqueda.</p>
@@ -77,10 +84,11 @@ export default function TableSellsDetailsClient({
     <Table
       columns={columns}
       data={sells}
-      noMoreData={NoMoreProductToShow}
-      loadingMoreData={isLoading}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
+
+      noMoreData={NoMoreProductToShow}
+      loadingMoreData={isFetchingNextPage}
       hoverAvailable={false}
     />
   );

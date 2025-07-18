@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react'
+import TableTertiarySkeleton from '@/components/Skeletons/Tables/TableTertiarySkeleton';
 import TableTertiary, { ColumnTertiaryConfig } from '@/components/UI/Tables/TableTertiary';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
@@ -67,9 +68,8 @@ export default function SellDetailsTableInformation({
         
     ];
 
-
     if (isLoading || !sellInformation) {
-        return <p>Cargando...</p>;
+        return <TableTertiarySkeleton columns={4} />
     }
 
     return (

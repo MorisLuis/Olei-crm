@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { TimelineInterface } from '@/interface/calendar';
-import { getCalendarTaskByDay } from '@/services/calendar';
+import { getCalendarTaskByDay } from '@/services/calendar/calendar.service';
 
 
 interface useGetEventsOfTheDayResponse {
@@ -11,26 +11,32 @@ interface useGetEventsOfTheDayResponse {
 export const useGetEventsOfTheDay = (
   decodedDate: string,
   idCliente: string | null,
-  refreshTimeline?: boolean
+  _refreshTimeline?: boolean
 ): useGetEventsOfTheDayResponse => {
 
-  const [eventsOfTheDay, setEventsOfTheDay] = useState<TimelineInterface[] | null>(null);
+  const date = new Date(decodedDate);
+  const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
-  const isLoading = eventsOfTheDay === null;
+  const {
+    data,
+    isLoading
+  } = useInfiniteQuery<{ tasks: TimelineInterface[] }, Error>({
+    queryKey: ['eventsOfTheDay', idCliente, decodedDate],
+    queryFn: ({ pageParam = 1 }) =>
+      getCalendarTaskByDay({
+        Day: formattedDate,
+        Id_Cliente: idCliente,
+        page: pageParam as number
+      }),
+    getNextPageParam: (lastPage, allPages) => lastPage.tasks.length === 0 ? undefined : allPages.length + 1,
+    initialPageParam: 1,
+    staleTime: 0
+  });
 
-  const fetchEvents = useCallback(async (): Promise<void> => {
-    const date = new Date(decodedDate);
-    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    const { tasks } = await getCalendarTaskByDay(formattedDate, idCliente);
-    setEventsOfTheDay(tasks);
-  }, [decodedDate, idCliente])
-
-  useEffect(() => {
-    fetchEvents();
-  }, [decodedDate, fetchEvents, refreshTimeline]);
+  const items = data?.pages.flatMap(page => page.tasks) ?? [];
 
   return {
-    eventsOfTheDay,
+    eventsOfTheDay: items,
     isLoading
   };
 };

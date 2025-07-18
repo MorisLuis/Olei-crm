@@ -3,7 +3,7 @@ import {
   SellsDetailsInterface,
   SellsInterface
 } from '@/interface/sells';
-import { GetSellByIdParams, GetSellsByClientPaginatedParams, GetSellsByClientParams, GetSellsPaginatedParams, GetSellsParams, GetSellsResponse, GetSellsTotalResponse, SellsByClientFilters } from './sells.interface';
+import { GetSellByIdParams, GetSellDetailsCountParams, GetSellsByClientPaginatedParams, GetSellsByClientParams, GetSellsPaginatedParams, GetSellsParams, GetSellsResponse, GetSellsTotalResponse, SellsByClientFilters, GetSellDetailsCountResponse, GetSellDetailsParams } from './sells.interface';
 
 
 
@@ -37,7 +37,6 @@ export const getSellsByClient = async (params: GetSellsByClientPaginatedParams):
   return { sells: data.sells };
 };
 
-
 export const getSellsByClientCountAndTotal = async (params: GetSellsByClientParams): Promise<GetSellsTotalResponse> => {
 
   const { data: { count, total } } = await api.get<GetSellsTotalResponse>(`/api/sells/client/totals/${params.client}`, {
@@ -50,25 +49,33 @@ export const getSellsByClientCountAndTotal = async (params: GetSellsByClientPara
 };
 
 
-
-
-
-export const getSellById = async ({ Folio, Serie, Id_Almacen, TipoDoc }: GetSellByIdParams): Promise<{ sell?: SellsInterface }> => {
+export const getSellById = async (params: GetSellByIdParams): Promise<{ sell?: SellsInterface }> => {
   const { data } = await api.get<{ sell: SellsInterface }>(
-    `/api/sells/${Folio}?Id_Almacen=${Id_Almacen}&TipoDoc=${TipoDoc}&Serie=${Serie}`
-  );
+    `/api/sells/${params.Folio}`, {
+    params: {
+      ...params
+    }
+  });
+
   return { sell: data.sell };
 };
 
-
-export const getSellDetails = async ({ Folio, TipoDoc, PageNumber }: { Folio?: string; TipoDoc?: number; PageNumber: number }): Promise<{ orderDetails: SellsDetailsInterface[] }> => {
-  const { data } = await api.get<{ orderDetails: SellsDetailsInterface[] }>(`/api/order/details?folio=${Folio}&PageNumber=${PageNumber}&TipoDoc=${TipoDoc}`);
+export const getSellDetails = async (params: GetSellDetailsParams): Promise<{ orderDetails: SellsDetailsInterface[] }> => {
+  const { data } = await api.get<{ orderDetails: SellsDetailsInterface[] }>(`/api/order/details`, {
+    params: {
+      ...params
+    }
+  });
   return { orderDetails: data.orderDetails };
 };
 
-export const getSellDetailsCount = async (
-  folio: string
-): Promise<{ total: number }> => {
-  const { data } = await api.get<{ total: number }>(`/api/order/details/total?folio=${folio}`);
+export const getSellDetailsCount = async (params: GetSellDetailsCountParams): Promise<GetSellDetailsCountResponse> => {
+
+  const { data } = await api.get<GetSellDetailsCountResponse>(`/api/order/details/total`, {
+    params: {
+      ...params
+    }
+  });
+
   return { total: data.total };
 };

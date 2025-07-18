@@ -36,7 +36,7 @@ function CobranzaContent(): JSX.Element {
         queryFn: ({ pageParam = 1 }) => getCobranza({ PageNumber: pageParam as number, filters }),
         getNextPageParam: (lastPage, allPages) => lastPage.cobranza.length === 0 ? undefined : allPages.length + 1,
         initialPageParam: 1,
-        staleTime: 1000 * 60 * 5 // Five minutes
+        staleTime: 1000 * 60 * 5
     });
     const items = data?.pages.flatMap(page => page.cobranza) ?? [];
 
@@ -89,6 +89,7 @@ function CobranzaContent(): JSX.Element {
                 totalSells={cobranzaCount ?? 0}
                 loadMoreProducts={fetchNextPage}
                 handleSelectItem={handleSelectItem}
+                
                 isLoadingData={items.length <= 0 && isLoading}
                 isFetchingNextPage={isFetchingNextPage}
                 isLoadingUseQuery={isLoading}

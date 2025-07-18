@@ -4,16 +4,20 @@ import { SellsDetailsInterface, SellsInterface } from '@/interface/sells';
 import { getSellById, getSellDetails, getSellDetailsCount } from '@/services/sells/sells.service';
 import { isValidTipoDoc } from '@/utils/validators/isValidTipoDoc';
 import { parseSellId } from '@/utils/parse/parseSellId';
-import { useQueryPaginationWithFilters } from '../useQueryPaginationWithFilters';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 interface UseSellDetailsReturn {
     sellInformation?: SellsInterface;
     items: SellsDetailsInterface[];
     sellsCount?: number;
-    isLoading: boolean;
     error: unknown;
     loadMore: () => void;
     refetch: () => void;
+
+    isLoading: boolean;
+    isFetchingNextPage: boolean,
+    isLoadingTotals: boolean,
+    isEnabled: boolean
 }
 
 /**
@@ -21,10 +25,10 @@ interface UseSellDetailsReturn {
  */
 
 export function useSellDetails(): UseSellDetailsReturn {
+
     const [sellInformation, setSellInformation] = useState<SellsInterface>();
-    const [items, setItems] = useState<SellsDetailsInterface[]>([]);
     const [sellsCount, setSellsCount] = useState<number>();
-    const [page, setPage] = useState(1);
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true);
 
     const searchParams = useSearchParams();
     const Sellid = searchParams.get('sellId');
@@ -35,26 +39,20 @@ export function useSellDetails(): UseSellDetailsReturn {
     const Serie = parsed?.Serie ?? null;
     const Folio = parsed?.Folio ?? null;
 
-    const enabled = !!Folio && isValidTipoDoc(TipoDoc);
+    const isEnabled = !!Folio && !!TipoDoc
 
-    // Hook paginación SIEMPRE se llama
-    const { data, error, isLoading, refetch } = useQueryPaginationWithFilters<
-        { orderDetails: SellsDetailsInterface[] },
-        { PageNumber: number }
-    >(
-        [`sell-${Sellid}`, page],
-        ({ PageNumber }) => getSellDetails({ Folio: Folio!, PageNumber, TipoDoc: TipoDoc! }),
-        { PageNumber: page },
-        { enabled }
-    );
-
-    const handleGetTotals = useCallback(async () => {
-        if (!Folio) return;
-        const { total } = await getSellDetailsCount(Folio);
+    const fetchTotals = useCallback(async () => {
+        if (!Folio || !TipoDoc) return;
+        setIsLoadingTotals(true)
+        const { total } = await getSellDetailsCount({
+            folio: Folio,
+            TipoDoc: TipoDoc
+        });
         setSellsCount(total);
-    }, [Folio]);
+        setIsLoadingTotals(false)
+    }, [Folio, TipoDoc]);
 
-    const handleGetSellInformation = useCallback(async () => {
+    const fetchSellInformation = useCallback(async () => {
         if (!Sellid || Id_Almacen == null || TipoDoc == null || Folio == null || Serie == null) return;
 
         if (!isValidTipoDoc(TipoDoc)) {
@@ -72,46 +70,42 @@ export function useSellDetails(): UseSellDetailsReturn {
         setSellInformation(sell);
     }, [Sellid, Id_Almacen, TipoDoc, Serie, Folio]);
 
-    useEffect(() => {
-        if (enabled) {
-            handleGetTotals();
-            handleGetSellInformation();
-        }
-    }, [enabled, handleGetTotals, handleGetSellInformation]);
+    const {
+        data,
+        error,
+        fetchNextPage,
+        isFetchingNextPage,
+        isLoading,
+        refetch,
+    } = useInfiniteQuery<{ orderDetails: SellsDetailsInterface[] }, Error>({
+        queryKey: [`sell-${Sellid}`],
+        queryFn: ({ pageParam = 1 }) => getSellDetails({ folio: Folio!, PageNumber: pageParam as number, TipoDoc: TipoDoc! }),
+        getNextPageParam: (lastPage, allPages) => lastPage.orderDetails.length === 0 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 5,
+        enabled: isEnabled
+    });
+    const items = data?.pages.flatMap(page => page.orderDetails) ?? [];
 
     useEffect(() => {
-        setPage(1);
-        setItems([]);
-    }, []);
+        fetchTotals();
+    }, [fetchTotals]);
 
     useEffect(() => {
-        if (data?.orderDetails) setItems((prev) => [...prev, ...data.orderDetails]);
-    }, [data]);
-
-    const loadMore = () => {
-        setPage((p) => p + 1);
-    };
-
-    // Validación después de hooks
-    if (!parsed || !isValidTipoDoc(parsed.TipoDoc)) {
-        return {
-            sellInformation: undefined,
-            items: [],
-            sellsCount: 0,
-            isLoading: false,
-            error: new Error('Invalid sellId or TipoDoc'),
-            loadMore: () => { },
-            refetch: () => { },
-        };
-    }
+        fetchSellInformation()
+    }, [fetchSellInformation]);
 
     return {
         sellInformation,
         items,
         sellsCount,
-        isLoading: !enabled || isLoading,
         error,
-        loadMore,
+        loadMore: fetchNextPage,
         refetch,
+
+        isLoading,
+        isFetchingNextPage,
+        isLoadingTotals,
+        isEnabled
     };
 }

@@ -73,10 +73,11 @@ export default function TableCobranza({
     <Table
       columns={columns}
       data={sells}
-      noMoreData={NoMoreProductToShow}
-      loadingMoreData={isFetchingNextPage}
       handleLoadMore={loadMoreProducts}
       handleSelectItem={handleSelectItem}
+    
+      noMoreData={NoMoreProductToShow}
+      loadingMoreData={isFetchingNextPage}
     />
   );
 }

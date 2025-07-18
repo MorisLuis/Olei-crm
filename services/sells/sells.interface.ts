@@ -25,6 +25,17 @@ interface GetSellByIdParams {
     TipoDoc: typeTipoDoc;
 };
 
+interface GetSellDetailsParams {
+    folio?: string;
+    TipoDoc: typeTipoDoc | number;
+    PageNumber: number
+}
+
+interface GetSellDetailsCountParams {
+    folio: string,
+    TipoDoc: typeTipoDoc | number;
+}
+
 // FILTERS
 interface SellsFilters {
     sellsOrderCondition?: SellsOrderConditionType;
@@ -34,7 +45,7 @@ interface SellsFilters {
 interface SellsByClientFilters {
     FilterExpired: 0 | 1 | number;
     FilterNotExpired: 0 | 1 | number;
-    TipoDoc: 0 | 1 | 2 | 3 | 4 | number;
+    TipoDoc: typeTipoDoc | number;
     DateExactly?: string;
     DateStart?: string;
     DateEnd?: string;
@@ -68,6 +79,10 @@ interface TotalsSellsProductsReponse {
     SumaTotal: string;
 }
 
+interface GetSellDetailsCountResponse {
+    total: number
+}
+
 
 export type {
     SellsFilters,
@@ -84,10 +99,13 @@ export type {
     GetSellsByClientParams,
     GetSellsByClientPaginatedParams,
     GetSellByIdParams,
+    GetSellDetailsParams,
+    GetSellDetailsCountParams,
 
     // Response
     TotalSellsResponse,
     TotalsSellsProductsReponse,
     GetSellsResponse,
-    GetSellsTotalResponse
+    GetSellsTotalResponse,
+    GetSellDetailsCountResponse
 }

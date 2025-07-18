@@ -62,7 +62,7 @@ export default function ClientAgenda(): JSX.Element {
         title={clientName ? clientName : "Calendario"}
         actions={clientActions}
         custumBack={navigateToBack}
-      />
+      />      
 
       <ClientAgendaContent
         initialDateProp={decodedDate}

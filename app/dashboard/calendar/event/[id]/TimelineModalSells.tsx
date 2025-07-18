@@ -20,27 +20,27 @@ export default function TimelineModalSells({
   onClose,
   sellEvents,
   onCloseModalSecondary
-}: ModalSellsInterface) : JSX.Element {
+}: ModalSellsInterface): JSX.Element {
 
   const [openSecondModal, setOpenSecondModal] = useState(false);
   const { push } = useRouter();
 
-  const handleSelectItem = (item: TimelineInterface) : void => {
+  const handleSelectItem = (item: TimelineInterface): void => {
     push(`?sellId=${item.Id_Sell}`);
     setOpenSecondModal(true);
   };
 
-  const handleCloseModalDouble = () : void => {
+  const handleCloseModalDouble = (): void => {
     setOpenSecondModal(false);
     onClose();
   };
 
-  const handleCloseModalSecondary = () : void => {
+  const handleCloseModalSecondary = (): void => {
     onCloseModalSecondary();
     setOpenSecondModal(false);
   };
 
-  const renderChildrenSecondModal = () : JSX.Element => {
+  const renderChildrenSecondModal = (): JSX.Element => {
     return <SellDetails />;
   };
 

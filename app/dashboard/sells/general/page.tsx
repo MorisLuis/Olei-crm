@@ -43,6 +43,7 @@ function SellsContent(): JSX.Element {
         sells={items}
         totalSells={sellsCount ?? 0}
         loadMoreProducts={loadMore}
+    
         isLoadingData={items.length <= 0 && isLoading}
         isFetchingNextPage={isFetchingNextPage}
         isLoadingUseQuery={isLoading}

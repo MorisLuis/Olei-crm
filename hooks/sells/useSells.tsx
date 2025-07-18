@@ -12,6 +12,7 @@ interface UseSellsReturn {
     loadMore: () => void;
     sellsCount: number;
     sellsTotal: TotalSellsResponse | null;
+
     isLoading: boolean;
     isFetchingNextPage: boolean,
     isLoadingTotals: boolean
@@ -28,7 +29,6 @@ export function useSells(filters: any): UseSellsReturn {
         const { total, count } = await getSellsCountAndTotal({
             filters: filters as SellsFilters
         })
-
         setSellsTotal(total);
         setSellsCount(count)
         setIsLoadingTotals(false)
@@ -38,7 +38,6 @@ export function useSells(filters: any): UseSellsReturn {
         data,
         error,
         fetchNextPage,
-        hasNextPage,
         isFetchingNextPage,
         isLoading,
         refetch,
@@ -47,27 +46,19 @@ export function useSells(filters: any): UseSellsReturn {
         queryFn: ({ pageParam = 1 }) => getSells({ PageNumber: pageParam as number, filters }),
         getNextPageParam: (lastPage, allPages) => lastPage.sells.length === 0 ? undefined : allPages.length + 1,
         initialPageParam: 1,
-        staleTime: 1000 * 60 * 5 // Five minutes
+        staleTime: 1000 * 60 * 5
     });
     const items = data?.pages.flatMap(page => page.sells) ?? [];
-
-
-    const loadMore = () => {
-        if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    };
 
     useEffect(() => {
         fetchTotals();
     }, [fetchTotals]);
 
-
     return {
         error,
         refetch,
         items,
-        loadMore,
+        loadMore: fetchNextPage,
         sellsTotal,
         sellsCount,
         isFetchingNextPage,

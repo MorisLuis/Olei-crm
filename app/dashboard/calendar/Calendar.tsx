@@ -8,7 +8,7 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
-import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/calendar';
+import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/calendar/calendar.service';
 import CalendarComponentSkeleton from './CalendarComponentSkeleton';
 import { renderEventContent } from './RenderEvents';
 import { DataCalendarConverted } from './temp';
