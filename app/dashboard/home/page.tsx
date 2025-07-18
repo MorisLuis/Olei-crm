@@ -45,7 +45,7 @@ export default function Home(): JSX.Element {
             data={statistics.sells}
             chartTitle='Ventas del mes'
             chartSubtitle="Ventas del dia"
-            chartValue={format(statistics.sells[0].sellsByMonthCredit ?? 0)}
+            chartValue={format(statistics.sells[0].sellsTotal ?? 0)}
             chartSubValue={format(statistics.sellsToday.sellsTotal ?? 0)}
             chartMessage=''
             onClick={() => push('sells/general')}
@@ -55,14 +55,14 @@ export default function Home(): JSX.Element {
         <div className={styles.statsSections__bitacora}>
           <StatCard
             title='Cobranza del mes'
-            value={format(statistics.cobranza.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
+            value={format(statistics.abonos.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
             icon={faDollarSign}
             message=''
             onClick={() => push('cobranza')}
           />
           <StatCard
             title='Cobranza de hoy'
-            value={format(statistics.cobranza.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
+            value={format(statistics.abonos.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
             icon={faDollarSign}
             message=''
             onClick={() => push('cobranza')}

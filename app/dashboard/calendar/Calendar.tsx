@@ -19,7 +19,7 @@ interface CalendarComponentInterface {
 
   clientVersion?: boolean;
   refreshCalendar?: boolean;
-  isLoading: boolean
+  isLoading: boolean;
 }
 
 const CalendarComponent = ({
