@@ -33,6 +33,8 @@ export const renderEventContent = ({
   if (eventCount === 1) additionalClass = 'single-event';
   else if (eventCount > 1 && eventCount <= 3) additionalClass = 'few-events';
 
+  if(eventInfo.event.title  === 'null') return null;
+
   return (
     <div className={`fc-event-modified ${additionalClass}`}>
       <span className={eventType === 'Bitacora' ? 'blue' : 'red'}></span>

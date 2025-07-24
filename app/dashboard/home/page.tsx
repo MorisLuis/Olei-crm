@@ -72,14 +72,14 @@ export default function Home(): JSX.Element {
             value={format(statistics.cobranza.find((item) => item.type === 'TOTAL')?.sumCobranza ?? 0)}
             icon={faBoxesStacked}
             message=''
-            onClick={() => push('sells/products')}
+            onClick={() => push('cobranza')}
           />
           <StatCard
             title='Cuentas por cobrar a vencer'
             value={format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranza ?? 0)}
             icon={faUserTie}
             message={`y ${format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranzaExpired ?? 0)} vencidos`}
-            onClick={() => push('sells/general')}
+            onClick={() => push('cobranza')}
           />
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function ChartWidget({
 
             <div className={styles.graph}>
                 <ResponsiveContainer width="100%" height={100} minHeight={100}>
-                    <LineChart data={data}>
+                    <LineChart data={[...data].reverse()}>
                         <XAxis dataKey="period" type="category" hide />
                         <YAxis dataKey="sellsByMonthCredit" type="number" hide />
                         <Tooltip content={<CustomTooltipSells />} />
