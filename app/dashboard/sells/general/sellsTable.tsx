@@ -40,7 +40,8 @@ export default function TableSells({
   const handleSelectClientSells = (item: SellsInterface): void => {
     
     const params = new URLSearchParams({
-      client: item.Nombre.trim()
+      client: item.Nombre.trim(),
+      Id_Almacen: item.Id_Almacen.toString()
     });
 
     if (dateStart) params.set('DateStart', dateStart);

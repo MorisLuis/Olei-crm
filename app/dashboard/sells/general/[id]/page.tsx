@@ -3,10 +3,12 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import React from 'react';
 import Custum500 from '@/components/500';
+import { ClientActionsModal } from '@/components/Clients/ClientActionsModals';
 import FilterBar from '@/components/Filter/FilterBar';
 import Modal from '@/components/Modals/Modal';
 import Header from '@/components/navigation/header';
 import HeaderStats from '@/components/navigation/headerStats';
+import { useClientActions } from '@/hooks/clients/useClientActions';
 import { useSellsByClient } from '@/hooks/sells/useSellsByClient';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsByClientFilterSchema } from '@/schemas/sellsFilters.schema';
@@ -23,6 +25,15 @@ export default function SellsClientPage(): JSX.Element {
   const Sellid = searchParams.get('sellId');
   const { navigateToBack, navigateToCloseModal, onSelectSell } = useSellsByClientNavigation()
   const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(SellsByClientFilterSchema);
+
+  const {
+    clientData,
+    clientActions,
+    openModalWhatsApp,
+    openModalEmail,
+    setOpenModalWhatsApp,
+    setOpenModalEmail,
+  } = useClientActions(Number(idCliente));
 
   const {
     error,
@@ -44,6 +55,7 @@ export default function SellsClientPage(): JSX.Element {
       <Header
         title={clientName}
         custumBack={navigateToBack}
+        actions={clientActions.filter((item) => item.id !== 3)}
       />
 
       <HeaderStats items={sellsClientStats(sellsTotal)} isLoading={isLoadingTotals} />
@@ -66,6 +78,16 @@ export default function SellsClientPage(): JSX.Element {
         loadingData={items.length <= 0 && isLoading}
         isFetchingNextPage={isFetchingNextPage}
       />
+
+      <ClientActionsModal
+        openModalWhatsApp={openModalWhatsApp}
+        openModalEmail={openModalEmail}
+        phoneNumber={clientData?.TelefonoWhatsapp?.trim()}
+        email={clientData?.CorreoVtas}
+        onCloseWhatsApp={() => setOpenModalWhatsApp(false)}
+        onCloseEmail={() => setOpenModalEmail(false)}
+      />
+
 
       <Modal
         visible={Sellid ? true : false}
