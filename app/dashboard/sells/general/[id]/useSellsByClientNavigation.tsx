@@ -21,18 +21,23 @@ export const useSellsByClientNavigation = (): {
   }, [push, currentRoute]);
 
   const navigateToBack = (): void => {
-    if (previousRoute) {
+
+    if (previousRoute?.startsWith("/dashboard/cobranza")) {
+      // This only occurs when navigating "cobranza" through sells by client with 'client actions'
+      push("/dashboard/sells/general");
+    } else if (previousRoute) {
       push(previousRoute);
     } else {
       push('/dashboard/sells/general');
     }
+
   };
 
   const onSelectSell = useCallback((item: SellsInterface) => {
     push(`${currentRoute}&sellId=${item.UniqueKey}`)
   }, [push, currentRoute]);
 
-  
+
 
   return {
     navigateToCloseModal,
