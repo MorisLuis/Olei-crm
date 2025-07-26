@@ -4,16 +4,19 @@ import { useCallback, useEffect, useState } from 'react';
 import { ActionsInterface } from '@/components/navigation/header';
 import { ClientInterface } from '@/interface/client';
 import { getClientById } from '@/services/clients/clients.service';
+import { getCurrentMonthRange } from '@/utils/getCurrentMonth';
 
 export const useClientActions = (idCliente: number) => {
     const { push } = useRouter();
     const searchParams = useSearchParams();
+    const { DateStart, DateEnd } = getCurrentMonthRange();
     const idAlmacen = searchParams.get('Id_Almacen');
 
     const [openModalWhatsApp, setOpenModalWhatsApp] = useState(false);
     const [openModalEmail, setOpenModalEmail] = useState(false);
     const [clientData, setClientData] = useState<ClientInterface>();
     const [loadingClientData, setLoadingClientData] = useState(true);
+
 
 
     const handleGetClientData = useCallback(async () => {
@@ -43,7 +46,7 @@ export const useClientActions = (idCliente: number) => {
             id: 3,
             text: 'Ventas',
             onclick: () =>
-                push(`/dashboard/sells/general/${clientData?.Id_Cliente}?client=${clientData?.Nombre}`),
+                push(`/dashboard/sells/general/${clientData?.Id_Cliente}?client=${clientData?.Nombre}&DateStart=${DateStart}&DateEnd=${DateEnd}`),
             notVsible: !clientData?.Id_Cliente,
         },
         {

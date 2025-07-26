@@ -3,8 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+
 import { screenData } from '@/database/screens';
 import logoOlei from '../../public/Logo-white.svg';
+
 import styles from '../../styles/Navigation.module.scss';
 
 interface SidebarInterface {
