@@ -88,7 +88,6 @@ export default function SellsClientPage(): JSX.Element {
         onCloseEmail={() => setOpenModalEmail(false)}
       />
 
-
       <Modal
         visible={Sellid ? true : false}
         title="Detalle de venta"

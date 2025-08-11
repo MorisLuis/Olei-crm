@@ -17,8 +17,6 @@ export const useClientActions = (idCliente: number) => {
     const [clientData, setClientData] = useState<ClientInterface>();
     const [loadingClientData, setLoadingClientData] = useState(true);
 
-
-
     const handleGetClientData = useCallback(async () => {
         if (!idCliente || !idAlmacen) return;
         //if (typeof idCliente !== 'string') return;
@@ -46,7 +44,7 @@ export const useClientActions = (idCliente: number) => {
             id: 3,
             text: 'Ventas',
             onclick: () =>
-                push(`/dashboard/sells/general/${clientData?.Id_Cliente}?client=${clientData?.Nombre}&DateStart=${DateStart}&DateEnd=${DateEnd}`),
+                push(`/dashboard/sells/general/${clientData?.Id_Cliente}?client=${clientData?.Nombre?.trim()}&Id_Almacen=${clientData?.Id_Almacen}&DateStart=${DateStart}&DateEnd=${DateEnd}`),
             notVsible: !clientData?.Id_Cliente,
         },
         {

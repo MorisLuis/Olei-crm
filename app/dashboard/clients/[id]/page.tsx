@@ -26,7 +26,6 @@ export default function ClientDetailsPage(): JSX.Element {
   const idAlmacen = searchParams.get('Id_Almacen');
   const sellId = searchParams.get('sellId');
 
-
   const handleCloseMeetingModal = (): void => {
     setOpenModalCreateMeeting(false);
     setEventToOpen(INITIAL_MEETING);

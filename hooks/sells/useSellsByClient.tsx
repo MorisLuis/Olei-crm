@@ -32,8 +32,7 @@ export function useSellsByClient(
     
     const [sellsTotal, setSellsTotal] = useState<TotalSellsResponse | null>(null);
     const [sellsCount, setSellsCount] = useState<number>(0);
-    const [isLoadingTotals, setIsLoadingTotals] = useState(true)
-    
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true)    
 
     // Get totals
     const fetchTotals = useCallback(async () => {
