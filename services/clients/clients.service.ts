@@ -1,22 +1,49 @@
 import { api } from '@/api/api';
 import { ClientInterface } from '@/interface/client';
-import { getClientByIdInterface, getSellsInterface } from './clients.interface';
+import { getClientByIdInterface, getClientsParams } from './clients.interface';
 
 
-export const getClients = async (params: getSellsInterface): Promise<{ clients: ClientInterface[], total: number }> => {
+export const getClients = async (
+  params: getClientsParams
+): Promise<{ clients: ClientInterface[]; total: number }> => {
+  const { PageNumber, limit = 10, filters } = params;
 
-  const { data } = await api.get<{ clients: ClientInterface[], total: number }>(`/api/client`, {
-    params: {
-      PageNumber: params.PageNumber,
-      ...params.filters,
-    }
+  // Extract order params
+  const { orderField, orderDirection = "asc", ...filterFields } = filters;
+
+  const filterField = Object.keys(filterFields)
+    .filter(key => {
+      const value = filterFields[key as keyof typeof filterFields];
+      return value !== undefined && value !== "";
+    })
+    .join(", ");
+
+  const filterValue = Object.values(filterFields)
+    .filter(value => value !== undefined && value !== "")
+    .join(", ");
+
+  const queryParams = {
+    PageNumber,
+    limit,
+    orderField,
+    orderDirection,
+    filterField,
+    filterValue,
+  };
+
+  console.log({ queryParams })
+
+  const { data } = await api.get<{ clients: ClientInterface[]; total: number }>('/api/client', {
+    params: queryParams,
   });
 
   return {
     clients: data.clients,
-    total: data.total
+    total: data.total,
   };
 };
+
+
 
 
 export const getClientById = async ({

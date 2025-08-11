@@ -1,20 +1,22 @@
 
 /* PARMS */
-interface getSellsInterface {
+interface getClientsParams {
     PageNumber: number;
+    limit?: number;
     filters: FilterClients;
 };
+
+/* FILTERS */
+interface FilterClients {
+    orderField: ClientOrderConditionType;
+    orderDirection?: "asc" | "desc",
+    Nombre: string;
+    Id_Cliente?: string;
+}
 
 interface getClientByIdInterface {
     Id_Almacen: string | number;
     Id_Cliente: string | number;
-}
-
-/* FILTERS */
-interface FilterClients {
-    clientOrderCondition: ClientOrderConditionType;
-    searchTerm: string;
-    searchId?: string;
 }
 
 type ClientOrderConditionType = 'Id_Cliente' | 'Nombre';
@@ -43,6 +45,6 @@ export {
 
 export type {
     ClientOrderConditionType,
-    getSellsInterface,
+    getClientsParams,
     getClientByIdInterface
 }

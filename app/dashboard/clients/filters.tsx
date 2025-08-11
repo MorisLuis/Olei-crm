@@ -3,18 +3,18 @@ import { ClientConditionObject } from "@/services/clients/clients.interface";
 
 export const clientsFiltersConfig: FilterItemConfig[] = [
     {
-        key: 'clientOrderCondition',
+        key: 'ordeField',
         label: 'Ordenar',
         type: 'select',
         options: ClientConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
-        key: 'searchTerm',
+        key: 'Nombre',
         label: 'Buscar por nombre',
         type: 'input'
     },
     {
-        key: 'searchId',
+        key: 'Id_Cliente',
         label: 'Buscar por id',
         type: 'input'
     }
