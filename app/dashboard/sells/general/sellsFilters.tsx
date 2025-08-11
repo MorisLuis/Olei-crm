@@ -11,12 +11,14 @@ export const sellsFiltersConfig: FilterItemConfig[] = [
     {
         key: 'searchTerm',
         label: 'Nombre',
+        modalLabel: 'Filtrar por Nombre',
         type: 'input'
     },
     {
         key: 'DateRange',
         label: 'Fecha',
         type: 'date-range',
+        modalLabel: 'Filtrar por Fecha',
         children: [
             {
                 key: 'DateStart',

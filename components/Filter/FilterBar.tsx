@@ -13,6 +13,7 @@ export interface FilterItemConfig {
     key: string;
     label: string;
     type: 'select' | 'input' | 'date' | 'radio' | 'date-range';
+    modalLabel?: string;
     inputType?: string;
     options?: { label: string; value: string | number; activeValue?: string }[];
     children?: FilterItemConfig[];
@@ -61,7 +62,7 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
         <>
             {openModalKey === filter.key && (
                 <div className={styles.filterModal} ref={dropdownRef}>
-                    <div className={styles.label}>Filtrar por {filter.label}</div>
+                    <div className={styles.label}>{filter.modalLabel ?? filter.label}</div>
 
                     <FilterBarInputs
                         filter={filter}

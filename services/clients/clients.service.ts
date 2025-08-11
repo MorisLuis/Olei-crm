@@ -31,8 +31,6 @@ export const getClients = async (
     filterValue,
   };
 
-  console.log({ queryParams })
-
   const { data } = await api.get<{ clients: ClientInterface[]; total: number }>('/api/client', {
     params: queryParams,
   });

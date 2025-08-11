@@ -13,12 +13,14 @@ export const sellsByClientFiltersConfig: FilterItemConfig[] = [
         key: 'TipoDoc',
         label: 'Tipo de Documento',
         type: 'select',
+        modalLabel: 'Filtrar por Tipo de Documento',
         options: TipoDocObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
         key: 'DateRange',
         label: 'Fecha',
         type: 'date-range',
+        modalLabel: 'Filtrar por Fecha',
         children: [
             {
                 key: 'DateStart',

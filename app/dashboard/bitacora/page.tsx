@@ -9,9 +9,9 @@ import { useUrlFilters } from '@/hooks/useUrlFilters';
 import MeetingInterface from '@/interface/meeting';
 import { BitacoraFilterSchema } from '@/schemas/bitacoraFilters.schema';
 import { getMeetings } from '@/services/bitacora/meeting.service';
-import { bitacoraFiltersConfig } from './FiltersTemp';
 import FormMeeting from './FormMeeting';
 import TableBitacora from './TableBitacora';
+import { bitacoraFiltersConfig } from './bitacoraFilters';
 import styles from '../../../styles/pages/Sells.module.scss';
 
 function BitacoraContent(): JSX.Element {

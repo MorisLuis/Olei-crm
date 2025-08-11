@@ -10,12 +10,14 @@ export const bitacoraFiltersConfig: FilterItemConfig[] = [
     },
     {
         key: 'searchTerm',
-        label: 'Buscar por nombre',
+        label: 'Nombre',
+        modalLabel: 'Filtrar por nombre',
         type: 'input'
     },
     {
         key: 'TipoContacto',
         label: 'Tipo de contacto',
+        modalLabel: 'Filtrar por Tipo de contacto',
         type: 'select',
         options: TipoContactoObject.map((val) => ({ label: val.label, value: val.value })),
     }

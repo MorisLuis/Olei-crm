@@ -4,7 +4,6 @@ import { GetCobranzaByClientParams, GetCobranzaCountAndTotalParams, GetCobranzaP
 
 const getCobranza = async (params: GetCobranzaParams): Promise<GetCobranzaResponse> => {
 
-    console.log('getCobranza')
     const { data } = await api.get<GetCobranzaResponse>(
         '/api/sells/cobranza/clients',
         {

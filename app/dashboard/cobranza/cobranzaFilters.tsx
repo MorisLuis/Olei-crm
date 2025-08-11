@@ -11,6 +11,7 @@ export const cobranzaFiltersConfig: FilterItemConfig[] = [
     {
         key: 'termSearch',
         label: 'Nombre',
+        modalLabel: 'Filtrar por Nombre',
         type: 'input'
     }
 ];
