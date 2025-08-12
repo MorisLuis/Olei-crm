@@ -9,6 +9,7 @@ import { getClientById } from '@/services/clients/clients.service';
 import BitacoraDetailsTable from './BitacoraDetails';
 import styles from '../../../../styles/pages/Bitacora.module.scss';
 import { briefClientData } from '../../clients/[id]/BriefClientData';
+import ModalEditClient from '../../clients/[id]/ModalEditClient';
 import FormMeeting from '../FormMeeting';
 
 export default function ClientDetailsPage(): JSX.Element {
@@ -19,9 +20,11 @@ export default function ClientDetailsPage(): JSX.Element {
   const idAlmacen = searchParams.get('Id_Almacen');
   const idClient = searchParams.get('Id_Cliente');
 
-  const [clientData, setClientData] = useState<ClientInterface | null>();
+  const [clientData, setClientData] = useState<ClientInterface>();
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
   const [loadingClientData, setLoadingClientData] = useState(true);
+  const [openModalEditUser, setOpenModalEditUser] = useState(false)
+  const [refreshClientTrigger, setRefreshClientTrigger] = useState(0)
 
   const handelGetClientData = useCallback(async () => {
     if (!idAlmacen || !idClient) return;
@@ -51,7 +54,7 @@ export default function ClientDetailsPage(): JSX.Element {
 
   useEffect(() => {
     handelGetClientData();
-  }, [handelGetClientData]);
+  }, [handelGetClientData, refreshClientTrigger]);
 
   return (
     <>
@@ -67,6 +70,7 @@ export default function ClientDetailsPage(): JSX.Element {
             data={clientData ? briefClientData(clientData) : null}
             header="Detalle de cliente"
             isLoading={loadingClientData}
+            headerAction={() => setOpenModalEditUser(true)}
           />
         </div>
 
@@ -80,6 +84,13 @@ export default function ClientDetailsPage(): JSX.Element {
           </div>
         </div>
       </div>
+
+      <ModalEditClient
+        visible={openModalEditUser}
+        onClose={() => setOpenModalEditUser(false)}
+        clientData={clientData}
+        trigger={() => setRefreshClientTrigger(refreshClientTrigger + 1)}
+      />
 
       <FormMeeting
         visible={openModalCreateMeeting}

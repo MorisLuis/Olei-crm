@@ -1,6 +1,6 @@
 import { api } from '@/api/api';
 import { ClientInterface } from '@/interface/client';
-import { getClientByIdInterface, getClientsParams } from './clients.interface';
+import { getClientByIdInterface, getClientsParams, updateClientParams } from './clients.interface';
 
 
 export const getClients = async (
@@ -41,9 +41,6 @@ export const getClients = async (
   };
 };
 
-
-
-
 export const getClientById = async ({
   Id_Almacen,
   Id_Cliente
@@ -61,3 +58,18 @@ export const searchClients = async (term: string): Promise<{ clients: ClientInte
   const { data } = await api.get<{ clients: ClientInterface[] }>(`/api/client/search?term=${term}`);
   return { clients: data.clients };
 };
+
+
+export const updateClient = async (params: updateClientParams): Promise<{ cliente: ClientInterface }> => {
+  const { Id_Cliente, Id_Almacen, clientBody } = params;
+
+  const bodyToSend = {
+    ...clientBody,
+    UsuarioSQL: clientBody.TelefonoWhatsapp,
+  };
+
+  delete bodyToSend.TelefonoWhatsapp;
+  
+  const response = await api.put<{ client: ClientInterface }>(`/api/client/${Id_Cliente}?Id_Almacen=${Id_Almacen}`, bodyToSend);
+  return { cliente: response.data.client };
+}

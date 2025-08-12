@@ -10,6 +10,7 @@ interface Props {
   extraStyles?: CSSProperties;
   clearInput?: () => void;
   placeholder?: string;
+  type?: React.HTMLInputTypeAttribute
 }
 
 const Input = ({
@@ -20,6 +21,7 @@ const Input = ({
   extraStyles,
   clearInput,
   placeholder = 'Buscar..',
+  type = "text"
 }: Props) : JSX.Element => {
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) : void => {
@@ -32,7 +34,7 @@ const Input = ({
     <div className="inputComponent" style={extraStyles}>
       <label htmlFor={name}>{label}</label>
       <input
-        type="text"
+        type={type}
         placeholder={placeholder}
         onChange={(event) => handleOnChange(event)}
         value={value ?? ''}

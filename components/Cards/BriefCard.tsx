@@ -1,4 +1,6 @@
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { MessageCard } from './MessageCard';
 import styles from '../../styles/Components/Cards.module.scss';
@@ -16,9 +18,11 @@ interface BriefCardInterface {
   data: briefDataInterface[] | null;
   header?: string;
   isLoading: boolean;
+
+  headerAction?: () => void;
 }
 
-export default function BriefCard({ data, header = 'Resumen', isLoading }: BriefCardInterface): JSX.Element {
+export default function BriefCard({ data, header = 'Resumen', isLoading, headerAction }: BriefCardInterface): JSX.Element {
 
   if (isLoading) {
     return ( <BriefCardSkeleton/> );
@@ -34,7 +38,10 @@ export default function BriefCard({ data, header = 'Resumen', isLoading }: Brief
 
   return (
     <div className={styles.BriefCard}>
-      <h3>{header}</h3>
+
+      <div className={styles.BriefCard__header}>
+        <h3>{header}</h3>
+        <FontAwesomeIcon icon={faPenToSquare} className={`${styles.edit} icon`} onClick={headerAction}/>      </div>
 
       <div className="divider small"></div>
 

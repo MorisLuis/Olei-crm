@@ -12,6 +12,7 @@ import Modal from '@/components/Modals/Modal';
 import Header from '@/components/navigation/header';
 import { useClientActions } from '@/hooks/clients/useClientActions';
 import { briefClientData } from './BriefClientData';
+import ModalEditClient from './ModalEditClient';
 import styles from '../../../../styles/pages/Clients.module.scss';
 import { INITIAL_MEETING } from '../../bitacora/FormMeetingData';
 
@@ -20,6 +21,9 @@ export default function ClientDetailsPage(): JSX.Element {
   const { push } = useRouter();
   const [eventToOpen, setEventToOpen] = useState(INITIAL_MEETING);
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
+  const [openModalEditUser, setOpenModalEditUser] = useState(false)
+  const [refreshClientTrigger, setRefreshClientTrigger] = useState(0)
+
   const params = useParams();
   const searchParams = useSearchParams();
   const idCliente = params.id;
@@ -43,7 +47,7 @@ export default function ClientDetailsPage(): JSX.Element {
     openModalEmail,
     setOpenModalWhatsApp,
     setOpenModalEmail,
-  } = useClientActions(Number(idCliente));
+  } = useClientActions(Number(idCliente), refreshClientTrigger);
 
   const clientName = clientData ? clientData?.Nombre : null;
 
@@ -61,6 +65,7 @@ export default function ClientDetailsPage(): JSX.Element {
             data={clientData ? briefClientData(clientData) : null}
             header="Detalles de cliente"
             isLoading={loadingClientData}
+            headerAction={() => setOpenModalEditUser(true)}
           />
         </div>
         <div className={styles.clientDetails__calendar}>
@@ -87,6 +92,13 @@ export default function ClientDetailsPage(): JSX.Element {
         onClose={handleCloseMeetingModal}
         meetingProp={eventToOpen}
         isEditing
+      />
+
+      <ModalEditClient
+        visible={openModalEditUser}
+        onClose={() => setOpenModalEditUser(false)}
+        clientData={clientData}
+        trigger={() => setRefreshClientTrigger(refreshClientTrigger + 1)}
       />
 
       <Modal

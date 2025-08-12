@@ -296,6 +296,22 @@
     border: 1px solid variables.$color-border;
     box-shadow: variables.$box-shadow-button;
 
+    &__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        .edit{
+            padding: calc(variables.$padding / 2);
+            border-radius: variables.$border-radius;
+            &:hover{
+                background-color: variables.$background-color-tertiary;
+            }
+        }
+
+    }
+
     &__data {
         width: auto;
 

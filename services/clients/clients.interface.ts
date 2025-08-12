@@ -1,3 +1,4 @@
+import { ClientBody } from "@/app/dashboard/clients/[id]/ModalEditClient";
 
 /* PARMS */
 interface getClientsParams {
@@ -5,6 +6,12 @@ interface getClientsParams {
     limit?: number;
     filters: FilterClients;
 };
+
+interface updateClientParams {
+    Id_Cliente: number;
+    Id_Almacen: number;
+    clientBody: ClientBody
+}
 
 /* FILTERS */
 interface FilterClients {
@@ -46,5 +53,6 @@ export {
 export type {
     ClientOrderConditionType,
     getClientsParams,
+    updateClientParams,
     getClientByIdInterface
 }

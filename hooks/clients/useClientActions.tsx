@@ -6,7 +6,7 @@ import { ClientInterface } from '@/interface/client';
 import { getClientById } from '@/services/clients/clients.service';
 import { getCurrentMonthRange } from '@/utils/getCurrentMonth';
 
-export const useClientActions = (idCliente: number) => {
+export const useClientActions = (idCliente: number, refreshClientTrigger?: number) => {
     const { push } = useRouter();
     const searchParams = useSearchParams();
     const { DateStart, DateEnd } = getCurrentMonthRange();
@@ -61,7 +61,7 @@ export const useClientActions = (idCliente: number) => {
     useEffect(() => {
         if (!idCliente || !idAlmacen) return;
         handleGetClientData();
-    }, [idCliente, idAlmacen, handleGetClientData]);
+    }, [idCliente, idAlmacen, handleGetClientData, refreshClientTrigger]);
 
     return {
         clientData,
