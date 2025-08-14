@@ -10,10 +10,6 @@ export const CobranzaConditionObject: ReadonlyArray<{
         value: 'Nombre',
         label: 'Nombre',
     },
-    /* {
-        value: 'ExpiredDays',
-        label: 'Días expirados',
-    }, */
     {
         value: 'SaldoVencido',
         label: 'Saldo Vencido',
