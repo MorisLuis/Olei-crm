@@ -1,17 +1,16 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
-import { CobranzaConditionObject } from "@/utils/constants/cobranza";
+import { AbonosConditionObject } from "./utils";
 
 export const abonosFiltersConfig: FilterItemConfig[] = [
     {
-        key: 'cobranzaOrderCondition',
+        key: 'orderField',
         label: 'Ordenar',
         type: 'select',
-        options: CobranzaConditionObject.map((val) => ({ label: val.label, value: val.value })),
+        options: AbonosConditionObject.map((val) => ({ label: val.label, value: val.value })),
     },
     {
-        key: 'termSearch',
-        label: 'Nombre',
-        modalLabel: 'Filtrar por Nombre',
+        key: 'cliente.Nombre',
+        label: 'Buscar por nombre',
         type: 'input'
     }
 ];

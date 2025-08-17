@@ -30,12 +30,9 @@ export const getAbonos = async (params: GetAbonosParams): Promise<GetAbonosRespo
         filterValue,
     };
 
-    console.log({queryParams})
     const { data } = await api.get<{ abonos: AbonosInterface[]; total: number }>('/api/abonos', {
         params: queryParams,
     });
-
-    console.log({data})
 
     return {
         abonos: data.abonos,
@@ -43,3 +40,10 @@ export const getAbonos = async (params: GetAbonosParams): Promise<GetAbonosRespo
     };
 
 };
+
+export const getAbonoById = async (Id_Almacen: string, folio: string): Promise<{ abono: AbonosInterface }> => {
+    const { data: { abono } } = await api.get<{ abono: AbonosInterface }>(`/api/abonos/${folio}?Id_Almacen=${Id_Almacen}`);
+    return {
+        abono
+    };
+}

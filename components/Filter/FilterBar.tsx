@@ -107,12 +107,12 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
     if(isLoading) {
         return (<FilterBarSkeleton/>)
     }
-    
 
     return (
         <div className={styles.filtersComponent}>
             <div className={styles.filtersWrapper}>
                 {config.map((filter: FilterItemConfig) => {
+
                     const values = filterBarValues({ config: filter, filters });
                     const isActive = values.active;
 

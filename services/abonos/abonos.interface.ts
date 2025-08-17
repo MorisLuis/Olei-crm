@@ -1,3 +1,4 @@
+import { AbonosOrderConditionType } from "@/app/dashboard/abonos/types";
 import { AbonosInterface } from "@/interface/abonos";
 
 interface GetAbonosParams {
@@ -6,17 +7,11 @@ interface GetAbonosParams {
     filters: AbonosFilters;
 };
 
-
-
 interface AbonosFilters {
     orderField: AbonosOrderConditionType;
     orderDirection?: "asc" | "desc",
-    Nombre: string;
+    ['cliente.Nombre']: string;
 };
-
-//export type AbonosOrderConditionType = 'Nombre' | 'ExpiredDays' | 'SaldoVencido' | 'SaldoNoVencido' | 'TotalSaldo';
-export type AbonosOrderConditionType = 'Folio' | 'Fecha'
-export const AbonosOrderCondition = ['Fecha', 'Folio'] as const;
 
 interface GetAbonosResponse {
     abonos: AbonosInterface[]

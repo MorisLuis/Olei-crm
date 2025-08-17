@@ -2,13 +2,19 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 import Custum500 from '@/components/500';
+import FilterBar from '@/components/Filter/FilterBar';
+import Modal from '@/components/Modals/Modal';
 import Header from '@/components/navigation/header';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { AbonosInterface } from '@/interface/abonos';
 import { AbonosFilterSchema } from '@/schemas/abonosFilters.schema';
 import { getAbonos } from '@/services/abonos/abonos.service';
+import AbonosDetails from './[id]/AbonosDetails';
+import { useAbonosNavigation } from './[id]/useAbonosNavigation';
+import { abonosFiltersConfig } from './abonosFilters';
 import TableAbonos from './abonosTable';
 
 
@@ -17,7 +23,13 @@ function AbonosContent(): JSX.Element {
     //const router = useRouter()
     /* const [cobranzaTotal, setCobranzaTotal] = useState<TotalCobranzaResponse | null>(null);
     const [isLoadingTotals, setIsLoadingTotals] = useState(true) */
-    const { filters, /* updateFilter, updateFilters, removeFilter, removeFilters */ } = useUrlFilters(AbonosFilterSchema)
+
+    const searchParams = useSearchParams();
+    const folio = searchParams.get('folio');
+    const idAlmacen = searchParams.get('Id_Almacen');
+
+    const { onSelectAbono, navigateToCloseModal} = useAbonosNavigation();
+    const { filters, updateFilter, updateFilters, removeFilter, removeFilters } = useUrlFilters(AbonosFilterSchema)
 
     const {
         data,
@@ -27,7 +39,7 @@ function AbonosContent(): JSX.Element {
         isLoading,
         refetch,
     } = useInfiniteQuery<{ abonos: AbonosInterface[], total: number }, Error>({
-        queryKey: ['cobranza', filters],
+        queryKey: ['abonos', filters],
         queryFn: ({ pageParam = 1 }) => getAbonos({ PageNumber: pageParam as number, filters }),
         getNextPageParam: (lastPage, allPages) => lastPage.abonos.length === 0 ? undefined : allPages.length + 1,
         initialPageParam: 1,
@@ -36,14 +48,6 @@ function AbonosContent(): JSX.Element {
     const items = data?.pages.flatMap(page => page.abonos) ?? [];
     const itemsTotal = data?.pages.flatMap(page => page.total)[0] ?? 0;
 
-    const handleSelectItem = (_item: AbonosInterface): void => {
-        /* const params = new URLSearchParams({
-            Id_Almacen: item.Id_Almacen.toString(),
-            client: item.Nombre.trim(),
-            email: item.CorreoVtas.trim() ?? '',
-        });
-        router.push(`/dashboard/cobranza/${item.Id_Cliente}?${params.toString()}`); */
-    };
 
     /* const handleGetTotals = useCallback(async (): Promise<void> => {
         setIsLoadingTotals(true)
@@ -70,7 +74,7 @@ function AbonosContent(): JSX.Element {
                 sizeSkeleton={3}
             /> */}
 
-            {/* <FilterBar
+            <FilterBar
                 filters={filters}
                 config={abonosFiltersConfig}
                 updateFilter={updateFilter}
@@ -78,18 +82,26 @@ function AbonosContent(): JSX.Element {
                 removeFilter={removeFilter}
                 removeFilters={removeFilters}
                 isLoading={isLoading}
-            /> */}
+            />
 
             <TableAbonos
                 abonos={items}
                 totalAbonos={itemsTotal ?? 0}
                 loadMoreProducts={fetchNextPage}
-                handleSelectItem={handleSelectItem}
-                
+                handleSelectItem={onSelectAbono}
+
                 isLoadingData={items.length <= 0 && isLoading}
                 isFetchingNextPage={isFetchingNextPage}
                 isLoadingUseQuery={isLoading}
             />
+
+            <Modal
+                visible={(idAlmacen && folio) ? true : false}
+                title="Detalle de abono"
+                onClose={navigateToCloseModal}
+            >
+                <AbonosDetails />
+            </Modal>
         </>
     );
 }

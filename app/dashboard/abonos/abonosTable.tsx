@@ -42,7 +42,7 @@ export default function TableAbonos({
             label: 'Id_Cliente',
         },
         {
-            key: 'cliente',
+            key: `cliente.Nombre`,
             label: 'Cliente',
             render: (_, item) => <p>{item.cliente.Nombre}</p>,
         },
@@ -56,6 +56,11 @@ export default function TableAbonos({
             label: 'Importe',
             render: (_, item) => <p>{format(item.Importe)}</p>,
         },
+        {
+            key: 'Fecha',
+            label: 'Fecha',
+            render: (_, item) => <p>{new Date(item.Fecha).toLocaleDateString()}</p>,
+        }
     ];
 
     if (isLoadingData) {
