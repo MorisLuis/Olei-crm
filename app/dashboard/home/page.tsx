@@ -14,12 +14,14 @@ import { getStatisticsCRMResponse } from '@/services/statistics/statistics.inter
 import styles from '@/styles/pages/Home.module.scss';
 import { format } from '@/utils/currency';
 import CalendarScreen from '../calendar/page';
+import { getCurrentMonthRange } from '@/utils/getCurrentMonth';
 
 export default function Home(): JSX.Element {
   const { user } = useContext(AuthContext);
   const [statistics, setStatistics] = useState<getStatisticsCRMResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
+  const { DateStart, DateEnd } = getCurrentMonthRange();
 
   const getStats = async () : Promise<void> => {
     const data = await getStatisticsCRM();
@@ -48,7 +50,7 @@ export default function Home(): JSX.Element {
             chartValue={format(statistics.sells[0].sellsTotal ?? 0)}
             chartSubValue={format(statistics.sellsToday.sellsTotal ?? 0)}
             chartMessage=''
-            onClick={() => push('sells/general')}
+            onClick={() => push(`sells/general?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
           />
         </div>
 
@@ -58,14 +60,14 @@ export default function Home(): JSX.Element {
             value={format(statistics.abonos.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
             icon={faDollarSign}
             message=''
-            onClick={() => push('cobranza')}
+            onClick={() => push(`abonos?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
           />
           <StatCard
             title='Cobranza de hoy'
             value={format(statistics.abonos.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
             icon={faDollarSign}
             message=''
-            onClick={() => push('cobranza')}
+            onClick={() => push(`abonos?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
           />
           <StatCard
             title='Cuentas por cobrar totales'
