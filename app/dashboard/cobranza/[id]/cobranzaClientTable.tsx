@@ -56,13 +56,13 @@ export default function TableCobranzaByClient({
     },
     {
       key: 'ExpiredDays',
-      label: 'Dias para vecimiento',
+      label: 'Dias vencidos',
       render: (ExpiredDays) => (
         <div>
           {ExpiredDays && (ExpiredDays as number) < 0 ? (
-            <Tag color="red">{ExpiredDays as number}</Tag>
+            <Tag color="red">{Math.abs(ExpiredDays as number)}</Tag>
           ) : ExpiredDays ? (
-            <p>{ExpiredDays as number}</p>
+            <p>0</p>
           ) : (
             <Tag color="gray">Sin datos</Tag>
           )}
