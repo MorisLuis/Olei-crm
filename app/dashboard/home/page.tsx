@@ -13,8 +13,8 @@ import { getStatisticsCRM } from '@/services/statistics/statistics';
 import { getStatisticsCRMResponse } from '@/services/statistics/statistics.interface';
 import styles from '@/styles/pages/Home.module.scss';
 import { format } from '@/utils/currency';
-import CalendarScreen from '../calendar/page';
 import { getCurrentMonthRange } from '@/utils/getCurrentMonth';
+import CalendarScreen from '../calendar/page';
 
 export default function Home(): JSX.Element {
   const { user } = useContext(AuthContext);

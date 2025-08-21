@@ -60,9 +60,10 @@ interface useFormMeetingInterface {
     visible: boolean;
 
     clientData?: {
-        name: string,
-        Id_Cliente: number;
-        Id_Almacen: number;
+        name?: string,
+        Id_Cliente?: number;
+        Id_Almacen?: number;
+        Fecha?: string
     }
 }
 
@@ -77,6 +78,7 @@ export const useFormMeeting = ({
     clientData
 }: useFormMeetingInterface): useFormMeetingResponse => {
 
+    console.log({clientData})
     const { showSuccess, showInfo } = useToast();
     const [clientName, setClientName] = useState<string | null>(null)
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
@@ -124,7 +126,7 @@ export const useFormMeeting = ({
     };
 
     const onSelectDocType = async (option: OptionType): Promise<void> => {
-        onChangeFormMeeting('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3 )
+        onChangeFormMeeting('TipoContacto', Number(option?.value ?? 0) as 0 | 1 | 2 | 3)
     };
 
     const resetMeeting = async (meetingProp: MeetingInterface): Promise<void> => {
@@ -210,14 +212,15 @@ export const useFormMeeting = ({
             }));
         };
 
-        if(clientData) {
+        if (clientData) {
             setMeetingForm(prevMeeting => ({
                 ...prevMeeting,
-                Id_Almacen: clientData.Id_Almacen,
-                Id_Cliente: clientData.Id_Cliente
+                Id_Almacen: clientData?.Id_Almacen,
+                Id_Cliente: clientData?.Id_Cliente,
+                Fecha: clientData?.Fecha ?? new Date().toISOString(),
             }));
 
-            setClientName(clientData.name)
+            if (clientData.name) setClientName(clientData.name);
         };
 
     }, [visible, meetingProp, clientData]);

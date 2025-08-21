@@ -21,9 +21,10 @@ interface FormMeetingInterface {
   handleMeetingCreated?: () => void;
 
   clientData?: {
-    name: string,
-    Id_Cliente: number;
-    Id_Almacen: number;
+    name?: string,
+    Id_Cliente?: number;
+    Id_Almacen?: number;
+    Fecha?: string
   }
 }
 

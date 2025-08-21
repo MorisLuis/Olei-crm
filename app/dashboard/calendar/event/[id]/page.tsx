@@ -77,7 +77,10 @@ export default function ClientAgenda(): JSX.Element {
         visible={openModalCreateMeeting}
         onClose={onCloseMeetingModal}
         handleMeetingCreated={onMeetingCreated}
-        clientData={clientData}
+        clientData={{
+          ...clientData,
+          Fecha: decodedDate
+        }}
       />
 
       <TimelineModalSells
