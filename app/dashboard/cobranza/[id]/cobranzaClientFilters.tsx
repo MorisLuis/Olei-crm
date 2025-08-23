@@ -23,27 +23,5 @@ export const cobranzaByClientFiltersConfig: FilterItemConfig[] = [
             { label: 'Filtrar No Vencido', value: 'FilterNotExpired', activeValue: "No vencido" },
         ],
     },
-/*     {
-        key: 'DateRange',
-        label: 'Fecha',
-        type: 'date-range',
-        children: [
-            {
-                key: 'DateStart',
-                label: 'Fecha Inicio',
-                type: 'date',
-            },
-            {
-                key: 'DateEnd',
-                label: 'Fecha Fin',
-                type: 'date',
-            },
-            {
-                key: 'DateExactly',
-                label: 'Fecha Exacta',
-                type: 'date',
-            }
-        ]
-    } */
 ];
 

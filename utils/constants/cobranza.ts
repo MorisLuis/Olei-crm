@@ -44,7 +44,7 @@ export const CobranzaByClientConditionObject: ReadonlyArray<{
     },
     {
         value: 'ExpiredDays',
-        label: 'Días expirados',
+        label: 'Días vencidos',
     },
 ] as const;
 
