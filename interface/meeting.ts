@@ -9,4 +9,5 @@ export default interface MeetingInterface {
   Descripcion: string;
   TipoContacto: 0 | 1 | 2 | 3;
   Comentarios?: string;
+  status: boolean
 }

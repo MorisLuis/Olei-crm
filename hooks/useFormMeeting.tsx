@@ -24,7 +24,8 @@ const INITIAL_MEETING: MeetingInterface = {
     Comentarios: '',
     Id_Bitacora: 0,
     Id_Cliente: 0,
-    Id_Almacen: 0
+    Id_Almacen: 0,
+    status: false,
 };
 
 interface useFormMeetingResponse {
@@ -78,7 +79,6 @@ export const useFormMeeting = ({
     clientData
 }: useFormMeetingInterface): useFormMeetingResponse => {
 
-    console.log({clientData})
     const { showSuccess, showInfo } = useToast();
     const [clientName, setClientName] = useState<string | null>(null)
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);

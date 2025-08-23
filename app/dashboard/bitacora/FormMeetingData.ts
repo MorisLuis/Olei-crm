@@ -18,7 +18,8 @@ const INITIAL_MEETING: MeetingInterface = {
     Comentarios: '',
     Id_Bitacora: 0,
     Id_Cliente: 0,
-    Id_Almacen: 0
+    Id_Almacen: 0,
+    status: false
 };
 
 export {

@@ -31,7 +31,7 @@ function BitacoraContent(): JSX.Element {
     queryFn: ({ pageParam = 1 }) => getMeetings({ PageNumber: pageParam as number, filters }),
     getNextPageParam: (lastPage, allPages) => lastPage.meetings.length === 0 ? undefined : allPages.length + 1,
     initialPageParam: 1,
-    staleTime: 1000 * 60 * 5 // Five minutes
+    staleTime: 1000 * 60 * 5
   });
 
   const items = data?.pages.flatMap(page => page.meetings) ?? [];
@@ -71,10 +71,11 @@ function BitacoraContent(): JSX.Element {
         meetings={items}
         totalMeetings={count ?? 0}
         loadMoreProducts={fetchNextPage}
-        
+
         isLoadingData={items.length <= 0 && isLoading}
         isFetchingNextPage={isFetchingNextPage}
         isLoadingUseQuery={isLoading}
+        refetch={refetch}
       />
 
       <FormMeeting

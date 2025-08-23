@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode;
   color?: 'green' | 'yellow' | 'red' | 'blue' | 'gray';
   close?: boolean;
-  onClose?: () => void;
+  onClose?: (e?: React.MouseEvent<HTMLDivElement>) => void;
   cursor?: boolean;
 }
 

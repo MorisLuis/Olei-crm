@@ -9,6 +9,7 @@ import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
 import { useTagColor } from '@/hooks/useTagColor';
 import MeetingInterface from '@/interface/meeting';
+import { updateMeeting } from '@/services/bitacora/meeting.service';
 import { contactType } from '@/utils/contactType';
 import { formatDate } from '@/utils/format/formatDate';
 import { formatTime } from '@/utils/format/formatTime';
@@ -21,6 +22,7 @@ interface TableBitacoraInterface {
   isLoadingData: boolean;
   isFetchingNextPage: boolean;
   isLoadingUseQuery: boolean
+  refetch: () => void;
 }
 
 export default function TableBitacora({
@@ -29,17 +31,29 @@ export default function TableBitacora({
   loadMoreProducts,
   isLoadingData,
   isFetchingNextPage,
-  isLoadingUseQuery
-}: TableBitacoraInterface)  : JSX.Element {
+  isLoadingUseQuery,
+  refetch
+}: TableBitacoraInterface): JSX.Element {
 
   const { push } = useRouter();
   const { changeColor } = useTagColor();
   const NoMoreProductToShow = meetings.length === totalMeetings || !totalMeetings || isLoadingUseQuery;
   const noCoincidenceItems = meetings.length === 0 && !isLoadingData
 
-  const handleSelectMeeting = (item: MeetingInterface) : void => {
-    push( `/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`);
+  const handleSelectMeeting = (item: MeetingInterface): void => {
+    push(`/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`);
   };
+
+  // Update status of the meeting
+  const onUpdateStatus = (item: MeetingInterface, e?: React.MouseEvent<HTMLDivElement>): void => {
+    e?.stopPropagation();
+    updateMeeting({
+      status: !item.status
+    }, item.Id_Bitacora)
+    setTimeout(() => {
+      refetch()
+    }, 200);
+  }
 
   const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
     {
@@ -60,6 +74,15 @@ export default function TableBitacora({
       render: (TipoContacto) => (
         <Tag color={changeColor(TipoContacto as MeetingInterface['TipoContacto'])}>
           {contactType(TipoContacto as MeetingInterface['TipoContacto'])}
+        </Tag>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Estatus',
+      render: (_, item: MeetingInterface) => (
+        <Tag color={item.status ? 'green' : 'gray'} onClose={(e?: React.MouseEvent<HTMLDivElement>) => onUpdateStatus(item, e)}>
+          {item.status ? 'Activo' : 'Inactivo'}
         </Tag>
       ),
     },
