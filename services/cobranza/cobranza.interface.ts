@@ -38,6 +38,9 @@ interface GetCobranzaCountAndTotalParams {
 interface CobranzaFilters {
     cobranzaOrderCondition?: CobranzaOrderConditionType;
     termSearch: string;
+    startDate?: string
+    endDate?: string
+    exactlyDate?: string
 };
 
 interface CobranzaByClientFilters {

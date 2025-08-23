@@ -7,11 +7,11 @@ import FilterBar from '@/components/Filter/FilterBar';
 import HeaderStats from '@/components/navigation/headerStats';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { SellsProductsInterface } from '@/interface/sells';
-import { SellsProductsFilterSchema } from '@/schemas/sellsProductsFilters.schema';
 import { TotalsSellsProductsReponse } from '@/services/sells/sells.interface';
 import { SellsProductsFilters } from '@/services/sells/sellsProducts/sellsProducts.interface';
 import { getSellsProducts, getSellsProductsCountAndTotal } from '@/services/sells/sellsProducts/sellsProducts.service';
 import { sellsFiltersConfig } from './sellsProductsFilters';
+import { SellsProductsFilterSchema } from './sellsProductsFilters.schema';
 import sellsProductsStats from './sellsProductsStats';
 import TableSells from './sellsProductsTable';
 

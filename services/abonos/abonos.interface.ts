@@ -11,6 +11,9 @@ interface AbonosFilters {
     orderField: AbonosOrderConditionType;
     orderDirection?: "asc" | "desc",
     ['cliente.Nombre']: string;
+    DateStart?: string;
+    DateEnd?: string;
+    DateExactly?: string;
 };
 
 interface GetAbonosResponse {

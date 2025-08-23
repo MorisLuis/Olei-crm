@@ -33,7 +33,7 @@ export default function AbonoDetailsTableInformation({
         },
         {
             key: 'cliente.Nombre',
-            label: 'Almacen',
+            label: 'Cliente',
         },
         {
             key: 'Fecha',

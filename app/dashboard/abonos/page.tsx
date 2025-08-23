@@ -3,26 +3,30 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import React, { Suspense } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import Custum500 from '@/components/500';
 import FilterBar from '@/components/Filter/FilterBar';
 import Modal from '@/components/Modals/Modal';
 import Header from '@/components/navigation/header';
+import HeaderStats from '@/components/navigation/headerStats';
 import { useUrlFilters } from '@/hooks/useUrlFilters';
 import { AbonosInterface } from '@/interface/abonos';
-import { AbonosFilterSchema } from '@/schemas/abonosFilters.schema';
 import { getAbonos } from '@/services/abonos/abonos.service';
+import { TotalCobranzaResponse } from '@/services/cobranza/cobranza.interface';
+import { getCobranzaCountAndTotal } from '@/services/cobranza/cobranza.service';
 import AbonosDetails from './[id]/AbonosDetails';
 import { useAbonosNavigation } from './[id]/useAbonosNavigation';
 import { abonosFiltersConfig } from './abonosFilters';
+import { AbonosFilterSchema } from './abonosFilters.schema';
+import abonosStats from './abonosStats';
 import TableAbonos from './abonosTable';
 
 
 function AbonosContent(): JSX.Element {
 
     //const router = useRouter()
-    /* const [cobranzaTotal, setCobranzaTotal] = useState<TotalCobranzaResponse | null>(null);
-    const [isLoadingTotals, setIsLoadingTotals] = useState(true) */
+    const [cobranzaTotal, setCobranzaTotal] = useState<TotalCobranzaResponse | null>(null);
+    const [isLoadingTotals, setIsLoadingTotals] = useState(true)
 
     const searchParams = useSearchParams();
     const folio = searchParams.get('folio');
@@ -49,30 +53,34 @@ function AbonosContent(): JSX.Element {
     const itemsTotal = data?.pages.flatMap(page => page.total)[0] ?? 0;
 
 
-    /* const handleGetTotals = useCallback(async (): Promise<void> => {
+    const handleGetTotals = useCallback(async (): Promise<void> => {
         setIsLoadingTotals(true)
-        const { total, count } = await getCobranzaCountAndTotal({
-            filters: filters as CobranzaFilters
+        const { total } = await getCobranzaCountAndTotal({
+            filters: {
+                termSearch: filters['cliente.Nombre'],
+                startDate: filters['DateStart'],
+                endDate: filters['DateEnd'],
+                exactlyDate: filters['DateExactly'],
+            }
         })
         setCobranzaTotal(total);
-        setCobranzaCount(count)
         setIsLoadingTotals(false);
     }, [filters])
 
     useEffect(() => {
         handleGetTotals()
-    }, [handleGetTotals, filters]) */
+    }, [handleGetTotals, filters])
 
     if (error) return <Custum500 handleRetry={refetch} />;
 
     return (
         <>
             <Header title="Abonos" dontShowBack />
-            {/* <HeaderStats
+            <HeaderStats
                 items={abonosStats(cobranzaTotal)}
                 isLoading={isLoadingTotals}
                 sizeSkeleton={3}
-            /> */}
+            />
 
             <FilterBar
                 filters={filters}

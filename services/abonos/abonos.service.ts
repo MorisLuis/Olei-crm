@@ -8,7 +8,7 @@ export const getAbonos = async (params: GetAbonosParams): Promise<GetAbonosRespo
     const { PageNumber, limit = 10, filters } = params;
 
     // Extract order params
-    const { orderField, orderDirection = "asc", ...filterFields } = filters;
+    const { orderField, orderDirection = "asc", DateStart, DateEnd, DateExactly, ...filterFields } = filters;
 
     const filterField = Object.keys(filterFields)
         .filter(key => {
@@ -31,7 +31,12 @@ export const getAbonos = async (params: GetAbonosParams): Promise<GetAbonosRespo
     };
 
     const { data } = await api.get<{ abonos: AbonosInterface[]; total: number }>('/api/abonos', {
-        params: queryParams,
+        params: {
+            ...queryParams,
+            startDate: DateStart,
+            endDate: DateEnd,
+            exactlyDate: DateExactly
+        },
     });
 
     return {

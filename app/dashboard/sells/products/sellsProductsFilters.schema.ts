@@ -1,5 +1,5 @@
-import { SellsProductsOrderCondition, SellsProductsOrderConditionType } from '@/services/sells/sellsProducts/sellsProducts.interface'
 import { z } from 'zod'
+import { SellsProductsOrderCondition, SellsProductsOrderConditionType } from '@/services/sells/sellsProducts/sellsProducts.interface'
 
 export type SellsProductsFilterSchemaType = 'Marca' | 'Codigo' | 'Descripcion' | 'Sku' | 'DateStart' | 'DateEnd' | 'DateExactly' | 'OrderCondition'
 export const SellsProductsFilterSchema = z.object({
@@ -14,7 +14,7 @@ export const SellsProductsFilterSchema = z.object({
         .string()
         .optional()
         .refine(
-            (val): val is SellsProductsOrderConditionType =>
+            (val): val is SellsProductsOrderConditionType=>
                 val === undefined || SellsProductsOrderCondition.includes(val as SellsProductsOrderConditionType),
             { message: "OrderCondition debe ser 'Folio', 'Codigo', 'Fecha' o 'Marca'" }
         ).default('Fecha')
