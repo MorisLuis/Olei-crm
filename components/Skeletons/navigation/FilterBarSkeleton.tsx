@@ -20,8 +20,8 @@ const FilterBarSkeleton = ({ size = 3 }: { size?: number }): JSX.Element => {
     );
 
     return (
-        <div className={styles.filtersComponent}>
-            <div className={styles.filtersWrapper}>
+        <div className={styles.filterBar}>
+            <div className={styles.filtersWrapper__filters}>
                 {Array.from({ length: size }, (_, i) => {
                     return (
                         <div key={i} className={`${styles.filterItem}`}>

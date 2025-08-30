@@ -136,7 +136,7 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
                         </div>
                     )}
                 </div>
-                <div>
+                <div className={styles.filtersWrapper__filters}>
                     {config.filter((item) => item.key === 'orderField').map((filter: FilterItemConfig) => {
                         const values = filterBarValues({ config: filter, filters });
                         const isActive = values.active;
