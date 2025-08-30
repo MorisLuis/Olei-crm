@@ -44,7 +44,6 @@ const CalendarComponent = ({
     let dataCalendar;
     if (clientVersion && Id_Cliente) {
       dataCalendar = await getCalendarByMonthAndClient({ Anio: year, Mes: month, Id_Cliente });
-      console.log({dataCalendar})
     } else {
       dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
     }

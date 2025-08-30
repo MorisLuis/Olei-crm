@@ -70,7 +70,6 @@ const Table = <T extends object>({
   hoverAvailable = true,
 }: TableProps<T>): JSX.Element => {
 
-
   return (
     <div className={styles.table}>
       {/* TABLE */}
@@ -88,6 +87,7 @@ const Table = <T extends object>({
             ))}
           </tr>
         </thead>
+
         <tbody>
           {data.map((item, rowIndex) => (
             <tr
