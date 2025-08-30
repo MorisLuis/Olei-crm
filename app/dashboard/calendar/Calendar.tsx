@@ -44,6 +44,7 @@ const CalendarComponent = ({
     let dataCalendar;
     if (clientVersion && Id_Cliente) {
       dataCalendar = await getCalendarByMonthAndClient({ Anio: year, Mes: month, Id_Cliente });
+      console.log({dataCalendar})
     } else {
       dataCalendar = await getCalendarByMonth({ Anio: year, Mes: month });
     }
@@ -69,6 +70,7 @@ const CalendarComponent = ({
     fetchCalendarEvents(month + 1, year);
   }, [fetchCalendarEvents]);
 
+  // Effect to fetch calendar events on initial render and when refreshCalendar changes
   useEffect(() => {
     const currentDate = new Date(); // Obtiene la fecha actual
     const currentMonth = currentDate.getMonth() + 1; // getMonth() devuelve 0-11, por eso sumamos 1
@@ -77,6 +79,7 @@ const CalendarComponent = ({
     fetchCalendarEvents(currentMonth, currentYear);
   }, [fetchCalendarEvents, refreshCalendar]);
 
+  // Cleanup effect to handle when the component unmounts or refreshes
   useEffect(() => {
     return (): void => {
       handleRenderCalendar(true);

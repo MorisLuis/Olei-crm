@@ -44,7 +44,7 @@ export default function TableAbonos({
         {
             key: `cliente.Nombre`,
             label: 'Cliente',
-            render: (_, item) => <p>{item.cliente.Nombre}</p>,
+            render: (_, item) => <p>{item?.cliente?.Nombre ? item?.cliente?.Nombre : "Sin Nombre"}</p>,
         },
         {
             key: 'forma_de_pago',

@@ -42,6 +42,44 @@ export default function Home(): JSX.Element {
       <Header title={`Hola ${user?.Nombre.trim() || 'Usuario'}!`} dontShowBack />
 
       <div className={styles.statsSections}>
+
+        <div className={styles.statsSections__bitacora}>
+          <StatCard
+            title='Cobranza del mes'
+            value={format(statistics.abonos.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
+            icon={faDollarSign}
+            message=''
+            onClick={() => push(`abonos?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
+            style={{ backgroundColor: '#defff9' }}
+          />
+          <StatCard
+            title='Cobranza de hoy'
+            value={format(statistics.abonos.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
+            icon={faDollarSign}
+            message=''
+            onClick={() => push(`abonos?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
+            style={{ backgroundColor: '#dff4ff' }}
+          />
+          <StatCard
+            title='Cuentas por cobrar totales'
+            value={format(statistics.cobranza.find((item) => item.type === 'TOTAL')?.sumCobranza ?? 0)}
+            icon={faBoxesStacked}
+            message=''
+            onClick={() => push('cobranza')}
+            style={{ backgroundColor: '#fef8e5' }}
+
+          />
+          <StatCard
+            title='Cuentas por cobrar a vencer'
+            value={format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranza ?? 0)}
+            icon={faUserTie}
+            message={`y ${format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranzaExpired ?? 0)} vencidos`}
+            onClick={() => push('cobranza')}
+            style={{ backgroundColor: '#fff7f1' }}
+
+          />
+        </div>
+
         <div className={styles.statsSections__sells}>
           <ChartWidget
             data={statistics.sells}
@@ -51,37 +89,6 @@ export default function Home(): JSX.Element {
             chartSubValue={format(statistics.sellsToday.sellsTotal ?? 0)}
             chartMessage=''
             onClick={() => push(`sells/general?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
-          />
-        </div>
-
-        <div className={styles.statsSections__bitacora}>
-          <StatCard
-            title='Cobranza del mes'
-            value={format(statistics.abonos.find((item) => item.type === 'MES')?.sumCobranza ?? 0)}
-            icon={faDollarSign}
-            message=''
-            onClick={() => push(`abonos?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
-          />
-          <StatCard
-            title='Cobranza de hoy'
-            value={format(statistics.abonos.find((item) => item.type === 'HOY')?.sumCobranza ?? 0)}
-            icon={faDollarSign}
-            message=''
-            onClick={() => push(`abonos?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
-          />
-          <StatCard
-            title='Cuentas por cobrar totales'
-            value={format(statistics.cobranza.find((item) => item.type === 'TOTAL')?.sumCobranza ?? 0)}
-            icon={faBoxesStacked}
-            message=''
-            onClick={() => push('cobranza')}
-          />
-          <StatCard
-            title='Cuentas por cobrar a vencer'
-            value={format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranza ?? 0)}
-            icon={faUserTie}
-            message={`y ${format(statistics.cobranza.find((item) => item.type === 'DESGLOSE')?.sumCobranzaExpired ?? 0)} vencidos`}
-            onClick={() => push('cobranza')}
           />
         </div>
       </div>
