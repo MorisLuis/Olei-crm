@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from './../../../styles/Components/CobranzaByClientFilters.module.scss';
+import styles from './../../../styles/Components/Filters.module.scss';
 
 const FilterBarSkeleton = ({ size = 3 }: { size?: number }): JSX.Element => {
 

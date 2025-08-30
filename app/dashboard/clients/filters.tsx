@@ -3,7 +3,7 @@ import { ClientConditionObject } from "@/services/clients/clients.interface";
 
 export const clientsFiltersConfig: FilterItemConfig[] = [
     {
-        key: 'ordeField',
+        key: 'orderField',
         label: 'Ordenar',
         type: 'select',
         options: ClientConditionObject.map((val) => ({ label: val.label, value: val.value })),

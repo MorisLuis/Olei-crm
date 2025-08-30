@@ -3,7 +3,7 @@
 @use "../Abstracts/mixins";
 @use "../Abstracts/variables";
 
-.filtersComponent {
+.filterBar {
     display: flex;
     flex-direction: row;
     margin: 0 auto;
@@ -12,9 +12,15 @@
     .filtersWrapper {
         display: flex;
         flex-wrap: wrap;
-        gap: variables.$gap;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
+        gap: variables.$gap;
+        width: 100%;
+
+        &__filters{
+            display: flex;
+            gap: variables.$gap;
+        }
 
         .filterItem {
             display: flex;

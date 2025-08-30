@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
 import useToast from '@/hooks/useToast';
 import isValidDate from '@/utils/validators/isValidDate';
-import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
+import styles from './../../styles/Components/Filters.module.scss';
 import { FilterItemConfig } from './FilterBar';
 
 type FilterBarInputsProps<F extends Record<string, string | number | undefined>> = {

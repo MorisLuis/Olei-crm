@@ -3,11 +3,12 @@
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState } from 'react';
+
 import { useClickOutside } from '@/hooks/dom/useClickOutside';
-import styles from './../../styles/Components/CobranzaByClientFilters.module.scss';
 import { FilterBarInputs } from './FilterBarInputs';
 import { FilterResponse, filterBarValues } from './FilterBarValues';
 import FilterBarSkeleton from '../Skeletons/navigation/FilterBarSkeleton';
+import styles from './../../styles/Components/Filters.module.scss';
 
 export interface FilterItemConfig {
     key: string;
@@ -104,36 +105,53 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
 
     useClickOutside(dropdownRef, () => setOpenModalKey(null));
 
-    if(isLoading) {
-        return (<FilterBarSkeleton/>)
+    if (isLoading) {
+        return (<FilterBarSkeleton />)
     }
 
     return (
-        <div className={styles.filtersComponent}>
+        <div className={styles.filterBar}>
             <div className={styles.filtersWrapper}>
-                {config.map((filter: FilterItemConfig) => {
+                <div className={styles.filtersWrapper__filters}>
+                    {config.filter((item) => item.key !== 'orderField').map((filter: FilterItemConfig) => {
+                        const values = filterBarValues({ config: filter, filters });
+                        const isActive = values.active;
 
-                    const values = filterBarValues({ config: filter, filters });
-                    const isActive = values.active;
+                        return (
+                            <div key={filter.key} className={styles.filterItem}>
+                                {/* BOTÓN / BADGE */}
+                                {renderFilterBtn(filter, isActive, values)}
+                                {/* MODAL */}
+                                {renderModal(filter)}
+                            </div>
+                        );
+                    })}
 
-                    return (
-                        <div key={filter.key} className={styles.filterItem}>
-                            {/* BOTÓN / BADGE */}
-                            {renderFilterBtn(filter, isActive, values)}
-                            {/* MODAL */}
-                            {renderModal(filter)}
+                    {hasAtLeastTwoValidFilters() && (
+                        <div
+                            className={styles.filterItem}
+                            onClick={() => removeFilters(Object.keys(filters) as (keyof F)[])}
+                        >
+                            <p className={styles.filterClear}>Limpiar filtros</p>
                         </div>
-                    );
-                })}
+                    )}
+                </div>
+                <div>
+                    {config.filter((item) => item.key === 'orderField').map((filter: FilterItemConfig) => {
+                        const values = filterBarValues({ config: filter, filters });
+                        const isActive = values.active;
 
-                {hasAtLeastTwoValidFilters() && (
-                    <div
-                        className={styles.filterItem}
-                        onClick={() => removeFilters(Object.keys(filters) as (keyof F)[])}
-                    >
-                        <p className={styles.filterClear}>Limpiar filtros</p>
-                    </div>
-                )}
+                        return (
+                            <div key={filter.key} className={styles.filterItem}>
+                                {/* BOTÓN / BADGE */}
+                                {renderFilterBtn(filter, isActive, values)}
+                                {/* MODAL */}
+                                {renderModal(filter)}
+                            </div>
+                        );
+                    })}
+
+                </div>
             </div>
         </div>
     );
