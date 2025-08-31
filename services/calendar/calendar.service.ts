@@ -29,5 +29,9 @@ export const getCalendarTaskByDay = async (params: GetCalendarTaskByDayParams): 
       ...params
     }
   });
-  return { tasks: data.tasks };
+  return {
+    tasks: data.tasks,
+    TotalVentas: data.TotalVentas,
+    TotalBitacora: data.TotalBitacora
+  };
 };

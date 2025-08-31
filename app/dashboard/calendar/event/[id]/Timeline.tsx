@@ -17,6 +17,7 @@ interface TimelineComponentInterface {
     initialDateProp?: string | Date;
     onSelectEventFromTimeline: (Id_Bitacora: number) => void;
     isLoading: boolean
+    TotalVentas: number
 
 }
 
@@ -26,7 +27,8 @@ export default function Timeline({
     navigateToModalSells,
     initialDateProp,
     onSelectEventFromTimeline,
-    isLoading
+    isLoading,
+    TotalVentas
 }: TimelineComponentInterface) : JSX.Element {
 
     if (isLoading) {
@@ -43,7 +45,7 @@ export default function Timeline({
             <section className={styles.timelineContent__documents}>
                 {sellEvents.length > 0 && (
                     <MessageSecondaryCard
-                        title={'Hay docuentos que expiran hoy.'}
+                        title={`Hay ${TotalVentas} docuentos expirados al dia de hoy.`}
                         icon={faFileExcel}
                         action={{
                             onClick: () => navigateToModalSells(),

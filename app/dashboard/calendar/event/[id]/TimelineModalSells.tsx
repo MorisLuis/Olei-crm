@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import SellDetails from '@/app/dashboard/sells/general/[id]/[sellId]/SellDetails';
 import ModalDouble from '@/components/Modals/ModalDouble';
@@ -12,31 +12,40 @@ interface ModalSellsInterface {
   visible: boolean;
   onClose: () => void;
   sellEvents: TimelineInterface[];
-  onCloseModalSecondary: () => void;
 }
 
 export default function TimelineModalSells({
   visible,
   onClose,
-  sellEvents,
-  onCloseModalSecondary
+  sellEvents
 }: ModalSellsInterface): JSX.Element {
 
   const [openSecondModal, setOpenSecondModal] = useState(false);
   const { push } = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleSelectItem = (item: TimelineInterface): void => {
-    push(`?sellId=${item.Id_Sell}`);
+    const params = new URLSearchParams(searchParams.toString());
+    if (!item.Id_Sell) return
+    params.set('sellId', item.Id_Sell.toString());
+    push(`${pathname}?${params.toString()}`);
     setOpenSecondModal(true);
   };
 
+  // Close both modals
   const handleCloseModalDouble = (): void => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('sellId');
     setOpenSecondModal(false);
     onClose();
   };
 
+  // Close only the second modal
   const handleCloseModalSecondary = (): void => {
-    onCloseModalSecondary();
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('sellId');
+    push(`${pathname}?${params.toString()}`);
     setOpenSecondModal(false);
   };
 
@@ -85,9 +94,9 @@ export default function TimelineModalSells({
       <TableSecondary
         data={sellEvents}
         columns={columnsTimelineSells}
+        onClick={handleSelectItem}
         loadingMoreData={true}
         noMoreData={true}
-        onClick={handleSelectItem}
       />
     </ModalDouble>
   );

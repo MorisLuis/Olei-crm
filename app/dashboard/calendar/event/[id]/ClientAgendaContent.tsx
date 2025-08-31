@@ -14,6 +14,7 @@ interface TimelinePropsInterface {
   initialDateProp?: string | Date;
   refreshTimeline: boolean;
   isLoadingEvents: boolean
+  TotalVentas: number
 
 }
 
@@ -23,7 +24,8 @@ const ClientAgendaContent = ({
   sellEvents,
   navigateToModalSells,
   refreshTimeline,
-  isLoadingEvents
+  isLoadingEvents,
+  TotalVentas
 }: TimelinePropsInterface): JSX.Element => {
 
   const [eventSelected, setEventSelected] = useState<number>(0);
@@ -53,10 +55,11 @@ const ClientAgendaContent = ({
         <Timeline
           events={events}
           sellEvents={sellEvents}
-          navigateToModalSells={navigateToModalSells}
           initialDateProp={initialDateProp}
-          onSelectEventFromTimeline={onSelectEventFromTimeline}
           isLoading={isLoadingEvents}
+          TotalVentas={TotalVentas}
+          navigateToModalSells={navigateToModalSells}
+          onSelectEventFromTimeline={onSelectEventFromTimeline}
         />
       </div>
 

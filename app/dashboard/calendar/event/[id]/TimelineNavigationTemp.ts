@@ -6,15 +6,12 @@ export const ExecuteNavigationEventClient = (): {
   navigateBackFromModalSells: () => void,
   navigateToModalSells: () => void,
   openModalSells: boolean,
-  navigateCloseModalSecondary: () => void
 } => {
 
-  const { push, back } = useRouter();
+  const { back } = useRouter();
   const [openModalSells, setOpenModalSells] = useState(false);
 
   const navigateBackFromModalSells = (): void => {
-    const fullPath = window.location.pathname;
-    push(fullPath);
     setOpenModalSells(false);
   };
 
@@ -26,16 +23,10 @@ export const ExecuteNavigationEventClient = (): {
     back()
   };
 
-  const navigateCloseModalSecondary = (): void => {
-    const fullPath = window.location.pathname;
-    push(fullPath);
-  };
-
   return {
     navigateToBack,
     navigateBackFromModalSells,
     navigateToModalSells,
     openModalSells,
-    navigateCloseModalSecondary,
   };
 };

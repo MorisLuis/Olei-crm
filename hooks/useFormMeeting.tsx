@@ -64,7 +64,7 @@ interface useFormMeetingInterface {
         name?: string,
         Id_Cliente?: number;
         Id_Almacen?: number;
-        Fecha?: string
+        Fecha?: string | Date
     }
 }
 

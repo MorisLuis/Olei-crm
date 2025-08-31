@@ -1,7 +1,8 @@
 import { api } from '@/api/api';
 import MeetingInterface from '@/interface/meeting';
-import { dateValidation, hourValidation } from '@/utils/validators/FormMeetingValidation';
+import { hourValidation } from '@/utils/validators/FormMeetingValidation';
 import { getMeetingsInterface } from './meeting.interface';
+import { dateValidation } from '@/utils/validators/dateValidation';
 
 
 export const getMeetings = async (
@@ -43,6 +44,8 @@ export const postMeeting = async (bodyMeeting: MeetingInterface): Promise<any> =
   try {
     // Validaciones
     const errors: string[] = [];
+
+    console.log('bodyMeeting.Fecha', bodyMeeting.Fecha)
 
     if (!bodyMeeting.Id_Cliente) {
       errors.push('Es necesario el cliente');

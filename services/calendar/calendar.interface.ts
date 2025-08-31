@@ -16,7 +16,8 @@ interface GetCalendarByMonthAndClientParams {
 interface GetCalendarTaskByDayParams {
     Day: string;
     Id_Cliente: string | null;
-    page: number
+    PageNumber: number
+    limit: number
 };
 
 
@@ -31,6 +32,8 @@ interface GetCalendarByMonthAndClientResponse {
 
 interface GetCalendarTaskByDayResponse {
     tasks: TimelineInterface[]
+    TotalVentas: number;
+    TotalBitacora: number;
 }
 
 export type {

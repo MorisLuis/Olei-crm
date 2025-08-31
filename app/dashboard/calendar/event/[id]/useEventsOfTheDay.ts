@@ -1,11 +1,14 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { TimelineInterface } from '@/interface/calendar';
+import { GetCalendarTaskByDayResponse } from '@/services/calendar/calendar.interface';
 import { getCalendarTaskByDay } from '@/services/calendar/calendar.service';
 
 
 interface useGetEventsOfTheDayResponse {
   eventsOfTheDay: TimelineInterface[] | null;
   isLoading: boolean;
+  TotalBitacora: number;
+  TotalVentas: number;
 }
 
 export const useGetEventsOfTheDay = (
@@ -20,13 +23,14 @@ export const useGetEventsOfTheDay = (
   const {
     data,
     isLoading
-  } = useInfiniteQuery<{ tasks: TimelineInterface[] }, Error>({
+  } = useInfiniteQuery<GetCalendarTaskByDayResponse, Error>({
     queryKey: ['eventsOfTheDay', idCliente, decodedDate],
     queryFn: ({ pageParam = 1 }) =>
       getCalendarTaskByDay({
         Day: formattedDate,
         Id_Cliente: idCliente,
-        page: pageParam as number
+        PageNumber: pageParam as number,
+        limit: 10
       }),
     getNextPageParam: (lastPage, allPages) => lastPage.tasks.length === 0 ? undefined : allPages.length + 1,
     initialPageParam: 1,
@@ -34,9 +38,13 @@ export const useGetEventsOfTheDay = (
   });
 
   const items = data?.pages.flatMap(page => page.tasks) ?? [];
+  const TotalBitacora = data?.pages[0]?.TotalBitacora ?? 0;
+  const TotalVentas = data?.pages[0]?.TotalVentas ?? 0;
 
   return {
     eventsOfTheDay: items,
-    isLoading
+    isLoading,
+    TotalBitacora,
+    TotalVentas
   };
 };

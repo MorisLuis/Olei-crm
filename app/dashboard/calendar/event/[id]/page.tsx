@@ -19,8 +19,7 @@ export default function ClientAgenda(): JSX.Element {
     navigateToBack,
     navigateBackFromModalSells,
     navigateToModalSells,
-    openModalSells,
-    navigateCloseModalSecondary,
+    openModalSells
   } = ExecuteNavigationEventClient();
 
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
@@ -40,7 +39,7 @@ export default function ClientAgenda(): JSX.Element {
 
   const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
   const decodedDate = decodeURIComponent(lastSegment!);
-  const { eventsOfTheDay, isLoading } = useGetEventsOfTheDay(decodedDate, idCliente, refreshTimeline);
+  const { eventsOfTheDay, isLoading, TotalVentas } = useGetEventsOfTheDay(decodedDate, idCliente, refreshTimeline);
   const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
 
   const onMeetingCreated = (): void => setRefreshTimeline(prev => !prev);
@@ -68,9 +67,10 @@ export default function ClientAgenda(): JSX.Element {
         initialDateProp={decodedDate}
         events={events}
         sellEvents={sellEvents}
-        navigateToModalSells={navigateToModalSells}
         refreshTimeline={refreshTimeline}
         isLoadingEvents={isLoading}
+        navigateToModalSells={navigateToModalSells}
+        TotalVentas={TotalVentas}
       />
 
       <FormMeeting
@@ -79,14 +79,13 @@ export default function ClientAgenda(): JSX.Element {
         handleMeetingCreated={onMeetingCreated}
         clientData={{
           ...clientData,
-          Fecha: decodedDate
+          Fecha: new Date(decodedDate)
         }}
       />
 
       <TimelineModalSells
         visible={openModalSells}
         onClose={navigateBackFromModalSells}
-        onCloseModalSecondary={navigateCloseModalSecondary}
         sellEvents={sellEvents}
       />
     </div>
