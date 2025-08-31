@@ -7,11 +7,11 @@ import { parseSellId } from '@/utils/parse/parseSellId';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 interface UseSellDetailsReturn {
-    sellInformation?: SellsInterface;
+    sellInformation?: SellsInterface | null | undefined;
     items: SellsDetailsInterface[];
     sellsCount?: number;
     error: unknown;
-    loadMore: () => void;
+    fetchNextPage: () => void;
     refetch: () => void;
 
     isLoading: boolean;
@@ -26,7 +26,7 @@ interface UseSellDetailsReturn {
 
 export function useSellDetails(): UseSellDetailsReturn {
 
-    const [sellInformation, setSellInformation] = useState<SellsInterface>();
+    const [sellInformation, setSellInformation] = useState<SellsInterface | null | undefined>(null);
     const [sellsCount, setSellsCount] = useState<number>();
     const [isLoadingTotals, setIsLoadingTotals] = useState(true);
 
@@ -53,10 +53,13 @@ export function useSellDetails(): UseSellDetailsReturn {
     }, [Folio, TipoDoc]);
 
     const fetchSellInformation = useCallback(async () => {
-        if (!Sellid || Id_Almacen == null || TipoDoc == null || Folio == null || Serie == null) return;
+        if (!Sellid || Id_Almacen == null || TipoDoc == null || Folio == null || Serie == null) {
+            setSellInformation(null);
+            return;
+        };
 
         if (!isValidTipoDoc(TipoDoc)) {
-            setSellInformation(undefined);
+            setSellInformation(null);
             return;
         };
 
@@ -82,9 +85,11 @@ export function useSellDetails(): UseSellDetailsReturn {
         queryFn: ({ pageParam = 1 }) => getSellDetails({ folio: Folio!, PageNumber: pageParam as number, TipoDoc: TipoDoc! }),
         getNextPageParam: (lastPage, allPages) => lastPage.orderDetails.length === 0 ? undefined : allPages.length + 1,
         initialPageParam: 1,
-        staleTime: 1000 * 60 * 5,
-        enabled: isEnabled
+        //staleTime: 1000 * 60 * 5,
+        enabled: isEnabled,
+        
     });
+
     const items = data?.pages.flatMap(page => page.orderDetails) ?? [];
 
     useEffect(() => {
@@ -100,7 +105,7 @@ export function useSellDetails(): UseSellDetailsReturn {
         items,
         sellsCount,
         error,
-        loadMore: fetchNextPage,
+        fetchNextPage,
         refetch,
 
         isLoading,

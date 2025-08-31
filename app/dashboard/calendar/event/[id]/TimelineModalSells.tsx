@@ -12,18 +12,27 @@ interface ModalSellsInterface {
   visible: boolean;
   onClose: () => void;
   sellEvents: TimelineInterface[];
+  totalDocuments: number
+  isLoadingUseQuery: boolean
+  isFetchingNextPage: boolean
+  loadMoreProducts: () => void;
 }
 
 export default function TimelineModalSells({
   visible,
   onClose,
-  sellEvents
+  sellEvents,
+  totalDocuments,
+  isLoadingUseQuery,
+  isFetchingNextPage,
+  loadMoreProducts
 }: ModalSellsInterface): JSX.Element {
 
   const [openSecondModal, setOpenSecondModal] = useState(false);
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const NoMoreProductToShow = sellEvents.length === totalDocuments || !totalDocuments || isLoadingUseQuery;
 
   const handleSelectItem = (item: TimelineInterface): void => {
     const params = new URLSearchParams(searchParams.toString());
@@ -95,8 +104,9 @@ export default function TimelineModalSells({
         data={sellEvents}
         columns={columnsTimelineSells}
         onClick={handleSelectItem}
-        loadingMoreData={true}
-        noMoreData={true}
+        loadingMoreData={isFetchingNextPage}
+        noMoreData={NoMoreProductToShow}
+        handleLoadMore={loadMoreProducts}
       />
     </ModalDouble>
   );

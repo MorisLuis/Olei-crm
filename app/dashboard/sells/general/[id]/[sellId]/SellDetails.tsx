@@ -9,7 +9,7 @@ import styles from '../../../../../../styles/pages/SellDetails.module.scss';
 
 export default function SellDetails(): JSX.Element {
 
-  const { items, error, refetch, sellInformation, sellsCount, loadMore, isLoading, isFetchingNextPage, isEnabled } = useSellDetails()
+  const { items, error, refetch, sellInformation, sellsCount, fetchNextPage, isLoading, isFetchingNextPage } = useSellDetails()
 
   if (error) return <Custum500 handleRetry={refetch} />;
 
@@ -24,11 +24,11 @@ export default function SellDetails(): JSX.Element {
       <TableSellsDetailsClient
         sells={items}
         totalSells={sellsCount ?? 0}
-        loadMoreProducts={loadMore}
+        loadMoreProducts={fetchNextPage}
 
-        isLoadingData={(items.length <= 0 && isLoading) || !isEnabled}
-        isLoadingUseQuery={isLoading}
+        isLoadingData={items.length <= 0 && isLoading}
         isFetchingNextPage={isFetchingNextPage}
+        isLoadingUseQuery={isLoading}
       />
     </div>
   );

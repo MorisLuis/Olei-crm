@@ -39,7 +39,7 @@ export default function ClientAgenda(): JSX.Element {
 
   const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
   const decodedDate = decodeURIComponent(lastSegment!);
-  const { eventsOfTheDay, isLoading, TotalVentas } = useGetEventsOfTheDay(decodedDate, idCliente, refreshTimeline);
+  const { eventsOfTheDay, isLoading, TotalVentas, isFetchingNextPage, fetchNextPage } = useGetEventsOfTheDay(decodedDate, idCliente, refreshTimeline);
   const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
 
   const onMeetingCreated = (): void => setRefreshTimeline(prev => !prev);
@@ -87,6 +87,10 @@ export default function ClientAgenda(): JSX.Element {
         visible={openModalSells}
         onClose={navigateBackFromModalSells}
         sellEvents={sellEvents}
+        isLoadingUseQuery={isLoading}
+        totalDocuments={TotalVentas}
+        isFetchingNextPage={isFetchingNextPage}
+        loadMoreProducts={fetchNextPage}
       />
     </div>
   );

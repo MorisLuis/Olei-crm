@@ -32,7 +32,7 @@ export default function TableSellsDetailsClient({
 }: TableSellsDetailsClientInterface): JSX.Element {
 
   const NoMoreProductToShow = sells.length === totalSells || !totalSells || isLoadingUseQuery;
-  const noCoincidenceItems = sells.length === 0 && !isLoadingData;
+  const noCoincidenceItems = sells.length === 0 && !isLoadingData
 
   const columns: ColumnSecondaryConfig<SellsDetailsInterface>[] = [
     {

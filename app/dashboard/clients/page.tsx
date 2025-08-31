@@ -55,6 +55,7 @@ function ClientsContent(): JSX.Element {
         clients={items}
         totalClients={count ?? 0}
         loadMoreProducts={fetchNextPage}
+  
         isLoadingData={items.length <= 0 && isLoading}
         isFetchingNextPage={isFetchingNextPage}
         isLoadingUseQuery={isLoading}

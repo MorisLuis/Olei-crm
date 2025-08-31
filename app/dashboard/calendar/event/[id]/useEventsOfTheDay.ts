@@ -9,6 +9,8 @@ interface useGetEventsOfTheDayResponse {
   isLoading: boolean;
   TotalBitacora: number;
   TotalVentas: number;
+  isFetchingNextPage:boolean
+  fetchNextPage: () => void
 }
 
 export const useGetEventsOfTheDay = (
@@ -22,7 +24,9 @@ export const useGetEventsOfTheDay = (
 
   const {
     data,
-    isLoading
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage
   } = useInfiniteQuery<GetCalendarTaskByDayResponse, Error>({
     queryKey: ['eventsOfTheDay', idCliente, decodedDate],
     queryFn: ({ pageParam = 1 }) =>
@@ -45,6 +49,8 @@ export const useGetEventsOfTheDay = (
     eventsOfTheDay: items,
     isLoading,
     TotalBitacora,
-    TotalVentas
+    TotalVentas,
+    isFetchingNextPage,
+    fetchNextPage
   };
 };
