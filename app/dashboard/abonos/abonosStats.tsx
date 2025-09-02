@@ -21,7 +21,7 @@ export default function abonosStats(totalStats?: TotalCobranzaResponse | null): 
     const headerStatsItems = Object.entries(totalStats || {}).map(([key, value]) => ({
         label: labelMap[key as keyof TotalCobranzaResponse] || key,
         value,
-        color: colorMap[key as keyof TotalCobranzaResponse] || '#dff4ff'
+        color: colorMap[key as keyof TotalCobranzaResponse]
     }));
 
     return headerStatsItems;

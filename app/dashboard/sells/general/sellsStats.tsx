@@ -13,9 +13,16 @@ export default function sellsStats(totalStats?: TotalSellsResponse | null): Resp
         SumaTotal: "Total",
     };
 
+
+    const colorMap: Record<keyof TotalSellsResponse, string> = {
+        SumaSubtotal: "#dff4ff",
+        SumaTotal: "#fef8e5"
+    };
+
     const headerStatsItems = Object.entries(totalStats || {}).map(([key, value]) => ({
         label: labelMap[key] || key,
         value,
+        color: colorMap[key as keyof TotalSellsResponse]
     }));
 
     return headerStatsItems;
