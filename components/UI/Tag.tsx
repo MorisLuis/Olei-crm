@@ -1,8 +1,8 @@
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactNode } from 'react';
-import styles from '../../styles/UI.module.scss';
 import { TagColor } from '@/hooks/useTagColor';
+import styles from '../../styles/UI.module.scss';
 
 interface Props {
   children: ReactNode;
