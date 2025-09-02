@@ -2,10 +2,11 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactNode } from 'react';
 import styles from '../../styles/UI.module.scss';
+import { TagColor } from '@/hooks/useTagColor';
 
 interface Props {
   children: ReactNode;
-  color?: 'green' | 'yellow' | 'red' | 'blue' | 'gray';
+  color?: TagColor
   close?: boolean;
   onClose?: (e?: React.MouseEvent<HTMLDivElement>) => void;
   cursor?: boolean;

@@ -1,6 +1,7 @@
 import { typeTipoDoc } from "@/services/sells/sells.interface";
 
 export type typeLabelTipoDocColor = ['gray', 'red', 'blue', 'green', 'yellow'];
+export type TagColor = typeLabelTipoDocColor[number];
 const tipoDocMap: { [key in typeTipoDoc]: typeLabelTipoDocColor[key] } = {
   0: 'gray',
   1: 'red',

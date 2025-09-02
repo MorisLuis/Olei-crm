@@ -70,19 +70,10 @@ export default function TableBitacora({
     },
     {
       key: 'TipoContacto',
-      label: 'TipoContacto',
+      label: 'Actividad',
       render: (TipoContacto) => (
         <Tag color={changeColor(TipoContacto as MeetingInterface['TipoContacto'])}>
           {contactType(TipoContacto as MeetingInterface['TipoContacto'])}
-        </Tag>
-      ),
-    },
-    {
-      key: 'status',
-      label: 'Estatus',
-      render: (_, item: MeetingInterface) => (
-        <Tag color={item.status ? 'green' : 'gray'} onClose={(e?: React.MouseEvent<HTMLDivElement>) => onUpdateStatus(item, e)}>
-          {item.status ? 'Activo' : 'Inactivo'}
         </Tag>
       ),
     },
@@ -103,6 +94,15 @@ export default function TableBitacora({
         ) : (
           <Tag color="gray">No tiene hora</Tag>
         ),
+    },
+    {
+      key: 'status',
+      label: 'Estado',
+      render: (_, item: MeetingInterface) => (
+        <Tag color={item.status ? 'yellow' : 'green'} onClose={(e?: React.MouseEvent<HTMLDivElement>) => onUpdateStatus(item, e)}>
+          {item.status ? 'Abierto' : 'Cerrado'}
+        </Tag>
+      ),
     },
   ];
 
