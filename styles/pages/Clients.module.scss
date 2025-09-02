@@ -32,24 +32,3 @@
         }
     }
 }
-
-.ClientName {
-
-    @include mixins.respond(phone) {
-        :first-child{
-            display: none;
-        }
-    }
-
-    &__Avatar {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        font-size: variables.$font-small;
-        color: variables.$text-color-light;
-        border-radius: 50%;
-        margin-right: variables.$margin-horizontal;
-    }
-}

@@ -7,6 +7,7 @@ import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { AbonosInterface } from '@/interface/abonos';
 import { format } from '@/utils/currency';
+import styles from '../../../styles/Components/Table/Table.module.scss';
 
 interface AbonosTableInterface {
     abonos: AbonosInterface[];
@@ -42,9 +43,45 @@ export default function TableAbonos({
             label: 'Id_Cliente',
         },
         {
-            key: `cliente.Nombre`,
+            key: 'cliente.Nombre',
             label: 'Cliente',
-            render: (_, item) => <p>{item?.cliente?.Nombre ? item?.cliente?.Nombre : "Sin Nombre"}</p>,
+            render: (Nombre): JSX.Element => {
+
+                const colors = [
+                    '#ff0000',
+                    '#068FFF',
+                    '#1F8A70',
+                    '#6F67DF',
+                    '#EDBD42',
+                    '#FF7F11',
+                    '#6A0DAD',
+                    '#008080',
+                    '#FF69B4',
+                    '#4B9D87',
+                ];
+
+                const getColor = (name: string): string => {
+                    const salt = name.length;
+                    const index = name
+                        .split('')
+                        .reduce((acc, char) => acc + char.charCodeAt(0), 0 + salt) % colors.length;
+                    return colors[index];
+                };
+
+                const backgroundColor = getColor(Nombre as string);
+
+                return (
+                    <div className={styles.ClientName}>
+                        <span
+                            className={styles.ClientName__Avatar}
+                            style={{ backgroundColor }}
+                        >
+                            {(Nombre as string)?.charAt(0)}
+                        </span>
+                        <span style={{ fontWeight: 'bold' }}>{Nombre as string}</span>
+                    </div>
+                );
+            },
         },
         {
             key: 'forma_de_pago',

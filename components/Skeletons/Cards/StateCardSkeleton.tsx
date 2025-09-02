@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../../styles/Components/Cards.module.scss';
+import styles from '../../../styles/Components/Cards/StatCard.module.scss';
 
 export default function StatCardSkeleton({ subtitle = false }: { subtitle?: boolean }): JSX.Element {
 

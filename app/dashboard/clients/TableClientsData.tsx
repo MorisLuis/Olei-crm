@@ -1,7 +1,7 @@
 import { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
 import { ClientInterface } from '@/interface/client';
-import styles from '../../../styles/pages/Clients.module.scss';
+import styles from '../../../styles/Components/Table/Table.module.scss';
 
 export const columnClients: ColumnConfig<ClientInterface>[] = [
   {

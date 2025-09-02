@@ -6,7 +6,7 @@ import StatCard from '../Cards/StatCard';
 import HeaderStatsSkeleton from '../Skeletons/HeaderStatsSkeleton';
 
 interface headerStatsInterface {
-    items: { label: string, value: number }[],
+    items: { label: string, value: number, color?:string }[],
     isLoading: boolean,
     sizeSkeleton?: number;
 }
@@ -31,6 +31,7 @@ export default function HeaderStats({
                         value={format(item.value)}
                         icon={faDollarSign}
                         hoverAvailable={false}
+                        style={{ backgroundColor: item.color  }}
                     />
                 )
             }

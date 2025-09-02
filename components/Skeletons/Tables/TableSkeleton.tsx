@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../styles/Tables.module.scss';
+import styles from '../../../styles/Components/Table/Table.module.scss';
 
 interface TableSkeletonProps {
   columns: number; // number of columns

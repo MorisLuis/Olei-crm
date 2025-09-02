@@ -1,0 +1,174 @@
+@use "sass:math";
+@use "./../../main.scss";
+@use "./../../Abstracts/mixins";
+@use "./../../Abstracts/variables";
+
+.table {
+    width: 100%;
+    font-size: variables.$font-medium;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    table {
+        width: 100%;
+        border-spacing: 0;
+        border: 1px solid variables.$color-border;
+        border-bottom: 0px;
+        margin-bottom: variables.$margin-horizontal;
+        border-radius: variables.$border-radius;
+
+        -webkit-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+        -moz-box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+        box-shadow: 10px 10px 15px -5px rgba(6, 12, 25, 0.05);
+
+        thead {
+            background-color: variables.$background-color;
+            border-radius: variables.$border-radius;
+
+            @include mixins.respond(phone) {
+                display: none;
+            }
+
+            th {
+                padding: variables.$padding;
+                text-align: left;
+                font-size: variables.$font-small;
+                color: variables.$text-color-secondary;
+                border-bottom: 1px solid variables.$color-border;
+                font-weight: lighter;
+
+                &:first-child {
+                    border-radius: variables.$border-radius 0px 0px 0px;
+                    overflow: hidden;
+                }
+
+                &:last-child {
+                    border-radius: 0px variables.$border-radius 0px 0px;
+                    overflow: hidden;
+                }
+
+                @include mixins.respond(phone) {
+                    padding: variables.$padding;
+                }
+            }
+        }
+
+        tbody {
+            color: variables.$text-color-secondary;
+
+            tr {
+                border-radius: variables.$border-radius;
+
+
+                @include mixins.respond(phone) {
+                    display: block;
+                    border-bottom: 1px solid variables.$color-border;
+                    padding: variables.$padding;
+                }
+    
+                &.hoverState {
+                    &:hover{
+                        background-color: variables.$background-color-secondary;
+                    }
+                }
+
+                td {
+                    padding: calc(variables.$padding / 2) variables.$padding;
+                    border-bottom: 1px solid variables.$color-border;
+
+                    &.hoverState {
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+
+                    @include mixins.respond(phone) {
+                        padding: variables.$padding;
+
+                        display: flex;
+                        justify-content: space-between;
+                        border: none;
+                        min-width: 100%;
+                        padding: 0px;
+                        padding-bottom: variables.$padding;
+                        align-items: center;
+                        text-align: end;
+
+                        &::before {
+                            content: attr(data-label);
+                            color: variables.$color-gray;
+                            flex-basis: 50%;
+                            text-align: left;
+                        }
+
+                        span {
+                            display: flex;
+                            text-align: end;
+                        }
+                    }
+
+                    &.isSkeleton {
+                        &::before{
+                            content: none;
+                        }
+                    }
+
+                    &:first-child {
+                        border-radius: 0px variables.$border-radius;
+                        overflow: hidden;
+                    }
+
+                    &:last-child {
+                        border-radius: variables.$border-radius 0px;
+                        overflow: hidden;
+                    }
+
+                    &.text-blue-500 {
+                        color: variables.$color-blue;
+                    }
+
+                    &.font-bold {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .laodMore {
+        width: 30%;
+
+        @include mixins.respond(phone) {
+            width: 100%;
+        }
+    }
+
+    .message {
+        padding: variables.$padding 0em;
+        text-align: center;
+        color: variables.$color-gray;
+        font-size: variables.$font-medium;
+    }
+
+}
+
+.ClientName {
+    @include mixins.respond(phone) {
+        :first-child{
+            display: none;
+        }
+    }
+
+    &__Avatar {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        font-size: variables.$font-small;
+        color: variables.$text-color-light;
+        border-radius: 50%;
+        margin-right: variables.$margin-horizontal;
+    }
+}

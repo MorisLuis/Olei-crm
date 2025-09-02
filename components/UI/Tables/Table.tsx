@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ButtonLoad from '@/components/Buttons/ButtonLoad';
-import styles from '../../../styles/Tables.module.scss';
+import styles from '../../../styles/Components/Table/Table.module.scss';
 
 
 type DotNestedKeys<T> = (
