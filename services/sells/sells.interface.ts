@@ -52,7 +52,7 @@ interface SellsByClientFilters {
     sellsOrderCondition?: string;
 };
 
-type typeTipoDoc = 0 | 1 | 2 | 3 | 4;
+type typeTipoDoc = 0 | 1 | 2 | 3 | 4 | 5;
 type SellsOrderConditionType = 'Nombre' | 'Total';
 type SellsOrderByClientConditionType = | 'TipoDoc' | 'Folio' | 'Fecha' | 'ExpiredDays';
 type SellsFilterConditionByClientType = 'TipoDoc' | 'Expired' | 'Not Expired';

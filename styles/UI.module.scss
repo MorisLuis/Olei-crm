@@ -29,6 +29,12 @@
             white-space: normal;
         }
 
+        &.purple {
+            background-color: rgba(variables.$color-purple, 0.2);
+            color: variables.$color-purple;
+            border: 1px solid rgba($color: variables.$color-purple, $alpha: 0.2);
+        }
+
         &.green {
             background-color: rgba(variables.$color-green, 0.2);
             color: variables.$color-green;
