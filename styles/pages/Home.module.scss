@@ -30,12 +30,18 @@
 
         &__sells {
             flex: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            .content{
+                width: 75%;
+            }
         }
 
         &__bitacora {
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: variables.$gap;
 
             @include mixins.respond(phone) {

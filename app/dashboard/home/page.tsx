@@ -10,11 +10,11 @@ import HomeSkeleton from '@/components/Skeletons/pages/HomeSkeleton';
 import Header from '@/components/navigation/header';
 import { AuthContext } from '@/context/auth/AuthContext';
 import { getStatisticsCRM } from '@/services/statistics/statistics';
-import { getStatisticsCRMResponse } from '@/services/statistics/statistics.interface';
-import styles from '@/styles/pages/Home.module.scss';
-import { format } from '@/utils/currency';
 import { getCurrentMonthRange } from '@/utils/getCurrentMonth';
 import CalendarScreen from '../calendar/page';
+import { format } from '@/utils/currency';
+import { getStatisticsCRMResponse } from '@/services/statistics/statistics.interface';
+import styles from '@/styles/pages/Home.module.scss';
 
 export default function Home(): JSX.Element {
   const { user } = useContext(AuthContext);
@@ -81,6 +81,7 @@ export default function Home(): JSX.Element {
         </div>
 
         <div className={styles.statsSections__sells}>
+          <div className={styles.content}>
           <ChartWidget
             data={statistics.sells}
             chartTitle='Ventas del mes'
@@ -90,6 +91,7 @@ export default function Home(): JSX.Element {
             chartMessage=''
             onClick={() => push(`sells/general?DateStart=${DateStart}&DateEnd=${DateEnd}`)}
           />
+          </div>
         </div>
       </div>
 
