@@ -7,7 +7,7 @@ import React from 'react';
 import { screenData } from '@/database/screens';
 import logoOlei from '../../public/Logo-white.svg';
 
-import styles from '../../styles/Navigation.module.scss';
+import styles from '../../styles/Navigation/Sidebar.module.scss';
 
 interface SidebarInterface {
   visible?: boolean;
@@ -21,7 +21,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
   return (
     <aside className={`${styles.sidebar} ${visible && `${styles.active}`}`}>
       <div className={styles.logoOlei}>
-        <Image src={logoOlei} alt={'olei crm'} width={200} height={200} priority />
+        {/* <Image src={logoOlei} alt={'olei crm'} width={100} height={200} priority /> */}
       </div>
       <nav>
         <ul>
@@ -36,16 +36,6 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
             </Link>
           ))}
         </ul>
-
-        {/* <ul>
-          <Link
-            href="/dashboard/settings"
-            className={pathname === '/dashboard/settings' ? styles.active : ''}
-          >
-            <FontAwesomeIcon icon={faGear} className={'icon'} />
-            <p>Configuración</p>
-          </Link>
-        </ul> */}
       </nav>
     </aside>
   );

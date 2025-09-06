@@ -1,0 +1,132 @@
+@use "sass:math";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+.sidebar {
+    margin: 0px;
+    padding: variables.$padding;
+    height: 100vh;
+    position: sticky;
+    top: 0px;
+    width: 10%;
+    min-width: 100px;
+    font-size: variables.$font-medium;
+    color: variables.$text-color-light;
+    background-color: 'red';
+
+
+    &.active {
+        display: block;
+    }
+
+    @include mixins.respond(tab-port) {
+        min-width: auto;
+        width: fit-content;
+    }
+
+    @include mixins.respond(phone) {
+        display: none;
+        z-index: 99999;
+        min-width: 80vw;
+        position: fixed;
+        left: 0px;
+        width: 60%;
+    }
+
+    .logoOlei {
+        bottom: 0px;
+        left: 0px;
+        height: 5%;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding-left: variables.$padding;
+        margin-bottom: variables.$margin-vertical*2;
+        max-width: 40px;
+
+        @include mixins.respond(tab-port) {
+            display: none;
+        }
+
+        @include mixins.respond(phone) {
+            display: block;
+        }
+
+        img {
+            height: 100%;
+            width: auto;
+        }
+
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: calc(100% - 26px - variables.$margin-vertical*2);
+
+        ul {
+            padding: 0px;
+            text-decoration: none;
+            list-style: none;
+
+            >a {
+                background-color: variables.$color-secondary;
+                padding: calc(variables.$padding/3) variables.$padding;
+                border-radius: variables.$border-radius;
+                margin-bottom: calc(variables.$margin-vertical / 3);
+                cursor: pointer;
+                border: 1px solid transparent;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: variables.$gap;
+                font-size: variables.$font-normal;
+
+                .icon{
+                    color: variables.$text-color-light;
+                }
+
+                @include mixins.respond(tab-port) {
+                    width: fit-content;
+
+                    p {
+                        display: none;
+                    }
+                }
+
+                @include mixins.respond(phone) {
+                    width: 100vw;
+
+                    p {
+                        display: block;
+                    }
+                }
+
+                &:hover {
+                    background-color: variables.$background-color-secondary;
+                    border: 1px solid variables.$color-border;
+                    color: variables.$text-color;
+
+                    .icon{
+                        color: variables.$text-color;
+                    }
+                }
+
+                &.active {
+                    background-color: variables.$background-color;
+                    color: variables.$text-color;
+                    border: 1px solid variables.$color-border;
+                    font-weight: bold;
+
+                    .icon{
+                        color: variables.$text-color;
+                    }
+    
+                }
+            }
+        }
+    }
+}
