@@ -9,8 +9,6 @@
 
 export const dateValidation = (date: Date | string): boolean => {
 
-    console.log("date instanceof Date", date instanceof Date)
-    console.log({ date })
     let dateString: string;
 
 

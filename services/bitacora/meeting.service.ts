@@ -45,8 +45,6 @@ export const postMeeting = async (bodyMeeting: MeetingInterface): Promise<any> =
     // Validaciones
     const errors: string[] = [];
 
-    console.log('bodyMeeting.Fecha', bodyMeeting.Fecha)
-
     if (!bodyMeeting.Id_Cliente) {
       errors.push('Es necesario el cliente');
     }

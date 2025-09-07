@@ -18,6 +18,7 @@ const tipoDocMap = {
     2: 'Remisión',
     3: 'Pedidos',
     4: 'Cotización',
+    5: 'N/A'
 } as const;
 
 
