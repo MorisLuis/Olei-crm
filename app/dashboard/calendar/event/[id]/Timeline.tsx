@@ -45,7 +45,7 @@ export default function Timeline({
             <section className={styles.timelineContent__documents}>
                 {sellEvents.length > 0 && (
                     <MessageSecondaryCard
-                        title={`Hay ${TotalVentas} docuentos expirados al dia de hoy.`}
+                        title={`Hay ${TotalVentas} documentos expirados al dia de hoy.`}
                         icon={faFileExcel}
                         action={{
                             onClick: () => navigateToModalSells(),
