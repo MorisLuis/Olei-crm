@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { screenData } from '@/database/screens';
 
-import styles from '../../styles/Navigation/Sidebar.module.scss';
-import Image from 'next/image';
 import logoOlei from '../../public/LOGO CRM.svg';
+import styles from '../../styles/Navigation/Sidebar.module.scss';
 
 interface SidebarInterface {
   visible?: boolean;
