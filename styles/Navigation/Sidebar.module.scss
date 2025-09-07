@@ -36,14 +36,14 @@
     .logoOlei {
         bottom: 0px;
         left: 0px;
-        height: 5%;
         position: relative;
         cursor: pointer;
         display: flex;
         align-items: center;
-        padding-left: variables.$padding;
+        justify-content: center;
         margin-bottom: variables.$margin-vertical*2;
-        max-width: 40px;
+        margin-top: variables.$margin-vertical;
+        height: 50px;
 
         @include mixins.respond(tab-port) {
             display: none;

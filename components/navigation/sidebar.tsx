@@ -6,6 +6,8 @@ import React from 'react';
 import { screenData } from '@/database/screens';
 
 import styles from '../../styles/Navigation/Sidebar.module.scss';
+import Image from 'next/image';
+import logoOlei from '../../public/LOGO CRM.svg';
 
 interface SidebarInterface {
   visible?: boolean;
@@ -19,7 +21,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
   return (
     <aside className={`${styles.sidebar} ${visible && `${styles.active}`}`}>
       <div className={styles.logoOlei}>
-        {/* <Image src={logoOlei} alt={'olei crm'} width={100} height={200} priority /> */}
+        <Image src={logoOlei} alt={'olei crm'} width={100} height={200} priority />
       </div>
       <nav>
         <ul>
