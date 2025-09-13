@@ -6,33 +6,14 @@ import { getClientByIdInterface, getClientsParams, updateClientParams } from './
 export const getClients = async (
   params: getClientsParams
 ): Promise<{ clients: ClientInterface[]; total: number }> => {
-  const { PageNumber, limit = 10, filters } = params;
-
-  // Extract order params
-  const { orderField, orderDirection = "asc", ...filterFields } = filters;
-
-  const filterField = Object.keys(filterFields)
-    .filter(key => {
-      const value = filterFields[key as keyof typeof filterFields];
-      return value !== undefined && value !== "";
-    })
-    .join(", ");
-
-  const filterValue = Object.values(filterFields)
-    .filter(value => value !== undefined && value !== "")
-    .join(", ");
-
-  const queryParams = {
-    PageNumber,
-    limit,
-    orderField,
-    orderDirection,
-    filterField,
-    filterValue,
-  };
 
   const { data } = await api.get<{ clients: ClientInterface[]; total: number }>('/api/client', {
-    params: queryParams,
+    params: {
+      PageNumber: params.PageNumber,
+      Id_Cliente: params.filters?.Id_Cliente,
+      Nombre: params.filters?.Nombre,
+      limit: params.limit || 10,
+    },
   });
 
   return {

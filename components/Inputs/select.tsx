@@ -46,10 +46,11 @@ const SelectReact = ({
 
   return (
     <div>
-      <label htmlFor={name} className="label">
+      <label htmlFor={`label-${name}`} className="label">
         {label}
       </label>
       <Select
+      name={name}
         placeholder={placeholder}
         options={optionsWithNull}
         isClearable

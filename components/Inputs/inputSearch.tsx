@@ -6,12 +6,14 @@ interface InputSearchInterface {
   placeholder?: string;
   onSearch: (value: string) => void;
   onCleanSearch: (value: null) => void;
+  name?: string
 }
 
 export default function InputSearch({
   placeholder = 'Buscar...',
   onSearch,
   onCleanSearch,
+  name
 }: InputSearchInterface) : JSX.Element {
   const [value, setValue] = useState(''); // Estado local para almacenar el valor del input
 
@@ -34,16 +36,20 @@ export default function InputSearch({
   return (
     <div className="input_search">
       <input
-        value={value} // Enlaza el estado con el input
+        value={value} 
         placeholder={placeholder}
         onChange={handleOnChange}
+        name={name}
+        style={{
+          height: "100%"
+        }}
       />
-      {value && ( // Renderiza el ícono solo si hay valor en el input
+      {value && (
         <FontAwesomeIcon
           icon={faCircleXmark}
           className={`iconClean`}
-          onClick={handleClear} // Limpia el input al hacer clic en el ícono
-          style={{ cursor: 'pointer' }} // Cambia el cursor para indicar interactividad
+          onClick={handleClear} 
+          style={{ cursor: 'pointer' }}
         />
       )}
     </div>
