@@ -6,6 +6,7 @@ import esLocale from '@fullcalendar/core/locales/es';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from "@fullcalendar/timegrid";
 import React, { useRef, useState, useCallback, useContext, useEffect } from 'react';
 import { SettingsContext } from '@/context/Settings/SettingsContext';
 import { getCalendarByMonth, getCalendarByMonthAndClient } from '@/services/calendar/calendar.service';
@@ -88,14 +89,14 @@ const CalendarComponent = ({
   if (isLoading) {
     return (
       <div style={{ width: "100%", height: "100%" }}>
-        <CalendarComponentSkeleton/>
+        <CalendarComponentSkeleton />
       </div>
     )
   }
 
   return (
     <FullCalendar
-      plugins={[dayGridPlugin, interactionPlugin]}
+      plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
       initialView="dayGridMonth"
       editable={true}
       selectable={true}
@@ -105,7 +106,13 @@ const CalendarComponent = ({
       locale={esLocale}
       eventContent={(eventInfo) => renderEventContent({ eventInfo, processedDaysRef })}
       datesSet={onCalendarViewChange}
+      headerToolbar={{
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,dayGridWeek"
+      }}
     />
+
   );
 };
 
