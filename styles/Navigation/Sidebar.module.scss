@@ -9,11 +9,9 @@
     position: sticky;
     top: 0px;
     width: 10%;
-    min-width: 100px;
+    min-width: fit-content;
     font-size: variables.$font-medium;
     color: variables.$text-color-light;
-    background-color: 'red';
-
 
     &.active {
         display: block;
@@ -80,7 +78,7 @@
                 border: 1px solid transparent;
 
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
                 gap: variables.$gap;
                 font-size: variables.$font-normal;
