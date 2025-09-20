@@ -99,7 +99,7 @@ export default function TableBitacora({
       key: 'status',
       label: 'Estado',
       render: (_, item: MeetingInterface) => (
-        <Tag color={item.status ? 'red' : 'gray'} onClose={(e?: React.MouseEvent<HTMLDivElement>) => onUpdateStatus(item, e)}>
+        <Tag color={item.status ? 'red' : 'green'} onClose={(e?: React.MouseEvent<HTMLDivElement>) => onUpdateStatus(item, e)}>
           {item.status ? 'Abierto' : 'Cerrado'}
         </Tag>
       ),
