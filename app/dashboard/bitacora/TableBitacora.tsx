@@ -2,11 +2,12 @@
 
 import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
+import useErrorHandler, { ErrorResponse } from '@/hooks/useErrorHandler';
 import { useTagColor } from '@/hooks/useTagColor';
 import MeetingInterface from '@/interface/meeting';
 import { updateMeeting } from '@/services/bitacora/meeting.service';
@@ -21,7 +22,7 @@ interface TableBitacoraInterface {
 
   isLoadingData: boolean;
   isFetchingNextPage: boolean;
-  isLoadingUseQuery: boolean
+  isLoadingUseQuery: boolean;
   refetch: () => void;
 }
 
@@ -32,28 +33,40 @@ export default function TableBitacora({
   isLoadingData,
   isFetchingNextPage,
   isLoadingUseQuery,
-  refetch
+  refetch,
 }: TableBitacoraInterface): JSX.Element {
-
   const { push } = useRouter();
   const { changeColor } = useTagColor();
+  const { handleError } = useErrorHandler();
+  const [loadingStatus, setLoadingStatus] = useState<{ [key: string]: boolean }>({});
   const NoMoreProductToShow = meetings.length === totalMeetings || !totalMeetings || isLoadingUseQuery;
-  const noCoincidenceItems = meetings.length === 0 && !isLoadingData
+  const noCoincidenceItems = meetings.length === 0 && !isLoadingData;
 
   const handleSelectMeeting = (item: MeetingInterface): void => {
     push(`/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`);
   };
 
-  // Update status of the meeting
-  const onUpdateStatus = (item: MeetingInterface, e?: React.MouseEvent<HTMLDivElement>): void => {
+  const handleUpdateStatus = async (item: MeetingInterface, e?: React.MouseEvent<HTMLDivElement>) : Promise<void> => {
     e?.stopPropagation();
-    updateMeeting({
-      status: !item.status
-    }, item.Id_Bitacora)
-    setTimeout(() => {
-      refetch()
-    }, 200);
-  }
+
+    if (loadingStatus[item.Id_Bitacora]) return;
+
+    setLoadingStatus((prev) => ({ ...prev, [item.Id_Bitacora]: true }));
+
+    try {
+      await updateMeeting({ status: !item.status }, item.Id_Bitacora);
+      refetch();
+    } catch (error) {
+      handleError({
+        message: (error as ErrorResponse)?.message,
+        response: (error as ErrorResponse)?.response,
+      });
+    } finally {
+      setTimeout(() => {
+        setLoadingStatus((prev) => ({ ...prev, [item.Id_Bitacora]: false }));
+      }, 500);
+    }
+  };
 
   const columnsBitacora: ColumnConfig<MeetingInterface>[] = [
     {
@@ -99,7 +112,12 @@ export default function TableBitacora({
       key: 'status',
       label: 'Estado',
       render: (_, item: MeetingInterface) => (
-        <Tag color={item.status ? 'red' : 'green'} onClose={(e?: React.MouseEvent<HTMLDivElement>) => onUpdateStatus(item, e)}>
+        <Tag
+          color={
+            loadingStatus[item.Id_Bitacora] ? 'gray' :
+              item.status ? 'red' : 'green'}
+          onClose={(e?: React.MouseEvent<HTMLDivElement>) => handleUpdateStatus(item, e)}
+        >
           {item.status ? 'Abierto' : 'Cerrado'}
         </Tag>
       ),
@@ -107,18 +125,15 @@ export default function TableBitacora({
   ];
 
   if (isLoadingData) {
-    return <TableSkeleton columns={4} />
+    return <TableSkeleton columns={4} />;
   }
 
   if (noCoincidenceItems) {
     return (
-      <MessageCard
-        title='No hay coincidencias exactas'
-        icon={faFaceSadCry}
-      >
+      <MessageCard title="No hay coincidencias exactas" icon={faFaceSadCry}>
         <p>Cambia o elimina algunos de los filtros.</p>
       </MessageCard>
-    )
+    );
   }
 
   return (

@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useCallback, useContext } from 'react';
 import { AuthContext } from '@/context/auth/AuthContext';
 import useToast from './useToast';
@@ -20,7 +19,6 @@ export interface ErrorResponse {
 }
 
 export const useErrorHandler = () => {
-  const router = useRouter();
   const { logoutUser } = useContext(AuthContext);
   const { showError } = useToast();
 
