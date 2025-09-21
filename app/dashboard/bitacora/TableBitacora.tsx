@@ -2,18 +2,17 @@
 
 import { faFaceSadCry } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { MessageCard } from '@/components/Cards/MessageCard';
 import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table, { ColumnConfig } from '@/components/UI/Tables/Table';
 import { Tag } from '@/components/UI/Tag';
-import useErrorHandler, { ErrorResponse } from '@/hooks/useErrorHandler';
 import { useTagColor } from '@/hooks/useTagColor';
 import MeetingInterface from '@/interface/meeting';
-import { updateMeeting } from '@/services/bitacora/meeting.service';
 import { contactType } from '@/utils/contactType';
 import { formatDate } from '@/utils/format/formatDate';
 import { formatTime } from '@/utils/format/formatTime';
+import { useUpdateStatus } from './hooks/useUpdateStatus';
 
 interface TableBitacoraInterface {
   meetings: MeetingInterface[];
@@ -37,35 +36,12 @@ export default function TableBitacora({
 }: TableBitacoraInterface): JSX.Element {
   const { push } = useRouter();
   const { changeColor } = useTagColor();
-  const { handleError } = useErrorHandler();
-  const [loadingStatus, setLoadingStatus] = useState<{ [key: string]: boolean }>({});
   const NoMoreProductToShow = meetings.length === totalMeetings || !totalMeetings || isLoadingUseQuery;
   const noCoincidenceItems = meetings.length === 0 && !isLoadingData;
+  const {  handleUpdateStatus, loadingStatus } = useUpdateStatus(refetch);
 
   const handleSelectMeeting = (item: MeetingInterface): void => {
     push(`/dashboard/bitacora/${item.Id_Bitacora}?Id_Cliente=${item.Id_Cliente}&Id_Almacen=${item.Id_Almacen}`);
-  };
-
-  const handleUpdateStatus = async (item: MeetingInterface, e?: React.MouseEvent<HTMLDivElement>) : Promise<void> => {
-    e?.stopPropagation();
-
-    if (loadingStatus[item.Id_Bitacora]) return;
-
-    setLoadingStatus((prev) => ({ ...prev, [item.Id_Bitacora]: true }));
-
-    try {
-      await updateMeeting({ status: !item.status }, item.Id_Bitacora);
-      refetch();
-    } catch (error) {
-      handleError({
-        message: (error as ErrorResponse)?.message,
-        response: (error as ErrorResponse)?.response,
-      });
-    } finally {
-      setTimeout(() => {
-        setLoadingStatus((prev) => ({ ...prev, [item.Id_Bitacora]: false }));
-      }, 500);
-    }
   };
 
   const columnsBitacora: ColumnConfig<MeetingInterface>[] = [

@@ -27,7 +27,6 @@ export default function BitacoraDetailsTable({
   const [isLoadingMeeting, setIsLoadingMeeting] = useState(true)
 
   const onOpenComments = (): void => setOpenCommentsModal(true);
-  const { columns } = ColumnsBitacoraDetails({ onOpenComments });
 
   const fetchMeeting = useCallback(async (): Promise<void> => {
     if (isLoading) return;
@@ -42,6 +41,7 @@ export default function BitacoraDetailsTable({
 
     setIsLoadingMeeting(false);
   }, [isLoading, Id_Bitacora]);
+  const { columns } = ColumnsBitacoraDetails({ onOpenComments, refetch: fetchMeeting });
 
   useEffect(() => {
     fetchMeeting();

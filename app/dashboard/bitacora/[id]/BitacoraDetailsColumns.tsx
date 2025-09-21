@@ -8,16 +8,21 @@ import { contactType } from '@/utils/contactType';
 import { formatDate } from '@/utils/format/formatDate';
 import { formatTime } from '@/utils/format/formatTime';
 import styles from '../../../../styles/pages/SellDetails.module.scss';
+import { useUpdateStatus } from '../hooks/useUpdateStatus';
 
 interface columnsBitacoraDetailsInterface {
   onOpenComments: () => void;
+  refetch?: () => void;
 }
 
 export const ColumnsBitacoraDetails = ({
-  onOpenComments
+  onOpenComments,
+  refetch
 }: columnsBitacoraDetailsInterface): { columns: ColumnTertiaryConfig<MeetingInterface>[] } => {
 
   const { changeColor } = useTagColor();
+  const {  handleUpdateStatus, loadingStatus } = useUpdateStatus(refetch || (() => {}));
+
   const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
     {
       key: 'Descripcion',
@@ -115,6 +120,20 @@ export const ColumnsBitacoraDetails = ({
             onClick={onOpenComments}
           />
         </div>
+      ),
+    },
+    {
+      key: 'status',
+      label: 'Estado',
+      render: (_, item: MeetingInterface) => (
+        <Tag
+          color={
+            loadingStatus[item.Id_Bitacora] ? 'gray' :
+              item.status ? 'red' : 'green'}
+          onClose={(e?: React.MouseEvent<HTMLDivElement>) => handleUpdateStatus(item, e)}
+        >
+          {item.status ? 'Abierto' : 'Cerrado'}
+        </Tag>
       ),
     },
   ];
