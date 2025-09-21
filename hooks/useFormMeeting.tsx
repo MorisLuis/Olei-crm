@@ -12,6 +12,7 @@ import { getActualHour, getCorrectDate } from "@/utils/format/formatTime";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useToast from "./useToast";
+import { addMinutesToHour } from "@/utils/date";
 
 
 const INITIAL_MEETING: MeetingInterface = {
@@ -86,6 +87,12 @@ export const useFormMeeting = ({
     const availableToPost: boolean = !!meetingForm?.TipoContacto && !!meetingForm?.Id_Cliente && !!meetingForm?.Descripcion
 
     const onChangeFormMeeting = <K extends keyof MeetingInterface>(key: K, value: MeetingInterface[K]): void => {
+
+        if (key === 'Hour' && typeof value === 'string' && value.length === 5) {
+            const newTime = addMinutesToHour(value, 30);
+            setMeetingForm((prev) => ({ ...prev, HourEnd: newTime }));
+        }
+
         setMeetingForm((prev) => ({ ...prev, [key]: value }));
     };
 
