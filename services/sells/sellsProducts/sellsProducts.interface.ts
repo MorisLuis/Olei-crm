@@ -33,16 +33,13 @@ interface SellsProductsFilters {
     OrderCondition?: SellsProductsOrderConditionType
 };
 
-export type SellsProductsOrderConditionType = 'Folio' | 'Codigo' | 'Fecha' | 'Marca' | 'Descripcion';
-export const SellsProductsOrderCondition: SellsProductsOrderConditionType[] = ['Folio', 'Codigo', 'Fecha', 'Marca', 'Descripcion']
+export type SellsProductsOrderConditionType = 'Codigo' | 'Fecha' | 'Marca' | 'Descripcion';
+export const SellsProductsOrderCondition: SellsProductsOrderConditionType[] = ['Codigo', 'Fecha', 'Marca', 'Descripcion']
 export const SellsProductsConditionObject: ReadonlyArray<{
     value: SellsProductsOrderConditionType;
     label: string;
 }> = [
-    {
-        value: 'Folio',
-        label: 'Folio',
-    },
+
     {
         value: 'Codigo',
         label: 'Codigo'

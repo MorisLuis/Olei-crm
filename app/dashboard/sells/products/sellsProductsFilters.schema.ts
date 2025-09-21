@@ -16,6 +16,6 @@ export const SellsProductsFilterSchema = z.object({
         .refine(
             (val): val is SellsProductsOrderConditionType=>
                 val === undefined || SellsProductsOrderCondition.includes(val as SellsProductsOrderConditionType),
-            { message: "OrderCondition debe ser 'Folio', 'Codigo', 'Fecha' o 'Marca'" }
+            { message: "OrderCondition debe ser 'Codigo', 'Fecha' o 'Marca'" }
         ).default('Fecha')
 })
