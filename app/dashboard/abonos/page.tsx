@@ -98,7 +98,7 @@ function AbonosContent(): JSX.Element {
                 loadMoreProducts={fetchNextPage}
                 handleSelectItem={onSelectAbono}
 
-                isLoadingData={items.length <= 0 && isLoading}
+                isLoadingData={items?.length <= 0 && isLoading}
                 isFetchingNextPage={isFetchingNextPage}
                 isLoadingUseQuery={isLoading}
             />

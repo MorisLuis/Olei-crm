@@ -30,8 +30,8 @@ export default function TableAbonos({
     isLoadingUseQuery
 }: AbonosTableInterface): JSX.Element {
 
-    const NoMoreProductToShow = abonos.length === totalAbonos || !totalAbonos || isLoadingUseQuery;
-    const noCoincidenceItems = abonos.length === 0 && !isLoadingData
+    const NoMoreProductToShow = abonos?.length === totalAbonos || !totalAbonos || isLoadingUseQuery;
+    const noCoincidenceItems = abonos?.length === 0 && !isLoadingData
 
     const columns: ColumnConfig<AbonosInterface>[] = [
         {
@@ -60,11 +60,24 @@ export default function TableAbonos({
                     '#4B9D87',
                 ];
 
-                const getColor = (name: string): string => {
-                    const salt = name.length;
-                    const index = name
+
+                const getColor = (name: string | undefined): string => {
+                    console.log({ name });
+
+                    // Validar que colors esté definido y sea un array
+                    if (!colors || colors.length === 0) {
+                        console.error('Colors array is undefined or empty');
+                        return 'defaultColor'; // Devuelve un color por defecto si colors no está definido
+                    }
+
+                    // Asegurarse de que name sea un string válido
+                    const validName = typeof name === 'string' ? name : '';
+                    const salt = validName.length;
+
+                    const index = validName
                         .split('')
                         .reduce((acc, char) => acc + char.charCodeAt(0), 0 + salt) % colors.length;
+
                     return colors[index];
                 };
 
