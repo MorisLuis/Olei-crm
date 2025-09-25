@@ -6,14 +6,19 @@ import { MessageCard } from '@/components/Cards/MessageCard';
 import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Table from '@/components/UI/Tables/Table';
 import { ColumnSecondaryConfig } from '@/components/UI/Tables/TableSecondary';
-import { AbonosInterface } from '@/interface/abonos';
+import { Tag } from '@/components/UI/Tag';
+import { useTagColor } from '@/hooks/useTagColor';
 import { format } from '@/utils/currency';
+import { docType } from '@/utils/docType';
+import { formatDate } from '@/utils/format/formatDate';
+import { AbonoDetails } from './types';
+
 
 interface TableAbonoDetailsClientInterface {
-    sells: AbonosInterface[];
+    abonoDetails: AbonoDetails[];
     totalSells: number;
     loadMoreProducts: () => void;
-    handleSelectItem?: (item: AbonosInterface) => void;
+    handleSelectItem?: (item: AbonoDetails) => void;
 
     isLoadingData: boolean;
     isLoadingUseQuery: boolean;
@@ -21,7 +26,7 @@ interface TableAbonoDetailsClientInterface {
 }
 
 export default function TableAbonosDetails({
-    sells,
+    abonoDetails,
     totalSells,
     loadMoreProducts,
     handleSelectItem,
@@ -31,23 +36,39 @@ export default function TableAbonosDetails({
     isFetchingNextPage
 }: TableAbonoDetailsClientInterface): JSX.Element {
 
-    const NoMoreProductToShow = sells.length === totalSells || !totalSells || isLoadingUseQuery;
-    const noCoincidenceItems = sells.length === 0 && !isLoadingData;
+    const NoMoreProductToShow = abonoDetails.length === totalSells || !totalSells || isLoadingUseQuery;
+    const noCoincidenceItems = abonoDetails.length === 0 && !isLoadingData;
+    const { changeColor } = useTagColor();
 
-    const columns: ColumnSecondaryConfig<AbonosInterface>[] = [
+    const columns: ColumnSecondaryConfig<AbonoDetails>[] = [
         {
             key: 'Folio',
             label: 'Folio',
         },
         {
-            key: 'Descripcion',
-            label: 'Descripcion',
+            key: 'TipoDoc',
+            label: 'Tipo de documento',
+            render: (_, item) => <Tag color={changeColor(item.TipoDoc)}>{docType(item.TipoDoc)}</Tag>,
+        },
+        {
+            key: 'Saldo',
+            label: 'Saldo',
+            render: (_, item) => <p>{format(item.Saldo ?? 0)}</p>,
         },
 
         {
-            key: 'Importe',
-            label: 'Importe',
-            render: (_, item) => <p>{format(item.Importe ?? 0)}</p>,
+            key: 'Total',
+            label: 'Total',
+            render: (_, item) => <p>{format(item.Total ?? 0)}</p>,
+        },
+        {
+            key: 'Fecha',
+            label: 'Fecha',
+            render: (Fecha) => (
+                <div>
+                    <p>{formatDate(Fecha as Date)}</p>
+                </div>
+            ),
         },
     ];
 
@@ -66,7 +87,7 @@ export default function TableAbonosDetails({
     return (
         <Table
             columns={columns}
-            data={sells}
+            data={abonoDetails}
             handleLoadMore={loadMoreProducts}
             handleSelectItem={handleSelectItem}
 

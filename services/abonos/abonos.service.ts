@@ -52,3 +52,14 @@ export const getAbonoById = async (Id_Almacen: string, folio: string): Promise<{
         abono
     };
 }
+
+export const getAbonoDetails = async ({ folio, PageNumber }: { folio: string; PageNumber: number }): Promise<{ abonosDetails: any[] }> => {
+    const { data: { abonosDetails } } = await api.get<{ abonosDetails: any[] }>(`/api/abonos/details/${folio}`, {
+        params: {
+            PageNumber
+        }
+    });
+    return {
+        abonosDetails
+    };
+}

@@ -62,7 +62,6 @@ export default function TableAbonos({
 
 
                 const getColor = (name: string | undefined): string => {
-                    console.log({ name });
 
                     // Validar que colors esté definido y sea un array
                     if (!colors || colors.length === 0) {

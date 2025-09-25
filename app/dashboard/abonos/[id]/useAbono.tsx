@@ -3,10 +3,12 @@
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { AbonosInterface } from '@/interface/abonos';
-import { getAbonoById } from '@/services/abonos/abonos.service';
+import { getAbonoById, getAbonoDetails } from '@/services/abonos/abonos.service';
+import { AbonoDetails } from './types';
 
 interface UseAbonoDetailsReturn {
     abonoInformation?: AbonosInterface;
+    abonoDetails?: AbonoDetails[]
     isLoading: boolean;
 }
 
@@ -17,6 +19,7 @@ interface UseAbonoDetailsReturn {
 export function useAbonoDetails(): UseAbonoDetailsReturn {
 
     const [abonoInformation, setAbonoInformation] = useState<AbonosInterface>();
+    const [abonoDetails, setAbonoDetails] = useState<AbonoDetails[]>()
     const [isLoading, setIsLoading] = useState(false)
 
     const searchParams = useSearchParams();
@@ -36,12 +39,23 @@ export function useAbonoDetails(): UseAbonoDetailsReturn {
     }, [Id_Almacen, Folio]);
 
 
+    const fetchAbonoDetails = useCallback(async () => {
+        const { abonosDetails } = await getAbonoDetails({
+            folio: Folio as string,
+            PageNumber: 1
+        });
+        setAbonoDetails(abonosDetails)
+    }, [Folio])
+
+
     useEffect(() => {
         fetchAbonoInformation()
-    }, [fetchAbonoInformation]);
+        fetchAbonoDetails()
+    }, [fetchAbonoInformation, fetchAbonoDetails]);
 
     return {
         abonoInformation,
+        abonoDetails,
         isLoading
     };
 }
