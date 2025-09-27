@@ -3,9 +3,9 @@ import { screenData } from '@/database/screens';
 import styles from '../../../styles/pages/Cobranza.module.scss';
 
 export async function generateMetadata(): Promise<{ title: string, description: string }> {
-  const title = screenData.find((item) => item.name === 'Cobranza')?.name || 'Default Title';
+  const title = screenData.find((item) => item.name === 'C x C')?.name || 'Default Title';
   const description =
-    screenData.find((item) => item.name === 'Cobranza')?.description || 'Default Description';
+    screenData.find((item) => item.name === 'C x C')?.description || 'Default Description';
 
   return {
     title,
