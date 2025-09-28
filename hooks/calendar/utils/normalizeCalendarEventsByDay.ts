@@ -1,18 +1,18 @@
-import { useMemo } from 'react';
 import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
+import { useMemo } from 'react';
 
 interface TimelineEventsValidationInterface {
   eventsOfTheDay: TimelineInterface[];
 }
 
-const TimelineEventsValidation = ({
+const normalizeCalendarEventsByDay = ({
   eventsOfTheDay
-}: TimelineEventsValidationInterface): { events: TimelineMeetingInterface[], sellEvents: TimelineInterface[] } => {
+}: TimelineEventsValidationInterface): { events: TimelineMeetingInterface[], sellEvents: TimelineInterface[]} => {
 
   const events = useMemo(() => {
     return eventsOfTheDay
-      .filter((meeting: TimelineInterface) => meeting.Hour && meeting.HourEnd) // Solo eventos con hora
-      .map((meeting: TimelineInterface) => {
+    .filter((meeting: TimelineInterface) => meeting.Hour && meeting.HourEnd)
+    .map((meeting: any) => {
         // Asegurarse de que meeting.Fecha sea un objeto Date
         let meetingDate: Date;
 
@@ -28,7 +28,7 @@ const TimelineEventsValidation = ({
         const end = `${meetingDate.toISOString().split('T')[0]}T${meeting.HourEnd}`;
 
         // Construir el objeto eventMeeting
-        const eventMeeting: TimelineMeetingInterface = {
+        const eventMeeting: any = {
           id: meeting.Id_Bitacora?.toString() || '',
           start,
           end,
@@ -51,4 +51,4 @@ const TimelineEventsValidation = ({
   };
 };
 
-export default TimelineEventsValidation;
+export default normalizeCalendarEventsByDay;

@@ -6,15 +6,15 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard'
 import TimelineSkeleton from '@/components/Skeletons/TimelineSkeleton';
-import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
+import { TimelineInterface } from '@/interface/calendar';
 import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelineComponentInterface {
-    events: TimelineMeetingInterface[] | null;
+    events: any[] | null;
     sellEvents: TimelineInterface[];
     navigateToModalSells: () => void;
-    initialDateProp?: string | Date;
+    initialDateProp: string | Date;
     onSelectEventFromTimeline: (Id_Bitacora: number) => void;
     isLoading: boolean
     TotalVentas: number

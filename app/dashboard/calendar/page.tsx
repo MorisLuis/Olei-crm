@@ -66,7 +66,6 @@ function CalendarContent({
         onClose={handleCloseMeetingModal}
         meetingProp={eventToOpen}
         onMeetingUpdated={handleMeetingUpdated}
-
       />
 
       <Modal
