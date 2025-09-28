@@ -1,37 +1,39 @@
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Modal from '@/components/Modals/Modal';
+import { useGetEventsCalendarByDay } from '@/hooks/calendar/useGetEventsCalendarByDay';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import Timeline from './Timeline';
 import TimelineEventSelected from './TimelineEventSelected';
+import TimelineModalSells from './TimelineModalSells';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelinePropsInterface {
-
-  events: TimelineMeetingInterface[] | null;
-  sellEvents: TimelineInterface[];
-  navigateToModalSells: () => void;
-  initialDateProp?: string | Date;
+  idCliente: string | null;
   refreshTimeline: boolean;
-  isLoadingEvents: boolean
-  TotalVentas: number
-
+  openModalSells: boolean;
+  navigateToModalSells: () => void;
+  navigateBackFromModalSells: () => void;
 }
 
 const ClientAgendaContent = ({
-  initialDateProp,
-  events,
-  sellEvents,
-  navigateToModalSells,
+  idCliente,
   refreshTimeline,
-  isLoadingEvents,
-  TotalVentas
+  openModalSells,
+  navigateToModalSells,
+  navigateBackFromModalSells
 }: TimelinePropsInterface): JSX.Element => {
+
+  const pathname = usePathname();
+  const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+  const decodedDate = decodeURIComponent(lastSegment!);
 
   const [eventSelected, setEventSelected] = useState<number>(0);
   const [openModalEventSelected, setOpenModalEventSelected] = useState(false)
   const [isSelectingEvent, setIsSelectingEvent] = useState(true);
   const { isMobile } = useWindowSize()
+
+  const { eventsOfTheDay, isLoading, TotalVentas, fetchNextPage } = useGetEventsCalendarByDay(decodedDate, idCliente, refreshTimeline);
 
   const onSelectEventFromTimeline = (Id_Bitacora: number): void => {
     setOpenModalEventSelected(true);
@@ -40,48 +42,60 @@ const ClientAgendaContent = ({
   };
 
   useEffect(() => {
-    if (!isLoadingEvents) {
-      if (events && events.length > 0) {
-        onSelectEventFromTimeline(Number(events[0].id));
+    if (!isLoading) {
+      if (eventsOfTheDay && eventsOfTheDay.length > 0) {
+        onSelectEventFromTimeline(Number(eventsOfTheDay[0].id));
       } else {
         onSelectEventFromTimeline(0)
       }
     }
-  }, [events, refreshTimeline, isLoadingEvents]);
+  }, [eventsOfTheDay, refreshTimeline, isLoading]);
 
   return (
-    <main className={styles.timelinePage__content}>
-      <div className={styles.timelineContent}>
-        <Timeline
-          events={events}
-          sellEvents={sellEvents}
-          initialDateProp={initialDateProp}
-          isLoading={isLoadingEvents}
-          TotalVentas={TotalVentas}
-          navigateToModalSells={navigateToModalSells}
-          onSelectEventFromTimeline={onSelectEventFromTimeline}
-        />
-      </div>
+    <>
+      <main className={styles.timelinePage__content}>
+        <div className={styles.timelineContent}>
+          <Timeline
+            events={eventsOfTheDay}
+            sellEvents={[]}
+            initialDateProp={decodedDate}
+            isLoading={isLoading}
+            TotalVentas={TotalVentas ?? 0}
+            navigateToModalSells={navigateToModalSells}
+            onSelectEventFromTimeline={onSelectEventFromTimeline}
+          />
+        </div>
 
-      {/* EVENT SELECTED */}
-      <div className={styles.briefContent}>
-        <TimelineEventSelected
-          eventSelected={eventSelected}
-          isLoading={isSelectingEvent || isLoadingEvents}
-        />
-      </div>
+        {/* EVENT SELECTED */}
+        <div className={styles.briefContent}>
+          <TimelineEventSelected
+            eventSelected={eventSelected}
+            isLoading={isSelectingEvent || isLoading}
+          />
+        </div>
 
-      <Modal
-        visible={openModalEventSelected && isMobile}
-        title='Actividad'
-        onClose={() => setOpenModalEventSelected(false)}
-      >
-        <TimelineEventSelected
-          eventSelected={eventSelected}
-          isLoading={isSelectingEvent || isLoadingEvents}
-        />
-      </Modal>
-    </main>
+        <Modal
+          visible={openModalEventSelected && isMobile}
+          title='Actividad'
+          onClose={() => setOpenModalEventSelected(false)}
+        >
+          <TimelineEventSelected
+            eventSelected={eventSelected}
+            isLoading={isSelectingEvent || isLoading}
+          />
+        </Modal>
+      </main>
+
+      <TimelineModalSells
+        visible={openModalSells}
+        onClose={navigateBackFromModalSells}
+        sellEvents={[]}
+        isLoadingUseQuery={isLoading}
+        totalDocuments={TotalVentas ?? 0}
+        isFetchingNextPage={false} // temporal
+        loadMoreProducts={fetchNextPage}
+      />
+    </>
   );
 };
 

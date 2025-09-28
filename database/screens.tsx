@@ -54,7 +54,7 @@ export const screenData: screenDataInterface[] = [
   },
   {
     id: 4,
-    name: 'Cobranza',
+    name: 'C x C',
     pathname: '/dashboard/cobranza',
     description: 'Cobranza Olei CRM by olei software',
     icon: faHandHoldingDollar,

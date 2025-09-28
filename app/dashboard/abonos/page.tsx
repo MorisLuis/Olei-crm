@@ -15,7 +15,7 @@ import { getAbonos } from '@/services/abonos/abonos.service';
 import { TotalCobranzaResponse } from '@/services/cobranza/cobranza.interface';
 import { getCobranzaCountAndTotal } from '@/services/cobranza/cobranza.service';
 import AbonosDetails from './[id]/AbonosDetails';
-import { useAbonosNavigation } from './[id]/useAbonosNavigation';
+import { useAbonosNavigation } from './[id]/hooks/useAbonosNavigation';
 import { abonosFiltersConfig } from './abonosFilters';
 import { AbonosFilterSchema } from './abonosFilters.schema';
 import abonosStats from './abonosStats';

@@ -21,7 +21,7 @@ export const ColumnsBitacoraDetails = ({
 }: columnsBitacoraDetailsInterface): { columns: ColumnTertiaryConfig<MeetingInterface>[] } => {
 
   const { changeColor } = useTagColor();
-  const {  handleUpdateStatus, loadingStatus } = useUpdateStatus(refetch || (() : void => {}));
+  const { handleUpdateStatus, loadingStatus } = useUpdateStatus(refetch);
 
   const columns: ColumnTertiaryConfig<MeetingInterface>[] = [
     {

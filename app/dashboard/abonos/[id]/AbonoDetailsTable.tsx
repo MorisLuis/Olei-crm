@@ -11,14 +11,14 @@ import { useTagColor } from '@/hooks/useTagColor';
 import { format } from '@/utils/currency';
 import { docType } from '@/utils/docType';
 import { formatDate } from '@/utils/format/formatDate';
-import { AbonoDetails } from './types';
+import { AbonoDetailsInterface } from './types';
 
 
 interface TableAbonoDetailsClientInterface {
-    abonoDetails: AbonoDetails[];
+    abonoDetails: AbonoDetailsInterface[];
     totalSells: number;
     loadMoreProducts: () => void;
-    handleSelectItem?: (item: AbonoDetails) => void;
+    handleSelectItem?: (item: AbonoDetailsInterface) => void;
 
     isLoadingData: boolean;
     isLoadingUseQuery: boolean;
@@ -40,7 +40,7 @@ export default function TableAbonosDetails({
     const noCoincidenceItems = abonoDetails.length === 0 && !isLoadingData;
     const { changeColor } = useTagColor();
 
-    const columns: ColumnSecondaryConfig<AbonoDetails>[] = [
+    const columns: ColumnSecondaryConfig<AbonoDetailsInterface>[] = [
         {
             key: 'Folio',
             label: 'Folio',

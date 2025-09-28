@@ -67,7 +67,7 @@ function CobranzaContent(): JSX.Element {
 
     return (
         <>
-            <Header title="Cobranza" dontShowBack />
+            <Header title="Cuentas por cobrar" dontShowBack />
             <HeaderStats
                 items={cobranzaStats(cobranzaTotal)}
                 isLoading={isLoadingTotals}

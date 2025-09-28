@@ -14,7 +14,7 @@ interface TimelineComponentInterface {
     events: TimelineMeetingInterface[] | null;
     sellEvents: TimelineInterface[];
     navigateToModalSells: () => void;
-    initialDateProp?: string | Date;
+    initialDateProp: string | Date;
     onSelectEventFromTimeline: (Id_Bitacora: number) => void;
     isLoading: boolean
     TotalVentas: number

@@ -1,19 +1,14 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import ClientAgendaContent from './ClientAgendaContent';
-import TimelineEventsValidation from './TimelineEventsValidationTemp';
-import TimelineModalSells from './TimelineModalSells';
 import { ExecuteNavigationEventClient } from './TimelineNavigationTemp';
-import { useGetEventsOfTheDay } from './useEventsOfTheDay';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 export default function ClientAgenda(): JSX.Element {
-
-  const pathname = usePathname();
 
   const {
     navigateToBack,
@@ -37,11 +32,6 @@ export default function ClientAgenda(): JSX.Element {
     } : undefined
   }, [idCliente, idAlmacen, clientName])
 
-  const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
-  const decodedDate = decodeURIComponent(lastSegment!);
-  const { eventsOfTheDay, isLoading, TotalVentas, isFetchingNextPage, fetchNextPage } = useGetEventsOfTheDay(decodedDate, idCliente, refreshTimeline);
-  const { events, sellEvents } = TimelineEventsValidation({ eventsOfTheDay: eventsOfTheDay ?? [] });
-
   const onMeetingCreated = (): void => setRefreshTimeline(prev => !prev);
   const onCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
 
@@ -51,7 +41,7 @@ export default function ClientAgenda(): JSX.Element {
       text: 'Nueva Actividad',
       onclick: () => setOpenModalCreateMeeting(true),
       color: 'yellow',
-      notVsible: isLoading
+      notVsible: false
     },
   ];
 
@@ -64,13 +54,11 @@ export default function ClientAgenda(): JSX.Element {
       />      
 
       <ClientAgendaContent
-        initialDateProp={decodedDate}
-        events={events}
-        sellEvents={sellEvents}
+        idCliente={idCliente}
         refreshTimeline={refreshTimeline}
-        isLoadingEvents={isLoading}
+        openModalSells={openModalSells}
         navigateToModalSells={navigateToModalSells}
-        TotalVentas={TotalVentas}
+        navigateBackFromModalSells={navigateBackFromModalSells}
       />
 
       <FormMeeting
@@ -79,18 +67,8 @@ export default function ClientAgenda(): JSX.Element {
         handleMeetingCreated={onMeetingCreated}
         clientData={{
           ...clientData,
-          Fecha: new Date(decodedDate)
+          //Fecha: new Date(decodedDate)
         }}
-      />
-
-      <TimelineModalSells
-        visible={openModalSells}
-        onClose={navigateBackFromModalSells}
-        sellEvents={sellEvents}
-        isLoadingUseQuery={isLoading}
-        totalDocuments={TotalVentas}
-        isFetchingNextPage={isFetchingNextPage}
-        loadMoreProducts={fetchNextPage}
       />
     </div>
   );
