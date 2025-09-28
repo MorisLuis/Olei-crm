@@ -6,12 +6,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard'
 import TimelineSkeleton from '@/components/Skeletons/TimelineSkeleton';
-import { TimelineInterface } from '@/interface/calendar';
+import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
 import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelineComponentInterface {
-    events: any[] | null;
+    events: TimelineMeetingInterface[] | null;
     sellEvents: TimelineInterface[];
     navigateToModalSells: () => void;
     initialDateProp: string | Date;

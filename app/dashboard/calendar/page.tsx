@@ -23,7 +23,7 @@ function CalendarContent({
   const [eventToOpen, setEventToOpen] = useState<MeetingInterface>(INITIAL_MEETING);
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
-  const [refreshCalendar, setRefreshCalendar] = useState(false)
+  //const [refreshCalendar, setRefreshCalendar] = useState(false)
 
   const handleOnClickDay = (arg: DateClickArg): void => {
     push(`calendar/event/${arg.date}`);
@@ -44,7 +44,7 @@ function CalendarContent({
   ];
 
   const handleMeetingUpdated = (): void => {
-    setRefreshCalendar(prev => !prev);
+    //setRefreshCalendar(prev => !prev);
   };
 
   return (

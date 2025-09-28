@@ -1,9 +1,9 @@
 import { typeTipoDoc } from "@/services/sells/sells.interface";
 
-export interface AbonoDetails {
-    Folio: string;
-    TipoDoc: typeTipoDoc;
-    Saldo: number;
-    Total: number;
-    Fecha: Date;
+export interface AbonoDetailsInterface {
+    Folio: number,
+    TipoDoc: typeTipoDoc,
+    Fecha: Date,
+    Saldo: number,
+    Total: number,
 }

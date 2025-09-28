@@ -85,9 +85,7 @@ export function useSellDetails(): UseSellDetailsReturn {
         queryFn: ({ pageParam = 1 }) => getSellDetails({ folio: Folio!, PageNumber: pageParam as number, TipoDoc: TipoDoc! }),
         getNextPageParam: (lastPage, allPages) => lastPage.orderDetails.length === 0 ? undefined : allPages.length + 1,
         initialPageParam: 1,
-        //staleTime: 1000 * 60 * 5,
-        enabled: isEnabled,
-        
+        enabled: isEnabled
     });
 
     const items = data?.pages.flatMap(page => page.orderDetails) ?? [];

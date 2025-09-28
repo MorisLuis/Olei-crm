@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { AbonosInterface } from "@/interface/abonos";
 import { GetAbonosParams, GetAbonosResponse } from "./abonos.interface";
+import { AbonoDetailsInterface } from "@/app/dashboard/abonos/[id]/types";
 
 
 export const getAbonos = async (params: GetAbonosParams): Promise<GetAbonosResponse> => {
@@ -53,13 +54,13 @@ export const getAbonoById = async (Id_Almacen: string, folio: string): Promise<{
     };
 }
 
-export const getAbonoDetails = async ({ folio, PageNumber }: { folio: string; PageNumber: number }): Promise<{ abonosDetails: any[] }> => {
-    const { data: { abonosDetails } } = await api.get<{ abonosDetails: any[] }>(`/api/abonos/details/${folio}`, {
+export const getAbonoDetails = async ({ folio, PageNumber }: { folio: string; PageNumber: number }): Promise<{ abonoDetails: AbonoDetailsInterface[] }> => {
+    const { data: { abonoDetails } } = await api.get<{ abonoDetails: AbonoDetailsInterface[] }>(`/api/abonos/details/${folio}`, {
         params: {
             PageNumber
         }
     });
     return {
-        abonosDetails
+        abonoDetails
     };
 }

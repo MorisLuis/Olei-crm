@@ -1,12 +1,12 @@
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Modal from '@/components/Modals/Modal';
+import { useGetEventsCalendarByDay } from '@/hooks/calendar/useGetEventsCalendarByDay';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import Timeline from './Timeline';
 import TimelineEventSelected from './TimelineEventSelected';
-import { usePathname } from 'next/navigation';
 import TimelineModalSells from './TimelineModalSells';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
-import { useGetEventsCalendarByDay } from '@/hooks/calendar/useGetEventsCalendarByDay';
 
 interface TimelinePropsInterface {
   idCliente: string | null;

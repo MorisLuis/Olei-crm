@@ -1,11 +1,11 @@
 import React from 'react'
 import TableAbonosDetails from './AbonoDetailsTable';
 import AbonoDetailsTableInformation from './AbonosDetailsTableInformation'
-import { useAbonoDetails } from './useAbono';
+import { useAbonoDetails } from './hooks/useAbono';
 
 export default function AbonosDetails(): JSX.Element {
 
-    const { abonoInformation, isLoading, abonoDetails } = useAbonoDetails()
+    const { abonoInformation, isLoading, abonoDetails, fetchNextPage } = useAbonoDetails()
 
     return (
         <div >
@@ -17,7 +17,7 @@ export default function AbonosDetails(): JSX.Element {
             <TableAbonosDetails
                 abonoDetails={abonoDetails || []}
                 totalSells={abonoDetails?.length || 0}
-                loadMoreProducts={() => { }}
+                loadMoreProducts={fetchNextPage}
 
                 isLoadingData={isLoading}
                 isFetchingNextPage={false}
