@@ -9,21 +9,15 @@ import CalendarComponentSkeleton from './CalendarComponentSkeleton';
 import { renderEventContent } from './RenderEvents';
 import { useGetEventsCalendar } from '@/hooks/calendar/useGetEventsCalendar';
 import { getMonthYear } from '@/utils/gets/getMonthYear';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
 interface CalendarComponentInterface {
   onClickDay: (arg: DateClickArg) => void;
-  Id_Cliente?: number;
-
-  clientVersion?: boolean;
-  refreshCalendar?: boolean;
   isLoading: boolean;
 }
 
 const CalendarComponent = ({
   onClickDay,
-  Id_Cliente,
-  clientVersion,
-  refreshCalendar,
   isLoading
 }: CalendarComponentInterface): JSX.Element => {
 
@@ -32,14 +26,36 @@ const CalendarComponent = ({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
   })
-  const { dataEvents } = useGetEventsCalendar({ handler: "month", month: date.month, year: date.year });
+  const { dataEvents } = useGetEventsCalendar({ month: date.month, year: date.year });
+
+  // 🔹 Mock data para probar
+  const mockEvents = [
+    {
+      id: '1',
+      title: 'Reunión con cliente',
+      start: '2025-09-26T09:00:00',
+      end: '2025-09-26T10:30:00'
+    },
+    {
+      id: '2',
+      title: 'Llamada interna',
+      start: '2025-09-27T11:00:00',
+      end: '2025-09-27T12:00:00'
+    },
+    {
+      id: '3',
+      title: 'Almuerzo',
+      start: '2025-09-28T13:00:00',
+      end: '2025-09-28T14:00:00'
+    }
+  ];
 
   const onCalendarViewChange = useCallback((arg: DatesSetArg) => {
     processedDaysRef.current = {};
+    console.log({ arg })
     const { month, year } = getMonthYear(arg.view.activeStart);
     setDate({ month, year });
   }, []);
-
 
   if (isLoading) {
     return (
@@ -55,7 +71,7 @@ const CalendarComponent = ({
       initialView="dayGridMonth"
       editable={true}
       selectable={true}
-      events={dataEvents}
+      events={mockEvents}
       dateClick={onClickDay}
       height="auto"
       locale={esLocale}
@@ -64,9 +80,10 @@ const CalendarComponent = ({
       headerToolbar={{
         left: "prev,next today",
         center: "title",
-        right: "dayGridMonth,dayGridWeek"
+        right: "dayGridMonth,timeGridWeek,timeGridDay"
       }}
     />
+
 
   );
 };

@@ -57,7 +57,6 @@ function CalendarContent({
 
       <CalendarComponent
         onClickDay={handleOnClickDay}
-        refreshCalendar={refreshCalendar}
         isLoading={isLoading}
       />
 

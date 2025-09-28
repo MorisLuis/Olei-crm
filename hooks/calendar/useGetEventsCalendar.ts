@@ -1,4 +1,4 @@
-import { getCalendarByMonth, getCalendarTaskByDay } from "@/services/calendar/calendar.service";
+import { getCalendarByMonth } from "@/services/calendar/calendar.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { normalizeCalendarEvents } from "./utils/normalizeCalendarEvents";
 import { CalendarInterface } from "@/interface/calendar";
@@ -7,8 +7,6 @@ import { EventInput } from "@fullcalendar/core/index.js";
 interface useGetEventsCalendarParams {
     month: number;
     year: number;
-    day?: string
-    Id_Cliente: string | null;
 };
 
 interface PaginatedResponse<T> {
@@ -29,7 +27,7 @@ interface useGetEventsCalendarResponse<T> {
 
 export const useGetEventsCalendar = <T,>(params: useGetEventsCalendarParams): useGetEventsCalendarResponse<T> => {
 
-    const { month, year, day, Id_Cliente } = params;
+    const { month, year } = params;
 
     const fetchData = async <T,>(
         pageParam: number
@@ -43,7 +41,7 @@ export const useGetEventsCalendar = <T,>(params: useGetEventsCalendarParams): us
 
     const useDynamicQuery = <T,>() => {
         return useInfiniteQuery({
-            queryKey: ["eventCalendar", year, month, day],
+            queryKey: ["eventCalendar", year, month],
             queryFn: ({ pageParam = 1 }) => fetchData<T>(pageParam),
             initialPageParam: 1,
             staleTime: 0,
