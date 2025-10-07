@@ -4,9 +4,11 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from "@fullcalendar/timegrid";
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import CalendarComponentSkeleton from './CalendarComponentSkeleton';
 import { renderEventContent } from './RenderEvents';
+import { useGetEventsCalendar } from '@/hooks/calendar/useGetEventsCalendar';
+import { getMonthYear } from '@/utils/gets/getMonthYear';
 
 interface CalendarComponentInterface {
   onClickDay: (arg: DateClickArg) => void;
@@ -19,12 +21,13 @@ const CalendarComponent = ({
 }: CalendarComponentInterface): JSX.Element => {
 
   const processedDaysRef = useRef<{ [key: string]: boolean }>({});
-  /* const [date, setDate] = useState({
+  const [date, setDate] = useState({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
-  }) */
-  //const { dataEvents } = useGetEventsCalendar({ month: date.month, year: date.year });
+  })
+  const { dataEvents } = useGetEventsCalendar({ month: date.month, year: date.year });
 
+  console.log({dataEvents})
   // 🔹 Mock data para probar
   const mockEvents = [
     {
@@ -47,10 +50,10 @@ const CalendarComponent = ({
     }
   ];
 
-  const onCalendarViewChange = useCallback((_arg: DatesSetArg) => {
+  const onCalendarViewChange = useCallback((arg: DatesSetArg) => {
     processedDaysRef.current = {};
-    //const { month, year } = getMonthYear(arg.view.activeStart);
-    //setDate({ month, year });
+    const { month, year } = getMonthYear(arg.view.activeStart);
+    setDate({ month, year });
   }, []);
 
   if (isLoading) {
@@ -67,7 +70,7 @@ const CalendarComponent = ({
       initialView="dayGridMonth"
       editable={true}
       selectable={true}
-      events={mockEvents}
+      events={dataEvents}
       dateClick={onClickDay}
       height="auto"
       locale={esLocale}

@@ -4,28 +4,26 @@ import { EventInput } from "@fullcalendar/core/index.js";
 
 export const normalizeCalendarEvents = (calendarData: CalendarInterface[]): EventInput[] => {
 
-    const normalizeToISODate = (date: string | Date): string => {
-        const fecha = date instanceof Date ? date : new Date(date);
-        return fecha.toISOString().split('T')[0];
-    };
-
-
     const calendarEvents = calendarData?.map(
         (event: Partial<CalendarInterface>) => {
-            // Verificar si Fecha está definida y normalizarla a un objeto Date
             if (!event.Fecha) {
                 throw new Error('La propiedad Fecha no está definida en la actividad.');
             }
 
+            const startDate = new Date(event.Fecha);
+            const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+
+
+            const id =
+                event.TableType === 'Bitacora' && event.Id_Bitacora
+                    ? String(event.Id_Bitacora)
+                    : event.Id_Sell ?? `unknown-${event.Id_Cliente}`;
+
             return {
-                title: event.Descripcion,
-                start: normalizeToISODate(event.Fecha),
-                end: normalizeToISODate(event.Fecha),
-                extendedProps: {
-                    Id_Cliente: event.Id_Cliente,
-                    TableType: event.TableType,
-                    Id: event.TableType === 'Bitacora' ? event.Id_Bitacora : event.Id_Sell,
-                },
+                id,
+                title: event.Descripcion ?? 'Sin título',
+                start: startDate.toISOString().slice(0, 19),
+                end: endDate.toISOString().slice(0, 19),
             };
         }
     );
