@@ -1,5 +1,6 @@
 import { FilterItemConfig } from "@/components/Filter/FilterBar";
 import { MeetingOrderConditionObject, TipoContactoObject } from "@/services/bitacora/meeting.interface";
+import { StatusTypesObject } from "./interfaces";
 
 export const bitacoraFiltersConfig: FilterItemConfig[] = [
     {
@@ -20,5 +21,12 @@ export const bitacoraFiltersConfig: FilterItemConfig[] = [
         modalLabel: 'Filtrar por Tipo de contacto',
         type: 'select',
         options: TipoContactoObject.map((val) => ({ label: val.label, value: val.value })),
+    },
+    {
+        key: 'status',
+        label: 'Estado',
+        modalLabel: 'Filtrar por Estado',
+        type: 'select',
+        options: StatusTypesObject.map((val) => ({ label: val.label, value: val.value })),
     }
 ];

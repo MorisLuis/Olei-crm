@@ -5,10 +5,10 @@ import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from "@fullcalendar/timegrid";
 import React, { useRef, useCallback, useState } from 'react';
-import CalendarComponentSkeleton from './CalendarComponentSkeleton';
-import { renderEventContent } from './RenderEvents';
 import { useGetEventsCalendar } from '@/hooks/calendar/useGetEventsCalendar';
 import { getMonthYear } from '@/utils/gets/getMonthYear';
+import CalendarComponentSkeleton from './CalendarComponentSkeleton';
+import { renderEventContent } from './RenderEvents';
 
 interface CalendarComponentInterface {
   onClickDay: (arg: DateClickArg) => void;
@@ -26,29 +26,6 @@ const CalendarComponent = ({
     year: new Date().getFullYear()
   })
   const { dataEvents } = useGetEventsCalendar({ month: date.month, year: date.year });
-
-  console.log({dataEvents})
-  // 🔹 Mock data para probar
-  const mockEvents = [
-    {
-      id: '1',
-      title: 'Reunión con cliente',
-      start: '2025-09-26T09:00:00',
-      end: '2025-09-26T10:30:00'
-    },
-    {
-      id: '2',
-      title: 'Llamada interna',
-      start: '2025-09-27T11:00:00',
-      end: '2025-09-27T12:00:00'
-    },
-    {
-      id: '3',
-      title: 'Almuerzo',
-      start: '2025-09-28T13:00:00',
-      end: '2025-09-28T14:00:00'
-    }
-  ];
 
   const onCalendarViewChange = useCallback((arg: DatesSetArg) => {
     processedDaysRef.current = {};
