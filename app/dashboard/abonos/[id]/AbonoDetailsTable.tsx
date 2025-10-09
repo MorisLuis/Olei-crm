@@ -51,17 +51,6 @@ export default function TableAbonosDetails({
             render: (_, item) => <Tag color={changeColor(item.TipoDoc)}>{docType(item.TipoDoc)}</Tag>,
         },
         {
-            key: 'Saldo',
-            label: 'Saldo',
-            render: (_, item) => <p>{format(item.Saldo ?? 0)}</p>,
-        },
-
-        {
-            key: 'Total',
-            label: 'Total',
-            render: (_, item) => <p>{format(item.Total ?? 0)}</p>,
-        },
-        {
             key: 'Fecha',
             label: 'Fecha',
             render: (Fecha) => (
@@ -69,6 +58,16 @@ export default function TableAbonosDetails({
                     <p>{formatDate(Fecha as Date)}</p>
                 </div>
             ),
+        },
+        {
+            key: 'Total',
+            label: 'Total',
+            render: (_, item) => <p>{format(item.Total ?? 0)}</p>,
+        },
+        {
+            key: 'Saldo',
+            label: 'Saldo',
+            render: (_, item) => <p>{format(item.Saldo ?? 0)}</p>,
         },
     ];
 
