@@ -26,10 +26,17 @@ export const useAbonosNavigation = (): {
     };
 
     const onSelectAbono = useCallback((item: AbonosInterface) => {
-        push(`${currentRoute}?Id_Almacen=${item.Id_Almacen}&folio=${item.Folio}`)
+        const [pathname, search] = currentRoute.split('?');
+        const params = new URLSearchParams(search);
+
+        // Agrega o actualiza los parámetros
+        params.set('Id_Almacen', item.Id_Almacen.toString());
+        params.set('folio', item.Folio.toString());
+
+        // Construye la nueva URL
+        const newRoute = `${pathname}?${params.toString()}`;
+        push(newRoute);
     }, [push, currentRoute]);
-
-
 
     return {
         navigateToCloseModal,
