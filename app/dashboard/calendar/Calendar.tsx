@@ -67,6 +67,7 @@ const CalendarComponent = ({
         minute: '2-digit',
         hour12: true,
       }}
+      allDaySlot={false}
       
     />
   );

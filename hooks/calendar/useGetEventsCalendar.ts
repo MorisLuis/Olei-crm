@@ -50,9 +50,7 @@ export const useGetEventsCalendar = <T,>(params: useGetEventsCalendarParams): us
     }
 
     const { data, refetch, isLoading, fetchNextPage } = useDynamicQuery();
-    console.log({data})
     const dataResponse = data?.pages[0].data
-    console.log({dataResponse})
     const dataEvents = normalizeCalendarEvents(dataResponse as CalendarInterface[])
 
     return {
