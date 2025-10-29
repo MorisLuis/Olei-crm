@@ -58,9 +58,17 @@ const CalendarComponent = ({
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay"
       }}
+      slotDuration="01:00:00"
+      slotLabelInterval="01:00"
+      slotMinTime="06:00:00"
+      slotMaxTime="30:00:00"   
+      slotLabelFormat={{
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      }}
+      
     />
-
-
   );
 };
 
