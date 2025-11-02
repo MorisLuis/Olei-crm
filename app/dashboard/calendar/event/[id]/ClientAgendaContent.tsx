@@ -10,7 +10,6 @@ import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelinePropsInterface {
   idCliente: string | null;
-  refreshTimeline: boolean;
   openModalSells: boolean;
   navigateToModalSells: () => void;
   navigateBackFromModalSells: () => void;
@@ -18,7 +17,6 @@ interface TimelinePropsInterface {
 
 const ClientAgendaContent = ({
   idCliente,
-  refreshTimeline,
   openModalSells,
   navigateToModalSells,
   navigateBackFromModalSells
@@ -33,13 +31,13 @@ const ClientAgendaContent = ({
   const [isSelectingEvent, setIsSelectingEvent] = useState(true);
   const { isMobile } = useWindowSize()
 
-  const { eventsOfTheDay, isLoading, TotalVentas, fetchNextPage } = useGetEventsCalendarByDay(decodedDate, idCliente, refreshTimeline);
-
   const onSelectEventFromTimeline = (Id_Bitacora: number): void => {
     setOpenModalEventSelected(true);
     setEventSelected(Id_Bitacora);
     setIsSelectingEvent(false)
   };
+
+  const { eventsOfTheDay, isLoading, TotalVentas, fetchNextPage } = useGetEventsCalendarByDay(decodedDate, idCliente);
 
   useEffect(() => {
     if (!isLoading) {
@@ -49,7 +47,7 @@ const ClientAgendaContent = ({
         onSelectEventFromTimeline(0)
       }
     }
-  }, [eventsOfTheDay, refreshTimeline, isLoading]);
+  }, [eventsOfTheDay, isLoading]);
 
   return (
     <>
