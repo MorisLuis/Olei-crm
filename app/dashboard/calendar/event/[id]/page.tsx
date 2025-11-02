@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import Header, { ActionsInterface } from '@/components/navigation/header';
@@ -18,11 +18,14 @@ export default function ClientAgenda(): JSX.Element {
   } = ExecuteNavigationEventClient();
 
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
-  const [refreshTimeline, setRefreshTimeline] = useState(false)
   const searchParams = useSearchParams();
   const idCliente = searchParams.get('Id_Cliente');
   const idAlmacen = searchParams.get('Id_Almacen');
   const clientName = searchParams.get('clientName');
+
+  const pathname = usePathname();
+  const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+  const decodedDate = decodeURIComponent(lastSegment!);
 
   const clientData = useMemo(() => {
     return (idCliente && idAlmacen && clientName) ? {
@@ -32,7 +35,6 @@ export default function ClientAgenda(): JSX.Element {
     } : undefined
   }, [idCliente, idAlmacen, clientName])
 
-  const onMeetingCreated = (): void => setRefreshTimeline(prev => !prev);
   const onCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
 
   const clientActions: ActionsInterface[] = [
@@ -55,7 +57,6 @@ export default function ClientAgenda(): JSX.Element {
 
       <ClientAgendaContent
         idCliente={idCliente}
-        refreshTimeline={refreshTimeline}
         openModalSells={openModalSells}
         navigateToModalSells={navigateToModalSells}
         navigateBackFromModalSells={navigateBackFromModalSells}
@@ -64,10 +65,9 @@ export default function ClientAgenda(): JSX.Element {
       <FormMeeting
         visible={openModalCreateMeeting}
         onClose={onCloseMeetingModal}
-        handleMeetingCreated={onMeetingCreated}
         clientData={{
           ...clientData,
-          //Fecha: new Date(decodedDate)
+          Fecha: new Date(decodedDate)
         }}
       />
     </div>

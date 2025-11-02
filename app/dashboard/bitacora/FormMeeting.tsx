@@ -34,7 +34,6 @@ export default function FormMeeting({
   onClose,
   isEditing,
   newPost,
-  onMeetingUpdated,
   handleMeetingCreated,
   clientData
 }: FormMeetingInterface): JSX.Element | null {
@@ -52,7 +51,6 @@ export default function FormMeeting({
     onClose,
     newPost,
     handleMeetingCreated,
-    onMeetingUpdated,
     isEditing,
     meetingProp,
     visible,

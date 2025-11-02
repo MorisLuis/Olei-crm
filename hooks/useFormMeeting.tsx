@@ -74,7 +74,6 @@ export const useFormMeeting = ({
     onClose,
     newPost,
     handleMeetingCreated,
-    onMeetingUpdated,
     isEditing,
     meetingProp,
     visible,
@@ -201,7 +200,6 @@ export const useFormMeeting = ({
             return;
         }
 
-        onMeetingUpdated?.();
         trigger("updated");
         showSuccess(
             isEditing ? `Actividad editada!` : `Actividad creada!`
