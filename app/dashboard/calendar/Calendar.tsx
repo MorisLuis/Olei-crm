@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from "@fullcalendar/timegrid";
-import React, { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import { useGetEventsCalendar } from '@/hooks/calendar/useGetEventsCalendar';
 import { getMonthYear } from '@/utils/gets/getMonthYear';
 import CalendarComponentSkeleton from './CalendarComponentSkeleton';
@@ -51,7 +51,7 @@ const CalendarComponent = ({
       dateClick={onClickDay}
       height="auto"
       locale={esLocale}
-      eventContent={(eventInfo) => renderEventContent({ eventInfo, processedDaysRef })}
+      eventContent={(eventInfo) => renderEventContent({ eventInfo })}
       datesSet={onCalendarViewChange}
       headerToolbar={{
         left: "prev,next today",
@@ -61,14 +61,22 @@ const CalendarComponent = ({
       slotDuration="01:00:00"
       slotLabelInterval="01:00"
       slotMinTime="06:00:00"
-      slotMaxTime="30:00:00"   
+      slotMaxTime="30:00:00"
       slotLabelFormat={{
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
       }}
       allDaySlot={false}
-      
+      views={{
+        dayGridMonth: {
+          dayMaxEvents: 2, // muestra hasta 2; el resto se colapsa
+          moreLinkClick: 'popover',
+          moreLinkContent(arg) {
+            return `+${arg.num} más`;
+          }
+        },
+      }}
     />
   );
 };

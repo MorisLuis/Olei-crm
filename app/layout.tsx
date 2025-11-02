@@ -5,10 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NProgressComponent from "@/components/Nprogress";
+import { MeetingEventsProvider } from "@/context/Meetings/MeetingsContext";
 import { NavigationProvider } from "@/context/Navigation/NavigationContext";
 import { SettingsProvider } from "@/context/Settings/SettingsProvider";
 import { AuthProvider } from "@/context/auth/AuthProvider";
-import { MeetingEventsProvider } from "@/context/Meetings/MeetingsContext";
 
 
 export const queryClient = new QueryClient();
