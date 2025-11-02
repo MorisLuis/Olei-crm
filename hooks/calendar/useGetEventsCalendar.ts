@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getCalendarByMonth } from "@/services/calendar/calendar.service";
+import { getCalendarByMonth, getCalendarByMonthAndClient } from "@/services/calendar/calendar.service";
 import { normalizeCalendarEvents } from "./utils/normalizeCalendarEvents";
 import { CalendarInterface } from "@/interface/calendar";
 import { EventInput } from "@fullcalendar/core/index.js";
@@ -9,6 +9,7 @@ import { useMeetingEvents } from "@/context/Meetings/MeetingsContext";
 interface UseGetEventsCalendarParams {
     month: number;
     year: number;
+    Id_Cliente?: number;
 }
 
 interface PaginatedResponse<T> {
@@ -30,12 +31,15 @@ interface UseGetEventsCalendarResponse<T> {
 export const useGetEventsCalendar = <T,>(
     params: UseGetEventsCalendarParams
 ): UseGetEventsCalendarResponse<T> => {
-    const { month, year } = params;
+    const { month, year, Id_Cliente } = params;
     const { event, clear } = useMeetingEvents();
 
     const fetchData = useCallback(
         async (pageParam: number): Promise<PaginatedResponse<T>> => {
-            const { tasks } = await getCalendarByMonth({ Anio: year, Mes: month });
+            const { tasks } = Id_Cliente ?
+                await getCalendarByMonthAndClient({ Anio: year, Mes: month, Id_Cliente })
+                : await getCalendarByMonth({ Anio: year, Mes: month });
+
             return {
                 data: tasks as unknown as T[],
                 nextPage: tasks.length === 0 ? undefined : pageParam + 1,

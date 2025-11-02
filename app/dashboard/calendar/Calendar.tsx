@@ -13,11 +13,13 @@ import { renderEventContent } from './RenderEvents';
 interface CalendarComponentInterface {
   onClickDay: (arg: DateClickArg) => void;
   isLoading: boolean;
+  Id_Cliente?: number;
 }
 
 const CalendarComponent = ({
   onClickDay,
-  isLoading
+  isLoading,
+  Id_Cliente
 }: CalendarComponentInterface): JSX.Element => {
 
   const processedDaysRef = useRef<{ [key: string]: boolean }>({});
@@ -25,7 +27,7 @@ const CalendarComponent = ({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
   })
-  const { dataEvents } = useGetEventsCalendar({ month: date.month, year: date.year });
+  const { dataEvents } = useGetEventsCalendar({ month: date.month, year: date.year, Id_Cliente });
 
   const onCalendarViewChange = useCallback((arg: DatesSetArg) => {
     processedDaysRef.current = {};

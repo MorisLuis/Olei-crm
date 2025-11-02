@@ -71,8 +71,7 @@ export default function ClientDetailsPage(): JSX.Element {
         <div className={styles.clientDetails__calendar}>
           <CalendarComponent
             onClickDay={handleOnClickDay}
-            //Id_Cliente={idCliente}
-            //clientVersion={true}
+            Id_Cliente={Number(idCliente)}
             isLoading={loadingClientData}
           />
         </div>
