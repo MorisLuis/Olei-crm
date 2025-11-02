@@ -13,6 +13,7 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useToast from "./useToast";
 import { addMinutesToHour } from "@/utils/date";
+import { useMeetingEvents } from "@/context/Meetings/MeetingsContext";
 
 
 const INITIAL_MEETING: MeetingInterface = {
@@ -73,7 +74,6 @@ export const useFormMeeting = ({
     onClose,
     newPost,
     handleMeetingCreated,
-    onMeetingUpdated,
     isEditing,
     meetingProp,
     visible,
@@ -81,6 +81,8 @@ export const useFormMeeting = ({
 }: useFormMeetingInterface): useFormMeetingResponse => {
 
     const { showSuccess, showInfo } = useToast();
+    const { trigger } = useMeetingEvents();
+
     const [clientName, setClientName] = useState<string | null>(null)
     const [meetingForm, setMeetingForm] = useState<MeetingInterface>(INITIAL_MEETING);
     const [clientsDataRaw, setClientsDataRaw] = useState<ClientInterface[]>();
@@ -176,6 +178,7 @@ export const useFormMeeting = ({
         showSuccess(
             isEditing ? `Actividad editada!` : `Actividad creada!`
         );
+        trigger("created"); 
     };
 
     const onUpdatetMeeting = async (): Promise<void> => {
@@ -197,7 +200,7 @@ export const useFormMeeting = ({
             return;
         }
 
-        onMeetingUpdated?.();
+        trigger("updated");
         showSuccess(
             isEditing ? `Actividad editada!` : `Actividad creada!`
         );

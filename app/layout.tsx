@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NProgressComponent from "@/components/Nprogress";
+import { MeetingEventsProvider } from "@/context/Meetings/MeetingsContext";
 import { NavigationProvider } from "@/context/Navigation/NavigationContext";
 import { SettingsProvider } from "@/context/Settings/SettingsProvider";
 import { AuthProvider } from "@/context/auth/AuthProvider";
@@ -20,15 +21,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>
             <Suspense fallback={null}>
-              <NavigationProvider>
-                <AuthProvider>
-                  <SettingsProvider>
-                    <NProgressComponent />
-                    {children}
-                    <div id="portal-root" />
-                  </SettingsProvider>
-                </AuthProvider>
-              </NavigationProvider>
+              <MeetingEventsProvider>
+                <NavigationProvider>
+                  <AuthProvider>
+                    <SettingsProvider>
+                      <NProgressComponent />
+                      {children}
+                      <div id="portal-root" />
+                    </SettingsProvider>
+                  </AuthProvider>
+                </NavigationProvider>
+              </MeetingEventsProvider>
             </Suspense>
           </ErrorBoundary>
         </QueryClientProvider>

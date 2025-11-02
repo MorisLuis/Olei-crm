@@ -29,7 +29,7 @@ export default function Timeline({
     onSelectEventFromTimeline,
     isLoading,
     TotalVentas
-}: TimelineComponentInterface) : JSX.Element {
+}: TimelineComponentInterface): JSX.Element {
 
     if (isLoading) {
         return <TimelineSkeleton />
@@ -61,18 +61,26 @@ export default function Timeline({
                 <FullCalendar
                     plugins={[timeGridPlugin]}
                     initialView="timeGridDay"
-                    initialDate={formatDateIsoOrNow(initialDateProp)} // Fecha inicial del calendario
-                    slotDuration="01:00:00"
-                    events={events} // Usar el arreglo mapeado
+                    initialDate={formatDateIsoOrNow(initialDateProp)}
+                    events={events}
                     headerToolbar={{
                         start: '',
                         center: 'title',
                         end: '',
                     }}
                     eventClick={(arg: EventClickArg): void => onSelectEventFromTimeline(arg.event.extendedProps?.Id_Bitacora as number)}
-                    allDaySlot={false}
                     locale={esLocale}
                     height={'auto'}
+                    slotDuration="01:00:00"
+                    slotLabelInterval="01:00"
+                    slotMinTime="06:00:00"
+                    slotMaxTime="30:00:00"
+                    slotLabelFormat={{
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true,
+                    }}
+                    allDaySlot={false}
                 />
             </section>
         </>
