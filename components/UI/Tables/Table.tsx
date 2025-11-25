@@ -7,25 +7,25 @@ import styles from '../../../styles/Components/Table/Table.module.scss';
 
 type DotNestedKeys<T> = (
   T extends object
-    ? {
-        [K in keyof T & string]:
-          T[K] extends object
-            ? `${K}` | `${K}.${DotNestedKeys<T[K]>}`
-            : `${K}`
-      }[keyof T & string]
-    : never
+  ? {
+    [K in keyof T & string]:
+    T[K] extends object
+    ? `${K}` | `${K}.${DotNestedKeys<T[K]>}`
+    : `${K}`
+  }[keyof T & string]
+  : never
 );
 
 type NestedValue<T, Path extends string> =
   Path extends `${infer Key}.${infer Rest}`
-    ? Key extends keyof T
-      ? Rest extends string
-        ? NestedValue<T[Key], Rest>
-        : never
-      : never
-    : Path extends keyof T
-      ? T[Path]
-      : never;
+  ? Key extends keyof T
+  ? Rest extends string
+  ? NestedValue<T[Key], Rest>
+  : never
+  : never
+  : Path extends keyof T
+  ? T[Path]
+  : never;
 
 export interface ColumnConfig<T> {
   key: DotNestedKeys<T>;
@@ -39,9 +39,9 @@ export interface ColumnConfig<T> {
 }
 
 interface TableProps<T> {
-  data: T[];
+  data: T[] | [];
   columns: ColumnConfig<T>[];
-  handleLoadMore: () => void;
+  handleLoadMore?: () => void;
   handleSelectItem?: (arg: T) => void;
   loadingMoreData: boolean;
   noMoreData: boolean;
@@ -73,55 +73,58 @@ const Table = <T extends object>({
 
   return (
     <div className={styles.table}>
-      {/* TABLE */}
-      <table>
-        <thead>
-          <tr>
-            {columns.map((col, index) => (
-              <th
-                key={index}
-                className={col.className || ''}
-                style={{ width: col.width }}
-              >
-                {col.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className={hoverAvailable ? `${styles.hoverState}` : ''}
-            >
-              {columns.map((col, colIndex) => {
-                const value = getNestedValue(item, col.key);
+      <div className={styles.tableScroll}>
 
-                return (
-                  <td
-                    key={colIndex}
-                    className={
-                      hoverAvailable
-                        ? `${col.className} ${styles.hoverState}`
-                        : `${col.className}` || ''
-                    }
-                    data-label={col.label}
-                    style={{ width: col.width }}
-                    onClick={() => handleSelectItem?.(item)}
-                  >
-                    {col.render
-                      ? col.render(value, item)
-                      : (value as React.ReactNode)}
-                  </td>
-                );
-              })}
+        {/* TABLE */}
+        <table>
+          <thead>
+            <tr>
+              {columns.map((col, index) => (
+                <th
+                  key={index}
+                  className={col.className || ''}
+                  style={{ width: col.width }}
+                >
+                  {col.label}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((item, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={hoverAvailable ? `${styles.hoverState}` : ''}
+              >
+                {columns.map((col, colIndex) => {
+                  const value = getNestedValue(item, col.key);
+
+                  return (
+                    <td
+                      key={colIndex}
+                      className={
+                        hoverAvailable
+                          ? `${col.className} ${styles.hoverState}`
+                          : `${col.className}` || ''
+                      }
+                      data-label={col.label}
+                      style={{ width: col.width }}
+                      onClick={() => handleSelectItem?.(item)}
+                    >
+                      {col.render
+                        ? col.render(value, item)
+                        : (value as React.ReactNode)}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* BUTTON LOAD MORE DATA */}
-      {!noMoreData && (
+      {(!noMoreData && handleLoadMore) && (
         <div className={styles.laodMore}>
           <ButtonLoad
             buttonText="Ver más"

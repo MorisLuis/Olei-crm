@@ -8,6 +8,7 @@ import {
   faGear,
   faHouse,
   faHandHoldingDollar,
+  faComment
 } from '@fortawesome/free-solid-svg-icons';
 
 interface screenDataInterface {
@@ -82,6 +83,13 @@ export const screenData: screenDataInterface[] = [
   },
   {
     id: 8,
+    name: 'Agente',
+    pathname: '/dashboard/agent',
+    description: 'Agente Olei CRM by olei software',
+    icon: faComment,
+  },
+  {
+    id: 9,
     name: 'Configuracion',
     pathname: '/dashboard/settings',
     description: 'Configuración Olei CRM by olei software',
