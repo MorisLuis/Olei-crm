@@ -39,9 +39,9 @@ export interface ColumnConfig<T> {
 }
 
 interface TableProps<T> {
-  data: T[];
+  data: T[] | [];
   columns: ColumnConfig<T>[];
-  handleLoadMore: () => void;
+  handleLoadMore?: () => void;
   handleSelectItem?: (arg: T) => void;
   loadingMoreData: boolean;
   noMoreData: boolean;
@@ -124,7 +124,7 @@ const Table = <T extends object>({
       </div>
 
       {/* BUTTON LOAD MORE DATA */}
-      {!noMoreData && (
+      {(!noMoreData && handleLoadMore) && (
         <div className={styles.laodMore}>
           <ButtonLoad
             buttonText="Ver más"

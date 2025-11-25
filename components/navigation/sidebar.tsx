@@ -25,7 +25,7 @@ export default function Sidebar({ visible }: SidebarInterface) : JSX.Element {
       </div>
       <nav>
         <ul>
-          {screenData.slice(1, -2).map((item) => (
+          {screenData.slice(1, -1).map((item) => (
             <Link
               href={item.pathname}
               className={item.pathname.startsWith(`/dashboard/${basePath}`) ? styles.active : ''}
