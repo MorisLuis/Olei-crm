@@ -6,7 +6,7 @@ import InputSearch from '@/components/Inputs/inputSearch';
 import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Header from '@/components/navigation/header';
 import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
-import { getResponseAgent } from '@/services/agent';
+import { exportAgentData, getResponseAgent } from '@/services/agent';
 import TableAgent from './TableAgent';
 import styles from '../../../styles/pages/Clients.module.scss';
 
@@ -15,6 +15,7 @@ function ClientsContent(): JSX.Element {
   const [propmtText, setPropmtText] = useState('')
   const [loadingResponse, setLoadingResponse] = useState(false)
   const [dataResponse, setdataResponse] = useState<unknown[] | undefined>(undefined)
+  const [queryId, setQueryId] = useState()
   const [headersResponse, setHeadersResponse] = useState<string[] | undefined>(undefined)
   const [error, setError] = useState<string | undefined>(undefined)
 
@@ -24,9 +25,10 @@ function ClientsContent(): JSX.Element {
     try {
       setError(undefined)
       setLoadingResponse(true)
-      const { data, headers } = await getResponseAgent(propmtText)
+      const { data, headers, queryId } = await getResponseAgent(propmtText)
       setdataResponse(data)
       setHeadersResponse(headers)
+      setQueryId(queryId)
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: { message?: string } } } }
       const errorMessage =
@@ -43,6 +45,24 @@ function ClientsContent(): JSX.Element {
   const handleKeyDown = useEnterSubmit(() => {
     handleGetPropmt()
   });
+
+  const onExportAgentRequest = async () => {
+    try {
+      if(!queryId) return
+      const blob = await exportAgentData(queryId);
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "reporte.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error exporting agent data:', error);
+    }
+  }
 
 
   const onTextPrompt = (text: string) => {
@@ -88,6 +108,15 @@ function ClientsContent(): JSX.Element {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {renderTable()}
+
+      {
+        queryId && 
+        <Button
+          text="Exportar"
+          disabled={!queryId}
+          onClick={onExportAgentRequest}
+        />
+      }
     </div>
   );
 }

@@ -8,6 +8,16 @@ export const getResponseAgent = async (prompt: string) => {
 
     return {
         data: data.data.data,
-        headers: data.data.headers
+        headers: data.data.headers,
+        queryId: data.data.queryId
     }
 }
+
+
+export const exportAgentData = async (queryId: string) => {
+    const response = await api.get(`/api/ai/export?queryId=${queryId}`, {
+        responseType: "blob",
+    });
+
+    return response.data;
+};
