@@ -1,14 +1,25 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Button from '@/components/Buttons/Button';
 import InputSearch from '@/components/Inputs/inputSearch';
 import TableSkeleton from '@/components/Skeletons/Tables/TableSkeleton';
 import Header from '@/components/navigation/header';
 import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
 import { exportAgentData, getResponseAgent } from '@/services/agent';
+import { getInformesIa } from '@/services/informes';
 import TableAgent from './TableAgent';
-import styles from '../../../styles/pages/Clients.module.scss';
+import styles from '../../../styles/pages/Agente.module.scss';
+
+interface InformesIa {
+  categoriaId: number;
+  categoriaNombre: string;
+  informes: {
+    Id_InformeIA: number;
+    Descripcion: string;
+    PeticionUsuario: string;
+  }[];
+}
 
 function ClientsContent(): JSX.Element {
 
@@ -17,9 +28,17 @@ function ClientsContent(): JSX.Element {
   const [dataResponse, setdataResponse] = useState<unknown[] | undefined>(undefined)
   const [queryId, setQueryId] = useState()
   const [headersResponse, setHeadersResponse] = useState<string[] | undefined>(undefined)
+  const [informesIa, setInformesIa] = useState<InformesIa[]>()
   const [error, setError] = useState<string | undefined>(undefined)
 
-
+  const handleGetInformes = async () => {
+    try {
+      const informes = await getInformesIa()
+      setInformesIa(informes)
+    } catch (error) {
+      console.error('Error fetching informes IA:', error);
+    }
+  }
 
   const handleGetPropmt = async () => {
     try {
@@ -48,7 +67,7 @@ function ClientsContent(): JSX.Element {
 
   const onExportAgentRequest = async () => {
     try {
-      if(!queryId) return
+      if (!queryId) return
       const blob = await exportAgentData(queryId);
 
       const url = window.URL.createObjectURL(blob);
@@ -63,7 +82,6 @@ function ClientsContent(): JSX.Element {
       console.error('Error exporting agent data:', error);
     }
   }
-
 
   const onTextPrompt = (text: string) => {
     setPropmtText(text)
@@ -96,27 +114,74 @@ function ClientsContent(): JSX.Element {
     )
   }
 
-  return (
-    <div className={styles.page}>
-      <Header title="Agente" dontShowBack />
+  useEffect(() => {
+    handleGetInformes()
+  }, []);
 
-      <div style={{ gap: 10, width: "80%", justifyContent: "center", display: "flex", marginBottom: 20 }}>
-        <InputSearch onSearch={onTextPrompt} onCleanSearch={onCleanSearch} onKeyDown={handleKeyDown} />
-        <Button text="Enviar" disabled={false} onClick={handleGetPropmt} />
+  const [openCategories, setOpenCategories] = useState<Record<number, boolean>>({});
+
+  const toggleCategory = (id: number) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+
+  return (
+    <div className={styles.agentePage}>
+
+      <div className={styles.menu}>
+        {informesIa?.map((informeCategoria) => {
+          const isOpen = openCategories[informeCategoria.categoriaId];
+
+          return (
+            <div
+              key={informeCategoria.categoriaId}
+              className={styles.menuSection}
+            >
+              <button
+                className={styles.menuHeader}
+                onClick={() => toggleCategory(informeCategoria.categoriaId)}
+                aria-expanded={isOpen}
+              >
+                <h3>{informeCategoria.categoriaNombre}</h3>
+                <span className={isOpen ? styles.arrowOpen : styles.arrow} />
+              </button>
+
+              <ul className={isOpen ? styles.menuListOpen : styles.menuList}>
+                {informeCategoria.informes.map((informe) => (
+                  <li key={informe.Id_InformeIA} onClick={() => onTextPrompt(informe.PeticionUsuario)}>
+                    <strong>{informe.Descripcion}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className={styles.agentContent}>
+        <Header title="Agente" dontShowBack />
 
-      {renderTable()}
+        <div style={{ gap: 10, width: "80%", justifyContent: "center", display: "flex", marginBottom: 20 }}>
+          <InputSearch onSearch={onTextPrompt} onCleanSearch={onCleanSearch} onKeyDown={handleKeyDown} valueDefault={propmtText}/>
+          <Button text="Enviar" disabled={false} onClick={handleGetPropmt} />
+        </div>
 
-      {
-        queryId && 
-        <Button
-          text="Exportar"
-          disabled={!queryId}
-          onClick={onExportAgentRequest}
-        />
-      }
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        {renderTable()}
+
+        {
+          queryId &&
+          <Button
+            text="Exportar"
+            disabled={!queryId}
+            onClick={onExportAgentRequest}
+          />
+        }
+      </div>
     </div>
   );
 }
