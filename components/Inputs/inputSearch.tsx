@@ -1,6 +1,6 @@
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 
 interface InputSearchInterface {
   placeholder?: string;
@@ -9,6 +9,7 @@ interface InputSearchInterface {
   name?: string
   styles?: CSSProperties;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  valueDefault?: string;
 }
 
 export default function InputSearch({
@@ -18,6 +19,7 @@ export default function InputSearch({
   name,
   styles,
   onKeyDown,
+  valueDefault = ''
 }: InputSearchInterface): JSX.Element {
   const [value, setValue] = useState(''); // Estado local para almacenar el valor del input
 
@@ -36,6 +38,10 @@ export default function InputSearch({
       onCleanSearch(null);
     }
   };
+
+  useEffect(() => {
+    setValue(valueDefault);
+  }, [valueDefault]);
 
   return (
     <div className="input_search">
