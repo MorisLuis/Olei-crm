@@ -9,7 +9,7 @@ export type OptionType = {
 interface Props {
   options: OptionType[];
   onSelect: (arg: OptionType) => void;
-  onChange?: (arg: any) => void;
+  onChange?: (arg: string) => void;
   onClear?: () => void;
 
   value: OptionType | null;
