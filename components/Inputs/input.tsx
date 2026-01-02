@@ -34,6 +34,7 @@ const Input = ({
     <div className="inputComponent" style={extraStyles}>
       <label htmlFor={name}>{label}</label>
       <input
+      suppressHydrationWarning
         type={type}
         placeholder={placeholder}
         onChange={(event) => handleOnChange(event)}
