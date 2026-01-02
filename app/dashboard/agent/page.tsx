@@ -19,6 +19,7 @@ interface InformesIa {
     Id_InformeIA: number;
     Descripcion: string;
     PeticionUsuario: string;
+    Titulo: string;
   }[];
 }
 
@@ -129,7 +130,6 @@ function ClientsContent(): JSX.Element {
     }));
   };
 
-
   return (
     <div className={styles.agentePage}>
 
@@ -154,7 +154,7 @@ function ClientsContent(): JSX.Element {
               <ul className={isOpen ? styles.menuListOpen : styles.menuList}>
                 {informeCategoria.informes.map((informe) => (
                   <li key={informe.Id_InformeIA} onClick={() => onTextPrompt(informe.PeticionUsuario)}>
-                    <strong>{informe.Descripcion}</strong>
+                    <strong>{informe.Titulo.trim()}</strong>
                   </li>
                 ))}
               </ul>
