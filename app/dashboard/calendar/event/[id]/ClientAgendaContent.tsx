@@ -56,7 +56,6 @@ const ClientAgendaContent = ({
           <Timeline
             events={eventsOfTheDay}
             sellEvents={[]}
-            initialDateProp={decodedDate}
             isLoading={isLoading}
             TotalVentas={TotalVentas ?? 0}
             navigateToModalSells={navigateToModalSells}

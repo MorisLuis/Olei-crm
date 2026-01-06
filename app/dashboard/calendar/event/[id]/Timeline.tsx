@@ -1,20 +1,18 @@
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
-import { EventClickArg } from '@fullcalendar/core/index.js';
+import { EventClickArg, EventInput } from '@fullcalendar/core/index.js';
 import esLocale from '@fullcalendar/core/locales/es';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
 import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard'
 import TimelineSkeleton from '@/components/Skeletons/TimelineSkeleton';
-import { TimelineInterface, TimelineMeetingInterface } from '@/interface/calendar';
-import { formatDateIsoOrNow } from '@/utils/format/formatDateIsoOrNow';
+import { TimelineInterface } from '@/interface/calendar';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelineComponentInterface {
-    events: TimelineMeetingInterface[] | null;
+    events: EventInput[] | null;
     sellEvents: TimelineInterface[];
     navigateToModalSells: () => void;
-    initialDateProp: string | Date;
     onSelectEventFromTimeline: (Id_Bitacora: number) => void;
     isLoading: boolean
     TotalVentas: number
@@ -25,7 +23,6 @@ export default function Timeline({
     events,
     sellEvents,
     navigateToModalSells,
-    initialDateProp,
     onSelectEventFromTimeline,
     isLoading,
     TotalVentas
@@ -61,16 +58,15 @@ export default function Timeline({
                 <FullCalendar
                     plugins={[timeGridPlugin]}
                     initialView="timeGridDay"
-                    initialDate={formatDateIsoOrNow(initialDateProp)}
                     events={events}
+                    height="auto"
+                    locale={esLocale}
+                    eventClick={(arg: EventClickArg): void => onSelectEventFromTimeline(arg.event.extendedProps?.Id_Bitacora as number)}
                     headerToolbar={{
                         start: '',
                         center: 'title',
                         end: '',
                     }}
-                    eventClick={(arg: EventClickArg): void => onSelectEventFromTimeline(arg.event.extendedProps?.Id_Bitacora as number)}
-                    locale={esLocale}
-                    height={'auto'}
                     slotDuration="01:00:00"
                     slotLabelInterval="01:00"
                     slotMinTime="06:00:00"

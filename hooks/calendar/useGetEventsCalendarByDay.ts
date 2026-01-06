@@ -85,6 +85,7 @@ export const useGetEventsCalendarByDay = (
     const items: TimelineInterface[] = data?.pages.flatMap(page => page.tasks) ?? [];
     const TotalBitacora = data?.pages[0]?.TotalBitacora ?? 0;
     const TotalVentas = data?.pages[0]?.TotalVentas ?? 0;
+
     const { events } = normalizeCalendarEventsByDay({ eventsOfTheDay: items });
 
     return {

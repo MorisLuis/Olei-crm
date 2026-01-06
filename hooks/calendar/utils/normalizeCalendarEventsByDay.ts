@@ -23,9 +23,18 @@ const normalizeCalendarEventsByDay = ({
           meetingDate = new Date(meeting.Fecha);
         }
 
-        // Crear las fechas de inicio y fin
-        const start = `${meetingDate.toISOString().split('T')[0]}T${meeting.Hour}`;
-        const end = `${meetingDate.toISOString().split('T')[0]}T${meeting.HourEnd}`;
+        // Crear las fechas de inicio y fin con formato ISO completo
+        const [hourStart, minuteStart] = meeting.Hour.split(':');
+        const [hourEnd, minuteEnd] = meeting.HourEnd.split(':');
+
+        const startDate = new Date(meetingDate);
+        startDate.setHours(parseInt(hourStart, 10), parseInt(minuteStart, 10), 0, 0);
+
+        const endDate = new Date(meetingDate);
+        endDate.setHours(parseInt(hourEnd, 10), parseInt(minuteEnd, 10), 0, 0);
+
+        const start = startDate.toISOString();
+        const end = endDate.toISOString();
 
         // Construir el objeto eventMeeting
         const eventMeeting: any = {
