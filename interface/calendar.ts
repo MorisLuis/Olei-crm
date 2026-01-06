@@ -24,7 +24,7 @@ export interface TimelineMeetingInterface {
   start: string;
   end: string;
   title: string;
-  extendedProps: {
+  extendedProps?: {
     Id_Bitacora: number | undefined;
   };
 }

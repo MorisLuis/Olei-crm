@@ -68,6 +68,7 @@ export const useGetEventsCalendar = <T,>(
     }, [event, refetch, clear]);
 
     const dataResponse = data?.pages.flatMap((p) => p.data) ?? [];
+
     const dataEvents = normalizeCalendarEvents(dataResponse as CalendarInterface[]);
 
     return {

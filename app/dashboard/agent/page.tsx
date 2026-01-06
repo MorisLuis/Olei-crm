@@ -8,6 +8,7 @@ import Header from '@/components/navigation/header';
 import { useEnterSubmit } from '@/hooks/dom/useEnterSubmit';
 import { exportAgentData, getResponseAgent } from '@/services/agent';
 import { getInformesIa } from '@/services/informes';
+import InformeiaForm from './InformeiaForm';
 import TableAgent from './TableAgent';
 import styles from '../../../styles/pages/Agente.module.scss';
 
@@ -18,6 +19,7 @@ interface InformesIa {
     Id_InformeIA: number;
     Descripcion: string;
     PeticionUsuario: string;
+    Titulo: string;
   }[];
 }
 
@@ -25,6 +27,7 @@ function ClientsContent(): JSX.Element {
 
   const [propmtText, setPropmtText] = useState('')
   const [loadingResponse, setLoadingResponse] = useState(false)
+  const [openModalInformesia, setOpenModalInformesia] = useState(false)
   const [dataResponse, setdataResponse] = useState<unknown[] | undefined>(undefined)
   const [queryId, setQueryId] = useState()
   const [headersResponse, setHeadersResponse] = useState<string[] | undefined>(undefined)
@@ -127,7 +130,6 @@ function ClientsContent(): JSX.Element {
     }));
   };
 
-
   return (
     <div className={styles.agentePage}>
 
@@ -152,7 +154,7 @@ function ClientsContent(): JSX.Element {
               <ul className={isOpen ? styles.menuListOpen : styles.menuList}>
                 {informeCategoria.informes.map((informe) => (
                   <li key={informe.Id_InformeIA} onClick={() => onTextPrompt(informe.PeticionUsuario)}>
-                    <strong>{informe.Descripcion}</strong>
+                    <strong>{informe.Titulo.trim()}</strong>
                   </li>
                 ))}
               </ul>
@@ -165,8 +167,9 @@ function ClientsContent(): JSX.Element {
         <Header title="Agente" dontShowBack />
 
         <div style={{ gap: 10, width: "80%", justifyContent: "center", display: "flex", marginBottom: 20 }}>
-          <InputSearch onSearch={onTextPrompt} onCleanSearch={onCleanSearch} onKeyDown={handleKeyDown} valueDefault={propmtText}/>
+          <InputSearch onSearch={onTextPrompt} onCleanSearch={onCleanSearch} onKeyDown={handleKeyDown} valueDefault={propmtText} />
           <Button text="Enviar" disabled={false} onClick={handleGetPropmt} />
+          <Button text="Guardar informe" disabled={false} onClick={() => setOpenModalInformesia(true)} />
         </div>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -179,9 +182,15 @@ function ClientsContent(): JSX.Element {
             text="Exportar"
             disabled={!queryId}
             onClick={onExportAgentRequest}
+
           />
         }
       </div>
+
+      <InformeiaForm
+        onClose={() => setOpenModalInformesia(false)}
+        visible={openModalInformesia}
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Select, { StylesConfig } from 'react-select';
 
 export type OptionType = {
@@ -16,6 +16,7 @@ interface Props {
   name: string;
   placeholder?: string;
   label?: string;
+  extraStyles?: CSSProperties
 }
 
 const SelectReact = ({
@@ -27,30 +28,32 @@ const SelectReact = ({
   onClear,
   value,
   name,
+  extraStyles
 }: Props): JSX.Element => {
   const optionsWithNull = [{ value: null, label: 'Sin valor' }, ...options];
 
-  const handleOnSelect = (selectedOption: unknown) : void => {
-    if(!selectedOption){
+  const handleOnSelect = (selectedOption: unknown): void => {
+    if (!selectedOption) {
       onClear?.()
+      return
     }
 
-    if (typeof onSelect === 'function'){
+    if (typeof onSelect === 'function') {
       onSelect(selectedOption as OptionType);
     }
   };
 
-  const handleOnChange = (inputValue: string)  : void => {
+  const handleOnChange = (inputValue: string): void => {
     onChange?.(inputValue)
   }
 
   return (
-    <div>
+    <div style={extraStyles}>
       <label htmlFor={`label-${name}`} className="label">
         {label}
       </label>
       <Select
-      name={name}
+        name={name}
         placeholder={placeholder}
         options={optionsWithNull}
         isClearable
@@ -58,7 +61,7 @@ const SelectReact = ({
         onInputChange={(inputValue) => handleOnChange(inputValue)}
         onChange={(selectedOption) => handleOnSelect(selectedOption)}
         value={value}
-        styles={customStyles}
+        styles={customStyles} 
         theme={(theme) => ({
           ...theme,
           borderRadius: 6,

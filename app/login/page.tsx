@@ -80,6 +80,7 @@ export default function Login(): JSX.Element {
           <form className={styles.form__content} onSubmit={handleSubmit}>
             {/* Campo Email */}
             <input
+            suppressHydrationWarning
               type="email"
               name="email"
               className="input"
@@ -91,6 +92,7 @@ export default function Login(): JSX.Element {
 
             {/* Campo Password */}
             <input
+            suppressHydrationWarning
               type="password"
               name="password"
               className="input"

@@ -46,6 +46,7 @@ export default function InputSearch({
   return (
     <div className="input_search">
       <input
+      suppressHydrationWarning
         value={value}
         placeholder={placeholder}
         onChange={handleOnChange}
