@@ -9,7 +9,8 @@ export const getResponseAgent = async (prompt: string) => {
     return {
         data: data.data.data,
         headers: data.data.headers,
-        queryId: data.data.queryId
+        queryId: data.data.queryId,
+        prompt: data.data.prompt
     }
 }
 
