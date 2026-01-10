@@ -1,0 +1,103 @@
+@use "sass:math";
+@use "../main.scss";
+@use "../Abstracts/mixins";
+@use "../Abstracts/variables";
+
+.agentPage {
+    display: flex;
+    flex-direction: row;
+    gap: variables.$gap * 4;
+    width: 100%;
+
+    .agentContent {
+        width: 70%;
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 20px;
+
+            .inputSearch {
+                width: 60%;
+            }
+
+            .button {
+                width: 20%;
+            }
+
+        }
+
+        @include mixins.respond(phone) {
+            width: 100%;
+        }
+    }
+
+    .menu {
+        width: 30%;
+
+        .menuSection {
+            margin-bottom: 35px;
+        }
+
+        .menuHeader {
+            all: unset;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            h3 {
+                margin: 0;
+            }
+        }
+
+        .menuList {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+        }
+
+        .menuListOpen {
+            max-height: 500px;
+            transition: max-height 0.3s ease;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$gap;
+            font-size: variables.$font-small;
+            margin-top: variables.$gap;
+
+            li {
+                background-color: variables.$background-color-tertiary;
+                border: 1px solid variables.$color-border;
+                padding: variables.$padding;
+                border-radius: variables.$border-radius;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: variables.$background-color-secondary;
+                }
+            }
+        }
+
+        .arrow {
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+            transition: transform 0.2s ease;
+        }
+
+        .arrowOpen {
+            @extend .arrow;
+            transform: rotate(-135deg);
+        }
+    }
+
+}
