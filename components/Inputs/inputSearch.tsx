@@ -1,23 +1,24 @@
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface InputSearchInterface {
+  className?: string;
+
   placeholder?: string;
   onSearch: (value: string) => void;
   onCleanSearch: (value: null) => void;
   name?: string
-  styles?: CSSProperties;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   valueDefault?: string;
 }
 
 export default function InputSearch({
+  className,
   placeholder = 'Buscar...',
   onSearch,
   onCleanSearch,
   name,
-  styles,
   onKeyDown,
   valueDefault = ''
 }: InputSearchInterface): JSX.Element {
@@ -44,25 +45,19 @@ export default function InputSearch({
   }, [valueDefault]);
 
   return (
-    <div className="input_search">
+    <div className={`input_search ${className ?? ''}`}>
       <input
-      suppressHydrationWarning
         value={value}
         placeholder={placeholder}
-        onChange={handleOnChange}
         onKeyDown={onKeyDown}
         name={name}
-        style={{
-          ...styles,
-          height: "100%"
-        }}
+        onChange={handleOnChange}
       />
       {value && (
         <FontAwesomeIcon
           icon={faCircleXmark}
-          className={`iconClean`}
+          className="iconClean"
           onClick={handleClear}
-          style={{ cursor: 'pointer' }}
         />
       )}
     </div>
