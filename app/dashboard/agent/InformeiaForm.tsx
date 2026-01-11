@@ -1,52 +1,24 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import Input from "@/components/Inputs/input";
 import SelectReact, { OptionType } from "@/components/Inputs/select";
 import Modal from "@/components/Modals/Modal";
-
-
-interface InformeIAFormProps {
-    visible: boolean
-    onClose: () => void
-}
-
-interface InformeIAInterface {
-    Titulo: string
-    Descripcion: string
-    Categoria: {
-        value: number
-        label: string
-    }
-    PeticionUsuario: string
-}
-
-const CATEGORIAS_OPTIONS = [
-    { value: 1, label: 'General' },
-    { value: 2, label: 'Compras' },
-    { value: 3, label: 'Cobranza' },
-    { value: 4, label: 'Ventas' },
-    { value: 5, label: 'Cuentas por Cobrar' },
-    { value: 6, label: 'Existencias e Inventario' },
-    { value: 7, label: 'Catalogo Productos' },
-    { value: 8, label: 'Catalogo Clientes' },
-]
-
-const INITIAL_INFORMEIA: InformeIAInterface = {
-    Titulo: '',
-    Descripcion: '',
-    Categoria: CATEGORIAS_OPTIONS[0],
-    PeticionUsuario: ''
-}
-
+import { createInformeIa } from "@/services/informes";
+import { CATEGORIAS_OPTIONS, INITIAL_INFORMEIA } from "./constants";
+import { InformeIAFormProps, InformeIAInterface } from "./types";
+import styles from '../../../styles/pages/Agent.module.scss';
 
 export default function InformeiaForm({
     onClose,
-    visible
+    visible,
+    queryId,
+    prompt
 }: InformeIAFormProps): JSX.Element | null {
 
     const [informeiaForm, setinformeiaForm] = useState<InformeIAInterface>(INITIAL_INFORMEIA)
 
     const onChangeInformeIaForm = <K extends keyof InformeIAInterface>(key: K, value: InformeIAInterface[K]) => {
-        setinformeiaForm((prev) => ({   ...prev, [key]: value }));
+        setinformeiaForm((prev) => ({ ...prev, [key]: value }));
     }
 
     const onSelectCategory = (option: OptionType) => {
@@ -61,8 +33,23 @@ export default function InformeiaForm({
         })
     }
 
-    const onSubmitForm = () => {
-        //console.log('Guardando InformeIA:', informeiaForm);
+    const onSubmitForm = async () => {
+        try {
+            if (!queryId) return
+            await createInformeIa({
+                queryId: queryId,
+                body: {
+                    Titulo: informeiaForm.Titulo,
+                    Descripcion: informeiaForm.Descripcion,
+                    Categoria: informeiaForm.Categoria.value
+                }
+            })
+            toast.success('InformeIA creado con exito')
+        } catch (error) {
+            toast.error('Error creating InformeIA: ' + (error as Error).message);
+        } finally {
+            onClose()
+        }
     }
 
     return (
@@ -83,14 +70,13 @@ export default function InformeiaForm({
                 },
             }}
         >
-
             <Input
                 label="Titulo"
                 placeholder="Escibe el Titulo"
                 name="title"
                 value={informeiaForm.Titulo}
                 onChange={(value) => onChangeInformeIaForm('Titulo', value)}
-                extraStyles={{ marginBottom: 20}}
+                extraStyles={{ marginBottom: 20 }}
             />
             <SelectReact
                 options={CATEGORIAS_OPTIONS}
@@ -102,7 +88,7 @@ export default function InformeiaForm({
                     ...informeiaForm,
                     Categoria: CATEGORIAS_OPTIONS[0]
                 })}
-                extraStyles={{ marginBottom: 20}}
+                extraStyles={{ marginBottom: 20 }}
             />
             <Input
                 label="Descripcion"
@@ -111,6 +97,10 @@ export default function InformeiaForm({
                 value={informeiaForm.Descripcion}
                 onChange={(value) => onChangeInformeIaForm('Descripcion', value)}
             />
+            <div className={styles.form}>
+                <p>Este es el prompt:</p>
+                <p>{prompt}</p>
+            </div>
         </Modal>
     )
 }
