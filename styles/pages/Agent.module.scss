@@ -100,4 +100,9 @@
         }
     }
 
+    .form {
+        font-size: variables.$font-medium;
+        margin-top: variables.$margin-vertical * 2
+    }
+
 }
