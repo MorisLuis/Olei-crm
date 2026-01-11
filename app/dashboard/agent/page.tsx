@@ -191,20 +191,19 @@ function ClientsContent(): JSX.Element {
 
         {renderTable()}
 
-        {
-          queryId &&
-          <Button
-            text="Exportar"
-            disabled={!queryId}
-            onClick={onExportAgentRequest}
-
-          />
-        }
+        <Button
+          visible={!!dataResponse?.length && !!queryId}
+          text="Exportar"
+          disabled={!queryId}
+          onClick={onExportAgentRequest}
+        />
       </div>
 
       <InformeiaForm
         onClose={() => setOpenModalInformesia(false)}
         visible={openModalInformesia}
+        queryId={queryId}
+        prompt={lastPropmt || ''}
       />
     </div>
   );
