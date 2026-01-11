@@ -1,4 +1,5 @@
 import { api } from "@/api/api";
+import { CreateInformeIaProps } from "./types";
 
 
 export const getInformesIa = async () => {
@@ -6,3 +7,9 @@ export const getInformesIa = async () => {
     return data.data;
 
 }
+
+export const createInformeIa = async (informeData: CreateInformeIaProps) => {
+    const { body, queryId } = informeData;
+    const { data } = await api.post(`/api/informesia?queryId=${queryId}`, body);
+    return data;
+}   

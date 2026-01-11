@@ -10,9 +10,9 @@ import { exportAgentData, getResponseAgent } from '@/services/agent';
 import { getInformesIa } from '@/services/informes';
 import InformeiaForm from './InformeiaForm';
 import TableAgent from './TableAgent';
-import styles from '../../../styles/pages/Agente.module.scss';
+import styles from '../../../styles/pages/Agent.module.scss';
 
-interface InformesIa {
+interface CategorizedInforms {
   categoriaId: number;
   categoriaNombre: string;
   informes: {
@@ -26,18 +26,23 @@ interface InformesIa {
 function ClientsContent(): JSX.Element {
 
   const [propmtText, setPropmtText] = useState('')
+  const [queryId, setQueryId] = useState()
+  const [dataResponse, setdataResponse] = useState<unknown[] | undefined>(undefined)
+  const [headersResponse, setHeadersResponse] = useState<string[] | undefined>(undefined)
+  const [categorizedInforms, setCategorizedInforms] = useState<CategorizedInforms[]>()
+  const [lastPropmt, setLastPropmt] = useState<string | undefined>(undefined)
+
   const [loadingResponse, setLoadingResponse] = useState(false)
   const [openModalInformesia, setOpenModalInformesia] = useState(false)
-  const [dataResponse, setdataResponse] = useState<unknown[] | undefined>(undefined)
-  const [queryId, setQueryId] = useState()
-  const [headersResponse, setHeadersResponse] = useState<string[] | undefined>(undefined)
-  const [informesIa, setInformesIa] = useState<InformesIa[]>()
   const [error, setError] = useState<string | undefined>(undefined)
+  const [openCategories, setOpenCategories] = useState<Record<number, boolean>>({});
+  const [mounted, setMounted] = useState(false);
+
 
   const handleGetInformes = async () => {
     try {
       const informes = await getInformesIa()
-      setInformesIa(informes)
+      setCategorizedInforms(informes)
     } catch (error) {
       console.error('Error fetching informes IA:', error);
     }
@@ -47,10 +52,11 @@ function ClientsContent(): JSX.Element {
     try {
       setError(undefined)
       setLoadingResponse(true)
-      const { data, headers, queryId } = await getResponseAgent(propmtText)
+      const { data, headers, queryId, prompt } = await getResponseAgent(propmtText)
       setdataResponse(data)
       setHeadersResponse(headers)
       setQueryId(queryId)
+      setLastPropmt(prompt)
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: { message?: string } } } }
       const errorMessage =
@@ -117,12 +123,6 @@ function ClientsContent(): JSX.Element {
     )
   }
 
-  useEffect(() => {
-    handleGetInformes()
-  }, []);
-
-  const [openCategories, setOpenCategories] = useState<Record<number, boolean>>({});
-
   const toggleCategory = (id: number) => {
     setOpenCategories((prev) => ({
       ...prev,
@@ -130,11 +130,20 @@ function ClientsContent(): JSX.Element {
     }));
   };
 
+
+  useEffect(() => {
+    setMounted(true);
+    handleGetInformes()
+  }, []);
+
+  if (!mounted) {
+    return <div className={styles.agentPage}>Cargando...</div>;
+  }
   return (
-    <div className={styles.agentePage}>
+    <div className={styles.agentPage}>
 
       <div className={styles.menu}>
-        {informesIa?.map((informeCategoria) => {
+        {categorizedInforms?.map((informeCategoria) => {
           const isOpen = openCategories[informeCategoria.categoriaId];
 
           return (
@@ -166,30 +175,35 @@ function ClientsContent(): JSX.Element {
       <div className={styles.agentContent}>
         <Header title="Agente" dontShowBack />
 
-        <div style={{ gap: 10, width: "80%", justifyContent: "center", display: "flex", marginBottom: 20 }}>
-          <InputSearch onSearch={onTextPrompt} onCleanSearch={onCleanSearch} onKeyDown={handleKeyDown} valueDefault={propmtText} />
-          <Button text="Enviar" disabled={false} onClick={handleGetPropmt} />
-          <Button text="Guardar informe" disabled={false} onClick={() => setOpenModalInformesia(true)} />
+        <div className={styles.controls}>
+          <InputSearch
+            className={styles.inputSearch}
+            onSearch={onTextPrompt}
+            onCleanSearch={onCleanSearch}
+            onKeyDown={handleKeyDown}
+            valueDefault={propmtText}
+          />
+          <Button className={styles.button} text="Enviar" disabled={!propmtText} onClick={handleGetPropmt} />
+          <Button className={styles.button} text="Guardar informe" disabled={!lastPropmt} onClick={() => setOpenModalInformesia(true)} />
         </div>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
         {renderTable()}
 
-        {
-          queryId &&
-          <Button
-            text="Exportar"
-            disabled={!queryId}
-            onClick={onExportAgentRequest}
-
-          />
-        }
+        <Button
+          visible={!!dataResponse?.length && !!queryId}
+          text="Exportar"
+          disabled={!queryId}
+          onClick={onExportAgentRequest}
+        />
       </div>
 
       <InformeiaForm
         onClose={() => setOpenModalInformesia(false)}
         visible={openModalInformesia}
+        queryId={queryId}
+        prompt={lastPropmt || ''}
       />
     </div>
   );

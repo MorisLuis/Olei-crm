@@ -71,6 +71,8 @@ const SelectReact = ({
             primary: '#1C3873',
           },
         })}
+        menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
+        menuPosition="fixed"
       />
     </div>
   );
@@ -83,5 +85,9 @@ const customStyles: StylesConfig = {
     width: '100%',
     display: 'flex',
     color: 'white',
+  }),
+  menuPortal: (base) => ({
+    ...base,
+    zIndex: 2000,
   }),
 };
