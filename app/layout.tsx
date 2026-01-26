@@ -17,6 +17,9 @@ export const queryClient = new QueryClient();
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/olei-crm-favicon.svg" type="image/svg+xml" />
+      </head>
       <body>
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>

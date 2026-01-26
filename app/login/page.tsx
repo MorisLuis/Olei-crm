@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState, useContext } from 'react';
 import Button from '@/components/Buttons/Button';
 import { AuthContext } from '@/context/auth/AuthContext';
-import logoOlei from '../../public/Logo-blue.svg';
+import logoOlei from '../../public/olei-crm-logo.svg';
 import styles from '../../styles/Login.module.scss';
 
 type FormData = {
