@@ -6,7 +6,7 @@ import React from 'react';
 
 import { screenData } from '@/database/screens';
 
-import logoOlei from '../../public/LOGO CRM.svg';
+import logoOlei from '../../public/olei-crm-logo-white.svg';
 import styles from '../../styles/Navigation/Sidebar.module.scss';
 
 interface SidebarInterface {
