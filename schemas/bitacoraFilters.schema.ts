@@ -8,10 +8,10 @@ const TipoContactoSchema = z.coerce.number()
     .transform(val => val as 0 | 1 | 2 | 3 );
 
     const StatusSchema = z.coerce.number()
-    .refine(val => [0, 1 ].includes(val), {
+    .refine(val => [0, 1, 2].includes(val), {
         message: 'Invalid status value',
     })
-    .transform(val => val as 0 | 1  );
+    .transform(val => val as 0 | 1 | 2 );
 
 export const BitacoraFilterSchema = z.object({
     meetingOrderCondition: z.enum(MeetingOrderCondition).default('Cliente'),
