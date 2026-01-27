@@ -17,7 +17,7 @@ export function useUpdateStatus(refetch?: () => void): { handleUpdateStatus: (it
         setLoadingStatus((prev) => ({ ...prev, [item.Id_Bitacora]: true }));
 
         try {
-            await updateMeeting({ status: item.status   }, item.Id_Bitacora);
+            await updateMeeting({ status: !item.status }, item.Id_Bitacora);
             refetch?.();
         } catch (error) {
             handleError({
