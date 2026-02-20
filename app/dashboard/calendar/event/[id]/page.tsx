@@ -1,24 +1,19 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
 import Header, { ActionsInterface } from '@/components/navigation/header';
 import ClientAgendaContent from './ClientAgendaContent';
-import { ExecuteNavigationEventClient } from './TimelineNavigationTemp';
 import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 export default function ClientAgenda(): JSX.Element {
 
-  const {
-    navigateToBack,
-    navigateBackFromModalSells,
-    navigateToModalSells,
-    openModalSells
-  } = ExecuteNavigationEventClient();
-
   const [openModalCreateMeeting, setOpenModalCreateMeeting] = useState(false);
+  const { back } = useRouter();
   const searchParams = useSearchParams();
+    const onCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
+
   const idCliente = searchParams.get('Id_Cliente');
   const idAlmacen = searchParams.get('Id_Almacen');
   const clientName = searchParams.get('clientName');
@@ -35,7 +30,6 @@ export default function ClientAgenda(): JSX.Element {
     } : undefined
   }, [idCliente, idAlmacen, clientName])
 
-  const onCloseMeetingModal = (): void => setOpenModalCreateMeeting(false);
 
   const clientActions: ActionsInterface[] = [
     {
@@ -52,14 +46,11 @@ export default function ClientAgenda(): JSX.Element {
       <Header
         title={clientName ? clientName : "Calendario"}
         actions={clientActions}
-        custumBack={navigateToBack}
+        custumBack={() => back()}
       />      
 
       <ClientAgendaContent
         idCliente={idCliente}
-        openModalSells={openModalSells}
-        navigateToModalSells={navigateToModalSells}
-        navigateBackFromModalSells={navigateBackFromModalSells}
       />
 
       <FormMeeting

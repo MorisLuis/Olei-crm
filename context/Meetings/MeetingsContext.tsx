@@ -12,7 +12,6 @@ const MeetingEventsContext = createContext<MeetingEventsContextType | null>(null
 
 export const MeetingEventsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [event, setEvent] = useState<MeetingEvent | null>(null);
-
   const trigger = useCallback((e: MeetingEvent) => setEvent(e), []);
   const clear = useCallback(() => setEvent(null), []);
 

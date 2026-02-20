@@ -1,84 +1,60 @@
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { EventClickArg, EventInput } from '@fullcalendar/core/index.js';
 import esLocale from '@fullcalendar/core/locales/es';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { usePathname } from 'next/navigation';
 import React from 'react';
-import MessageSecondaryCard from '@/components/Cards/MessageSecondaryCard'
 import TimelineSkeleton from '@/components/Skeletons/TimelineSkeleton';
-import { TimelineInterface } from '@/interface/calendar';
-import styles from '../../../../../styles/pages/Calendar.module.scss';
 
 interface TimelineComponentInterface {
     events: EventInput[] | null;
-    sellEvents: TimelineInterface[];
-    navigateToModalSells: () => void;
     onSelectEventFromTimeline: (Id_Bitacora: number) => void;
     isLoading: boolean
-    TotalVentas: number
-
 }
 
 export default function Timeline({
     events,
-    sellEvents,
-    navigateToModalSells,
     onSelectEventFromTimeline,
     isLoading,
-    TotalVentas
 }: TimelineComponentInterface): JSX.Element {
+    const pathname = usePathname();
+    const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+    const decodedDate = decodeURIComponent(lastSegment!);
 
     if (isLoading) {
         return <TimelineSkeleton />
     }
 
-    if (!events || !sellEvents) {
+    if (!events) {
         return <></>
     }
 
     return (
-        <>
-            {/* DOCUMENTS */}
-            <section className={styles.timelineContent__documents}>
-                {sellEvents.length > 0 && (
-                    <MessageSecondaryCard
-                        title={`Hay ${TotalVentas} documentos expirados al dia de hoy.`}
-                        icon={faFileExcel}
-                        action={{
-                            onClick: () => navigateToModalSells(),
-                            color: 'blue',
-                            text: 'Ver documentos',
-                        }}
-                    />
-                )}
-            </section>
-
-            {/* TIMELINE */}
-            <section className="custom-timeline">
-                <FullCalendar
-                    plugins={[timeGridPlugin]}
-                    initialView="timeGridDay"
-                    events={events}
-                    height="auto"
-                    locale={esLocale}
-                    eventClick={(arg: EventClickArg): void => onSelectEventFromTimeline(arg.event.extendedProps?.Id_Bitacora as number)}
-                    headerToolbar={{
-                        start: '',
-                        center: 'title',
-                        end: '',
-                    }}
-                    slotDuration="01:00:00"
-                    slotLabelInterval="01:00"
-                    slotMinTime="06:00:00"
-                    slotMaxTime="30:00:00"
-                    slotLabelFormat={{
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true,
-                    }}
-                    allDaySlot={false}
-                />
-            </section>
-        </>
+        <section className="custom-timeline">
+            <FullCalendar
+                plugins={[timeGridPlugin]}
+                initialView="timeGridDay"
+                initialDate={new Date(decodedDate)}
+                events={events}
+                height="auto"
+                locale={esLocale}
+                eventClick={(arg: EventClickArg): void => onSelectEventFromTimeline(arg.event.extendedProps?.Id_Bitacora as number)}
+                headerToolbar={{
+                    start: '',
+                    center: 'title',
+                    end: '',
+                }}
+                slotDuration="01:00:00"
+                slotLabelInterval="01:00"
+                slotMinTime="06:00:00"
+                slotMaxTime="30:00:00"
+                slotLabelFormat={{
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true,
+                }}
+                allDaySlot={false}
+            />
+        </section>
     )
 }

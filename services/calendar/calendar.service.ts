@@ -24,11 +24,13 @@ export const getCalendarByMonthAndClient = async (params: GetCalendarByMonthAndC
 
 
 export const getCalendarTaskByDay = async (params: GetCalendarTaskByDayParams): Promise<GetCalendarTaskByDayResponse> => {
+
   const { data } = await api.get<GetCalendarTaskByDayResponse>(`/api/calendar/day`, {
     params: {
       ...params
     }
   });
+
   return {
     tasks: data.tasks,
     TotalVentas: data.TotalVentas,
