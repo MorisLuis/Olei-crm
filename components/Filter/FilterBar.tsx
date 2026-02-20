@@ -113,6 +113,22 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
         <div className={styles.filterBar}>
             <div className={styles.filtersWrapper}>
                 <div className={styles.filtersWrapper__filters}>
+                    <div className={styles.filtersWrapper__filters}>
+                        {config.filter((item) => item.key === 'orderField').map((filter: FilterItemConfig) => {
+                            const values = filterBarValues({ config: filter, filters });
+                            const isActive = values.active;
+
+                            return (
+                                <div key={filter.key} className={styles.filterItem}>
+                                    {/* BOTÓN / BADGE */}
+                                    {renderFilterBtn(filter, isActive, values)}
+                                    {/* MODAL */}
+                                    {renderModal(filter)}
+                                </div>
+                            );
+                        })}
+                    </div>
+
                     {config.filter((item) => item.key !== 'orderField').map((filter: FilterItemConfig) => {
                         const values = filterBarValues({ config: filter, filters });
                         const isActive = values.active;
@@ -136,22 +152,7 @@ const FilterBar = <F extends Record<string, string | number | undefined>>({
                         </div>
                     )}
                 </div>
-                <div className={styles.filtersWrapper__filters}>
-                    {config.filter((item) => item.key === 'orderField').map((filter: FilterItemConfig) => {
-                        const values = filterBarValues({ config: filter, filters });
-                        const isActive = values.active;
 
-                        return (
-                            <div key={filter.key} className={styles.filterItem}>
-                                {/* BOTÓN / BADGE */}
-                                {renderFilterBtn(filter, isActive, values)}
-                                {/* MODAL */}
-                                {renderModal(filter)}
-                            </div>
-                        );
-                    })}
-
-                </div>
             </div>
         </div>
     );
