@@ -11,7 +11,7 @@ import CalendarComponentSkeleton from './CalendarComponentSkeleton';
 import { renderEventContent } from './RenderEvents';
 
 interface CalendarComponentInterface {
-  onClickDay: (arg: DateClickArg) => void;
+  onClickDay: (arg: string) => void;
   isLoading: boolean;
   Id_Cliente?: number;
 }
@@ -50,7 +50,8 @@ const CalendarComponent = ({
       editable={true}
       selectable={true}
       events={dataEvents}
-      dateClick={onClickDay}
+      dateClick={(arg) => onClickDay(arg.dateStr)}
+      eventClick={(arg) => onClickDay(arg.event.startStr)}
       height="auto"
       locale={esLocale}
       eventContent={(eventInfo) => renderEventContent({ eventInfo })}

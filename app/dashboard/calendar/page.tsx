@@ -24,8 +24,8 @@ function CalendarContent({
   const searchParams = useSearchParams();
   const Sellid = searchParams.get('sellId');
 
-  const handleOnClickDay = (arg: DateClickArg): void => {
-    push(`calendar/event/${arg.date}`);
+  const handleOnClickDay = (date: string): void => {
+    push(`calendar/event/${date}`);
   };
 
   const handleCloseMeetingModal = (): void => {
