@@ -27,6 +27,7 @@ export const getMeetings = async (
   const { data } = await api.get<{ meetings: MeetingInterface[], total: number }>(`/api/meetings`, {
     params: {
       PageNumber: params.PageNumber,
+      PageSize: 10,
       ...params.filters,
     }
   });
