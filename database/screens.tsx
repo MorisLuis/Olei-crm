@@ -81,13 +81,13 @@ export const screenData: screenDataInterface[] = [
     description: 'Calendario Olei CRM by olei software',
     icon: faCalendar,
   },
-  {
+  /* {
     id: 8,
     name: 'Agente',
     pathname: '/dashboard/agent',
     description: 'Agente Olei CRM by olei software',
     icon: faComment,
-  },
+  }, */
   {
     id: 9,
     name: 'Configuracion',

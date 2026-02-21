@@ -1,11 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { screenData } from '@/database/screens';
-
 import logoOlei from '../../public/olei-crm-logo-white.svg';
 import styles from '../../styles/Navigation/Sidebar.module.scss';
 
