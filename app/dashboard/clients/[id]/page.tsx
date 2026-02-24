@@ -1,6 +1,5 @@
 'use client';
 
-import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, {  useState } from 'react';
 import FormMeeting from '@/app/dashboard/bitacora/FormMeeting';
@@ -35,8 +34,8 @@ export default function ClientDetailsPage(): JSX.Element {
     setEventToOpen(INITIAL_MEETING);
   };
 
-  const handleOnClickDay = (arg: DateClickArg): void => {
-    push(`/dashboard/calendar/event/${arg.date}?Id_Cliente=${idCliente}&Id_Almacen=${idAlmacen}&clientName=${clientName}`);
+  const handleOnClickDay = (arg: string): void => {
+    push(`/dashboard/calendar/event/${arg}?Id_Cliente=${idCliente}&Id_Almacen=${idAlmacen}&clientName=${clientName}`);
   };
 
   const {

@@ -1,6 +1,5 @@
 'use client';
 
-import { DateClickArg } from '@fullcalendar/interaction/index.js';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState } from 'react';
 import Modal from '@/components/Modals/Modal';

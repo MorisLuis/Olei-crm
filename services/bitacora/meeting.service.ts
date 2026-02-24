@@ -1,7 +1,7 @@
 import { api } from '@/api/api';
 import MeetingInterface from '@/interface/meeting';
 import { hourValidation } from '@/utils/validators/FormMeetingValidation';
-import { getMeetingsInterface } from './meeting.interface';
+import { getMeetingsInterface, TipoContactoObject } from './meeting.interface';
 import { dateValidation } from '@/utils/validators/dateValidation';
 
 
